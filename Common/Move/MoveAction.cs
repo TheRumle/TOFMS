@@ -36,10 +36,6 @@ public record MoveAction
         EmptyBefore = new HashSet<Location>(emptyBefore);
         EmptyAfter = new HashSet<Location>(emptyAfter);
     }
-    
-    
-
-
 
     public string Name { get; init; }
 

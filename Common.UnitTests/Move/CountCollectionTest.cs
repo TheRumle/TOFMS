@@ -1,9 +1,8 @@
-using Common.Move;
 using FluentAssertions;
 
-namespace Common.UnitTests;
+namespace Common.Move;
 
-public class CountingDictionaryTest
+public class CountCollectionTest
 {
     private readonly CountCollection<string> _sut = new();
  

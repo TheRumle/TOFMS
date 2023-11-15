@@ -7,7 +7,7 @@
 
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
-        <RootNamespace>Common.UnitTests</RootNamespace>
+        <RootNamespace>Common</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -26,6 +26,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Common\Common.csproj" />
+    </ItemGroup>
+
+
+
+    <ItemGroup>
+      <Folder Include="JsonParse\" />
     </ItemGroup>
 
 </Project>

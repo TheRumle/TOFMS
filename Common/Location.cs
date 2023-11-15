@@ -22,12 +22,9 @@ public class Location
         this.Capacity = capacity;
         this.Name = name;
     }
-}
 
-public static class LocationExtensions
-{
-    public static string CapacityName(this Location location)
+    public override string ToString()
     {
-        return location.Name + "_buffer";
+        return $"{nameof(Name)}: {Name}, {nameof(Capacity)}: {Capacity}, {nameof(Invariants)}: {Invariants}";
     }
 }

@@ -1,12 +1,12 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Common.Move;
+namespace Common;
 
-public static class StringExtensions
+internal static class StringExtensions
 {
     private static Regex alphaNumericOnly = new Regex("^[a-zA-Z0-9 ]*$");
 
-    public static bool IsAlphaNumericOnly(this string s)
+    internal static bool IsAlphaNumericOnly(this string s)
     {
         return alphaNumericOnly.IsMatch(s);
     }
