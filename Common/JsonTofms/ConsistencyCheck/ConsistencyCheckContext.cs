@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using Common.JsonTofms.Error;
+using Common.JsonTofms.ConsistencyCheck.Error;
 
 namespace Common.JsonTofms.ConsistencyCheck;
 

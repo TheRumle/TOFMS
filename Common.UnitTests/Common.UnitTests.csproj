@@ -29,9 +29,16 @@
     </ItemGroup>
 
 
+    <ItemGroup>
+      <Folder Include="JsonTofms\ConsistencyCheck\" />
+    </ItemGroup>
+
+
 
     <ItemGroup>
-      <Folder Include="JsonParse\" />
+      <None Update="JsonTofms\Fixtures\Json\Centrifuge.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

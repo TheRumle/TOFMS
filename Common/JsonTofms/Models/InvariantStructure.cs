@@ -1,3 +1,45 @@
-﻿namespace Common.JsonTofms.Models;
+﻿using System.Runtime.CompilerServices;
+using Common.JsonTofms.ConsistencyCheck.Error;
+using Newtonsoft.Json;
 
-public record InvariantStructure(string PartType, int Min, int Max);
+namespace Common.JsonTofms.Models;
+
+public record InvariantStructure(string Part, int Min, int Max)
+{
+    public InvariantStructure((string name, int minValue, int maxValue) tuple): this(tuple.name,tuple.minValue,tuple.maxValue)
+    {
+        
+    }
+    
+    [JsonConstructor]
+    public InvariantStructure(string part, string min, string max): this(ParseMinMax(part, min, max))
+    {
+        
+    }
+    
+    public InvariantStructure(string part, int min, string max) : this(part, min, ParseMax(part,min.ToString(), max))
+    {
+        
+    }
+
+    public static int ParseMax(string name, string min, string max)
+    {
+        var maxLower = max.ToLower();
+        if (int.TryParse(max, out var maxValue))
+            return maxValue;
+        
+        if (maxLower == "inf" || maxLower == "infty")
+            return InfinityInteger.Positive;
+        throw new InvalidInvariantException(name, min, max);
+    }
+
+
+
+    public static (string name, int minValue, int maxValue) ParseMinMax(string name, string min, string max)
+    {
+        int minValue = int.Parse(min);
+        int maxValue = ParseMax(name, min, max);
+        if (maxValue < minValue) throw new InvalidInvariantException(name, min, max);
+        return (name, minValue, maxValue);
+    }
+}
