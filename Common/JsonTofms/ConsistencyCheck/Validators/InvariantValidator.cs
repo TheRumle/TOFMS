@@ -3,7 +3,7 @@ using Common.JsonTofms.Models;
 
 namespace Common.JsonTofms.ConsistencyCheck.Validators;
 
-public class InvariantValidator : IValidator<InvariantStructure>
+public class InvariantValidator : IValidator<IEnumerable<InvariantStructure>>
 {
     public IEnumerable<InvalidJsonTofmException> Validate(IEnumerable<InvariantStructure> values)
     {

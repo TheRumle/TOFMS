@@ -3,7 +3,7 @@ using Common.JsonTofms.Models;
 
 namespace Common.JsonTofms.ConsistencyCheck.Validators;
 
-public class MoveActionValidator : IValidator<MoveActionStructure, IEnumerable<LocationStructure>>
+public class MoveActionValidator : IValidator<IEnumerable<MoveActionStructure>, IEnumerable<LocationStructure>>
 {
     public IEnumerable<InvalidJsonTofmException> Validate(IEnumerable<MoveActionStructure> values, IEnumerable<LocationStructure> context)
     {

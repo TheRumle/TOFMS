@@ -3,7 +3,7 @@ using Common.JsonTofms.Models;
 
 namespace Common.JsonTofms.ConsistencyCheck.Validators;
 
-public class LocationValidator : IValidator<LocationStructure>
+public class LocationValidator : IValidator<IEnumerable<LocationStructure>>
 {
     private readonly InvariantValidator _invariantValidator;
 
