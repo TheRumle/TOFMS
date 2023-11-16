@@ -1,11 +1,13 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using Common.JsonTofms.ConsistencyCheck.Error;
+﻿using Common.JsonTofms.ConsistencyCheck.Error;
 using Common.JsonTofms.Models;
-using Common.Move;
 
 namespace Common.JsonTofms.ConsistencyCheck.Validators;
 
-public class NamingValidator : IValidator<IEnumerable<LocationStructure>, IEnumerable<MoveActionStructure>>
+public interface INamingValidator : IValidator<IEnumerable<LocationStructure>, IEnumerable<MoveActionStructure>>
+{
+    
+}
+public class NamingValidator : INamingValidator
 {
     public IEnumerable<InvalidJsonTofmException> Validate(IEnumerable<LocationStructure> locations, IEnumerable<MoveActionStructure> moveActions)
     {
