@@ -1,4 +1,4 @@
-﻿namespace Common.JsonParse.ConsistencyCheck;
+﻿namespace Common.JsonTofms.ConsistencyCheck;
 
 public interface ILocationInconsistencyFinder
 {

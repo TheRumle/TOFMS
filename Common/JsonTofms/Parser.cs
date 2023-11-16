@@ -1,9 +1,8 @@
-﻿using System.Text.Json.Serialization;
-using Common.JsonParse.ConsistencyCheck;
+﻿using Common.JsonTofms.ConsistencyCheck;
 using Common.Move;
 using Newtonsoft.Json;
 
-namespace Common.JsonParse;
+namespace Common.JsonTofms;
 
 public class Parser
 {

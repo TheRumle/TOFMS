@@ -1,6 +1,6 @@
 ﻿using Common.Move;
 
-namespace Common.JsonParse;
+namespace Common.JsonTofms;
 
 public record TOFMSJsonInput
 {

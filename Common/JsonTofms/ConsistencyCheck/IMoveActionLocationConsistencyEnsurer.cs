@@ -1,6 +1,6 @@
 ﻿using Common.Move;
 
-namespace Common.JsonParse.ConsistencyCheck;
+namespace Common.JsonTofms.ConsistencyCheck;
 
 public interface IMoveActionLocationConsistencyEnsurer
 {

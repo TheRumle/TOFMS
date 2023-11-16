@@ -1,7 +1,7 @@
 ﻿using System.Text;
-using Common.JsonParse.Error;
+using Common.JsonTofms.Error;
 
-namespace Common.JsonParse.ConsistencyCheck;
+namespace Common.JsonTofms.ConsistencyCheck;
 
 public class ConsistencyCheckContext
 {

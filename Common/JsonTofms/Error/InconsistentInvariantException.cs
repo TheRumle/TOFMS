@@ -1,4 +1,4 @@
-﻿namespace Common.JsonParse.Error;
+﻿namespace Common.JsonTofms.Error;
 
 public class InconsistentInvariantException : LocationInconsistencyException
 {
