@@ -28,8 +28,8 @@ public class JsonTofmToDomainTofmParserTest : IClassFixture<CentrifugeFixture>
                 new MoveActionValidator()
             );
         
-        this._system = JsonConvert.DeserializeObject<TofmSystem>(this.systemText)!;
-        this._factory = new MoveActionFactory();
+        _system = JsonConvert.DeserializeObject<TofmSystem>(this.systemText)!;
+        _factory = new MoveActionFactory();
     }
 
     [Fact]

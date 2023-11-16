@@ -1,6 +1,6 @@
 ﻿using Common;
 
-namespace TACPN;
+namespace TACPN.IntegrationTests;
 
 public static class ExampleLocations
 {

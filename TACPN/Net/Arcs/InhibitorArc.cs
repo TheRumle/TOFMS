@@ -5,7 +5,7 @@ namespace TACPN.Net.Arcs;
 
 public class InhibitorArc : Arc<Place, Transition> 
 {
-    
+    public CountCollection<string> Amounts { get; } = new();
     public InhibitorArc(Place from, Transition to, string color) : base(from, to)
     {
         this.Amounts.AddKey(color);

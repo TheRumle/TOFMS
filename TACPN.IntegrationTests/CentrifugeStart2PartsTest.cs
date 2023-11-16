@@ -7,7 +7,7 @@ using TACPN.Net.Arcs;
 using TACPN.Net.Transitions;
 using Xunit;
 
-namespace TACPN;
+namespace TACPN.IntegrationTests;
 
 
 
@@ -70,33 +70,30 @@ public class CentrifugeStart2PartsTest
         using (new AssertionScope())
         {
             //cproc-hat
-            procHat.Guards.Should().HaveCount(1, "single part type example should only have single guard");
-            procHat.Amounts.Should().HaveCount(1, "only one part type is moved");
-            procHat.Amounts.First().Key.Should().Be(CapacityColor);
-            procHat.Amounts.First().Value.Should().Be(2);
+            procHat.Guards.Should().HaveCount(1, "only one part type is moved");
+            procHat.Guards.First().Color.Should().Be(CapacityColor);
+            procHat.Guards.First().Amount.Should().Be(2);
             
             ColoredGuard procHatGuard = procHat.Guards.First();
-            procHatGuard.ColorIntervals.Should().HaveCount(1, "Only a single color guards should be defined for this action");
             procHatGuard.ShouldHaveFirstColorIntervalBeDotWithZeroToInfinity();
             
             //cbuffer-hat
-            bufferHat.Amounts.Should().HaveCount(1, "only one part type is moved, which is dot");
+            bufferHat.Guards.Should().HaveCount(1, "only one part type is moved, which is dot");
             bufferHat.Guards.Should().HaveCount(1, "buffer cap should only have dot guard with infinity");
-            bufferHat.Amounts.First().Key.Should().Be(CapacityColor);
-            bufferHat.Amounts.First().Value.Should().Be(2);
+            bufferHat.Guards.First().Color.Should().Be(CapacityColor);
+            bufferHat.Guards.First().Amount.Should().Be(2);
             
             ColoredGuard bufferCapGuard = bufferHat.Guards.First();
-            bufferCapGuard.ColorIntervals.Should().HaveCount(1, "Only a single color guards should be defined for this action");
             bufferCapGuard.ShouldHaveFirstColorIntervalBeDotWithZeroToInfinity();
 
             //cbuffer
-            buffer.Amounts.Should().HaveCount(1);
             buffer.Guards.Should().HaveCount(1);
-            buffer.Amounts.First().Key.Should().Be(PartName);
-            buffer.Amounts.First().Value.Should().Be(2);
-            
+            buffer.Guards.First().Color.Should().Be(PartName);
+            buffer.Guards.First().Amount.Should().Be(2);
+
+
+            buffer.Guards.Should().HaveCount(1, "Only a single color guards should be defined for this action");
             ColoredGuard procBufferGuard = buffer.Guards.First();
-            procBufferGuard.ColorIntervals.Should().HaveCount(1, "Only a single color guards should be defined for this action");
             procBufferGuard.ShouldBeOfColorAndHaveZeroToInfinity(PartName);
         }
     }
@@ -106,21 +103,22 @@ public class CentrifugeStart2PartsTest
     {
         PetriNetComponent component = await _translater.TranslateAsync(Move);
         var arcs = component.Transitions.First().OutGoing;
-        var cProcArc = arcs.First(e => e.To.Name == ProcLocation.Name);
+        OutGoingArc cProcArc = arcs.First(e => e.To.Name == ProcLocation.Name);
         var cBufferArc = arcs.First(e => e.To.Name == ProcLocation.Name);
         
         
         using (new AssertionScope())
         {
             arcs.Should().HaveCount(2, "we put parts into both cbuffer-hat and cproc");
-            
-            cProcArc.Amounts.Should().HaveCount(1);
-            cProcArc.Amounts.First().Key.Should().Be(PartName, "it is not a capacity location");
-            cProcArc.Amounts.First().Value.Should().Be(2, "two parts are moved");
+            cProcArc.Productions.Should().HaveCount(1);
+            var production = cProcArc.Productions.First();
+            production.Amount.Should().Be(2);
+            production.Color.Should().Be(PartName, "it is not a capacity location");
 
-            cBufferArc.Amounts.Should().HaveCount(1);
-            cProcArc.Amounts.First().Key.Should().Be(CapacityColor);
-            cProcArc.Amounts.First().Value.Should().Be(2, "two parts are moved out of the location");
+            cBufferArc.Productions.Should().HaveCount(1);
+            var p = cBufferArc.Productions.First();
+            p.Color.Should().Be(CapacityColor);
+            p.Amount.Should().Be(2, "two parts are moved out of the location");
         }
     }
     

@@ -1,7 +1,4 @@
-﻿using System.Collections;
-
-namespace TACPN.Net;
-
+﻿namespace TACPN.Net;
 public class Place
 {
     public string Name { get; init; }
