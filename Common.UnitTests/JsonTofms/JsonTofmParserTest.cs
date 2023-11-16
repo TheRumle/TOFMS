@@ -1,6 +1,6 @@
-﻿using Common.JsonTofms.Fixtures;
-using Common.JsonTofms.Models;
+﻿using Common.JsonTofms.Models;
 using FluentAssertions;
+using JsonFixtures.Fixtures;
 using Newtonsoft.Json;
 
 namespace Common.JsonTofms;

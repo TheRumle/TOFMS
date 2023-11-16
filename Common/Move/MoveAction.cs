@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace Common.Move;
+﻿namespace Common.Move;
 
 public record MoveAction
 {

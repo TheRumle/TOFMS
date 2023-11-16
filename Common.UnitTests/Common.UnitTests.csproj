@@ -26,6 +26,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Common\Common.csproj" />
+      <ProjectReference Include="..\JsonFixtures\JsonFixtures.csproj" />
     </ItemGroup>
 
 
@@ -35,10 +36,5 @@
 
 
 
-    <ItemGroup>
-      <None Update="JsonTofms\Fixtures\Json\Centrifuge.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
 
 </Project>

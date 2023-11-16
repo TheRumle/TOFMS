@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace Common;
+﻿namespace Common;
 
 public class Infteger
 {

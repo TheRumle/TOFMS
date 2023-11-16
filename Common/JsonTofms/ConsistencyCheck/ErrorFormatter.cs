@@ -3,9 +3,9 @@ using Common.JsonTofms.ConsistencyCheck.Error;
 
 namespace Common.JsonTofms.ConsistencyCheck;
 
-public class ErrorPrinter
+public class ErrorFormatter
 {
-    public ErrorPrinter(IEnumerable<InvalidJsonTofmException> errors)
+    public ErrorFormatter(IEnumerable<InvalidJsonTofmException> errors)
     {
         Errors = errors;
     }

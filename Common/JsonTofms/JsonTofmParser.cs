@@ -87,7 +87,7 @@ public class JsonTofmParser
 
         var errs = await _validator.ValidateAsync(system);
         var invalidJsonTofmExceptions = errs as InvalidJsonTofmException[] ?? errs.ToArray();
-        if (invalidJsonTofmExceptions.Any()) throw new ArgumentException(new ErrorPrinter(invalidJsonTofmExceptions).ToErrorString());
+        if (invalidJsonTofmExceptions.Any()) throw new ArgumentException(new ErrorFormatter(invalidJsonTofmExceptions).ToErrorString());
 
         return _systemFactory.CreateMoveActions(system);
     }
