@@ -14,4 +14,6 @@ public abstract class InvalidJsonTofmException : Exception
         
     }
 
+    public abstract string ErrorCategory { get; }
+
 }

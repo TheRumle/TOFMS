@@ -25,7 +25,7 @@ public record InvariantStructure(string Part, int Min, int Max)
         
         if (maxLower == "inf" || maxLower == "infty")
             return InfinityInteger.Positive;
-        throw new InvalidInvariantException(name, min, max);
+        throw new ArgumentException($"Values has wrong format for {name}: {min}, {max}");
     }
 
 
@@ -33,7 +33,6 @@ public record InvariantStructure(string Part, int Min, int Max)
     {
         int minValue = int.Parse(min);
         int maxValue = ParseMax(name, min, max);
-        if (maxValue < minValue) throw new InvalidInvariantException(name, min, max);
         return (name, minValue, maxValue);
     }
 }

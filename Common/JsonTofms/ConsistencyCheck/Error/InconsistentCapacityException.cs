@@ -1,11 +1,13 @@
-﻿namespace Common.JsonTofms.ConsistencyCheck.Error;
+﻿using Common.JsonTofms.Models;
+
+namespace Common.JsonTofms.ConsistencyCheck.Error;
 
 public class InconsistentCapacityException : LocationInconsistencyException
 {
-    public InconsistentCapacityException(Location firstLocation, Location secondLocation) : base(firstLocation, secondLocation)
+    public InconsistentCapacityException(LocationStructure firstLocation, int secondCapacity) : base(firstLocation)
     {
         this.FirstCapacity = firstLocation.Capacity;
-        this.SecondCapacity = secondLocation.Capacity;
+        this.SecondCapacity = secondCapacity;
     }
 
     public int FirstCapacity { get; set; }
@@ -16,4 +18,6 @@ public class InconsistentCapacityException : LocationInconsistencyException
         return
             $"Inconsistent capacity: Found multiple capacity definitions of {First.Name}: {FirstCapacity},{SecondCapacity}";
     }
+
+    public override string ErrorCategory { get; } = "Multiple capacities defined";
 }
