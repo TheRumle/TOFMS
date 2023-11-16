@@ -22,7 +22,7 @@ public record InvariantDefinition(string Part, int Min, int Max)
         if (int.TryParse(max, out var maxValue))
             return maxValue;
         
-        if (maxLower == "inf" || maxLower == "infty")
+        if (maxLower == "inf" || maxLower == "infty" || maxLower == "infinity") 
             return InfinityInteger.Positive;
         throw new ArgumentException($"Values has wrong format for {name}: {min}, {max}");
     }
