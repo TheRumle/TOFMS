@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using System.Reflection.Metadata.Ecma335;
+using Common;
 using Common.JsonTofms.Models;
 using Common.Move;
 using Common.Translate;
@@ -39,24 +40,25 @@ public class TofmToTacpnTranslater : IMoveActionTranslation<PetriNetComponent>
     
     public PetriNetComponent Translate(MoveAction moveAction)
     {
-        
-        var (to, toHat) = CreateLocationPlacePair(moveAction.To);
-        var (from, fromHat) = TranslateFrom(moveAction.From);
-        
         Transition transition = new Transition(moveAction.Name);
-        
-        
-        
-        
-        
-        var name = moveAction.Name;
+        var fromAdapter = new FromLocationAdaption(moveAction.From, moveAction.PartsToMove);
+        fromAdapter.AdaptToTransition(transition);
 
 
-            return null;
+
+
+
+
+        return new PetriNetComponent()
+        {
+            Colors = moveAction.PartsToMove.Select(e => e.Key),
+            Transitions = new List<Transition>() { transition },
+            Places = new List<Place>()
+        };
     }
 
     public Task<PetriNetComponent> TranslateAsync(MoveAction moveAction)
     {
-        return Task.Run(PetriNetComponent.Empty);
+        return Task.Run(()=>Translate(moveAction));
     }
 }

@@ -6,7 +6,7 @@ public class PetriNetComponent
 {
     public ICollection<Transition> Transitions { get; init; }
     public ICollection<Place> Places { get; init; }
-    public ICollection<string> Colors { get; init; }
+    public IEnumerable<string> Colors { get; init; }
 
     public static PetriNetComponent Empty()
     {

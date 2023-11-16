@@ -4,7 +4,7 @@ using TACPN.Net.Transitions;
 
 namespace TACPN;
 
-internal class FromAdaption : ITransitionAdaptable
+internal class FromLocationAdaption : ITransitionAdaptable
 {
     
     /// <summary>
@@ -12,7 +12,7 @@ internal class FromAdaption : ITransitionAdaptable
     /// </summary>
     /// <param name="place"> A place representing a location l.</param>
     /// <param name="capacityPlace">The corresponding place enforcing the capacity of the location l</param>
-    public FromAdaption(Location location, IEnumerable<KeyValuePair<string, int>> partsToConsume)
+    public FromLocationAdaption(Location location, IEnumerable<KeyValuePair<string, int>> partsToConsume)
     {
         this.Location = location;
         this.ToConsume = partsToConsume;
