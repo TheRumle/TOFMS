@@ -3,12 +3,27 @@ using Common.JsonTofms.Models;
 
 namespace Common.JsonTofms.ConsistencyCheck.Validators;
 
-public class MoveActionValidator : IValidator<IEnumerable<MoveActionStructure>, IEnumerable<LocationStructure>>
+public record MoveActionStructureValidationContext(IEnumerable<LocationStructure> LocationStructures, IEnumerable<string> parts);
+
+public class MoveActionValidator : IValidator<IEnumerable<MoveActionStructure>,MoveActionStructureValidationContext>
 {
-    public IEnumerable<InvalidJsonTofmException> Validate(IEnumerable<MoveActionStructure> values, IEnumerable<LocationStructure> context)
+    public IEnumerable<InvalidJsonTofmException> Validate(IEnumerable<MoveActionStructure> values, MoveActionStructureValidationContext context)
     {
-       
-        IEnumerable<string> locationNames = context.Select(e => e.Name);
+        var moveActionStructures = values as MoveActionStructure[] ?? values.ToArray();
+        var locationNameErrors = ValidateLocationNames(moveActionStructures, context.LocationStructures);
+        var partTypeErrors = ValidatePartTypes(moveActionStructures, context.parts);
+        locationNameErrors.AddRange(partTypeErrors);
+        return locationNameErrors;
+    }
+
+    public async Task<IEnumerable<InvalidJsonTofmException>> ValidateAsync(IEnumerable<MoveActionStructure> values, MoveActionStructureValidationContext context)
+    {
+        return await Task.Run(() => Validate(values, context));
+    }
+    
+    private static List<InvalidJsonTofmException> ValidateLocationNames(IEnumerable<MoveActionStructure> values, IEnumerable<LocationStructure> structures)
+    {
+        IEnumerable<string> locationNames = structures.Select(e => e.Name);
         List<InvalidJsonTofmException> errs = new List<InvalidJsonTofmException>();
         foreach (MoveActionStructure structure in values)
         {
@@ -19,9 +34,18 @@ public class MoveActionValidator : IValidator<IEnumerable<MoveActionStructure>, 
 
         return errs;
     }
-
-    public async Task<IEnumerable<InvalidJsonTofmException>> ValidateAsync(IEnumerable<MoveActionStructure> values, IEnumerable<LocationStructure> context)
+    
+    private static List<InvalidJsonTofmException> ValidatePartTypes(IEnumerable<MoveActionStructure> values, IEnumerable<string> declaredPartTypes)
     {
-        return await Task.Run(() => Validate(values, context));
+        List<InvalidJsonTofmException> errs = new List<InvalidJsonTofmException>();
+        var moveActionStructures = values as MoveActionStructure[] ?? values.ToArray();
+        var partTypesInMoves = moveActionStructures.SelectMany(e => e.Parts).Select(e => e.PartType);
+        var partTypes = declaredPartTypes as string[] ?? declaredPartTypes.ToArray();
+        
+        foreach (var move in moveActionStructures)
+            foreach (var (amount, partType) in move.Parts) 
+                if (!partTypes.Contains(partType)) errs.Add(new UndefinedLocationException(move, partType));
+
+        return errs;
     }
 }

@@ -11,10 +11,12 @@ namespace Common.JsonTofms;
 public class TofmSystemValidator : IValidator<TofmSystem>
 {
     private readonly IValidator<IEnumerable<LocationStructure>> _locationValidator;
-    private readonly IValidator<IEnumerable<MoveActionStructure>, IEnumerable<LocationStructure>> _moveActionValidator;
+    private readonly IValidator<IEnumerable<MoveActionStructure>,MoveActionStructureValidationContext> _moveActionValidator;
 
 
-    public TofmSystemValidator(IValidator<IEnumerable<LocationStructure>> locationValidator, IValidator<IEnumerable<MoveActionStructure>, IEnumerable<LocationStructure>> moveActionValidator)
+    public TofmSystemValidator(
+        IValidator<IEnumerable<LocationStructure>> locationValidator, 
+        IValidator<IEnumerable<MoveActionStructure>,MoveActionStructureValidationContext> moveActionValidator)
     {
         _locationValidator = locationValidator;
         _moveActionValidator = moveActionValidator;
@@ -26,7 +28,7 @@ public class TofmSystemValidator : IValidator<TofmSystem>
         foreach (var component in system.Components)
         {
             var locationErrsTask = _locationValidator.Validate(component.Locations);
-            var moveActionErrsTask = _moveActionValidator.Validate(component.Moves, component.Locations);
+            var moveActionErrsTask = _moveActionValidator.Validate(component.Moves, new MoveActionStructureValidationContext(component.Locations, system.Parts));
             errs.AddRange(locationErrsTask);
             errs.AddRange(moveActionErrsTask);
         }
@@ -42,7 +44,7 @@ public class TofmSystemValidator : IValidator<TofmSystem>
             Task<IEnumerable<InvalidJsonTofmException>> locationErrsTask =
                 _locationValidator.ValidateAsync(component.Locations);
             Task<IEnumerable<InvalidJsonTofmException>> moveActionErrsTask =
-                _moveActionValidator.ValidateAsync(component.Moves, component.Locations);
+                _moveActionValidator.ValidateAsync(component.Moves, new MoveActionStructureValidationContext(component.Locations, system.Parts));
 
             // Add continuation to handle exceptions and add them to the errs bag
             validationTasks.Add(locationErrsTask.ContinueWith(AddErrorConcurrently(errs)));
