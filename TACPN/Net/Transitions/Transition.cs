@@ -29,6 +29,14 @@ public class Transition
         return arc;
     }
     
+    public Arc<Place, Transition> AddInGoingFrom(Place from, ColoredGuard guard)
+    {
+        var arc = new IngoingArc(from, this, new[]{guard});
+        InGoing.Add(arc);
+        return arc;
+    }
+
+    
     public Arc<Transition, Place> AddOutGoingTo(Place from, IEnumerable<Production> productions)
     {
         var arc = new OutGoingArc(this, from, productions);

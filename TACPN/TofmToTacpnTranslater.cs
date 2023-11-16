@@ -39,7 +39,6 @@ public class TofmToTacpnTranslater : IMoveActionTranslation<PetriNetComponent>
     
     public PetriNetComponent Translate(MoveAction moveAction)
     {
-        moveAction.PartsToMove
         
         var (to, toHat) = CreateLocationPlacePair(moveAction.To);
         var (from, fromHat) = TranslateFrom(moveAction.From);
