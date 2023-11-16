@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using Common.JsonTofms.ConsistencyCheck.Error;
+﻿using Common.JsonTofms.ConsistencyCheck.Error;
 using Newtonsoft.Json;
 
 namespace Common.JsonTofms.Models;
@@ -16,13 +15,9 @@ public record InvariantStructure(string Part, int Min, int Max)
     {
         
     }
-    
-    public InvariantStructure(string part, int min, string max) : this(part, min, ParseMax(part,min.ToString(), max))
-    {
-        
-    }
 
-    public static int ParseMax(string name, string min, string max)
+
+    private static int ParseMax(string name, string min, string max)
     {
         var maxLower = max.ToLower();
         if (int.TryParse(max, out var maxValue))
@@ -34,8 +29,7 @@ public record InvariantStructure(string Part, int Min, int Max)
     }
 
 
-
-    public static (string name, int minValue, int maxValue) ParseMinMax(string name, string min, string max)
+    private static (string name, int minValue, int maxValue) ParseMinMax(string name, string min, string max)
     {
         int minValue = int.Parse(min);
         int maxValue = ParseMax(name, min, max);
