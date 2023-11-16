@@ -7,11 +7,11 @@ public record MoveActionStructureValidationContext(IEnumerable<LocationStructure
 
 public class MoveActionValidator : IValidator<IEnumerable<MoveActionStructure>,MoveActionStructureValidationContext>
 {
-    public IEnumerable<InvalidJsonTofmException> Validate(IEnumerable<MoveActionStructure> values, MoveActionStructureValidationContext context)
+    public IEnumerable<InvalidJsonTofmException> Validate(IEnumerable<MoveActionStructure> locations, MoveActionStructureValidationContext moveActions)
     {
-        var moveActionStructures = values as MoveActionStructure[] ?? values.ToArray();
-        var locationNameErrors = ValidateLocationNames(moveActionStructures, context.LocationStructures);
-        var partTypeErrors = ValidatePartTypes(moveActionStructures, context.parts);
+        var moveActionStructures = locations as MoveActionStructure[] ?? locations.ToArray();
+        var locationNameErrors = ValidateLocationNames(moveActionStructures, moveActions.LocationStructures);
+        var partTypeErrors = ValidatePartTypes(moveActionStructures, moveActions.parts);
         locationNameErrors.AddRange(partTypeErrors);
         return locationNameErrors;
     }

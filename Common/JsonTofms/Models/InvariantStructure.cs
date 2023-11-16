@@ -1,5 +1,4 @@
-﻿using Common.JsonTofms.ConsistencyCheck.Error;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Common.JsonTofms.Models;
 
