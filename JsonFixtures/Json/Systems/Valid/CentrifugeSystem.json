@@ -1,0 +1,61 @@
+﻿{
+  "Components": [
+    {
+      "Name": "Centrifuge",
+      "Locations": [
+        {
+          "Name": "CBuffer",
+          "Capacity": 4,
+          "Invariants": [
+            {
+              "Part": "P1",
+              "Min": 0,
+              "Max": "infty"
+            },
+            {
+              "Part": "",
+              "Min": 0,
+              "Max": "infty"
+            }
+          ]
+        },
+        {
+          "Name": "CProc",
+          "Capacity": 4,
+          "Invariants": [
+            {
+              "Part": "P1",
+              "Min": 7,
+              "Max": 12
+            },
+            {
+              "Part": "P2",
+              "Min": 7,
+              "Max": 12
+            }
+          ]
+        }
+      ],
+      "Moves": [
+        {
+          "Name": "c2p1start",
+          "Parts": [
+            {
+              "amount": 2,
+              "parttype": "P1"
+            }
+          ],
+          "from": "CBuffer",
+          "to": "CProc",
+          "emptyBefore": [
+            "CProc"
+          ],
+          "emptyAfter": [
+            "CBuffer"
+          ]
+        }
+      ]
+    }
+  ],
+  "Parts": ["P1,P2"]
+}

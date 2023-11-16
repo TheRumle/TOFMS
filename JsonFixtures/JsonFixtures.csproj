@@ -7,9 +7,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Update="Json\Centrifuge.json">
+      <None Update="Json\Components\Centrifuge.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <None Update="Json\Systems\Valid\Components\Centrifuge.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Json\Systems\Valid\CentrifugeSystem.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
+
 
 </Project>

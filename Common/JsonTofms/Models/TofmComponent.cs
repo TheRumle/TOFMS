@@ -6,9 +6,3 @@ public record TofmComponent
     public List<MoveActionStructure> Moves { get; set; }
     public string Name { get; set; }
 }
-
-public record TofmSystem
-{
-    public List<String> Parts { get; set; }
-    public List<TofmComponent> Components { get; set; }
-}

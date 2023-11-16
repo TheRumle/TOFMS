@@ -29,10 +29,6 @@
         <ProjectReference Include="..\Common\Common.csproj" />
         <ProjectReference Include="..\TACPN\TACPN.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Fixtures\" />
-    </ItemGroup>
     
 
 </Project>

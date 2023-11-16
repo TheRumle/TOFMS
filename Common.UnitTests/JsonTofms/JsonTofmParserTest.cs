@@ -11,7 +11,7 @@ public class JsonTofmParserTest: IClassFixture<CentrifugeFixture>
 
     public JsonTofmParserTest(CentrifugeFixture centrifuge)
     {
-        this.centrifugeText = centrifuge.Text;
+        this.centrifugeText = centrifuge.ComponentText;
     }
     
     
