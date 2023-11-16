@@ -17,7 +17,7 @@ public class InvalidInvariantException : InvalidJsonTofmException
         this._readableMessage =  $"Invalid definition invariant for {_part}: {_min} to {_max}. Is {_min} > {_max} and did you use infty/inf wrong?";
     }
     
-    public InvalidInvariantException(InvariantStructure invariant) : this(invariant.Part, invariant.Min.ToString(), invariant.Max.ToString())
+    public InvalidInvariantException(InvariantDefinition invariant) : this(invariant.Part, invariant.Min.ToString(), invariant.Max.ToString())
     {
         this._readableMessage =  $"Invalid definition invariant for {_part}: {_min} to {_max}. Is {_min} > {_max} and did you use infty/inf wrong?";
     }

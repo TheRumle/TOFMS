@@ -5,7 +5,7 @@ namespace Common.JsonTofms.ConsistencyCheck;
 
 public class ErrorFormatter
 {
-    public ErrorFormatter(IEnumerable<InvalidJsonTofmException> errors)
+    public ErrorFormatter(InvalidJsonTofmException[] errors)
     {
         Errors = errors;
     }

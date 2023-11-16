@@ -6,15 +6,17 @@ namespace Common.JsonTofms.ConsistencyCheck.Validators;
 
 public class TofmSystemValidator : IValidator<TofmSystem>
 {
-    private readonly IValidator<IEnumerable<LocationStructure>> _locationValidator;
-    private readonly IValidator<IEnumerable<MoveActionStructure>,MoveActionStructureValidationContext> _moveActionValidator;
+    private readonly IValidator<IEnumerable<LocationDefinition>> _locationValidator;
+    private readonly IValidator<IEnumerable<MoveActionDefinition>,MoveActionStructureValidationContext> _moveActionValidator;
     private readonly INamingValidator _namingValidator;
 
 
 
     public TofmSystemValidator(
-        IValidator<IEnumerable<LocationStructure>> locationValidator, 
-        IValidator<IEnumerable<MoveActionStructure>,MoveActionStructureValidationContext> moveActionValidator, INamingValidator namingValidator)
+        IValidator<IEnumerable<LocationDefinition>> locationValidator, 
+        INamingValidator namingValidator,
+        IValidator<IEnumerable<MoveActionDefinition>,MoveActionStructureValidationContext> moveActionValidator
+        )
     {
         _locationValidator = locationValidator;
         _moveActionValidator = moveActionValidator;

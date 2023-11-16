@@ -4,11 +4,11 @@ namespace Common.JsonTofms.ConsistencyCheck.Error;
 
 public abstract class LocationInconsistencyException : InvalidJsonTofmException
 {
-    public LocationInconsistencyException(LocationStructure location)
+    public LocationInconsistencyException(LocationDefinition location)
     {
         this.First = location;
     }
-    public LocationStructure First { get; set; }
+    public LocationDefinition First { get; set; }
 
     public abstract override string ToString();
 }

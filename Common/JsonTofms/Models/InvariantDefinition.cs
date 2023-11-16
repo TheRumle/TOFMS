@@ -2,15 +2,15 @@
 
 namespace Common.JsonTofms.Models;
 
-public record InvariantStructure(string Part, int Min, int Max)
+public record InvariantDefinition(string Part, int Min, int Max)
 {
-    public InvariantStructure((string name, int minValue, int maxValue) tuple): this(tuple.name,tuple.minValue,tuple.maxValue)
+    public InvariantDefinition((string name, int minValue, int maxValue) tuple): this(tuple.name,tuple.minValue,tuple.maxValue)
     {
         
     }
     
     [JsonConstructor]
-    public InvariantStructure(string part, string min, string max): this(ParseMinMax(part, min, max))
+    public InvariantDefinition(string part, string min, string max): this(ParseMinMax(part, min, max))
     {
         
     }

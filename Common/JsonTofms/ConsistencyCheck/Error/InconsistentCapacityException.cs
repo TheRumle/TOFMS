@@ -4,7 +4,7 @@ namespace Common.JsonTofms.ConsistencyCheck.Error;
 
 public class InconsistentCapacityException : LocationInconsistencyException
 {
-    public InconsistentCapacityException(LocationStructure firstLocation, int secondCapacity) : base(firstLocation)
+    public InconsistentCapacityException(LocationDefinition firstLocation, int secondCapacity) : base(firstLocation)
     {
         this.FirstCapacity = firstLocation.Capacity;
         this.SecondCapacity = secondCapacity;

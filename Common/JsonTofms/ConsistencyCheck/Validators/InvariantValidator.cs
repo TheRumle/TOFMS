@@ -3,9 +3,9 @@ using Common.JsonTofms.Models;
 
 namespace Common.JsonTofms.ConsistencyCheck.Validators;
 
-public class InvariantValidator : IValidator<IEnumerable<InvariantStructure>>
+public class InvariantValidator : IValidator<IEnumerable<InvariantDefinition>>
 {
-    public IEnumerable<InvalidJsonTofmException> Validate(IEnumerable<InvariantStructure> values)
+    public IEnumerable<InvalidJsonTofmException> Validate(IEnumerable<InvariantDefinition> values)
     {
         var result = new List<InvalidJsonTofmException>();
         foreach (var invariant in values)
@@ -14,7 +14,7 @@ public class InvariantValidator : IValidator<IEnumerable<InvariantStructure>>
         return result;
     }
 
-    public async Task<IEnumerable<InvalidJsonTofmException>> ValidateAsync(IEnumerable<InvariantStructure> values)
+    public async Task<IEnumerable<InvalidJsonTofmException>> ValidateAsync(IEnumerable<InvariantDefinition> values)
     {
         return await Task.Run(() => Validate(values));
     }

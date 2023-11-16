@@ -24,9 +24,14 @@ public class JsonTofmToDomainTofmParser
         TofmSystem? system = JsonConvert.DeserializeObject<TofmSystem>(jsonString);
         if (system is null) throw new ArgumentException($"The inputted string is not of the same format as {typeof(TofmSystem).FullName}.");
 
-        var errs = await _validator.ValidateAsync(system);
-        var invalidJsonTofmExceptions = errs as InvalidJsonTofmException[] ?? errs.ToArray();
-        if (invalidJsonTofmExceptions.Any()) throw new ArgumentException(new ErrorFormatter(invalidJsonTofmExceptions).ToErrorString());
+        IEnumerable<InvalidJsonTofmException> errs = await _validator.ValidateAsync(system);
+        
+        InvalidJsonTofmException[] invalidJsonTofmExceptions = errs as InvalidJsonTofmException[] ?? errs.ToArray();
+        if (invalidJsonTofmExceptions.Any())
+        {
+            var message = new ErrorFormatter(invalidJsonTofmExceptions).ToErrorString();
+            throw new AggregateException(message, invalidJsonTofmExceptions);
+        }
 
         return _systemFactory.CreateMoveActions(system);
     }
