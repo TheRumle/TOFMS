@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using TACPN.Net;
 
-namespace TACPN.IntegrationTests;
+namespace TACPN;
 
 public static class ColoredGuardAssertions
 {

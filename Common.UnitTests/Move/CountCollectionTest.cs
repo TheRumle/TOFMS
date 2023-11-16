@@ -1,6 +1,7 @@
+using Common.Move;
 using FluentAssertions;
 
-namespace Common.Move;
+namespace Common.UnitTests.Move;
 
 public class CountCollectionTest
 {

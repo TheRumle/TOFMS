@@ -7,7 +7,7 @@ using TACPN.Net.Arcs;
 using TACPN.Net.Transitions;
 using Xunit;
 
-namespace TACPN.IntegrationTests;
+namespace TACPN;
 
 
 

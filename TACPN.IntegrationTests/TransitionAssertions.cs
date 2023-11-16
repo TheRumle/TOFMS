@@ -4,7 +4,7 @@ using TACPN.Net;
 using TACPN.Net.Arcs;
 using TACPN.Net.Transitions;
 
-namespace TACPN.IntegrationTests;
+namespace TACPN;
 
 public static class TransitionAssertions
 {

@@ -3,7 +3,7 @@ using FluentAssertions;
 using JsonFixtures.Fixtures;
 using Newtonsoft.Json;
 
-namespace Common.JsonTofms;
+namespace Common.UnitTests.JsonTofms;
 
 public class JsonTofmParserTest: IClassFixture<CentrifugeFixture>
 {

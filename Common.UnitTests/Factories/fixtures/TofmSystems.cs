@@ -1,6 +1,6 @@
 ﻿using Common.JsonTofms.Models;
 
-namespace Common.Factories.fixtures;
+namespace Common.UnitTests.Factories.fixtures;
 
 public class TofmSystems
 {

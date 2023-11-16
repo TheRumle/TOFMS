@@ -7,7 +7,7 @@
 
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
-        <RootNamespace>Common</RootNamespace>
+        <RootNamespace>Common.UnitTests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

@@ -1,10 +1,10 @@
-﻿using Common.Factories.fixtures;
+﻿using Common.Factories;
 using Common.JsonTofms.Models;
-using Common.Move;
+using Common.UnitTests.Factories.fixtures;
 using FluentAssertions;
 using FluentAssertions.Execution;
 
-namespace Common.Factories;
+namespace Common.UnitTests.Factories;
 
 public class MoveActionFactoryTest : IClassFixture<TofmSystems>
 {
