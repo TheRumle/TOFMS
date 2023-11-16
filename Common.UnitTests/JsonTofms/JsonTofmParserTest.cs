@@ -1,5 +1,6 @@
 ﻿using Common.JsonTofms.Fixtures;
 using Common.JsonTofms.Models;
+using FluentAssertions;
 using Newtonsoft.Json;
 
 namespace Common.JsonTofms;
@@ -18,7 +19,10 @@ public class JsonTofmParserTest: IClassFixture<CentrifugeFixture>
     public void CanParseCentrifuge()
     {
         var res = JsonConvert.DeserializeObject<TofmComponent>(this.centrifugeText);
-        if (res is null) throw new Exception();
+        res.Should().NotBeNull();
+        res!.Locations.Should().NotBeEmpty();
+        res.Name.Should().NotBeEmpty();
+        res.Moves.Should().NotBeEmpty();
     }
     
     
