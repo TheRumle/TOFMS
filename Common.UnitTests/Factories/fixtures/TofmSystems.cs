@@ -19,10 +19,10 @@ public class TofmSystems
             _invariantDefinition
         });
         
-        var firstMove = new MoveActionDefinition("firstMove",new List<(int Amount, string PartType)>(),
+        var firstMove = new MoveActionDefinition("firstMove",new List<PartConsumptionDefinition>(),
             firstLoc.Name, secondLoc.Name, new List<string>(){firstLoc.Name}, new List<string>(){secondLoc.Name}  );
         
-        var secondMove = new MoveActionDefinition("secondMove",new List<(int Amount, string PartType)>(),
+        var secondMove = new MoveActionDefinition("secondMove",new List<PartConsumptionDefinition>(),
             firstLoc.Name, secondLoc.Name, new List<string>(){firstLoc.Name}, new List<string>(){secondLoc.Name}  );
 
         var component = new TofmComponent()

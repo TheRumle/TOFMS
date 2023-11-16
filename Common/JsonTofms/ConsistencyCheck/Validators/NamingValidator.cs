@@ -17,7 +17,7 @@ public class NamingValidator : INamingValidator
         foreach (LocationDefinition location in locations)
             foreach (var action in moveActions)
             {
-                foreach ((int Amount, string PartType) value in action.Parts)
+                foreach (var value in action.Parts)
                     allThreeNamesAreSame = CompareNames(value, action, location, errs, allThreeNamesAreSame);
                 
                 if (!allThreeNamesAreSame && location.Name == action.Name)
@@ -27,7 +27,7 @@ public class NamingValidator : INamingValidator
         return errs;
     }
 
-    private static bool CompareNames((int Amount, string PartType) value, MoveActionDefinition action,
+    private static bool CompareNames(PartConsumptionDefinition value, MoveActionDefinition action,
         LocationDefinition location, List<InvalidJsonTofmException> errs, bool foundThree)
     {
         if (value.PartType == action.Name && value.PartType == location.Name)

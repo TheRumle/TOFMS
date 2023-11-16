@@ -1,3 +1,5 @@
 ﻿namespace Common.JsonTofms.Models;
 
-public record MoveActionDefinition(string Name, List<(int Amount, string PartType)> Parts, string From, string To, List<string> EmptyBefore, List<string> EmptyAfter);
+public record PartConsumptionDefinition(int Amount, string PartType);
+
+public record MoveActionDefinition(string Name, List<PartConsumptionDefinition> Parts, string From, string To, List<string> EmptyBefore, List<string> EmptyAfter);
