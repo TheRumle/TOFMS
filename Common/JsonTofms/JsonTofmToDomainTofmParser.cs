@@ -30,8 +30,4 @@ public class JsonTofmToDomainTofmParser
 
         return _systemFactory.CreateMoveActions(system);
     }
-
-
-
-
 }
