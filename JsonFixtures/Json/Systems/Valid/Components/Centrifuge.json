@@ -51,6 +51,23 @@
       "EmptyAfter": [
         "CBuffer"
       ]
+    },
+    {
+      "Name": "c2p2start",
+      "Parts": [
+        {
+          "amount": 2,
+          "parttype": "P2"
+        }
+      ],
+      "From": "CBuffer",
+      "To": "CProc",
+      "EmptyBefore": [
+        "CProc"
+      ],
+      "EmptyAfter": [
+        "CBuffer"
+      ]
     }
   ]
 }

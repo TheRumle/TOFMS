@@ -45,7 +45,22 @@ public class JsonTofmToDomainTofmParser
             throw new ArgumentException(
                 $"The inputted string is not of the same format as {typeof(TofmComponent).FullName}.");
 
-        var parts = component.Moves.SelectMany(e => e.Parts.Select(p => p.PartType));
+        if (component.Moves is null) 
+            throw new ArgumentException($"{component.Name} has move actions that cannot be parsed.");
+
+        var partSets = component.Moves.SelectMany(e =>
+        {
+            if (e.Parts is null) 
+                throw new ArgumentException($"{component.Name} has move definition {e.Name} with invalid part definitions.");
+            
+            foreach (var p in e.Parts)
+                if (p is null) 
+                    throw new ArgumentException($"{component.Name} has move definition {e.Name} with invalid part definitions.");
+            
+            return e.Parts;
+        });
+
+        var parts = partSets.Select(e => e.PartType);
         
         TofmSystem system = new TofmSystem()
         {
