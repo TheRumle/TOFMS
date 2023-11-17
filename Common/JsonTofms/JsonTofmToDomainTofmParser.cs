@@ -67,8 +67,7 @@ public class JsonTofmToDomainTofmParser
     {
         var errs = await _systemValidator.ValidateAsync(system);
         var invalidJsonTofmExceptions = errs as InvalidJsonTofmException[] ?? errs.ToArray();
-        if (invalidJsonTofmExceptions.Any())
-            ThrowErrorMessage(invalidJsonTofmExceptions);
+        if (invalidJsonTofmExceptions.Any()) ThrowErrorMessage(invalidJsonTofmExceptions);
     }
 
     private static void ThrowErrorMessage(InvalidJsonTofmException[] invalidJsonTofmExceptions)
@@ -91,8 +90,6 @@ public class JsonTofmToDomainTofmParser
 
         if (errors.Any())
             throw new AggregateException(errors);
-
-        
     }
 
 }
