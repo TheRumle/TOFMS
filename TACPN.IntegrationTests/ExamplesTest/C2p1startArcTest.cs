@@ -26,14 +26,14 @@ public class C2P1StartArcTest : IClassFixture<CentrifugeFixture>
     public C2P1StartArcTest(CentrifugeFixture fixture)
     {
         TofmSystemValidator systemValidator = new TofmSystemValidator(new LocationValidator(new InvariantValidator()),new NamingValidator(), new MoveActionValidator());
-        this._centrifugeText = fixture.ComponentText;
+        _centrifugeText = fixture.ComponentText;
         new TofmSystemValidator(
             new LocationValidator(new InvariantValidator()),
             new NamingValidator(),
             new MoveActionValidator()
         );
 
-        this._jsonParser = new JsonTofmToDomainTofmParser(systemValidator, new MoveActionFactory()); 
+        _jsonParser = new JsonTofmToDomainTofmParser(systemValidator, new MoveActionFactory()); 
     }
     
 
