@@ -135,8 +135,8 @@ public class C2P1StartArcTest : IClassFixture<CentrifugeFixture>
     private async Task<MoveAction> GetAction()
     
     {
-        var a = await _jsonParser.ParseTofmComponentJsonString(this._centrifugeText);
-        var action = a.FirstOrDefault(e => e.Name.ToLower().Contains("start") && e.Name.ToLower().Contains("2p1"));
+        IEnumerable<MoveAction> actions = await _jsonParser.ParseTofmComponentJsonString(this._centrifugeText);
+        var action = actions.FirstOrDefault(e => e.Name.ToLower().Contains("start") && e.Name.ToLower().Contains("2p1"));
         if (action is null) throw new ArgumentException("No action with name containing both 'start' and '2p1'");
         return action;
     }
