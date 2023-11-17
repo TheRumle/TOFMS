@@ -2,6 +2,7 @@
 using Common.JsonTofms;
 using Common.JsonTofms.ConsistencyCheck.Validators;
 using Common.Move;
+using Common.Translate;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using JsonFixtures.Fixtures;
@@ -16,7 +17,7 @@ namespace TACPN.IntegrationTests.ExamplesTest;
 
 public class C2P1StartArcTest : IClassFixture<CentrifugeFixture>
 {
-    private readonly TofmToTacpnTranslater _translater = new(new MoveActionAdapterFactory());
+    private readonly IMoveActionTranslation<PetriNetComponent> _translater = new TofmToTacpnTranslater(new MoveActionAdapterFactory());
     
     private readonly JsonTofmToDomainTofmParser _jsonParser;
     private readonly string _centrifugeText;
