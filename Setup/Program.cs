@@ -2,10 +2,10 @@
 
 using Microsoft.Extensions.Hosting;
 
-HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
+var builder = Host.CreateApplicationBuilder(args);
 
 //builder.Services.AddHostedService<TypeOfBackgroundService>();
 
-using IHost host = builder.Build();
+using var host = builder.Build();
 
 host.Run();

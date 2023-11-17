@@ -8,12 +8,13 @@ public class MoveActionFactory : ITofmsFactory
 {
     public IReadOnlyList<MoveAction> CreateMoveActions(TofmSystem tofmSystem)
     {
-        LocationDefinition[] locationStructures = tofmSystem.Components.SelectMany(e => e.Locations).ToArray();   
-        Location[] locations = CreateLocations(locationStructures);
-        return CreateMoveAction(tofmSystem.Components.SelectMany(e=>e.Moves), locations);
+        var locationStructures = tofmSystem.Components.SelectMany(e => e.Locations).ToArray();
+        var locations = CreateLocations(locationStructures);
+        return CreateMoveAction(tofmSystem.Components.SelectMany(e => e.Moves), locations);
     }
 
-    private ReadOnlyCollection<MoveAction> CreateMoveAction(IEnumerable<MoveActionDefinition> moveActionStructures, Location[] locations)
+    private ReadOnlyCollection<MoveAction> CreateMoveAction(IEnumerable<MoveActionDefinition> moveActionStructures,
+        Location[] locations)
     {
         var kvs = locations.Select(e => new KeyValuePair<string, Location>(e.Name, e));
         var locationByName = new Dictionary<string, Location>(kvs);
@@ -27,9 +28,11 @@ public class MoveActionFactory : ITofmsFactory
         }).ToList().AsReadOnly();
     }
 
-    private MoveAction CreateMoveAction(IEnumerable<Location> emptyBef, IEnumerable<Location> emptyAf, IEnumerable<KeyValuePair<string, int>> parts, MoveActionDefinition definition, Dictionary<string, Location> locationByName)
+    private MoveAction CreateMoveAction(IEnumerable<Location> emptyBef, IEnumerable<Location> emptyAf,
+        IEnumerable<KeyValuePair<string, int>> parts, MoveActionDefinition definition,
+        Dictionary<string, Location> locationByName)
     {
-        var move = new MoveAction()
+        var move = new MoveAction
         {
             EmptyBefore = new HashSet<Location>(emptyBef),
             EmptyAfter = new HashSet<Location>(emptyAf),
@@ -40,7 +43,7 @@ public class MoveActionFactory : ITofmsFactory
         };
         return move;
     }
-    
+
     private static Location[] CreateLocations(LocationDefinition[] locations)
     {
         return locations.Select(locationStructure =>

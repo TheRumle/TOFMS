@@ -9,7 +9,7 @@ internal class AddByKey<TKey> where TKey : notnull
             dictionary[key] = dictionary.GetValueOrDefault(key) + 1;
             return dictionary[key];
         }
-        
+
         dictionary.Add(key, 1);
         return 1;
     }

@@ -1,25 +1,23 @@
-﻿using Common;
-using TACPN.Net;
+﻿using TACPN.Net;
+using TACPN.Net.Arcs;
 using TACPN.Net.Transitions;
 
-namespace TACPN;
+namespace TACPN.Adapters.Location;
 
-internal class FromLocationAdaption : ITransitionAdaptable
+internal class FromLocationAdaption : ITransitionAttachable
 {
-    
     /// <summary>
-    /// 
     /// </summary>
     /// <param name="place"> A place representing a location l.</param>
     /// <param name="capacityPlace">The corresponding place enforcing the capacity of the location l</param>
-    public FromLocationAdaption(Location location, IEnumerable<KeyValuePair<string, int>> partsToConsume)
+    public FromLocationAdaption(Common.Location location, IEnumerable<KeyValuePair<string, int>> partsToConsume)
     {
-        this.Location = location;
-        this.ToConsume = partsToConsume;
+        Location = location;
+        ToConsume = partsToConsume;
         (Place, CapacityPlace) = LocationTranslator.CreateLocationPlacePair(location);
     }
 
-    public Location Location { get; set; }
+    public Common.Location Location { get; set; }
 
     public IEnumerable<KeyValuePair<string, int>> ToConsume { get; set; }
 
@@ -27,7 +25,7 @@ internal class FromLocationAdaption : ITransitionAdaptable
 
     public Place Place { get; set; }
 
-    public void AdaptToTransition(Transition transition)
+    public void AttachToTransition(Transition transition)
     {
         AdaptPlace(transition);
         AdaptCapacityPlace(transition);

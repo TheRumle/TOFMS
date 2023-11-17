@@ -5,28 +5,23 @@ using Newtonsoft.Json;
 
 namespace Common.UnitTests.JsonTofms;
 
-public class JsonTofmParserTest: IClassFixture<CentrifugeFixture>
+public class JsonTofmParserTest : IClassFixture<CentrifugeFixture>
 {
     private readonly string centrifugeText;
 
     public JsonTofmParserTest(CentrifugeFixture centrifuge)
     {
-        this.centrifugeText = centrifuge.ComponentText;
+        centrifugeText = centrifuge.ComponentText;
     }
-    
-    
+
+
     [Fact]
     public void CanParseCentrifuge()
     {
-        var res = JsonConvert.DeserializeObject<TofmComponent>(this.centrifugeText);
+        var res = JsonConvert.DeserializeObject<TofmComponent>(centrifugeText);
         res.Should().NotBeNull();
         res!.Locations.Should().NotBeEmpty();
         res.Name.Should().NotBeEmpty();
         res.Moves.Should().NotBeEmpty();
     }
-    
-    
-    
-    
-    
 }

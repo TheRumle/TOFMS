@@ -2,26 +2,26 @@
 
 public class Location
 {
-    public string Name { get; init; }
-    public int Capacity { get; init; }
-    public IReadOnlySet<Invariant> Invariants { get; init; }
-
     public Location(string name, int capacity, IEnumerable<Invariant> invariants)
     {
-        this.Invariants = new HashSet<Invariant>(invariants);
-        this.Capacity = capacity;
-        this.Name = name;
+        Invariants = new HashSet<Invariant>(invariants);
+        Capacity = capacity;
+        Name = name;
     }
-    
+
     public Location(string name, int capacity, Invariant invariant)
     {
-        this.Invariants = new HashSet<Invariant>()
+        Invariants = new HashSet<Invariant>
         {
             invariant
         };
-        this.Capacity = capacity;
-        this.Name = name;
+        Capacity = capacity;
+        Name = name;
     }
+
+    public string Name { get; init; }
+    public int Capacity { get; init; }
+    public IReadOnlySet<Invariant> Invariants { get; init; }
 
     public override string ToString()
     {

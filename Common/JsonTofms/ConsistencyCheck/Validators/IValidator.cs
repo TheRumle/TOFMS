@@ -8,6 +8,7 @@ public interface IValidator<T>
     public Task<IEnumerable<InvalidJsonTofmException>> ValidateAsync(T values);
 }
 
+
 public interface IValidator<T, TContext>
 {
     public IEnumerable<InvalidJsonTofmException> Validate(T locations, TContext moveActions);

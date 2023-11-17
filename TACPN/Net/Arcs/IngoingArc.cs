@@ -2,7 +2,7 @@
 
 namespace TACPN.Net.Arcs;
 
-public class IngoingArc: Arc<Place, Transition>
+public class IngoingArc : Arc<Place, Transition>
 {
     public IngoingArc(Place from, Transition to, IEnumerable<ColoredGuard> guards) : base(from, to)
     {

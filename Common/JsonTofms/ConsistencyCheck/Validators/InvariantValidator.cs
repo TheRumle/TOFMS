@@ -9,7 +9,8 @@ public class InvariantValidator : IValidator<IEnumerable<InvariantDefinition>>
     {
         var result = new List<InvalidJsonTofmException>();
         foreach (var invariant in values)
-            if (invariant.Max < invariant.Min) result.Add(new InvalidInvariantException(invariant));
+            if (invariant.Max < invariant.Min)
+                result.Add(new InvalidInvariantException(invariant));
 
         return result;
     }

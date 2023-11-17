@@ -4,13 +4,18 @@ public class ColoredGuard
 {
     public ColoredGuard(int amount, string color, Interval interval)
     {
-        this.Amount = amount;
-        this.Color = color;
-        this.Interval = interval;
+        Amount = amount;
+        Color = color;
+        Interval = interval;
     }
 
     public string Color { get; set; }
 
     public Interval Interval { get; }
     public int Amount { get; }
+
+    public static ColoredGuard CapacityGuard(int amount)
+    {
+        return new ColoredGuard(amount, Place.CapacityPlaceColor, Interval.ZeroToInfinity);
+    }
 }

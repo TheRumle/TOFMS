@@ -10,12 +10,14 @@ public class UndefinedPartTypeException : InvalidJsonTofmException
     public UndefinedPartTypeException(MoveActionDefinition moveActionDefinition, string undeclaredPartType)
     {
         _moveActionDefinition = moveActionDefinition;
-        this._undeclaredPartType = undeclaredPartType;
+        _undeclaredPartType = undeclaredPartType;
     }
-    
+
+    public override string ErrorCategory { get; } = "Undefined part type";
+
     public override string ToString()
     {
-        return $"Move action {_moveActionDefinition.Name} uses part type {_undeclaredPartType} which has not been defined.";
+        return
+            $"Move action {_moveActionDefinition.Name} uses part type {_undeclaredPartType} which has not been defined.";
     }
-    public override string ErrorCategory { get; } = "Undefined part type";
 }

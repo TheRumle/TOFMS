@@ -11,17 +11,17 @@ public class LocationValidator : IValidator<IEnumerable<LocationDefinition>>
     {
         _invariantValidator = invariantValidator;
     }
-    
+
     public IEnumerable<InvalidJsonTofmException> Validate(IEnumerable<LocationDefinition> values)
     {
         var errs = new List<InvalidJsonTofmException>();
         Dictionary<string, LocationDefinition> dictionary = new();
-        LocationDefinition[] locationStructures = values as LocationDefinition[] ?? values.ToArray();
-        
+        var locationStructures = values as LocationDefinition[] ?? values.ToArray();
+
         foreach (var structure in locationStructures)
             ValidateCapacities(structure, dictionary, errs);
 
-        IEnumerable<InvalidJsonTofmException> invariantErrs = _invariantValidator.Validate(locationStructures.SelectMany(e => e.Invariants));
+        var invariantErrs = _invariantValidator.Validate(locationStructures.SelectMany(e => e.Invariants));
         errs.AddRange(invariantErrs);
 
         return errs;
@@ -32,10 +32,11 @@ public class LocationValidator : IValidator<IEnumerable<LocationDefinition>>
         return await Task.Run(() => Validate(values));
     }
 
-    private static void ValidateCapacities(LocationDefinition definition, Dictionary<string, LocationDefinition> dictionary, List<InvalidJsonTofmException> errs)
+    private static void ValidateCapacities(LocationDefinition definition,
+        Dictionary<string, LocationDefinition> dictionary, List<InvalidJsonTofmException> errs)
     {
-        (string name, int newCap) = (definition.Name, definition.Capacity);
-        
+        (var name, var newCap) = (definition.Name, definition.Capacity);
+
         if (!dictionary.ContainsKey(name)) return;
         var existsingStructure = dictionary[name];
         if (existsingStructure.Capacity != newCap)

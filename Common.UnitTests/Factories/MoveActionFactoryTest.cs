@@ -8,13 +8,13 @@ namespace Common.UnitTests.Factories;
 
 public class MoveActionFactoryTest : IClassFixture<TofmSystems>
 {
-    private readonly MoveActionFactory _factory = new MoveActionFactory();
+    private readonly MoveActionFactory _factory = new();
     private readonly TofmSystem _systemWithSameActions;
 
 
     public MoveActionFactoryTest(TofmSystems systems)
     {
-        this._systemWithSameActions = systems.SameActionSystem();
+        _systemWithSameActions = systems.SameActionSystem();
     }
 
     [Fact]

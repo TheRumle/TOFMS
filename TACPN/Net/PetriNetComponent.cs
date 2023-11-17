@@ -10,7 +10,7 @@ public class PetriNetComponent
 
     public static PetriNetComponent Empty()
     {
-        return new PetriNetComponent()
+        return new PetriNetComponent
         {
             Colors = new List<string>(),
             Places = new List<Place>(),

@@ -2,18 +2,19 @@
 
 public class Infteger
 {
-    public string Name { get; }
-    public static readonly Infteger PositiveInfinity = new Infteger("inf");
-    public static readonly Infteger NegativeInfinity = new Infteger("inf");
+    public static readonly Infteger PositiveInfinity = new("inf");
+    public static readonly Infteger NegativeInfinity = new("inf");
 
     private Infteger(string name)
     {
-        this.Name = name;
+        Name = name;
     }
+
+    public string Name { get; }
 
     public static implicit operator int(Infteger value)
     {
-        return value == PositiveInfinity ? Int32.MaxValue : int.MinValue;
+        return value == PositiveInfinity ? int.MaxValue : int.MinValue;
     }
 }
 
@@ -30,5 +31,5 @@ public static class InfinityInteger
     public static bool IsNegativeInfinity(this int x)
     {
         return x == Negative;
-    }  
+    }
 }

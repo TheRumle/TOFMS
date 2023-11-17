@@ -7,22 +7,24 @@ namespace Common.JsonTofms.ConsistencyCheck.Validators;
 public class TofmSystemValidator : IValidator<TofmSystem>
 {
     private readonly IValidator<IEnumerable<LocationDefinition>> _locationValidator;
-    private readonly IValidator<IEnumerable<MoveActionDefinition>,MoveActionStructureValidationContext> _moveActionValidator;
+
+    private readonly IValidator<IEnumerable<MoveActionDefinition>, MoveActionStructureValidationContext>
+        _moveActionValidator;
+
     private readonly INamingValidator _namingValidator;
 
 
-
     public TofmSystemValidator(
-        IValidator<IEnumerable<LocationDefinition>> locationValidator, 
+        IValidator<IEnumerable<LocationDefinition>> locationValidator,
         INamingValidator namingValidator,
-        IValidator<IEnumerable<MoveActionDefinition>,MoveActionStructureValidationContext> moveActionValidator
-        )
+        IValidator<IEnumerable<MoveActionDefinition>, MoveActionStructureValidationContext> moveActionValidator
+    )
     {
         _locationValidator = locationValidator;
         _moveActionValidator = moveActionValidator;
         _namingValidator = namingValidator;
     }
-    
+
     public IEnumerable<InvalidJsonTofmException> Validate(TofmSystem system)
     {
         var errs = new List<InvalidJsonTofmException>();
@@ -30,11 +32,13 @@ public class TofmSystemValidator : IValidator<TofmSystem>
         {
             var namingErrs = _namingValidator.Validate(component.Locations, component.Moves);
             var locationErrs = _locationValidator.Validate(component.Locations);
-            var moveActionErrs = _moveActionValidator.Validate(component.Moves, new MoveActionStructureValidationContext(component.Locations, system.Parts));
+            var moveActionErrs = _moveActionValidator.Validate(component.Moves,
+                new MoveActionStructureValidationContext(component.Locations, system.Parts));
             errs.AddRange(locationErrs);
             errs.AddRange(moveActionErrs);
             errs.AddRange(namingErrs);
         }
+
         return errs;
     }
 
@@ -42,15 +46,15 @@ public class TofmSystemValidator : IValidator<TofmSystem>
     {
         var errs = new ConcurrentBag<InvalidJsonTofmException>();
         var validationTasks = new List<Task>();
-        
+
         foreach (var component in system.Components)
         {
             var locationErrsTask = _locationValidator.ValidateAsync(component.Locations);
-            var moveActionErrsTask = _moveActionValidator.ValidateAsync(component.Moves, 
+            var moveActionErrsTask = _moveActionValidator.ValidateAsync(component.Moves,
                 new MoveActionStructureValidationContext(component.Locations, system.Parts));
-            
+
             var namingErrorsTask = _namingValidator.ValidateAsync(component.Locations, component.Moves);
-            
+
             // Add continuation to handle exceptions and add them to the errs bag
             validationTasks.Add(locationErrsTask.ContinueWith(AddErrorConcurrently(errs)));
             validationTasks.Add(moveActionErrsTask.ContinueWith(AddErrorConcurrently(errs)));
@@ -60,18 +64,15 @@ public class TofmSystemValidator : IValidator<TofmSystem>
 
         return errs;
     }
-    
-    private static Action<Task<IEnumerable<InvalidJsonTofmException>>> AddErrorConcurrently(ConcurrentBag<InvalidJsonTofmException> errs)
+
+    private static Action<Task<IEnumerable<InvalidJsonTofmException>>> AddErrorConcurrently(
+        ConcurrentBag<InvalidJsonTofmException> errs)
     {
         return task =>
         {
             if (task.Result.Any())
-            {
                 foreach (var exception in task.Result)
-                {
                     errs.Add(exception);
-                }
-            }
         };
     }
 }
