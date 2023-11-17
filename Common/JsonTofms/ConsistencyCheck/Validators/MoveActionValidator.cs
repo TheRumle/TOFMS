@@ -29,10 +29,11 @@ public class MoveActionValidator : IValidator<IEnumerable<MoveActionDefinition>,
         var locationNames = structures.Select(e => e.Name);
         foreach (var structure in values)
         {
-            var enumerable = locationNames as string[] ?? locationNames.ToArray();
-            if (!enumerable.Contains(structure.From))
+            var locNames = locationNames as string[] ?? locationNames.ToArray();
+            if (!locNames.Contains(structure.From))
                 _errs.Add(new UndefinedLocationException(structure, structure.From));
-            if (!enumerable.Contains(structure.To)) _errs.Add(new UndefinedLocationException(structure, structure.To));
+            if (!locNames.Contains(structure.To)) 
+                _errs.Add(new UndefinedLocationException(structure, structure.To));
         }
 
         return _errs;
@@ -60,13 +61,7 @@ public class MoveActionValidator : IValidator<IEnumerable<MoveActionDefinition>,
         foreach (var value in move.Parts)
         {
             if (string.IsNullOrWhiteSpace(value.PartType))
-            {
                 AddEmptyPartTypeNameErr(move.From);
-                continue;
-            }
-            
-            if (!partTypes.Contains(value.PartType))
-                _errs.Add(new UndefinedLocationException(move, value.PartType));
         }
     }
 

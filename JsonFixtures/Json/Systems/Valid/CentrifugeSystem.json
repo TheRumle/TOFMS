@@ -42,13 +42,13 @@
           "Parts": [
             {
               "amount": 2,
-              "parttype": "P1"
+              "parttype": "Pq"
             }
           ],
           "from": "CBuffer",
           "to": "CProc",
           "emptyBefore": [
-            "CProc"
+            "CProc~~"
           ],
           "emptyAfter": [
             "CBuffer"
