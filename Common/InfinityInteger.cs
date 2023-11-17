@@ -2,16 +2,9 @@
 
 public class Infteger
 {
-    public static readonly Infteger PositiveInfinity = new("inf");
-    public static readonly Infteger NegativeInfinity = new("inf");
-
-    private Infteger(string name)
-    {
-        Name = name;
-    }
-
-    public string Name { get; }
-
+    public static readonly Infteger PositiveInfinity = new();
+    public static readonly Infteger NegativeInfinity = new();
+    
     public static implicit operator int(Infteger value)
     {
         return value == PositiveInfinity ? int.MaxValue : int.MinValue;

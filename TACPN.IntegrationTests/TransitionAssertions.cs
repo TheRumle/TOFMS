@@ -19,38 +19,6 @@ public static class TransitionAssertions
     {
         return transition.InGoing.Should().ContainSingle(x => x.From.Name == placeName);
     }
-
-    public static Transition ShouldHaveArcsFrom(this Transition transition, params string[] placeNames)
-    {
-        foreach (var placeName in placeNames)
-            transition.GetArcFrom(placeName).Should().NotBeNull($"Transition did not have an arc from {placeName}");
-
-        return transition;
-    }
-
-    public static Transition ShouldHaveArcsFrom(this Transition transition, params Place[] places)
-    {
-        foreach (var place in places)
-            transition.GetArcFrom(place).Should().NotBeNull($"transition did not have an arc from {place.Name}");
-
-        return transition;
-    }
-
-    public static Transition ShouldHaveArcsTo(this Transition transition, params string[] placeNames)
-    {
-        foreach (var placeName in placeNames)
-            transition.GetArcFrom(placeName).Should().NotBeNull($"transition did not have an arc from {placeName}");
-
-        return transition;
-    }
-
-    public static Transition ShouldHaveArcsTo(this Transition transition, params Place[] places)
-    {
-        foreach (var place in places)
-            transition.GetArcTo(place).Should().NotBeNull($"Transition did not have an arc from {place.Name}");
-
-        return transition;
-    }
     
     public static InhibitorArc FindFirstInhibitorFromPlaceContaining(this Transition transition, params string[] nameParts)
     {
@@ -61,6 +29,23 @@ public static class TransitionAssertions
         });
         return inhibitor;
     }
+
+    public static Place FindFirstConnectedPlaceWithName(this Transition transition, params string[] nameParts)
+    {
+        var list = new List<Place>();
+        list.AddRange(transition.InhibitorArcs.Select(e=>e.From));
+        list.AddRange(transition.InGoing.Select(e=>e.From));
+        list.AddRange(transition.OutGoing.Select(e=>e.To));
+
+        var set = new HashSet<Place>(list);
+        return set.First(e =>
+        {
+            var lowerName = e.Name.ToLower();
+            return nameParts.All(part => lowerName.Contains(part.ToLower()));
+        });
+    }
+    
+    
     
     public static IngoingArc FindFirstIngoingFromPlaceContaining(this Transition transition, params string[] nameParts)
     {

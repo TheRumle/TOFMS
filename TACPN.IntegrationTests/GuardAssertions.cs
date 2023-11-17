@@ -30,4 +30,11 @@ public static class GuardAssertions
         guard.Color.Should().Be(color);
         guard.Interval.Should().Be(Interval.ZeroToInfinity);
     }
+
+    public static void InvariantShouldBe(this KeyValuePair<string, int> invariant, string name, int value )
+    {
+        invariant.Value.Should().Be(value);
+        invariant.Key.ToLower().Should().Be(name);
+    }
 }
+
