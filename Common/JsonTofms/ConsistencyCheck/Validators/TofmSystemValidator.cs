@@ -12,8 +12,7 @@ public class TofmSystemValidator : IValidator<TofmSystem>
         _moveActionValidator;
 
     private readonly INamingValidator _namingValidator;
-
-
+    private readonly PartsValidator _partsValidator = new();
     public TofmSystemValidator(
         IValidator<IEnumerable<LocationDefinition>> locationValidator,
         INamingValidator namingValidator,
@@ -34,6 +33,9 @@ public class TofmSystemValidator : IValidator<TofmSystem>
             var locationErrs = _locationValidator.Validate(component.Locations);
             var moveActionErrs = _moveActionValidator.Validate(component.Moves,
                 new MoveActionStructureValidationContext(component.Locations, system.Parts));
+            var undefinedPartsErrs = _partsValidator.Validate(component.Moves, system.Parts);
+            
+            errs.AddRange(undefinedPartsErrs);
             errs.AddRange(locationErrs);
             errs.AddRange(moveActionErrs);
             errs.AddRange(namingErrs);
@@ -54,11 +56,14 @@ public class TofmSystemValidator : IValidator<TofmSystem>
                 new MoveActionStructureValidationContext(component.Locations, system.Parts));
 
             var namingErrorsTask = _namingValidator.ValidateAsync(component.Locations, component.Moves);
+            var undefinedPartsErrs = _partsValidator.ValidateAsync(component.Moves, system.Parts);
 
             // Add continuation to handle exceptions and add them to the errs bag
             validationTasks.Add(locationErrsTask.ContinueWith(AddErrorConcurrently(errs)));
             validationTasks.Add(moveActionErrsTask.ContinueWith(AddErrorConcurrently(errs)));
-            validationTasks.Add(namingErrorsTask);
+            validationTasks.Add(namingErrorsTask.ContinueWith(AddErrorConcurrently(errs)));
+            validationTasks.Add(undefinedPartsErrs.ContinueWith(AddErrorConcurrently(errs)));
+
             await Task.WhenAll(validationTasks);
         }
 

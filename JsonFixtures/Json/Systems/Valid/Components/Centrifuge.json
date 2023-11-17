@@ -63,10 +63,10 @@
       "From": "CBuffer",
       "To": "CProc",
       "EmptyBefore": [
-        "CProc"
+        "CProc!!!!"
       ],
       "EmptyAfter": [
-        "CBuffer"
+        "CB!tsneriouffer"
       ]
     }
   ]

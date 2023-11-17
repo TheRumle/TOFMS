@@ -5,33 +5,71 @@ namespace Common.JsonTofms.ConsistencyCheck.Validators;
 
 public class NamingValidator : INamingValidator
 {
-    readonly List<InvalidJsonTofmException>  _errs = new List<InvalidJsonTofmException>();
+    readonly List<InvalidJsonTofmException>  _errs = new();
 
     public IEnumerable<InvalidJsonTofmException> Validate(IEnumerable<LocationDefinition> locations,
         IEnumerable<MoveActionDefinition> moveActions)
     {
-        var allThreeNamesAreSame = false;
-        foreach (var location in locations)
+        var definitions = locations as LocationDefinition[] ?? locations.ToArray();
+        var locationDefinitions = locations as LocationDefinition[] ?? definitions.ToArray();
+        var moveActionDefinitions = moveActions as MoveActionDefinition[] ?? moveActions.ToArray();
+        
+        foreach (var location in locationDefinitions)
         {
             if (!location.Name.IsAlphaNumericOnly())
                 AddAlphaNumericViolation(location, location.Name);
-                
-                
-            foreach (var action in moveActions)
+        }
+
+        foreach (var action in moveActionDefinitions)
+        {
+            ValidatePartNames(action);
+            ValidateShouldBeEmptySets(action);
+        }
+        ValidateNoDuplicateNames(locationDefinitions, moveActionDefinitions);
+
+        return _errs;
+    }
+
+
+
+    private void ValidateNoDuplicateNames(IEnumerable<LocationDefinition> locations, IEnumerable<MoveActionDefinition> moveActions)
+    {
+        var allThreeNamesAreSame = false;
+
+        foreach (var location in locations)
+        {
+            var moveActionDefinitions = moveActions as MoveActionDefinition[] ?? moveActions.ToArray();
+            foreach (var action in moveActionDefinitions)
             {
                 if (!action.Name.IsAlphaNumericOnly()) AddAlphaNumericViolation(action, action.Name);
 
                 foreach (var value in action.Parts)
                     allThreeNamesAreSame = CompareNames(value, action, location, allThreeNamesAreSame);
-                
+
 
                 if (!allThreeNamesAreSame && location.Name == action.Name)
                     AddDuplicateNameError(location, action, location.Name);
             }
         }
-
-        return _errs;
     }
+
+    private void ValidatePartNames(MoveActionDefinition action)
+    {
+        foreach (var partConsumptionDefinition in action.Parts)
+            if (!partConsumptionDefinition.PartType.IsAlphaNumericOnly()) 
+                AddAlphaNumericViolation(action, partConsumptionDefinition.PartType);
+    }
+
+    private void ValidateShouldBeEmptySets(MoveActionDefinition action)
+    {
+        foreach (var s in action.EmptyBefore)
+            if (!s.IsAlphaNumericOnly()) AddAlphaNumericViolation(action,s);
+        
+        foreach (var s in action.EmptyAfter)
+            if (!s.IsAlphaNumericOnly()) 
+                AddAlphaNumericViolation(action,s);
+    }
+
 
     public Task<IEnumerable<InvalidJsonTofmException>> ValidateAsync(IEnumerable<LocationDefinition> values,
         IEnumerable<MoveActionDefinition> context)

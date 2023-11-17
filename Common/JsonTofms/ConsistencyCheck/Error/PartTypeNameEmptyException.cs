@@ -13,6 +13,6 @@ public class PartTypeNameEmptyException<T> : InvalidJsonTofmException
 
     public override string ToString()
     {
-        return $"{Context} did not specify a part type!";
+        return $"\"{Context}\" did not specify a part type!";
     }
 }

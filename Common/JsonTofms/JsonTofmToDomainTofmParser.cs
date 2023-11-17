@@ -63,11 +63,12 @@ public class JsonTofmToDomainTofmParser
         return _systemFactory.CreateMoveActions(system);
     }
 
-    private async Task PerformSystemValidation(TofmSystem? system)
+    private async Task PerformSystemValidation(TofmSystem system)
     {
         var errs = await _systemValidator.ValidateAsync(system);
         var invalidJsonTofmExceptions = errs as InvalidJsonTofmException[] ?? errs.ToArray();
-        if (invalidJsonTofmExceptions.Any()) ThrowErrorMessage(invalidJsonTofmExceptions);
+        if (invalidJsonTofmExceptions.Any())
+            ThrowErrorMessage(invalidJsonTofmExceptions);
     }
 
     private static void ThrowErrorMessage(InvalidJsonTofmException[] invalidJsonTofmExceptions)

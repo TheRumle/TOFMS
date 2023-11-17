@@ -15,6 +15,6 @@ public class AlphaNumericViolation<TContext> : InvalidJsonTofmException
     public override string ErrorCategory { get; } = "Invalid Name";
     public override string ToString()
     {
-        return $"{context} has '{violation}' which which is not alpha-numerical";
+        return $"\"{violation}\" is not an alphanumeric name! It was found in {context.GetType().Name}:\n\t {context}";
     }
 }

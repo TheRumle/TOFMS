@@ -21,7 +21,7 @@ public class ErrorFormatter
         {
             bob.AppendLine("\n \n ___-___-PARSE ERRORS START-___-___\n\n");
             bob.AppendLine("Errors for").Append(errGroup.Key).Append(": \n\t");
-            foreach (var exception in errGroup) bob.Append('\t').Append(exception);
+            foreach (var exception in errGroup) bob.Append("\n\t").Append(exception);
             bob.AppendLine("\n\n--___-___-PARSE ERRORS END-___-___-- \n \n");
         }
 
