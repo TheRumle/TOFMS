@@ -17,14 +17,14 @@ public class ErrorFormatter
         var bob = new StringBuilder("Found errors:\n");
         var errorsByLocationName = Errors.GroupBy(e => e.ErrorCategory);
 
+            bob.AppendLine("\n \n ___-___-PARSE ERRORS START-___-___\n\n");
         foreach (var errGroup in errorsByLocationName)
         {
-            bob.AppendLine("\n \n ___-___-PARSE ERRORS START-___-___\n\n");
-            bob.AppendLine("Errors for").Append(errGroup.Key).Append(": \n\t");
-            foreach (var exception in errGroup) bob.Append("\n\t").Append(exception);
-            bob.AppendLine("\n\n--___-___-PARSE ERRORS END-___-___-- \n \n");
+            bob.AppendLine($"'{errGroup.Key} errors:'").Append('\n');
+            foreach (var exception in errGroup) bob.Append('\t').Append(exception).Append("\n\n");
         }
 
+            bob.AppendLine("\n\n--___-___-PARSE ERRORS END-___-___-- \n \n");
         return bob.ToString();
     }
 }
