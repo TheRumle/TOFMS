@@ -3,11 +3,10 @@ using Common.JsonTofms.Models;
 
 namespace Common.JsonTofms.ConsistencyCheck.Validators;
 
-public record MoveActionStructureValidationContext(IEnumerable<LocationDefinition> LocationStructures,
-    IEnumerable<string> parts);
-
 public class MoveActionValidator : IValidator<IEnumerable<MoveActionDefinition>, MoveActionStructureValidationContext>
 {
+    public List<InvalidJsonTofmException> _errs = new List<InvalidJsonTofmException>();
+    
     public IEnumerable<InvalidJsonTofmException> Validate(IEnumerable<MoveActionDefinition> locations,
         MoveActionStructureValidationContext moveActions)
     {
@@ -24,62 +23,60 @@ public class MoveActionValidator : IValidator<IEnumerable<MoveActionDefinition>,
         return await Task.Run(() => Validate(values, context));
     }
 
-    private static List<InvalidJsonTofmException> ValidateLocationNames(IEnumerable<MoveActionDefinition> values,
+    private List<InvalidJsonTofmException> ValidateLocationNames(IEnumerable<MoveActionDefinition> values,
         IEnumerable<LocationDefinition> structures)
     {
         var locationNames = structures.Select(e => e.Name);
-        var errs = new List<InvalidJsonTofmException>();
         foreach (var structure in values)
         {
             var enumerable = locationNames as string[] ?? locationNames.ToArray();
             if (!enumerable.Contains(structure.From))
-                errs.Add(new UndefinedLocationException(structure, structure.From));
-            if (!enumerable.Contains(structure.To)) errs.Add(new UndefinedLocationException(structure, structure.To));
+                _errs.Add(new UndefinedLocationException(structure, structure.From));
+            if (!enumerable.Contains(structure.To)) _errs.Add(new UndefinedLocationException(structure, structure.To));
         }
 
-        return errs;
+        return _errs;
     }
 
-    private static List<InvalidJsonTofmException> ValidatePartTypes(IEnumerable<MoveActionDefinition> values,
+    private List<InvalidJsonTofmException> ValidatePartTypes(IEnumerable<MoveActionDefinition> values,
         IEnumerable<string> declaredPartTypes)
     {
-        var errs = new List<InvalidJsonTofmException>();
+        var _errs = new List<InvalidJsonTofmException>();
         var moveActionStructures = values as MoveActionDefinition[] ?? values.ToArray();
         var partTypes = declaredPartTypes as string[] ?? declaredPartTypes.ToArray();
 
         foreach (var move in moveActionStructures)
         {
-            if (string.IsNullOrWhiteSpace(move.From)) AddEmptyLocationNameErr(errs, move.From);
-            if (string.IsNullOrWhiteSpace(move.To)) AddEmptyLocationNameErr(errs, move.To);
-            AppendPartErrors(move, errs, partTypes);
+            if (string.IsNullOrWhiteSpace(move.From)) AddEmptyLocationNameErr(move.From);
+            if (string.IsNullOrWhiteSpace(move.To)) AddEmptyLocationNameErr(move.To);
+            AppendPartErrors(move, partTypes);
         }
 
-        return errs;
+        return _errs;
     }
 
-    private static void AppendPartErrors(MoveActionDefinition move, List<InvalidJsonTofmException> errs,
-        string[] partTypes)
+    private void AppendPartErrors(MoveActionDefinition move, string[] partTypes)
     {
         foreach (var value in move.Parts)
         {
             if (string.IsNullOrWhiteSpace(value.PartType))
             {
-                AddEmptyPartTypeNameErr(errs, move.From);
+                AddEmptyPartTypeNameErr(move.From);
                 continue;
             }
-
+            
             if (!partTypes.Contains(value.PartType))
-                errs.Add(new UndefinedLocationException(move, value.PartType));
+                _errs.Add(new UndefinedLocationException(move, value.PartType));
         }
     }
 
-    public static void AddEmptyLocationNameErr<T>(List<InvalidJsonTofmException> err, T context)
+    public void AddEmptyLocationNameErr<T>(T context)
     {
-        err.Add(new LocationNameEmptyException<T>(context));
+        _errs.Add(new LocationNameEmptyException<T>(context));
     }
 
-    public static void AddEmptyPartTypeNameErr<T>(List<InvalidJsonTofmException> err, T context)
+    public void AddEmptyPartTypeNameErr<T>(T context)
     {
-        err.Add(new PartTypeNameEmptyException<T>(context));
+        _errs.Add(new PartTypeNameEmptyException<T>(context));
     }
 }

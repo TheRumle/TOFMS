@@ -72,7 +72,7 @@ public static class TransitionAssertions
         return ingoingArc;
     }
     
-    public static OutGoingArc FindFirstOutgoingFromPlaceContaining(this Transition transition, params string[] nameParts)
+    public static OutGoingArc FindFirstOutgoingToPlaceContaining(this Transition transition, params string[] nameParts)
     {
         var outGoingArc = transition.OutGoing.First(e =>
         {

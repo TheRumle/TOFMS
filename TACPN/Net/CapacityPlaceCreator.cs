@@ -12,11 +12,6 @@ public static class CapacityPlaceCreator
         return place.Name + "_buffer";
     }
 
-    public static string CapacityNameFor(string name)
-    {
-        return name + "_buffer";
-    }
-
     public static Place CapacityPlaceFor(Place place)
     {
         var dotValue = KeyValuePair.Create(DefaultColorName, (int)InfinityInteger.Positive);

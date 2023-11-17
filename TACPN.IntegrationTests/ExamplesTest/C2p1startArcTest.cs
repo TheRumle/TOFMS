@@ -14,7 +14,7 @@ using Xunit;
 
 namespace TACPN.IntegrationTests.ExamplesTest;
 
-public class C2p1startArcTest : IClassFixture<CentrifugeFixture>
+public class C2P1StartArcTest : IClassFixture<CentrifugeFixture>
 {
     private readonly TofmToTacpnTranslater _translater = new(new MoveActionAdapterFactory());
     
@@ -23,7 +23,7 @@ public class C2p1startArcTest : IClassFixture<CentrifugeFixture>
     private static string hat = CapacityPlaceCreator.Hat;
     private static string dot = CapacityPlaceCreator.DefaultColorName;
 
-    public C2p1startArcTest(CentrifugeFixture fixture)
+    public C2P1StartArcTest(CentrifugeFixture fixture)
     {
         TofmSystemValidator systemValidator = new TofmSystemValidator(new LocationValidator(new InvariantValidator()),new NamingValidator(), new MoveActionValidator());
         this._centrifugeText = fixture.ComponentText;
@@ -57,9 +57,9 @@ public class C2p1startArcTest : IClassFixture<CentrifugeFixture>
 
         using (new AssertionScope())
         {
-            var cbufferIngoing = transition.FindFirstIngoingFromPlaceContaining("cbuffer");
-            cbufferIngoing.Guards.Should().HaveCount(1);
-            cbufferIngoing.Guards.First().ShouldHaveLabels("p1", 2);
+            var arc = transition.FindFirstIngoingFromPlaceContaining("cbuffer");
+            arc.Guards.Should().HaveCount(1);
+            arc.Guards.First().ShouldHaveLabels("p1", 2);
         }
     }
     
@@ -70,9 +70,9 @@ public class C2p1startArcTest : IClassFixture<CentrifugeFixture>
 
         using (new AssertionScope())
         {
-            var cbufferIngoing = transition.FindFirstIngoingFromPlaceContaining("cproc");
-            cbufferIngoing.Guards.Should().HaveCount(1);
-            cbufferIngoing.Guards.First().ShouldHaveLabels(dot, 2);
+            var arc = transition.FindFirstIngoingFromPlaceContaining("cproc");
+            arc.Guards.Should().HaveCount(1);
+            arc.Guards.First().ShouldHaveLabels(dot, 2);
         }
     }
     
@@ -83,9 +83,9 @@ public class C2p1startArcTest : IClassFixture<CentrifugeFixture>
 
         using (new AssertionScope())
         {
-            var cbufferIngoing = transition.FindFirstIngoingFromPlaceContaining("cproc", hat);
-            cbufferIngoing.Guards.Should().HaveCount(1);
-            cbufferIngoing.Guards.First().ShouldHaveLabels(dot, 2);
+            var arc = transition.FindFirstIngoingFromPlaceContaining("cproc", hat);
+            arc.Guards.Should().HaveCount(1);
+            arc.Guards.First().ShouldHaveLabels(dot, 2);
         }
     }
     
@@ -96,13 +96,44 @@ public class C2p1startArcTest : IClassFixture<CentrifugeFixture>
 
         using (new AssertionScope())
         {
-            IngoingArc cbufferIngoing = transition.FindFirstIngoingFromPlaceContaining("cbuffer", hat);
-            cbufferIngoing.Guards.Should().HaveCount(1);
-            cbufferIngoing.Guards.First().ShouldHaveLabels(dot, 2);
+            IngoingArc arc = transition.FindFirstIngoingFromPlaceContaining("cbuffer", hat);
+            arc.Guards.Should().HaveCount(1);
+            arc.Guards.First().ShouldHaveLabels(dot, 2);
+        }
+    }
+    
+    [Fact]
+    public async Task ShouldHave_OutGoing_With_2P1_To_CProc()
+    {
+        Transition transition = await GetFirstTransition();
+
+        using (new AssertionScope())
+        {
+            var arc = transition.FindFirstOutgoingToPlaceContaining("cproc");
+            arc.Productions.Should().HaveCount(1);
+            Production production = arc.Productions.First();
+            production.Color.ToLower().Should().Be("p1");
+            production.Amount.Should().Be(2);
+        }
+    }
+    
+    [Fact]
+    public async Task ShouldHave_OutGoing_With_2Dot_To_BufferHat()
+    {
+        Transition transition = await GetFirstTransition();
+
+        using (new AssertionScope())
+        {
+            var arc = transition.FindFirstOutgoingToPlaceContaining("cbuffer", hat);
+            arc.Productions.Should().HaveCount(1);
+            Production production = arc.Productions.First();
+            production.Color.Should().Be(dot);
+            production.Amount.Should().Be(2);
         }
     }
     
     private async Task<MoveAction> GetAction()
+    
     {
         var a = await _jsonParser.ParseTofmComponentJsonString(this._centrifugeText);
         var action = a.FirstOrDefault(e => e.Name.ToLower().Contains("start") && e.Name.ToLower().Contains("2p1"));

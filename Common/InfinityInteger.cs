@@ -22,14 +22,4 @@ public static class InfinityInteger
 {
     public static readonly Infteger Positive = Infteger.PositiveInfinity;
     public static readonly Infteger Negative = Infteger.PositiveInfinity;
-
-    public static bool IsPositiveInfinity(this int x)
-    {
-        return x == Positive;
-    }
-
-    public static bool IsNegativeInfinity(this int x)
-    {
-        return x == Negative;
-    }
 }

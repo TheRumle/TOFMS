@@ -3,28 +3,34 @@ using Common.JsonTofms.Models;
 
 namespace Common.JsonTofms.ConsistencyCheck.Validators;
 
-public interface INamingValidator : IValidator<IEnumerable<LocationDefinition>, IEnumerable<MoveActionDefinition>>
-{
-}
-
 public class NamingValidator : INamingValidator
 {
+    readonly List<InvalidJsonTofmException>  _errs = new List<InvalidJsonTofmException>();
+
     public IEnumerable<InvalidJsonTofmException> Validate(IEnumerable<LocationDefinition> locations,
         IEnumerable<MoveActionDefinition> moveActions)
     {
         var allThreeNamesAreSame = false;
-        var errs = new List<InvalidJsonTofmException>();
         foreach (var location in locations)
-        foreach (var action in moveActions)
         {
-            foreach (var value in action.Parts)
-                allThreeNamesAreSame = CompareNames(value, action, location, errs, allThreeNamesAreSame);
+            if (!location.Name.IsAlphaNumericOnly())
+                AddAlphaNumericViolation(location, location.Name);
+                
+                
+            foreach (var action in moveActions)
+            {
+                if (!action.Name.IsAlphaNumericOnly()) AddAlphaNumericViolation(action, action.Name);
 
-            if (!allThreeNamesAreSame && location.Name == action.Name)
-                AddError(errs, location, action, location.Name);
+                foreach (var value in action.Parts)
+                    allThreeNamesAreSame = CompareNames(value, action, location, allThreeNamesAreSame);
+                
+
+                if (!allThreeNamesAreSame && location.Name == action.Name)
+                    AddDuplicateNameError(location, action, location.Name);
+            }
         }
 
-        return errs;
+        return _errs;
     }
 
     public Task<IEnumerable<InvalidJsonTofmException>> ValidateAsync(IEnumerable<LocationDefinition> values,
@@ -33,35 +39,41 @@ public class NamingValidator : INamingValidator
         return Task.Run(() => Validate(values, context));
     }
 
-    private static bool CompareNames(PartConsumptionDefinition value, MoveActionDefinition action,
-        LocationDefinition location, List<InvalidJsonTofmException> errs, bool foundThree)
+    private bool CompareNames(PartConsumptionDefinition value, MoveActionDefinition action,
+        LocationDefinition location, bool foundThree)
     {
+        
         if (value.PartType == action.Name && value.PartType == location.Name)
         {
-            AddError(errs, location, action, value, location.Name);
+            AddDuplicateNameError(location, action, value, location.Name);
             foundThree = true;
             return foundThree;
         }
 
         if (value.PartType == action.Name)
         {
-            AddError(errs, value, action, action.Name);
+            AddDuplicateNameError(value, action, action.Name);
             return foundThree;
         }
 
         if (value.PartType == location.Name)
-            AddError(errs, value, location, location.Name);
+            AddDuplicateNameError(value, location, location.Name);
         return foundThree;
     }
 
-    private static void AddError<TFirst, TSecond, TThird>(List<InvalidJsonTofmException> errs, TFirst f, TSecond s,
+    private void AddDuplicateNameError<TFirst, TSecond, TThird>(TFirst f, TSecond s,
         TThird t, string name)
     {
-        errs.Add(new DuplicateNameException<TFirst, TSecond, TThird>(f, s, t, name));
+        _errs.Add(new DuplicateNameException<TFirst, TSecond, TThird>(f, s, t, name));
     }
 
-    private static void AddError<TFirst, TSecond>(List<InvalidJsonTofmException> errs, TFirst f, TSecond s, string name)
+    private void AddDuplicateNameError<TFirst, TSecond>(TFirst f, TSecond s, string name)
     {
-        errs.Add(new DuplicateNameException<TFirst, TSecond>(f, s, name));
+        _errs.Add(new DuplicateNameException<TFirst, TSecond>(f, s, name));
+    }
+    
+    private void AddAlphaNumericViolation<TFirst>(TFirst value, string violation)
+    {
+        _errs.Add(new AlphaNumericViolation<TFirst>(value, violation));
     }
 }
