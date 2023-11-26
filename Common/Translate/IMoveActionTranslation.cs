@@ -1,6 +1,6 @@
-﻿using Common.Move;
+﻿using Tofms.Common.Move;
 
-namespace Common.Translate;
+namespace Tofms.Common.Translate;
 
 public interface IMoveActionTranslation<Target>
 {

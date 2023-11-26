@@ -2,11 +2,11 @@
 using TACPN.Net.Arcs;
 using TACPN.Net.Transitions;
 
-namespace TACPN.Adapters.Location;
+namespace TACPN.Adapters.TofmToTacpnAdapter.LocationAdapters;
 
 internal class ToTransitionAttacher : ITransitionAttachable
 {
-    public ToTransitionAttacher(Common.Location location,
+    public ToTransitionAttacher(Tofms.Common.Location location,
         IEnumerable<KeyValuePair<string, int>> partsItemMovedIntoPlace)
     {
         Location = location;
@@ -19,7 +19,7 @@ internal class ToTransitionAttacher : ITransitionAttachable
 
     public IEnumerable<KeyValuePair<string, int>> ItemMovedIntoPlace { get; set; }
 
-    public Common.Location Location { get; set; }
+    public Tofms.Common.Location Location { get; set; }
 
 
     public void AttachToTransition(Transition transition)

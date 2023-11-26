@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Common.JsonTofms.Models;
+namespace Tofms.Common.JsonTofms.Models;
 
 public record InvariantDefinition(string Part, int Min, int Max)
 {

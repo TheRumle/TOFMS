@@ -20,9 +20,9 @@ public static class TransitionAssertions
         return transition.InGoing.Should().ContainSingle(x => x.From.Name == placeName);
     }
     
-    public static InhibitorArc FindFirstInhibitorFromPlaceContaining(this Transition transition, params string[] nameParts)
+    public static InhibitorArc? FindFirstInhibitorFromPlaceWithName(this Transition transition, params string[] nameParts)
     {
-        var inhibitor = transition.InhibitorArcs.First(e =>
+        var inhibitor = transition.InhibitorArcs.FirstOrDefault(e =>
         {
             var lowerName = e.From.Name.ToLower();
             return nameParts.All(part => lowerName.Contains(part.ToLower()));
@@ -57,7 +57,7 @@ public static class TransitionAssertions
         return ingoingArc;
     }
     
-    public static OutGoingArc FindFirstOutgoingToPlaceContaining(this Transition transition, params string[] nameParts)
+    public static OutGoingArc FindFirstOutgoingToPlaceWithName(this Transition transition, params string[] nameParts)
     {
         var outGoingArc = transition.OutGoing.First(e =>
         {
@@ -66,4 +66,7 @@ public static class TransitionAssertions
         });
         return outGoingArc;
     }
+    
+    
+    
 }

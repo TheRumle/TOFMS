@@ -52,23 +52,16 @@ public class Transition
         return arc;
     }
 
-    public InhibitorArc AddInhibitorFrom(Place from, string color)
-    {
-        var arc = new InhibitorArc(from, this, color);
-        InhibitorArcs.Add(arc);
-        return arc;
-    }
-
     public InhibitorArc AddInhibitorFrom(Place from, IEnumerable<string> colors)
     {
-        var arc = new InhibitorArc(from, this, colors);
+        var arc = new InhibitorArc(from, this, colors.Count());
         InhibitorArcs.Add(arc);
         return arc;
     }
 
-    public InhibitorArc AddInhibitorFrom(Place from, string color, int amount)
+    public InhibitorArc AddInhibitorFrom(Place from, int weight)
     {
-        var arc = new InhibitorArc(from, this, new KeyValuePair<string, int>(color, amount));
+        var arc = new InhibitorArc(from, this, weight);
         InhibitorArcs.Add(arc);
         return arc;
     }

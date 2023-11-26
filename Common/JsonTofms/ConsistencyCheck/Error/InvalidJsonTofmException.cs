@@ -1,4 +1,4 @@
-﻿namespace Common.JsonTofms.ConsistencyCheck.Error;
+﻿namespace Tofms.Common.JsonTofms.ConsistencyCheck.Error;
 
 public abstract class InvalidJsonTofmException : Exception
 {

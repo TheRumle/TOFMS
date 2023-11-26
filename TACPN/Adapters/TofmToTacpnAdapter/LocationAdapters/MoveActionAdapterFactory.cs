@@ -1,10 +1,14 @@
-﻿using Common.Move;
-using TACPN.Net.Transitions;
+﻿using TACPN.Net.Transitions;
+using Tofms.Common.Move;
 
-namespace TACPN.Adapters.Location;
+namespace TACPN.Adapters.TofmToTacpnAdapter.LocationAdapters;
+
 
 public class MoveActionAdapterFactory : ITransitionAttachableFactory
 {
+
+    private bool _fromLocationIsInEmptyAfter = false;
+    
     public ITransitionAttachable AdaptEmptyBefore(MoveAction moveAction)
     {
         return new EmptyBeforeCapacitorInhibitorAdaption(moveAction.EmptyBefore);
@@ -12,7 +16,10 @@ public class MoveActionAdapterFactory : ITransitionAttachableFactory
 
     public ITransitionAttachable AdaptEmptyAfter(MoveAction moveAction)
     {
-        return new EmptyAfterInhibitorOnAllExceptFromCap();
+        if (moveAction.EmptyAfter.Contains(moveAction.From))
+            return new FromLocationIsInEmptyAfterAdapter(moveAction.EmptyAfter, moveAction.From, moveAction.PartsToMove);
+
+        return new InhibitorFromEmptyAfterAdapter(moveAction.EmptyAfter);
     }
 
     public ITransitionAttachable AdaptFrom(MoveAction moveAction)

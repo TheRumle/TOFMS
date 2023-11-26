@@ -1,8 +1,8 @@
 ﻿using System.Collections.Concurrent;
-using Common.JsonTofms.ConsistencyCheck.Error;
-using Common.JsonTofms.Models;
+using Tofms.Common.JsonTofms.ConsistencyCheck.Error;
+using Tofms.Common.JsonTofms.Models;
 
-namespace Common.JsonTofms.ConsistencyCheck.Validators;
+namespace Tofms.Common.JsonTofms.ConsistencyCheck.Validators;
 
 public class TofmSystemValidator : IValidator<TofmSystem>
 {

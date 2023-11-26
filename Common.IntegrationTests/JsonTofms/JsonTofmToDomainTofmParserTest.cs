@@ -1,12 +1,12 @@
-﻿using Common.Factories;
-using Common.JsonTofms;
-using Common.JsonTofms.ConsistencyCheck;
-using Common.JsonTofms.ConsistencyCheck.Error;
-using Common.JsonTofms.ConsistencyCheck.Validators;
-using Common.JsonTofms.Models;
-using FluentAssertions;
+﻿using FluentAssertions;
 using JsonFixtures.Fixtures;
 using Newtonsoft.Json;
+using Tofms.Common.Factories;
+using Tofms.Common.JsonTofms;
+using Tofms.Common.JsonTofms.ConsistencyCheck;
+using Tofms.Common.JsonTofms.ConsistencyCheck.Error;
+using Tofms.Common.JsonTofms.ConsistencyCheck.Validators;
+using Tofms.Common.JsonTofms.Models;
 
 namespace Common.IntegrationTest.JsonTofms;
 
@@ -47,7 +47,6 @@ public class JsonTofmToDomainTofmParserTest : IClassFixture<CentrifugeFixture>
         invalidJsonTofmExceptions.Should()
             .BeEmpty(new ErrorFormatter(invalidJsonTofmExceptions.ToArray()).ToErrorString());
     }
-
 
     [Fact]
     public async Task ShouldBeAbleToParseToDomainObjects()

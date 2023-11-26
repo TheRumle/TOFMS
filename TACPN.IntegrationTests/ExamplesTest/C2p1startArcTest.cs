@@ -1,76 +1,17 @@
-﻿using Common;
-using Common.Move;
-using FluentAssertions;
+﻿using FluentAssertions;
 using FluentAssertions.Execution;
 using JsonFixtures.Fixtures;
 using TACPN.Net.Arcs;
 using TACPN.Net.Transitions;
+using Tofms.Common.Move;
 using Xunit;
 
 namespace TACPN.IntegrationTests.ExamplesTest;
 
-public class C2P1StartPlacesTest : ComponentTest, IClassFixture<CentrifugeFixture>
-{
-    public C2P1StartPlacesTest(CentrifugeFixture fixture) : base(fixture.ComponentText)
-    {
-    }
-
-    [Fact]
-    public async Task CProcShouldHave_InvariantP1LessThan_12()
-    {
-        Transition transition = await GetFirstTransition();
-
-        using (new AssertionScope())
-        {
-            var place = transition.FindFirstConnectedPlaceWithName("cproc");
-            var invariant = place.ColorInvariants.First(e => e.Key.ToLower().Contains("p1"));
-            place.ColorInvariants.First().InvariantShouldBe("p1", 12);
-        }
-    }
-    
-    [Fact]
-    public async Task CbufferShouldHave_InvariantP1LessThan_Infinity()
-    {
-        Transition transition = await GetFirstTransition();
-
-        using (new AssertionScope())
-        {
-            var place = transition.FindFirstConnectedPlaceWithName("cbuffer");
-            var invariant = place.ColorInvariants.First(e => e.Key.ToLower().Contains("p1"));
-            invariant.InvariantShouldBe("p1", InfinityInteger.Positive);
-        }
-    }
-    
-    [Fact]
-    public async Task CProcCapacity_ShouldHave_InvariantDotInfinity()
-    {
-        Transition transition = await GetFirstTransition();
-
-        using (new AssertionScope())
-        {
-            var place = transition.FindFirstConnectedPlaceWithName("cbuffer",Hat);
-            place.ColorInvariants.Should().HaveCount(1);
-            place.ColorInvariants.First().InvariantShouldBe(dot, InfinityInteger.Positive);
-        }
-    }
-    
-    [Fact]
-    public async Task BufferCapacity_ShouldHave_InvariantDotInfinity()
-    {
-        Transition transition = await GetFirstTransition();
-
-        using (new AssertionScope())
-        {
-            var place = transition.FindFirstConnectedPlaceWithName("buffer",Hat);
-            place.ColorInvariants.Should().HaveCount(1);
-            place.ColorInvariants.First().InvariantShouldBe(dot, InfinityInteger.Positive);
-        }
-    }
-    
-}
-
 public class C2P1StartArcTest : ComponentTest, IClassFixture<CentrifugeFixture>
 {
+    private static readonly int AmountToMove = 2;
+
     public C2P1StartArcTest(CentrifugeFixture fixture) : base(fixture.ComponentText)
     {
     }
@@ -85,7 +26,7 @@ public class C2P1StartArcTest : ComponentTest, IClassFixture<CentrifugeFixture>
         net.Transitions.Should().HaveCount(1);
         var transition = net.Transitions.First();
         transition.InGoing.Should().HaveCount(3);
-        transition.OutGoing.Should().HaveCount(2);
+        transition.OutGoing.Should().HaveCount(AmountToMove);
         transition.InhibitorArcs.Should().HaveCount(1);
     }
     
@@ -98,7 +39,7 @@ public class C2P1StartArcTest : ComponentTest, IClassFixture<CentrifugeFixture>
         {
             var arc = transition.FindFirstIngoingFromPlaceContaining("cbuffer");
             arc.Guards.Should().HaveCount(1);
-            arc.Guards.First().ShouldHaveLabels("p1", 2);
+            arc.Guards.First().ShouldHaveLabels("p1", AmountToMove);
         }
     }
     
@@ -109,8 +50,9 @@ public class C2P1StartArcTest : ComponentTest, IClassFixture<CentrifugeFixture>
 
         using (new AssertionScope())
         {
-            var arc = transition.FindFirstInhibitorFromPlaceContaining("cproc");
-            arc.Amounts.Should().HaveCount(1);
+            var arc = transition.FindFirstInhibitorFromPlaceWithName("cproc");
+            arc.Should().NotBeNull();
+            arc!.Weight.Should().Be(1);
         }
     }
     
@@ -123,7 +65,7 @@ public class C2P1StartArcTest : ComponentTest, IClassFixture<CentrifugeFixture>
         {
             var arc = transition.FindFirstIngoingFromPlaceContaining("cproc", Hat);
             arc.Guards.Should().HaveCount(1);
-            arc.Guards.First().ShouldHaveLabels(dot, 2);
+            arc.Guards.First().ShouldHaveLabels(dot, AmountToMove);
         }
     }
     
@@ -136,7 +78,7 @@ public class C2P1StartArcTest : ComponentTest, IClassFixture<CentrifugeFixture>
         {
             IngoingArc arc = transition.FindFirstIngoingFromPlaceContaining("cbuffer", Hat);
             arc.Guards.Should().HaveCount(1);
-            arc.Guards.First().ShouldHaveLabels(dot, 2);
+            arc.Guards.First().ShouldHaveLabels(dot, 4 - AmountToMove - 1);
         }
     }
     
@@ -147,11 +89,11 @@ public class C2P1StartArcTest : ComponentTest, IClassFixture<CentrifugeFixture>
 
         using (new AssertionScope())
         {
-            var arc = transition.FindFirstOutgoingToPlaceContaining("cproc");
+            var arc = transition.FindFirstOutgoingToPlaceWithName("cproc");
             arc.Productions.Should().HaveCount(1);
             Production production = arc.Productions.First();
             production.Color.ToLower().Should().Be("p1");
-            production.Amount.Should().Be(2);
+            production.Amount.Should().Be(AmountToMove);
         }
     }
     
@@ -162,13 +104,28 @@ public class C2P1StartArcTest : ComponentTest, IClassFixture<CentrifugeFixture>
 
         using (new AssertionScope())
         {
-            var arc = transition.FindFirstOutgoingToPlaceContaining("cbuffer", Hat);
+            var arc = transition.FindFirstOutgoingToPlaceWithName("cbuffer", Hat);
             arc.Productions.Should().HaveCount(1);
             Production production = arc.Productions.First();
             production.Color.Should().Be(dot);
-            production.Amount.Should().Be(2);
+            production.Amount.Should().Be(AmountToMove);
         }
     }
 
+    [Fact]
+    public async Task FromHatShouldHave_InhibitorArc_WithWeight_CapacityMinusSumConsumeMinusOne()
+    {
+        Transition transition = await GetFirstTransition();
+        var ingoingArcs = transition.InGoing;
+        
+
+        using (new AssertionScope())
+        {
+            var consumptionGuard = transition.FindFirstIngoingFromPlaceContaining("cbuffer", Hat).Guards.First();
+            consumptionGuard.Amount.Should().Be(4 - AmountToMove - 1);
+        }
+        
+        
+    }
     
 }

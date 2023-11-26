@@ -1,6 +1,6 @@
-﻿using Common.JsonTofms.ConsistencyCheck.Error;
+﻿using Tofms.Common.JsonTofms.ConsistencyCheck.Error;
 
-namespace Common.JsonTofms.ConsistencyCheck.Validators;
+namespace Tofms.Common.JsonTofms.ConsistencyCheck.Validators;
 
 public interface IValidator<T>
 {

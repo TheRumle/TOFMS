@@ -1,12 +1,13 @@
-﻿using Common.Factories;
-using Common.JsonTofms;
-using Common.JsonTofms.ConsistencyCheck.Validators;
-using Common.Move;
-using Common.Translate;
-using TACPN.Adapters;
-using TACPN.Adapters.Location;
+﻿using TACPN.Adapters;
+using TACPN.Adapters.TofmToTacpnAdapter;
+using TACPN.Adapters.TofmToTacpnAdapter.LocationAdapters;
 using TACPN.Net;
 using TACPN.Net.Transitions;
+using Tofms.Common.Factories;
+using Tofms.Common.JsonTofms;
+using Tofms.Common.JsonTofms.ConsistencyCheck.Validators;
+using Tofms.Common.Move;
+using Tofms.Common.Translate;
 
 namespace TACPN.IntegrationTests.ExamplesTest;
 

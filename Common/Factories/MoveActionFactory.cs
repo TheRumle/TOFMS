@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
-using Common.JsonTofms.Models;
-using Common.Move;
+using Tofms.Common.JsonTofms.Models;
+using Tofms.Common.Move;
 
-namespace Common.Factories;
+namespace Tofms.Common.Factories;
 
 public class MoveActionFactory : ITofmsFactory
 {

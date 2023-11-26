@@ -1,10 +1,10 @@
-﻿using Common.Move;
-using Common.Translate;
-using TACPN.Adapters.Location;
+﻿using TACPN.Adapters.TofmToTacpnAdapter.LocationAdapters;
 using TACPN.Net;
 using TACPN.Net.Transitions;
+using Tofms.Common.Move;
+using Tofms.Common.Translate;
 
-namespace TACPN.Adapters;
+namespace TACPN.Adapters.TofmToTacpnAdapter;
 
 public class TofmToTacpnTranslater : IMoveActionTranslation<PetriNetComponent>
 {
@@ -18,16 +18,12 @@ public class TofmToTacpnTranslater : IMoveActionTranslation<PetriNetComponent>
     public PetriNetComponent Translate(MoveAction moveAction)
     {
         var transition = new Transition(moveAction.Name);
-        var adapters = new[]
-        {
-            _transitionAttachableFactory.AdaptEmptyAfter(moveAction),
-            _transitionAttachableFactory.AdaptEmptyBefore(moveAction),
-            _transitionAttachableFactory.AdaptFrom(moveAction),
-            _transitionAttachableFactory.AdaptTo(moveAction)
-        };
-        
-        foreach (var adapter in adapters)
-            adapter.AttachToTransition(transition);
+
+        _transitionAttachableFactory.AdaptFrom(moveAction).AttachToTransition(transition);
+        _transitionAttachableFactory.AdaptEmptyAfter(moveAction).AttachToTransition(transition);
+        _transitionAttachableFactory.AdaptTo(moveAction).AttachToTransition(transition);
+        _transitionAttachableFactory.AdaptEmptyBefore(moveAction).AttachToTransition(transition);
+ 
 
         return new PetriNetComponent
         {

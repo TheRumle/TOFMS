@@ -1,13 +1,11 @@
-﻿using System.Text;
-using Common.JsonTofms.ConsistencyCheck;
-using Common.JsonTofms.ConsistencyCheck.Error;
-using Common.JsonTofms.ConsistencyCheck.Validators;
-using Common.JsonTofms.Models;
-using Common.Move;
-using Microsoft.VisualBasic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Tofms.Common.JsonTofms.ConsistencyCheck;
+using Tofms.Common.JsonTofms.ConsistencyCheck.Error;
+using Tofms.Common.JsonTofms.ConsistencyCheck.Validators;
+using Tofms.Common.JsonTofms.Models;
+using Tofms.Common.Move;
 
-namespace Common.JsonTofms;
+namespace Tofms.Common.JsonTofms;
 
 public class JsonTofmToDomainTofmParser
 {

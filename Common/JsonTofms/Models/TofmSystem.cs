@@ -1,4 +1,4 @@
-﻿namespace Common.JsonTofms.Models;
+﻿namespace Tofms.Common.JsonTofms.Models;
 
 public record TofmSystem
 {

@@ -1,4 +1,4 @@
-﻿namespace Common.Move;
+﻿namespace Tofms.Common.Move;
 
 public class CountCollection<TKey> : ReadOnlyCountCollection<TKey> where TKey : notnull
 {

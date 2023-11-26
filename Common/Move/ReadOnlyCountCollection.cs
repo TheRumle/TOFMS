@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace Common.Move;
+namespace Tofms.Common.Move;
 
 public class ReadOnlyCountCollection<TKey> : IEnumerable<KeyValuePair<TKey, int>>
     where TKey : notnull

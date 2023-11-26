@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using TACPN.Net;
 
-namespace TACPN.IntegrationTests.ExamplesTest;
+namespace TACPN.IntegrationTests;
 
 public static class GuardAssertions
 {

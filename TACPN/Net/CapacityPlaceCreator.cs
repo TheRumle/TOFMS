@@ -1,4 +1,4 @@
-﻿using Common;
+﻿using Tofms.Common;
 
 namespace TACPN.Net;
 
@@ -10,6 +10,11 @@ public static class CapacityPlaceCreator
     public static string CapacityNameFor(Place place)
     {
         return place.Name + "_buffer";
+    }
+    
+    public static string CapacityNameFor(string placeName)
+    {
+        return placeName + "_buffer";
     }
 
     public static Place CapacityPlaceFor(Place place)

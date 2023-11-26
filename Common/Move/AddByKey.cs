@@ -1,4 +1,4 @@
-﻿namespace Common.Move;
+﻿namespace Tofms.Common.Move;
 
 internal class AddByKey<TKey> where TKey : notnull
 {
