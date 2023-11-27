@@ -16,7 +16,7 @@ public class C2P1StartArcTest : ComponentTest, IClassFixture<CentrifugeFixture>
     {
     }
     
-
+    
     [Fact]
     public async Task ShouldHave_OneTransition_With_ThreeIngoing_TwoOutgoing_OneInhibitor()
     {

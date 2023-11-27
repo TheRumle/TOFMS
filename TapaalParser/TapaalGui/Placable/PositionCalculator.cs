@@ -1,6 +1,4 @@
-﻿using TapaalParser.TapaalGui.Placable;
-
-namespace TapaalParser.TapaalGui;
+﻿namespace TapaalParser.TapaalGui.Placable;
 
 public static class PositionCalculator
 {
