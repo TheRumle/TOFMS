@@ -1,7 +1,7 @@
 ﻿using TACPN.Net.Transitions;
 using Tofms.Common;
 
-namespace TACPN.Adapters.TofmToTacpnAdapter.LocationAdapters;
+namespace TACPN.Adapters.TofmToTacpnAdapter.TransitionAttachable;
 
 internal class EmptyBeforeCapacitorInhibitorAdaption : ITransitionAttachable
 {
@@ -14,7 +14,7 @@ internal class EmptyBeforeCapacitorInhibitorAdaption : ITransitionAttachable
 
     public void AttachToTransition(Transition transition)
     {
-        foreach (var place in _locations.Select(LocationTranslator.CreateLocation))
+        foreach (var place in _locations.Select(LocationTranslator.CreatePlace))
             transition.AddInhibitorFrom(place, 1);
     }
 }

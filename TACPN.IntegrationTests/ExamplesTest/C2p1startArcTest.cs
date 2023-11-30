@@ -18,16 +18,16 @@ public class C2P1StartArcTest : ComponentTest, IClassFixture<CentrifugeFixture>
     
     
     [Fact]
-    public async Task ShouldHave_OneTransition_With_ThreeIngoing_TwoOutgoing_OneInhibitor()
+    public async Task ShouldHave_OneTransition_With_TwoIngoing_TwoOutgoing_OneInhibitor()
     {
         MoveAction action = await GetAction();
         var net = await Translater.TranslateAsync(action);
 
         net.Transitions.Should().HaveCount(1);
         var transition = net.Transitions.First();
-        transition.InGoing.Should().HaveCount(3);
-        transition.OutGoing.Should().HaveCount(AmountToMove);
-        transition.InhibitorArcs.Should().HaveCount(1);
+        transition.InGoing.Should().HaveCount(2);
+        transition.OutGoing.Should().HaveCount(2);
+        transition.InhibitorArcs.Should().HaveCount(2);
     }
     
     [Fact]
@@ -69,7 +69,7 @@ public class C2P1StartArcTest : ComponentTest, IClassFixture<CentrifugeFixture>
         }
     }
     
-    [Fact]
+    //[Fact] //We now use inhibitor arc instead
     public async Task ShouldHave_IngoingArc_With_dotInfiniteAge_From_CBufferHat()
     {
         Transition transition = await GetFirstTransition();
@@ -121,8 +121,9 @@ public class C2P1StartArcTest : ComponentTest, IClassFixture<CentrifugeFixture>
 
         using (new AssertionScope())
         {
-            var consumptionGuard = transition.FindFirstIngoingFromPlaceContaining("cbuffer", Hat).Guards.First();
-            consumptionGuard.Amount.Should().Be(4 - AmountToMove - 1);
+            var consumptionGuard = transition.FindFirstInhibitorFromPlaceWithName("cbuffer", Hat);
+            consumptionGuard.Should().NotBeNull();
+            consumptionGuard!.Weight.Should().Be(4 - AmountToMove - 1);
         }
         
         

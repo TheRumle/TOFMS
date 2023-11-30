@@ -1,7 +1,7 @@
 ﻿using TACPN.Net;
 using Tofms.Common;
 
-namespace TACPN.Adapters.TofmToTacpnAdapter.LocationAdapters;
+namespace TACPN.Adapters.TofmToTacpnAdapter;
 
 public static class PlaceExtensions
 {

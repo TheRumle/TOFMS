@@ -3,18 +3,18 @@ using TACPN.Net.Arcs;
 using TACPN.Net.Transitions;
 using Tofms.Common;
 
-namespace TACPN.Adapters.TofmToTacpnAdapter.LocationAdapters;
+namespace TACPN.Adapters.TofmToTacpnAdapter.TransitionAttachable;
 
 internal class FromLocationIsInEmptyAfterAdapter : ITransitionAttachable
 {
-    private readonly ISet<Location> _emptyAfter;
+    private readonly Location[] _emptyAfter;
     private readonly Location _fromLocation;
     private readonly int _guardAmount;
 
-    public FromLocationIsInEmptyAfterAdapter(ISet<Location> emptyAfterLocations, Location fromLocation,
+    public FromLocationIsInEmptyAfterAdapter(IEnumerable<Location> emptyAfterLocations, Location fromLocation,
         IEnumerable<KeyValuePair<string, int>> partsToConsume)
     {
-        _emptyAfter = emptyAfterLocations;
+        _emptyAfter = emptyAfterLocations.ToArray();
         _fromLocation = fromLocation;
         _guardAmount =  fromLocation.Capacity - partsToConsume.Sum(e=>e.Value) - 1;
     }
@@ -38,23 +38,24 @@ internal class FromLocationIsInEmptyAfterAdapter : ITransitionAttachable
     }
 
     /// <summary>
-    /// Appends inhibitor arcs on all locations in _emptyAfter and adds arc fromHat -> transition that consumes n tokens where n
+    /// Appends inhibitor arcs on all locations in emptyAfter and adds arc fromHat -> transition that consumes n tokens where n
     /// is cap(from) - amountToMove - 1.
     /// </summary>
     /// <param name="transition"></param>
     /// <param name="fromPlaceHat"></param>
     private void AppendArcs(Transition transition, Place fromPlaceHat)
     {
-        var emptyAfterMinusFromLocation = _emptyAfter.Where(location => !location.Equals(_fromLocation));
-        Location[] afterMinusFromLocation = emptyAfterMinusFromLocation as Location[] ?? emptyAfterMinusFromLocation.ToArray();
-        
-        InhibitorFromEmptyAfterAdapter inhibitorAdapter =
-            new InhibitorFromEmptyAfterAdapter(afterMinusFromLocation);
-        inhibitorAdapter.AttachToTransition(transition);
+        AppendEmptyAfterMinusFrom(transition);
+        transition.AddInhibitorFrom(fromPlaceHat, _guardAmount);
+    }
 
-        int weight = _guardAmount;
-        var guard = ColoredGuard.CapacityGuard(weight);
-        transition.AddInGoingFrom(fromPlaceHat, guard);
+    private void AppendEmptyAfterMinusFrom(Transition transition)
+    {
+        var emptyAfterMinusFromLocation = _emptyAfter
+            .Where(location => !location.Equals(_fromLocation));
+
+        InhibitorFromEmptyAfterAdapter inhibitorAdapter = new InhibitorFromEmptyAfterAdapter(emptyAfterMinusFromLocation);
+        inhibitorAdapter.AttachToTransition(transition);
     }
 
     private bool TryGetExistingIngoingFromFromHat(Transition transition, out IngoingArc? arc)

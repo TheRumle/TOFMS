@@ -2,7 +2,7 @@
 using TACPN.Net.Arcs;
 using TACPN.Net.Transitions;
 
-namespace TACPN.Adapters.TofmToTacpnAdapter.LocationAdapters;
+namespace TACPN.Adapters.TofmToTacpnAdapter.TransitionAttachable;
 
 internal class FromLocationAdaption : ITransitionAttachable
 {
@@ -29,15 +29,14 @@ internal class FromLocationAdaption : ITransitionAttachable
     {
         AdaptPlace(transition);
         AdaptCapacityPlace(transition);
-    }
+    }   
 
     private void AdaptCapacityPlace(Transition transition)
     {
         var consProdAmount = ToConsume.Sum(e => e.Value);
         var capPlaceColor = CapacityPlaceCreator.DefaultColorName;
         transition.AddOutGoingTo(FromPlaceHat, new Production(capPlaceColor, consProdAmount));
-        transition.AddInGoingFrom(FromPlaceHat,
-            new ColoredGuard(consProdAmount, capPlaceColor, Interval.ZeroToInfinity));
+        transition.AddInGoingFrom(FromPlaceHat, new ColoredGuard(consProdAmount, capPlaceColor, Interval.ZeroToInfinity));
     }
 
     private void AdaptPlace(Transition transition)

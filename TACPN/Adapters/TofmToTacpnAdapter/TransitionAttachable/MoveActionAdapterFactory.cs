@@ -1,14 +1,11 @@
 ﻿using TACPN.Net.Transitions;
 using Tofms.Common.Move;
 
-namespace TACPN.Adapters.TofmToTacpnAdapter.LocationAdapters;
+namespace TACPN.Adapters.TofmToTacpnAdapter.TransitionAttachable;
 
 
 public class MoveActionAdapterFactory : ITransitionAttachableFactory
 {
-
-    private bool _fromLocationIsInEmptyAfter = false;
-    
     public ITransitionAttachable AdaptEmptyBefore(MoveAction moveAction)
     {
         return new EmptyBeforeCapacitorInhibitorAdaption(moveAction.EmptyBefore);

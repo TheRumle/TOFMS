@@ -33,7 +33,8 @@ public class C2P1StartPlacesTest : ComponentTest, IClassFixture<CentrifugeFixtur
 
         using (new AssertionScope())
         {
-            var place = transition.FindFirstConnectedPlaceWithName("cbuffer");
+            var place = transition.InGoing
+                .FirstOrDefault(e => e.From.Name.ToLower().Contains("cbuffer")).From;
             var invariant = place.ColorInvariants.First(e => e.Key.ToLower().Contains("p1"));
             invariant.InvariantShouldBe("p1", InfinityInteger.Positive);
         }

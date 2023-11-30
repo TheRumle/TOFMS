@@ -2,24 +2,22 @@
 using TACPN.Net.Arcs;
 using TACPN.Net.Transitions;
 
-namespace TACPN.Adapters.TofmToTacpnAdapter.LocationAdapters;
+namespace TACPN.Adapters.TofmToTacpnAdapter.TransitionAttachable;
 
 internal class ToTransitionAttacher : ITransitionAttachable
 {
     public ToTransitionAttacher(Tofms.Common.Location location,
         IEnumerable<KeyValuePair<string, int>> partsItemMovedIntoPlace)
     {
-        Location = location;
-        ItemMovedIntoPlace = partsItemMovedIntoPlace;
-        (Place, CapacityPlace) = LocationTranslator.CreateLocationPlacePair(location);
+        _itemMovedIntoPlace = partsItemMovedIntoPlace;
+        (_place, _capacityPlace) = LocationTranslator.CreateLocationPlacePair(location);
     }
 
-    public Place CapacityPlace { get; set; }
-    public Place Place { get; set; }
+    private readonly Place _capacityPlace;
 
-    public IEnumerable<KeyValuePair<string, int>> ItemMovedIntoPlace { get; set; }
+    private readonly Place _place;
 
-    public Tofms.Common.Location Location { get; set; }
+    private readonly IEnumerable<KeyValuePair<string, int>> _itemMovedIntoPlace;
 
 
     public void AttachToTransition(Transition transition)
@@ -34,14 +32,14 @@ internal class ToTransitionAttacher : ITransitionAttachable
     /// <param name="transition"></param>
     private void AdaptCapacityPlace(Transition transition)
     {
-        var consumationAmount = ItemMovedIntoPlace.Sum(e => e.Value);
+        var consumationAmount = _itemMovedIntoPlace.Sum(e => e.Value);
         var guard = ColoredGuard.CapacityGuard(consumationAmount);
-        transition.AddInGoingFrom(CapacityPlace, guard);
+        transition.AddInGoingFrom(_capacityPlace, guard);
     }
 
     private void AdaptPlace(Transition transition)
     {
-        IEnumerable<Production> productions = ItemMovedIntoPlace.Select(e => new Production(e.Key, e.Value));
-        transition.AddOutGoingTo(Place, productions);
+        IEnumerable<Production> productions = _itemMovedIntoPlace.Select(e => new Production(e.Key, e.Value));
+        transition.AddOutGoingTo(_place, productions);
     }
 }

@@ -1,5 +1,4 @@
-﻿using TACPN.Adapters.TofmToTacpnAdapter.LocationAdapters;
-using TACPN.Net;
+﻿using TACPN.Net;
 using TACPN.Net.Transitions;
 using Tofms.Common.Move;
 using Tofms.Common.Translate;
