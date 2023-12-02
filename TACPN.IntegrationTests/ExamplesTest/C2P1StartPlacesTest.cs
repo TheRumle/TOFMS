@@ -1,8 +1,9 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Execution;
-using JsonFixtures.Fixtures;
+using JsonFixtures.Tofms.Fixtures;
 using TACPN.Net.Transitions;
 using Tofms.Common;
+using Tofms.Common.Move;
 using Xunit;
 
 namespace TACPN.IntegrationTests.ExamplesTest;
@@ -65,5 +66,23 @@ public class C2P1StartPlacesTest : ComponentTest, IClassFixture<CentrifugeFixtur
             place.ColorInvariants.First().InvariantShouldBe(dot, InfinityInteger.Positive);
         }
     }
-    
+
+    [Fact]
+    public async Task AllCapacityPlaces_HaveTokensEqualToLocationCapacity()
+    {
+        var locations = (await GetAction()).InvolvedLocations;
+        var places = (await GetFirstTransition()).CapacityPlaces();
+        var matchingPairs = from location in locations
+            from place in places
+            where place.Name.Contains(location.Name)
+            select new { Location = location, Place = place };
+        
+        using (new AssertionScope())
+        {
+            foreach (var pair in matchingPairs)
+                pair.Place.Tokens.Count.Should().Be(pair.Location.Capacity);
+        }
+
+    }
+
 }

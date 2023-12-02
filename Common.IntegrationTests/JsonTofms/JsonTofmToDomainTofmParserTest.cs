@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using JsonFixtures.Fixtures;
+using JsonFixtures.Tofms.Fixtures;
 using Newtonsoft.Json;
 using Tofms.Common.Factories;
 using Tofms.Common.JsonTofms;

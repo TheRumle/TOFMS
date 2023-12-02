@@ -2,14 +2,14 @@
 using Newtonsoft.Json;
 using Tofms.Common.JsonTofms.Models;
 
-namespace JsonFixtures.Fixtures;
+namespace JsonFixtures.Tofms.Fixtures;
 
 public abstract class JsonTofmsFixture
 {
-    protected const string ValidComponentPath = "./Json/Systems/Valid/Components/";
-    protected const string ValidSystemPath = "./Json/Systems/Valid/";
-    protected const string InvalidComponentPath = "./Json/Systems/Invalid/Components/";
-    protected const string InvalidSystemPath = "./Json/Systems/Invalid/";
+    protected const string ValidComponentPath = "./Tofms/Json/Systems/Valid/Components/";
+    protected const string ValidSystemPath = "./Tofms/Json/Systems/Valid/";
+    protected const string InvalidComponentPath = "./Tofms/Json/Systems/Invalid/Components/";
+    protected const string InvalidSystemPath = ".Tofms/Json/Systems/Invalid/";
 
     public static string ReadValidComponentWithName(string name)
     {

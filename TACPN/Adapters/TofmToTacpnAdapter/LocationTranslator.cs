@@ -8,7 +8,7 @@ public static class LocationTranslator
     public static (Place place, Place placeHat) CreateLocationPlacePair(Location location)
     {
         var place = CreatePlace(location);
-        var placeHat = CapacityPlaceCreator.CapacityPlaceFor(place);
+        var placeHat = place.ToCapacityPlace(location.Capacity);
         return (place, placeHat);
     }
 

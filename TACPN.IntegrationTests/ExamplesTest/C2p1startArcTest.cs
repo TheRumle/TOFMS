@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Execution;
-using JsonFixtures.Fixtures;
+using JsonFixtures.Tofms.Fixtures;
 using TACPN.Net.Arcs;
 using TACPN.Net.Transitions;
 using Tofms.Common.Move;

@@ -49,4 +49,17 @@ public class Transition
         InhibitorArcs.Add(arc);
         return arc;
     }
+
+    public IEnumerable<Place> InvolvedPlaces => GetAllPlaces();
+
+    private IEnumerable<Place> GetAllPlaces()
+    {
+        var places = new HashSet<Place>();
+        places.UnionWith(this.InhibitorArcs.Select(e=>e.From));
+        places.UnionWith(this.InGoing.Select(e=>e.From));
+        places.UnionWith(this.OutGoing.Select(e=>e.To));
+        return places;
+    }
+    
+    
 }

@@ -23,4 +23,10 @@ public static class TransitionExtension
     {
         return transition.OutGoing.FirstOrDefault(e => e.To.Name == name);
     }
+    
+
+    public static IEnumerable<Place> CapacityPlaces(this Transition transition)
+    {
+        return transition.InvolvedPlaces.Where(e => e.IsCapacityLocation);
+    }
 }

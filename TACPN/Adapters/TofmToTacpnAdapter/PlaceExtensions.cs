@@ -10,7 +10,7 @@ public static class PlaceExtensions
     {
         //If the place is a capacityLocation we can only compare the bufferized name of the location and the name of the place.
         if (place.IsCapacityLocation)
-            return place.Name == CapacityPlaceCreator.CapacityNameFor(location.Name);
+            return place.Name == CapacityPlaceExtensions.CapacityNameFor(location.Name);
 
         //Create ValueTuples that are structurally equivalent
         var parts = location.Invariants.Select(e => ValueTuple.Create(e.PartType,e.Max))

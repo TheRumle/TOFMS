@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Tofms.Common.JsonTofms.Models;
 
-namespace JsonFixtures.Fixtures;
+namespace JsonFixtures.Tofms.Fixtures;
 
 public class CentrifugeFixture : JsonTofmsFixture
 {

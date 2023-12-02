@@ -27,7 +27,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Common\Common.csproj"/>
-        <ProjectReference Include="..\JsonFixtures\JsonFixtures.csproj" />
+        <ProjectReference Include="..\Fixtures\Fixtures.csproj" />
         <ProjectReference Include="..\TACPN\TACPN.csproj"/>
     </ItemGroup>
 
