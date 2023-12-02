@@ -14,7 +14,7 @@ public class Transition
     public ICollection<OutGoingArc> OutGoing { get; } = new List<OutGoingArc>();
     public ICollection<InhibitorArc> InhibitorArcs { get; } = new List<InhibitorArc>();
 
-    public Arc<Place, Transition> AddInGoingFrom(Place from, IEnumerable<ColoredGuard> guards)
+    public IngoingArc AddInGoingFrom(Place from, IEnumerable<ColoredGuard> guards)
     {
         var arc = new IngoingArc(from, this, guards);
         InGoing.Add(arc);

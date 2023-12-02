@@ -63,7 +63,13 @@ public class OutgoingArcXmlWriterTest : IClassFixture<TestOutputHelper>
     private static OutGoingArc CreateArc()
     {
       var transition = new Transition("T0");
-      var place = new Place("P1", new List<KeyValuePair<string, int>>(), "AB");
+      
+      var place = new Place("P1", new List<KeyValuePair<string, int>>()
+      {
+        new ("a", 10),
+        new ("b", 13),
+      }, "AB");
+      
       var prods = new List<Production>()
       {
         new("a", 1), new("b", 2)

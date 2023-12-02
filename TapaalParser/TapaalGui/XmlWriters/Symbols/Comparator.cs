@@ -1,4 +1,4 @@
-﻿namespace TapaalParser.TapaalGui.XmlWriters;
+﻿namespace TapaalParser.TapaalGui.XmlWriters.Symbols;
 
 public class Comparator
 {

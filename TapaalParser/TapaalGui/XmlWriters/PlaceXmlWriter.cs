@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using TACPN.Net;
 using TapaalParser.TapaalGui.Placable;
 using TapaalParser.TapaalGui.XmlWriters.Builders;
+using TapaalParser.TapaalGui.XmlWriters.Symbols;
 
 namespace TapaalParser.TapaalGui.XmlWriters;
 
@@ -71,7 +72,7 @@ public partial class PlaceXmlWriter : IGuiTranslater<Placement<Place>>
 
     private void AppendPlaceInfo(string name, TokenCollection tokens, Position pos)
     {
-        builder.Append($@"displayName=""true"" id=""{name}"" initialMarking=""{tokens.Count}"" invariant=""{Symbols.LessThanInfinity}"" name=""{name}"" nameOffsetX=""0"" nameOffsetY=""0"" positionX=""{pos.X}"" positionY=""{pos.Y}""> ");
+        builder.Append($@"displayName=""true"" id=""{name}"" initialMarking=""{tokens.Count}"" invariant=""{GuiSymbols.LessThanInfinity}"" name=""{name}"" nameOffsetX=""0"" nameOffsetY=""0"" positionX=""{pos.X}"" positionY=""{pos.Y}""> ");
     }
 
     [GeneratedRegex("\\s+")]

@@ -8,6 +8,8 @@ public class Place
     public Place(string name, IEnumerable<KeyValuePair<string, int>> colorMaxAgeDict, string colourTypeName)
     {
         KeyValuePair<string, int>[] keyValuePairs = colorMaxAgeDict as KeyValuePair<string, int>[] ?? colorMaxAgeDict.ToArray();
+        if (keyValuePairs.Length == 0) throw new ArgumentException($"Tried to construct place {name} with colour type {colourTypeName}, but the given invariants where empty so the colour type could not be constructed!");
+        
         ColorInvariants = new Dictionary<string, int>(keyValuePairs);
         Name = name;
         Tokens = new TokenCollection()

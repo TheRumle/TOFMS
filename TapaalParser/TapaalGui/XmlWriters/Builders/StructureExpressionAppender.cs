@@ -15,7 +15,7 @@ public class StructureExpressionAppender
 
     public void AppendStructureText(TokenCollection tokens)
     {
-        if (tokens.Colours.Count == 1)
+        if (tokens.Colours.Count() == 1)
             HandleSingleColour(tokens);
         else
         {

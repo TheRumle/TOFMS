@@ -16,7 +16,7 @@ public class ColorExpressionAppender
     {
         var tokens = collection;
         _builder.Append('(');
-        foreach (var color in collection.Colours)
+        foreach (var color in collection.Colours.OrderBy(e=>e))
         {
             var n = tokens.AmountOfColour(color);
             _builder.Append($"{n}'{color} + ");

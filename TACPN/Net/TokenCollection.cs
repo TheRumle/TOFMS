@@ -3,7 +3,7 @@ public record Token(string Colour,  int Age = 0);
 
 public class TokenCollection : List<Token>
 {
-    public required List<string> Colours { get; init; }
+    public required IEnumerable<string> Colours { get; init; }
 
     public TokenCollection(IEnumerable<Token>tokens): base(tokens)
     {
