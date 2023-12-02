@@ -4,7 +4,7 @@ using ConsoleApp;
 
 
 await TofmsToTapaal
-    .GetInputFiles()
+    .GetInOutFiles()
     .ParseAndValidateInputSystem()
     .TranslateTofmsToTacpnComponent()
     .TranslateToTapaalXml()

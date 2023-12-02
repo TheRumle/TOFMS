@@ -116,7 +116,7 @@ public class ParseAndValidateTofmSystem
 
 public class TofmsToTapaal
 {
-    public static ParseAndValidateTofmSystem GetInputFiles()
+    public static ParseAndValidateTofmSystem GetInOutFiles()
     {
         Console.WriteLine("Path to TOFMS system: ");
         string? inputPath = null;
