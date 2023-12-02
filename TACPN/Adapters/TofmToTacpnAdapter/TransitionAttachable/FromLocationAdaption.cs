@@ -36,7 +36,8 @@ internal class FromLocationAdaption : ITransitionAttachable
         var consProdAmount = ToConsume.Sum(e => e.Value);
         var capPlaceColor = CapacityPlaceCreator.DefaultColorName;
         transition.AddOutGoingTo(FromPlaceHat, new Production(capPlaceColor, consProdAmount));
-        transition.AddInGoingFrom(FromPlaceHat, new ColoredGuard(consProdAmount, capPlaceColor, Interval.ZeroToInfinity));
+
+        transition.AddInhibitorFrom(FromPlaceHat, consProdAmount);
     }
 
     private void AdaptPlace(Transition transition)

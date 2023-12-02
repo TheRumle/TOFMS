@@ -9,15 +9,6 @@ public class Transition
         Name = name;
     }
 
-    public Transition(string name, IEnumerable<IngoingArc> ingoing, IEnumerable<OutGoingArc> outgoing,
-        IEnumerable<InhibitorArc> inhibitorArcs)
-    {
-        Name = name;
-        InhibitorArcs = new List<InhibitorArc>(inhibitorArcs);
-        InGoing = new List<IngoingArc>(ingoing);
-        OutGoing = new List<OutGoingArc>(outgoing);
-    }
-
     public string Name { get; init; }
     public ICollection<IngoingArc> InGoing { get; } = new List<IngoingArc>();
     public ICollection<OutGoingArc> OutGoing { get; } = new List<OutGoingArc>();
@@ -49,13 +40,6 @@ public class Transition
     {
         var arc = new OutGoingArc(this, from, new List<Production> { production });
         OutGoing.Add(arc);
-        return arc;
-    }
-
-    public InhibitorArc AddInhibitorFrom(Place from, IEnumerable<string> colors)
-    {
-        var arc = new InhibitorArc(from, this, colors.Count());
-        InhibitorArcs.Add(arc);
         return arc;
     }
 

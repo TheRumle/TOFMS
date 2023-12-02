@@ -22,14 +22,13 @@ public class TofmToTacpnTranslater : IMoveActionTranslation<PetriNetComponent>
         _transitionAttachableFactory.AdaptEmptyAfter(moveAction).AttachToTransition(transition);
         _transitionAttachableFactory.AdaptTo(moveAction).AttachToTransition(transition);
         _transitionAttachableFactory.AdaptEmptyBefore(moveAction).AttachToTransition(transition);
- 
-
+        
         return new PetriNetComponent
         {
             Colors = moveAction.PartsToMove.Select(e => e.Key),
             Transitions = new List<Transition> { transition },
             Places = new List<Place>()
-        };  
+        };
     }
 
     public Task<PetriNetComponent> TranslateAsync(MoveAction moveAction)

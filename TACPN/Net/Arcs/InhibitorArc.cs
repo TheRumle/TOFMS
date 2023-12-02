@@ -11,5 +11,5 @@ public class InhibitorArc : Arc<Place, Transition>
     }
 
 
-    public int Weight { get; private set; }
+    public int Weight { get; set; }
 }

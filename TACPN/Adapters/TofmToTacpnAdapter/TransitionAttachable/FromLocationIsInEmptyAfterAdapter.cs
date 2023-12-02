@@ -21,7 +21,7 @@ internal class FromLocationIsInEmptyAfterAdapter : ITransitionAttachable
 
     public void AttachToTransition(Transition transition)
     {
-        if (TryGetExistingIngoingFromFromHat(transition, out var ingoingFromFromHat))
+        if (TryGetExistingInhibitor(transition, out var ingoingFromFromHat))
         {
             ModifyExistingArc(ingoingFromFromHat!);
             return;
@@ -31,10 +31,10 @@ internal class FromLocationIsInEmptyAfterAdapter : ITransitionAttachable
         AppendArcs(transition, fromPlaceHat);
     }
 
-    private void ModifyExistingArc(IngoingArc ingoing)
+    private void ModifyExistingArc(InhibitorArc ingoing)
     {
         if (!ingoing.From.IsCapacityLocation) throw new ArgumentException("The arc did not go from a capacity location!");
-        ingoing.ReplaceGuard(ColoredGuard.CapacityGuard(_guardAmount));
+        ingoing.Weight = _guardAmount;
     }
 
     /// <summary>
@@ -58,9 +58,9 @@ internal class FromLocationIsInEmptyAfterAdapter : ITransitionAttachable
         inhibitorAdapter.AttachToTransition(transition);
     }
 
-    private bool TryGetExistingIngoingFromFromHat(Transition transition, out IngoingArc? arc)
+    private bool TryGetExistingInhibitor(Transition transition, out InhibitorArc? arc)
     {
-        var arcFromFromHat = transition.InGoing
+        var arcFromFromHat = transition.InhibitorArcs
             .FirstOrDefault(e => e.From.IsCapacityLocation && e.From.IsCreatedFrom(_fromLocation)) ;
 
         if (arcFromFromHat != null)
