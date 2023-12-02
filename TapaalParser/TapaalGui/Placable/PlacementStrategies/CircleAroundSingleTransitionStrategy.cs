@@ -26,7 +26,7 @@ public class CircleAroundSingleTransitionStrategy : IPositionPlacementStrategy
         var placesArray = component.Places.ToList();
         var placePositions = GetPlacePlacements(component, coordinates, placesArray);
         var transitions = GetTransitionsPlacements(component, coordinates);
-        return new PlacableComponent(transitions, placePositions, component.Colors);
+        return new PlacableComponent(transitions, placePositions, component.Colors, component.Name);
     }
 
     private List<Placement<Transition>> GetTransitionsPlacements(PetriNetComponent component, Position[] coordinates)

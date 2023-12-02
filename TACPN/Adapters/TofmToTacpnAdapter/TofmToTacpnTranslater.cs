@@ -30,7 +30,8 @@ public class TofmToTacpnTranslater : IMoveActionTranslation<PetriNetComponent>
             Colors = moveAction.PartsToMove.Select(e => e.Key),
             Transitions = new List<Transition> { transition },
             Places = new List<Place>(),
-            ColourTypes = colourTypes
+            ColourTypes = colourTypes,
+            Name = moveAction.Name + "Component"
         };
     }
 

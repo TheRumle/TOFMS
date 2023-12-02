@@ -11,4 +11,5 @@ public class PetriNetComponent
     public required IEnumerable<string> Colors { get; init; }
 
     public required IEnumerable<ColourType> ColourTypes { get; init; }
+    public required string Name { get; init; }
 }

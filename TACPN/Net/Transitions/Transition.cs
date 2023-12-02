@@ -61,5 +61,4 @@ public class Transition
         return places;
     }
     
-    
 }
