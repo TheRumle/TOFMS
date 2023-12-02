@@ -35,9 +35,9 @@ public class InvariantDeclaration
     public override string ToString()
     {
         return $@"<colorinvariant>
-        <inscription inscription=""{this.Comparator.Value} {this.NumericValue}""/>
-        <colortype name=""{this.ColorType}"">
-          <color value=""{this.Color}""/>
+        <inscription inscription=""{Comparator.Value} {NumericValue}""/>
+        <colortype name=""{ColorType}"">
+          <color value=""{Color}""/>
         </colortype>
       </colorinvariant>";
     }

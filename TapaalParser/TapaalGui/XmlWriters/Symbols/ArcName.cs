@@ -1,11 +1,11 @@
-﻿namespace TapaalParser.TapaalGui.XmlWriters;
+﻿namespace TapaalParser.TapaalGui.XmlWriters.Symbols;
 
 public static class ArcName
 {
     public static readonly string OutPrefix = "Ao";
     public static readonly string InPrefix = "Ai";
-    private static int _numOutArcs = 0;
-    private static int _numInArcs = 0;
+    private static int _numOutArcs;
+    private static int _numInArcs;
 
     public static string NextIn()
     {

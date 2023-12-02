@@ -12,7 +12,7 @@ public class IngoingArcXmlWriter : IGuiTranslater<IngoingArc>
 
     public IngoingArcXmlWriter(StringBuilder builder)
     {
-        this._builder = builder;
+        _builder = builder;
     }
 
     public IngoingArcXmlWriter():this(new StringBuilder())
@@ -52,13 +52,13 @@ public class IngoingArcXmlWriter : IGuiTranslater<IngoingArc>
         };
         
         var expressionBuilder = new ColorExpressionAppender(_builder);
-        _builder.Append($@" <hlinscription> <text>");
+        _builder.Append(@" <hlinscription> <text>");
         expressionBuilder.WriteColourExpression(collection);
-        _builder.Append($@"</text>");
+        _builder.Append(@"</text>");
 
         var structureExpressionAppender = new StructureExpressionAppender(_builder);
         structureExpressionAppender.AppendStructureText(collection);
-        _builder.Append($" </hlinscription>");
+        _builder.Append(" </hlinscription>");
     }
 
 }

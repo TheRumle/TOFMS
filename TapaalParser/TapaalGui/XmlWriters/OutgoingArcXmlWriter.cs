@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using TACPN.Net.Arcs;
 using TapaalParser.TapaalGui.XmlWriters.Builders;
+using TapaalParser.TapaalGui.XmlWriters.Symbols;
 
 namespace TapaalParser.TapaalGui.XmlWriters;
 
@@ -10,7 +11,7 @@ public class OutgoingArcXmlWriter : IGuiTranslater<OutGoingArc>
 
     public OutgoingArcXmlWriter(StringBuilder builder)
     {
-        this._builder = builder;
+        _builder = builder;
     }
 
     public OutgoingArcXmlWriter():this(new StringBuilder())
@@ -31,13 +32,13 @@ public class OutgoingArcXmlWriter : IGuiTranslater<OutGoingArc>
         var tokens = arc.Productions.ToTokenCollection();
         var expressionBuilder = new ColorExpressionAppender(_builder);
         
-        _builder.Append($@" <hlinscription> <text>");
+        _builder.Append(@" <hlinscription> <text>");
         expressionBuilder.WriteColourExpression(tokens);
-        _builder.Append($@"</text>");
+        _builder.Append(@"</text>");
 
         var structureExpressionAppender = new StructureExpressionAppender(_builder);
         structureExpressionAppender.AppendStructureText(tokens);
-        _builder.Append($" </hlinscription>");
+        _builder.Append(" </hlinscription>");
     }
 
     private void AppendArcInfo(OutGoingArc arc)

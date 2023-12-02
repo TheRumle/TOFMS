@@ -16,9 +16,9 @@ public class TacpnComponentXmlParser : ITapaalGuiParser<PlacableComponent>
 
     public TacpnComponentXmlParser(PlacableComponent component)
     {
-        this._places = component.Places;
-        this._transitions = component.Transitions;
-        this._component = component;
+        _places = component.Places;
+        _transitions = component.Transitions;
+        _component = component;
     }
 
     public Task<string> CreateXmlComponent()

@@ -1,6 +1,5 @@
 ﻿using TACPN.Net;
 using TACPN.Net.Transitions;
-using Tofms.Common;
 
 namespace TapaalParser.TapaalGui.Placable.PlacementStrategies;
 
@@ -23,7 +22,7 @@ public class CircleAroundSingleTransitionStrategy : IPositionPlacementStrategy
     
     public PlacableComponent FindLocationsFor(PetriNetComponent component)
     {
-        var coordinates = PositionCalculator.GetCircularCoordinates(this._center.X, this._center.Y, this._radius, component.Places.Count);
+        var coordinates = PositionCalculator.GetCircularCoordinates(_center.X, _center.Y, _radius, component.Places.Count);
         var placesArray = component.Places.ToList();
         var placePositions = GetPlacePlacements(component, coordinates, placesArray);
         var transitions = GetTransitionsPlacements(component, coordinates);
@@ -32,7 +31,7 @@ public class CircleAroundSingleTransitionStrategy : IPositionPlacementStrategy
 
     private List<Placement<Transition>> GetTransitionsPlacements(PetriNetComponent component, Position[] coordinates)
     {
-        var otherTransitionsPlacements = component.Transitions.Except(new[] { this._transition })
+        var otherTransitionsPlacements = component.Transitions.Except(new[] { _transition })
             .Select(e => new Placement<Transition>(e, Position.Zero));
 
 

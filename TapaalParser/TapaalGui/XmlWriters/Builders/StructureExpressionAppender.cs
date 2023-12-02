@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using System.Text.RegularExpressions;
 using TACPN.Net;
 
 namespace TapaalParser.TapaalGui.XmlWriters.Builders;
@@ -33,7 +32,7 @@ public class StructureExpressionAppender
             _builder.Append(s);
         }
         
-        _builder.Append($@" </add> </structure>" );
+        _builder.Append(@" </add> </structure>" );
     }
 
     private void HandleSingleColour(TokenCollection tokens)

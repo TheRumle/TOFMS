@@ -10,7 +10,7 @@ public class TransitionXmlWriter : IGuiTranslater<Placement<Transition>>
 
     public TransitionXmlWriter(StringBuilder builder)
     {
-        this._builder = builder;
+        _builder = builder;
     }
 
     public TransitionXmlWriter():this(new StringBuilder())

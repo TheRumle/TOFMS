@@ -1,6 +1,4 @@
-﻿using TapaalParser.TapaalGui.Placable;
-
-namespace TapaalParser.TapaalGui;
+﻿namespace TapaalParser.TapaalGui;
 
 internal interface IGuiTranslater<TFrom>
 {

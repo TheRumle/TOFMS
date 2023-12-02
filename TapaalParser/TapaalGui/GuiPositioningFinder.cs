@@ -13,13 +13,13 @@ public class GuiPositioningFinder
 
     public GuiPositioningFinder(PetriNetComponent component, IPositionPlacementStrategy strategy)
     {
-        this._component = component;
-        this._positionPlacementStrategy = strategy;
+        _component = component;
+        _positionPlacementStrategy = strategy;
     }
     
     public GuiPositioningFinder(PetriNetComponent component)
     {
-        this._component = component;
+        _component = component;
     }
 
     private IPositionPlacementStrategy SelectStrategy(PetriNetComponent component)
@@ -32,7 +32,7 @@ public class GuiPositioningFinder
     
     public PlacableComponent GetComponentPlacements()
     {
-        var strategy = SelectStrategy(this._component);
-        return strategy.FindLocationsFor(this._component);
+        var strategy = SelectStrategy(_component);
+        return strategy.FindLocationsFor(_component);
     }
 }
