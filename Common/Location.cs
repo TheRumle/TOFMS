@@ -9,16 +9,6 @@ public class Location
         Name = name;
     }
 
-    public Location(string name, int capacity, Invariant invariant)
-    {
-        Invariants = new HashSet<Invariant>
-        {
-            invariant
-        };
-        Capacity = capacity;
-        Name = name;
-    }
-
     public string Name { get; init; }
     public int Capacity { get; init; }
     public IReadOnlySet<Invariant> Invariants { get; init; }
