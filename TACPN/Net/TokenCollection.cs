@@ -24,4 +24,21 @@ public class TokenCollection : List<Token>
         if (!TryAdd(item)) 
             throw new ArgumentException($"Token colour is {item.Colour} but the collection is of colours [{Colours.Aggregate((prev, curr)=>$@"{prev}, + {curr}")}]" );
     }
+
+    public static TokenCollection Singleton(string colour, int amount)
+    {
+        var elements = Enumerable.Repeat(new Token(colour, 0), amount);
+        var collection = new TokenCollection()
+        {
+            Colours = Enumerable.Repeat(colour,1)
+        };
+        collection.AddRange(elements);
+        return collection;
+    }
+
+    public int AmountOfColour(string colour)
+    {
+        if (!Colours.Contains(colour)) return 0;
+        return FindAll(e => e.Colour == colour).Count;
+    }
 }

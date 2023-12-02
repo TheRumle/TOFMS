@@ -33,7 +33,7 @@ internal class ToTransitionAttacher : ITransitionAttachable
     private void AdaptCapacityPlace(Transition transition)
     {
         var consumationAmount = _itemMovedIntoPlace.Sum(e => e.Value);
-        var guard = ColoredGuard.CapacityGuard(consumationAmount);
+        var guard = GuardFactory.CapacityGuard(consumationAmount);
         transition.AddInGoingFrom(_capacityPlace, guard);
     }
 

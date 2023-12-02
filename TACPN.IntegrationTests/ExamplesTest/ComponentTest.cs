@@ -17,7 +17,7 @@ public abstract class ComponentTest {
     protected readonly JsonTofmToDomainTofmParser JsonParser;
     protected readonly string JsonText;
     protected static readonly string Hat = CapacityPlaceExtensions.Hat;
-    protected static readonly string dot = CapacityPlaceExtensions.DefaultColorName;
+    protected static readonly string dot = CapacityPlaceExtensions.DefaultCapacityColor;
     public ComponentTest(string text)
     {
         TofmSystemValidator systemValidator = new TofmSystemValidator(new LocationValidator(new InvariantValidator()),new NamingValidator(), new MoveActionValidator());

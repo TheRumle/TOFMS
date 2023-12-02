@@ -21,7 +21,7 @@ public static class GuardAssertions
     
     public static void ShouldHaveFirstColorIntervalBeDotWithZeroToInfinity(this ColoredGuard guard)
     {
-        guard.Color.Should().Be(CapacityPlaceExtensions.DefaultColorName);
+        guard.Color.Should().Be(CapacityPlaceExtensions.DefaultCapacityColor);
         guard.Interval.Should().Be(Interval.ZeroToInfinity);
     }
 

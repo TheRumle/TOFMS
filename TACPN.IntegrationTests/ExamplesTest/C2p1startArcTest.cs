@@ -116,9 +116,6 @@ public class C2P1StartArcTest : ComponentTest, IClassFixture<CentrifugeFixture>
     public async Task FromHatShouldHave_InhibitorArc_WithWeight_CapacityMinusSumConsumeMinusOne()
     {
         Transition transition = await GetFirstTransition();
-        var ingoingArcs = transition.InGoing;
-        
-
         using (new AssertionScope())
         {
             var consumptionGuard = transition.FindFirstInhibitorFromPlaceWithName("cbuffer", Hat);

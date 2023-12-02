@@ -32,6 +32,7 @@
 
 
     <ItemGroup>
+      <Folder Include="Tapn\Fixtures\" />
       <Folder Include="Tofms\" />
     </ItemGroup>
 

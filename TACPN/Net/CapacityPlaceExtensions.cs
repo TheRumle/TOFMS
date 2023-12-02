@@ -4,7 +4,7 @@ namespace TACPN.Net;
 
 public static class CapacityPlaceExtensions
 {
-    public static readonly string DefaultColorName = Place.CapacityPlaceColor;
+    public static readonly string DefaultCapacityColor = "dot";
     public static readonly string Hat = "_buffer";
 
     public static string CapacityNameFor(Place place)
@@ -20,13 +20,13 @@ public static class CapacityPlaceExtensions
     
     public static Place ToCapacityPlace(this Place place, int numTokens)
     {
-        var kvp = KeyValuePair.Create(DefaultColorName, (int)InfinityInteger.Positive);
-        return new Place(CapacityNameFor(place), new[] { kvp })
+        var kvp = KeyValuePair.Create(DefaultCapacityColor, (int)InfinityInteger.Positive);
+        return new Place(CapacityNameFor(place), new[] { kvp }, "")
         {
             IsCapacityLocation = true,
-            Tokens = new TokenCollection(Enumerable.Repeat(new Token(DefaultColorName), numTokens))
+            Tokens = new TokenCollection(Enumerable.Repeat(new Token(DefaultCapacityColor), numTokens))
             {
-                Colours = new []{DefaultColorName}
+                Colours = new []{DefaultCapacityColor}
             }
         };
     }

@@ -14,8 +14,5 @@ public class ColoredGuard
     public Interval Interval { get; }
     public int Amount { get; }
 
-    public static ColoredGuard CapacityGuard(int amount)
-    {
-        return new ColoredGuard(amount, Place.CapacityPlaceColor, Interval.ZeroToInfinity);
-    }
+
 }
