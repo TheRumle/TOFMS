@@ -38,19 +38,21 @@ public class StructureExpressionAppender
 
     private void HandleSingleColour(TokenCollection tokens)
     {
-        _builder.Append(" <structure> <add>");
+       
         foreach (var color in tokens.Colours)
         {
+            _builder.Append(" <structure> <add>");
             var n = tokens.AmountOfColour(color);
             AppendSubTerm(n, color);
+            _builder.Append(" </add> </structure>");
         }
-        _builder.Append(" </add> </subterm> </add> </structure>");
-
     }
 
     private void AppendSubTerm(int n, string colour)
     {
         _builder.Append(
-            $@" <subterm> <numberof> <subterm> <numberconstant value=""{n}""> <positive/> </numberconstant> </subterm> <subterm> <useroperator declaration=""{colour}""/> </subterm> </numberof> </subterm>");
+            $@" <subterm> <numberof> <subterm> <numberconstant value=""{n}""> <positive/> </numberconstant> </subterm> <subterm> <useroperator declaration=""{colour}""/> </subterm> </numberof> </subterm> ");
     }
+
+
 }
