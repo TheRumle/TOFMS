@@ -12,17 +12,11 @@ public class TokenCollection : List<Token>
     {
     }
 
-    public bool TryAdd(Token item)
-    {
-        if (!Colours.Contains(item.Colour)) return false;
-        base.Add(item);
-        return true;
-    }
-    
     public new void Add(Token item)
     {
-        if (!TryAdd(item)) 
+        if (!Colours.Contains(item.Colour))
             throw new ArgumentException($"Token colour is {item.Colour} but the collection is of colours [{Colours.Aggregate((prev, curr)=>$@"{prev}, + {curr}")}]" );
+        base.Add(item);
     }
 
     public static TokenCollection Singleton(string colour, int amount)
