@@ -1,11 +1,39 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using System.Runtime.CompilerServices;
+using System.Text;
 using TACPN.Adapters.TofmToTacpnAdapter;
 using TACPN.Adapters.TofmToTacpnAdapter.TransitionAttachable;
+using TACPN.Net;
 using TapaalParser.TapaalGui;
+using TapaalParser.TapaalGui.XmlWriters;
 using Tofms.Common.JsonTofms;
 using Tofms.Common.JsonTofms.ConsistencyCheck.Validators;
+
+string ExtractTapaalXml(IEnumerable<PetriNetComponent> petriNetComponents)
+{
+    var sharedComponentStrings = petriNetComponents.Select(async component =>
+        {
+            GuiPositioningFinder positioningFinder = new GuiPositioningFinder(component);
+            var positionalComponent = positioningFinder.GetComponentPlacements();
+
+            TacpnComponentXmlParser parser = new TacpnComponentXmlParser(positionalComponent);
+            return await parser.CreateXmlComponent();
+        })
+        .Select(e => e.Result);
+
+
+    var builder = new StringBuilder();
+    builder.Append($"<pnml xmlns=\"http://www.informatik.hu-berlin.de/top/pnml/ptNetb\">");
+    var colourTypes = petriNetComponents.SelectMany(e => e.Places.Select(p => p.ColourType)).ToHashSet();
+    var headerString = new ColourDeclarationWriter().XmlString(colourTypes);
+
+    foreach (var componentStrings in sharedComponentStrings)
+        builder.Append(petriNetComponents);
+
+    builder.Append(@$"<feature isColored=""true"" isGame=""false"" isTimed=""true""/>{'\n'}</pnml>");
+    return builder.ToString();
+}
+
 static bool IsValidFilePath(string filePath)
 {
     try
@@ -46,7 +74,6 @@ static bool IsValidFilePath(string filePath)
 
 Console.WriteLine("Path to TOFMS system: ");
 string? inputPath = null;
-string? outputPath= null;
 do
 {
     try
@@ -58,10 +85,13 @@ do
         Console.WriteLine("Not a valid path");
         Console.WriteLine("");
     }
-    
+} while (String.IsNullOrWhiteSpace(inputPath) );
+string? outputPath= null;
+do
+{
     try
     {
-        var p = Console.ReadLine();
+        var p = Console.ReadLine()!;
         if (IsValidFilePath(p))
             outputPath = p;
         else
@@ -72,10 +102,11 @@ do
     catch (Exception _ignore)
     {
         Console.WriteLine("Not a valid path");
-        Console.WriteLine("");
     }
-} while (String.IsNullOrWhiteSpace(inputPath));
 
+} while (String.IsNullOrWhiteSpace(outputPath));
+
+    
 
 string text = File.ReadAllText(inputPath);
 
@@ -87,24 +118,6 @@ var components = system
     .Select(async e=>await translater.TranslateAsync(e))
     .Select(e=>e.Result);
 
-var sharedComponentStrings = components.Select(async component =>
-{
-    GuiPositioningFinder positioningFinder = new GuiPositioningFinder(component);
-    var positionalComponent =  positioningFinder.GetComponentPlacements();
-    
-    TacpnComponentXmlParser parser = new TacpnComponentXmlParser(positionalComponent);
-    return await parser.CreateXmlComponent();
-})
-    .Select(e=>e.Result);
-
-
-
-
-
-
-
-
-
-
-
-Console.WriteLine("Hello, World!");
+var xml = ExtractTapaalXml(components);
+await File.WriteAllTextAsync(outputPath, xml);
+Console.WriteLine("Output has been written to " + outputPath);
