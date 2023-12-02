@@ -1,9 +1,9 @@
 ﻿namespace TACPN.Net;
-public record struct Token(string Colour,  int Age = 0);
+public record Token(string Colour,  int Age = 0);
 
 public class TokenCollection : List<Token>
 {
-    public required IEnumerable<string> Colours { get; init; }
+    public required List<string> Colours { get; init; }
 
     public TokenCollection(IEnumerable<Token>tokens): base(tokens)
     {
@@ -30,7 +30,7 @@ public class TokenCollection : List<Token>
         var elements = Enumerable.Repeat(new Token(colour, 0), amount);
         var collection = new TokenCollection()
         {
-            Colours = Enumerable.Repeat(colour,1)
+            Colours = Enumerable.Repeat(colour,1).ToList()
         };
         collection.AddRange(elements);
         return collection;

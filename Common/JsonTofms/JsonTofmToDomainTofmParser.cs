@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Tofms.Common.Factories;
 using Tofms.Common.JsonTofms.ConsistencyCheck;
 using Tofms.Common.JsonTofms.ConsistencyCheck.Error;
 using Tofms.Common.JsonTofms.ConsistencyCheck.Validators;
@@ -18,6 +19,12 @@ public class JsonTofmToDomainTofmParser
     {
         _systemValidator = systemValidator;
         _systemFactory = systemFactory;
+    }
+    
+    public JsonTofmToDomainTofmParser(IValidator<TofmSystem> systemValidator)
+    {
+        _systemValidator = systemValidator;
+        _systemFactory = new MoveActionFactory();
     }
 
     public async Task<IEnumerable<MoveAction>> ParseTofmsSystemJsonString(string jsonString)

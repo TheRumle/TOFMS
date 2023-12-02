@@ -1,6 +1,6 @@
 ﻿using Tofms.Common;
 
-namespace TapaalParser.TapaalGui.GuiParsing;
+namespace TapaalParser.TapaalGui.XmlWriters;
 
 public class InvariantDeclaration
 {

@@ -26,7 +26,7 @@ public static class CapacityPlaceExtensions
             IsCapacityLocation = true,
             Tokens = new TokenCollection(Enumerable.Repeat(new Token(DefaultCapacityColor), numTokens))
             {
-                Colours = new []{DefaultCapacityColor}
+                Colours = new []{DefaultCapacityColor}.ToList()
             }
         };
     }

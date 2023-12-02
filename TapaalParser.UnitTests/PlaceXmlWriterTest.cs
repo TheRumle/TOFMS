@@ -3,21 +3,21 @@ using FluentAssertions;
 using FluentAssertions.Execution;
 using TACPN.Net;
 using TapaalParser.TapaalGui;
-using TapaalParser.TapaalGui.GuiParsing;
 using TapaalParser.TapaalGui.Placable;
+using TapaalParser.TapaalGui.XmlWriters;
 using Tofms.Common;
 using Xunit.Sdk;
 
 namespace TapaalParser.UnitTests;
 
-public class PlaceXmlParserTest : IClassFixture<TestOutputHelper>
+public class PlaceXmlWriterTest : IClassFixture<TestOutputHelper>
 {
-  public PlaceXmlParserTest(TestOutputHelper helper)
+  public PlaceXmlWriterTest(TestOutputHelper helper)
   {
     this.help = helper;
   }
 
-  private PlaceXmlParser _translater = new PlaceXmlParser();
+  private PlaceXmlWriter _translater = new PlaceXmlWriter();
 
   private const string XmlString = @"<place displayName=""true"" id=""P0"" initialMarking=""11"" invariant=""&lt; inf"" name=""P0"" nameOffsetX=""0"" nameOffsetY=""0"" positionX=""360"" positionY=""405"">
       <type>
@@ -66,13 +66,11 @@ public class PlaceXmlParserTest : IClassFixture<TestOutputHelper>
     public void CanParseTest()
     {
       var input = new Placement<Place>(CreatePlace(), new Position(360, 405));;
-      string result = _translater.ToGuiElement(input);
+      string result = _translater.XmlString(input);
       help.WriteLine(result);
       using (new AssertionScope())
       {
         result.Should().Be(WhiteSpaceFreeXml);
       }
-      
-
     }
 }

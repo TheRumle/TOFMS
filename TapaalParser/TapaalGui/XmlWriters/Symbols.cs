@@ -1,4 +1,4 @@
-﻿namespace TapaalParser.TapaalGui.GuiParsing;
+﻿namespace TapaalParser.TapaalGui.XmlWriters;
 
 public static class Symbols
 {

@@ -4,7 +4,7 @@ using Tofms.Common.Move;
 namespace TACPN.Adapters.TofmToTacpnAdapter.TransitionAttachable;
 
 
-public class MoveActionAdapterFactory : ITransitionAttachableFactory
+public class MoveActionToTransitionFactory : ITransitionAttachableFactory
 {
     public ITransitionAttachable AdaptEmptyBefore(MoveAction moveAction)
     {

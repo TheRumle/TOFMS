@@ -12,7 +12,7 @@ public class Place
         Name = name;
         Tokens = new TokenCollection()
         {
-            Colours = keyValuePairs.Select(e => e.Key),
+            Colours = keyValuePairs.Select(e => e.Key).ToList()
         };
 
         ColourType = new(colourTypeName, keyValuePairs.Select(e => e.Key));

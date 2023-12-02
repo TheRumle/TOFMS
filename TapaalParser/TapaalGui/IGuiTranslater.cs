@@ -2,8 +2,8 @@
 
 namespace TapaalParser.TapaalGui;
 
-public interface IGuiTranslater<TFrom>
+internal interface IGuiTranslater<TFrom>
 {
-    public string ToGuiElement(Placement<TFrom> placement);
+    public string XmlString(TFrom placement);
 
 }

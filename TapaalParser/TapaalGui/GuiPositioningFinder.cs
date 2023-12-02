@@ -6,18 +6,18 @@ namespace TapaalParser.TapaalGui;
 
 
 
-public class GuiPlacementAdapter
+public class GuiPositioningFinder
 {
     private readonly IPositionPlacementStrategy? _positionPlacementStrategy;
     private readonly PetriNetComponent _component;
 
-    public GuiPlacementAdapter(PetriNetComponent component, IPositionPlacementStrategy strategy)
+    public GuiPositioningFinder(PetriNetComponent component, IPositionPlacementStrategy strategy)
     {
         this._component = component;
         this._positionPlacementStrategy = strategy;
     }
     
-    public GuiPlacementAdapter(PetriNetComponent component)
+    public GuiPositioningFinder(PetriNetComponent component)
     {
         this._component = component;
     }
@@ -30,9 +30,9 @@ public class GuiPlacementAdapter
     }
     
     
-    public PlacableComponent GetComponentPlacements(PetriNetComponent component)
+    public PlacableComponent GetComponentPlacements()
     {
-        var strategy = SelectStrategy(component);
-        return strategy.FindLocationsFor(component);
+        var strategy = SelectStrategy(this._component);
+        return strategy.FindLocationsFor(this._component);
     }
 }

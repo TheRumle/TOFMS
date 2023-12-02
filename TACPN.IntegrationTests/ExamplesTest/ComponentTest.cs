@@ -12,7 +12,7 @@ using Tofms.Common.Translate;
 namespace TACPN.IntegrationTests.ExamplesTest;
 
 public abstract class ComponentTest {
-    protected readonly IMoveActionTranslation<PetriNetComponent> Translater = new TofmToTacpnTranslater(new MoveActionAdapterFactory());
+    protected readonly IMoveActionTranslation<PetriNetComponent> Translater = new TofmToTacpnTranslater(new MoveActionToTransitionFactory());
     
     protected readonly JsonTofmToDomainTofmParser JsonParser;
     protected readonly string JsonText;

@@ -80,4 +80,9 @@ public class TofmSystemValidator : IValidator<TofmSystem>
                     errs.Add(exception);
         };
     }
+
+    public static TofmSystemValidator Default()
+    {
+        return new TofmSystemValidator(new LocationValidator(new InvariantValidator()), new NamingValidator(), new MoveActionValidator());
+    }
 }

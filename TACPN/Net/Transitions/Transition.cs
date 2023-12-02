@@ -9,7 +9,7 @@ public class Transition
         Name = name;
     }
 
-    public string Name { get; init; }
+    public string Name { get; }
     public ICollection<IngoingArc> InGoing { get; } = new List<IngoingArc>();
     public ICollection<OutGoingArc> OutGoing { get; } = new List<OutGoingArc>();
     public ICollection<InhibitorArc> InhibitorArcs { get; } = new List<InhibitorArc>();
@@ -29,7 +29,7 @@ public class Transition
     }
 
 
-    public Arc<Transition, Place> AddOutGoingTo(Place from, IEnumerable<Production> productions)
+    public OutGoingArc AddOutGoingTo(Place from, IEnumerable<Production> productions)
     {
         var arc = new OutGoingArc(this, from, productions);
         OutGoing.Add(arc);
