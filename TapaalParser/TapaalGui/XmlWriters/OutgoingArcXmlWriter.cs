@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using TACPN.Net.Arcs;
-using TapaalParser.TapaalGui.XmlWriters.Builders;
 using TapaalParser.TapaalGui.XmlWriters.Symbols;
+using TapaalParser.TapaalGui.XmlWriters.SymbolWriters;
 
 namespace TapaalParser.TapaalGui.XmlWriters;
 
@@ -44,6 +44,6 @@ public class OutgoingArcXmlWriter : IGuiTranslater<OutGoingArc>
     private void AppendArcInfo(OutGoingArc arc)
     {
         _builder.Append(
-            $@"id=""{ArcName.NextOut()}"" inscription=""1"" nameOffsetX=""-3"" nameOffsetY=""-23"" source=""{arc.From.Name}"" target=""{arc.To.Name}"" type=""normal"" weight=""1"">");
+            $@"id=""{ArcName.NextOut()}"" inscription=""1"" nameOffsetX=""0"" nameOffsetY=""0"" source=""{arc.From.Name}"" target=""{arc.To.Name}"" type=""normal"" weight=""1"">");
     }
 }

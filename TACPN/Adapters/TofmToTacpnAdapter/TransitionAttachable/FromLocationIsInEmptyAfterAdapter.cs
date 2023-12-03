@@ -27,7 +27,7 @@ internal class FromLocationIsInEmptyAfterAdapter : ITransitionAttachable
             return;
         }
         
-        var (_, fromPlaceHat) = LocationTranslator.CreateLocationPlacePair(_fromLocation);
+        var (_, fromPlaceHat) = LocationTranslator.CreatePlaceAndCapacityPlacePair(_fromLocation);
         AppendArcs(transition, fromPlaceHat);
     }
 

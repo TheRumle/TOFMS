@@ -14,7 +14,7 @@ internal class FromLocationAdaption : ITransitionAttachable
     {
         FromLocation = fromLocation;
         ToConsume = partsToConsume;
-        (FromPlace, FromPlaceHat) = LocationTranslator.CreateLocationPlacePair(fromLocation);
+        (FromPlace, FromPlaceHat) = LocationTranslator.CreatePlaceAndCapacityPlacePair(fromLocation);
     }
 
     private Tofms.Common.Location FromLocation { get; set; }

@@ -79,7 +79,7 @@ public class JsonTofmToDomainTofmParser
     private static void ThrowErrorMessage(InvalidJsonTofmException[] invalidJsonTofmExceptions)
     {
         var message = new ErrorFormatter(invalidJsonTofmExceptions).ToErrorString();
-        throw new AggregateException(message, invalidJsonTofmExceptions);
+        throw new Exception(message);
     }
     
     private static void ValidateTopLevel(TofmSystem? system)

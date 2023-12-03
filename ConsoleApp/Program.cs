@@ -1,12 +1,16 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using ConsoleApp;
+using ConsoleApp.ProgramBuilder;
 
 
-await TofmsToTapaal
+var process = await TofmsToTapaal
     .GetInOutFiles()
     .ParseAndValidateInputSystem()
-    .TranslateTofmsToTacpnComponent()
+    .TranslateTofmsToTacpnComponents()
     .TranslateToTapaalXml()
-    .WriteToOutputPath();
+    ;
+
+await process.WriteToOutputPath();
+
     

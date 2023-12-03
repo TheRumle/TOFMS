@@ -14,7 +14,15 @@ internal class EmptyBeforeCapacitorInhibitorAdaption : ITransitionAttachable
 
     public void AttachToTransition(Transition transition)
     {
-        foreach (var place in _locations.Select(LocationTranslator.CreatePlace))
-            transition.AddInhibitorFrom(place, 1);
+        foreach (var location in _locations)
+        {
+            var matchingPlace = transition.InvolvedPlaces.FirstOrDefault(place => place.Name == location.Name);
+            if (matchingPlace != null)
+                transition.AddInhibitorFrom(matchingPlace, 1);
+            else
+            {
+                transition.AddInhibitorFrom(LocationTranslator.CreatePlace(location), 1);
+            }
+        }
     }
 }

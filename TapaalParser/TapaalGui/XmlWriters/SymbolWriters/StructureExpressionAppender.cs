@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using TACPN.Net;
 
-namespace TapaalParser.TapaalGui.XmlWriters.Builders;
+namespace TapaalParser.TapaalGui.XmlWriters.SymbolWriters;
 
 public class StructureExpressionAppender
 {

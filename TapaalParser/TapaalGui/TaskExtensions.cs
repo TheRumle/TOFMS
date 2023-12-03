@@ -1,12 +1,14 @@
-﻿using TACPN.Net;
+﻿using System.Collections.ObjectModel;
+using TACPN.Net;
 using TACPN.Net.Arcs;
 
 namespace TapaalParser.TapaalGui;
 
 public static class TaskExtensions {
-    public static Task<T> Add<T>(this IEnumerable<Task<T>> tasks, Func<T> action)
+    public static void Add<T>(this ICollection<Task<T>> tasks, Func<T> action)
     {
-        return Task.Run(action.Invoke);
+        var t = Task.Run(action.Invoke);
+        tasks.Add(t);
     }
 
 }

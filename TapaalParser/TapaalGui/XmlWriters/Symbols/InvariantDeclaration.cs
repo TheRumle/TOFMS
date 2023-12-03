@@ -34,8 +34,9 @@ public class InvariantDeclaration
 
     public override string ToString()
     {
+        var symbol = NumericValue == Infteger.PositiveInfinity ? "inf" : NumericValue.ToString();
         return $@"<colorinvariant>
-        <inscription inscription=""{Comparator.Value} {NumericValue}""/>
+        <inscription inscription=""{Comparator.Value} {symbol}""/>
         <colortype name=""{ColorType}"">
           <color value=""{Color}""/>
         </colortype>

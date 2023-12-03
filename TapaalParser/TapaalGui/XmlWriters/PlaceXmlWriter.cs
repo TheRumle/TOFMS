@@ -2,8 +2,8 @@
 using System.Text.RegularExpressions;
 using TACPN.Net;
 using TapaalParser.TapaalGui.Placable;
-using TapaalParser.TapaalGui.XmlWriters.Builders;
 using TapaalParser.TapaalGui.XmlWriters.Symbols;
+using TapaalParser.TapaalGui.XmlWriters.SymbolWriters;
 
 namespace TapaalParser.TapaalGui.XmlWriters;
 
@@ -22,14 +22,16 @@ public partial class PlaceXmlWriter : IGuiTranslater<Placement<Place>>
     {
         var element = placement.Construct;
         var name = element.Name;
-        var tokens = element.Tokens;
+        var marking = element.Tokens;
         var pos = placement.Position;
 
 
         builder.Append("<place ");
-        AppendPlaceInfo(name, tokens, pos);
+        AppendPlaceInfo(name, marking, pos);
         AppendColourTypeInfo(element);
-        AppendInitialMarking(tokens);
+        if (marking.Count > 0)
+            AppendInitialMarking(marking);
+        
         AppendInvariants(element.ColorInvariants, element.ColourType.Name);
         builder.Append(" </place>");
         return MatchWhiteSpace().Replace(builder.ToString(), " ");

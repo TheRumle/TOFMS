@@ -6,7 +6,7 @@ using TapaalParser.TapaalGui.XmlWriters;
 
 namespace TapaalParser.TapaalGui;
 
-public class TacpnComponentXmlParser : ITapaalGuiParser<PlacableComponent>
+public class TacpnComponentXmlParser
 {
     private readonly IEnumerable<Placement<Transition>> _transitions;
     private readonly  IEnumerable<Placement<Place>> _places;
@@ -36,7 +36,6 @@ public class TacpnComponentXmlParser : ITapaalGuiParser<PlacableComponent>
         combiner.Append(await ingoingArcs);
         combiner.Append(await outgoingArcs);
         combiner.Append(await inhibitorArcs);
-
         WriteTapaalComponentFooter(combiner);
 
 
@@ -62,43 +61,44 @@ public class TacpnComponentXmlParser : ITapaalGuiParser<PlacableComponent>
         return combiner.ToString();
     }
 
-    private Task<IEnumerable<string>> ConstructInhibitorArcs()
+    private async Task<IEnumerable<string>> ConstructInhibitorArcs()
     {
         var arcs = _transitions.SelectMany(e => e.Construct.InhibitorArcs);
-        return ConstructTasks(arcs, e => throw new NotImplementedException("Inhibitor arc parsing not implemented!"));
+        return await ConstructTasks(arcs, e => new InhibitorArcXmlWriter().XmlString(e));
     }
 
-    private Task<IEnumerable<string>> ConstructOutgoingArcs()
+    private async Task<IEnumerable<string>> ConstructOutgoingArcs()
     {
         var outgoings = _transitions.SelectMany(e => e.Construct.OutGoing);
-        return ConstructTasks(outgoings, e => new OutgoingArcXmlWriter().XmlString(e));
+        return await ConstructTasks(outgoings, e => new OutgoingArcXmlWriter().XmlString(e));
     }
 
-    private Task<IEnumerable<string>> ConstructTransitions() =>
-        ConstructTasks(_transitions, t => new TransitionXmlWriter().XmlString(t));
+    private async Task<IEnumerable<string>> ConstructTransitions()
+    {
+        return await ConstructTasks(_transitions, t => new TransitionXmlWriter().XmlString(t));
+    }
 
-    private Task<IEnumerable<string>> ConstructIngoingArcs()
+    private async Task<IEnumerable<string>> ConstructIngoingArcs()
     {
         var ingoing = _transitions.SelectMany(e => e.Construct.InGoing);
-        return ConstructTasks(ingoing, i => new IngoingArcXmlWriter().XmlString(i));
+        return await ConstructTasks(ingoing, i => new IngoingArcXmlWriter().XmlString(i));
     }
 
 
-    public Task<IEnumerable<string>> ConstructPlaces() => ConstructTasks(_places, (p) => new PlaceXmlWriter().XmlString(p));
-    
-    public Task<IEnumerable<string>> ConstructTasks<T>(IEnumerable<T> source, Func<T, string> xmlWrite)
+    public async Task<IEnumerable<string>> ConstructPlaces()
+    {
+        return await ConstructTasks(_places, (p) => new PlaceXmlWriter().XmlString(p));
+    }
+
+    public async Task<IEnumerable<string>> ConstructTasks<T>(IEnumerable<T> source, Func<T, string> xmlWrite)
     {
         
         List<Task<string>> tasks = new List<Task<string>>();
         foreach (var element in source)
             tasks.Add(()=>xmlWrite.Invoke(element));
         
-        return Task.FromResult(tasks.Select(e=>e.Result));
+        await Task.WhenAll(tasks);
+        return await Task.FromResult(tasks.Select(e=>e.Result));
     }
     
-}
-
-public interface ITapaalGuiParser<T>
-{
-    public Task<string> CreateXmlComponent();
 }

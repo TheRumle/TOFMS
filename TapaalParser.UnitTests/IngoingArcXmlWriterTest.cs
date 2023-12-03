@@ -16,7 +16,7 @@ public class IngoingArcXmlWriterTest: IClassFixture<TestOutputHelper>
   
   private static readonly string XmlString =
     $"""
-     <arc id="Ai0" inscription="[0,inf)" nameOffsetX="48" nameOffsetY="20" source="P3" target="T0" type="timed" weight="1">
+     <arc id="Ai0" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="P3" target="T0" type="timed" weight="1">
             <colorinterval>
              <inscription inscription="[5,12]"/>
              <colortype name="AB">
@@ -78,7 +78,7 @@ public class IngoingArcXmlWriterTest: IClassFixture<TestOutputHelper>
     {
       new ("a", 10),
       new ("b", 13),
-    }, "AB");
+    }, new ColourType("AB", new []{"a", "b"}));
     var guards = new List<ColoredGuard>()
     {
       new(3,"b", new Interval(0,8)),

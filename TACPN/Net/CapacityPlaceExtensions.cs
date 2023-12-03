@@ -7,7 +7,7 @@ public static class CapacityPlaceExtensions
     public static readonly string DefaultCapacityColor = "dot";
     public static readonly string Hat = "_buffer";
 
-    public static string CapacityNameFor(Place place)
+    private static string CapacityNameFor(Place place)
     {
         return place.Name + "_buffer";
     }
@@ -21,7 +21,7 @@ public static class CapacityPlaceExtensions
     public static Place ToCapacityPlace(this Place place, int numTokens)
     {
         var kvp = KeyValuePair.Create(DefaultCapacityColor, (int)InfinityInteger.Positive);
-        return new Place(CapacityNameFor(place), new[] { kvp }, "")
+        return new Place(CapacityNameFor(place), new[] { kvp }, ColourType.DefaultColorType)
         {
             IsCapacityLocation = true,
             Tokens = new TokenCollection(Enumerable.Repeat(new Token(DefaultCapacityColor), numTokens))

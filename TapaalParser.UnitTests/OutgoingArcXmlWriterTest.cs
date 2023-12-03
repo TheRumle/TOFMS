@@ -16,7 +16,7 @@ public class OutgoingArcXmlWriterTest : IClassFixture<TestOutputHelper>
 
     private const string ArcXmlString =
       $"""
-       <arc id="Ao0" inscription="1" nameOffsetX="-3" nameOffsetY="-23" source="T0" target="P1" type="normal" weight="1">
+       <arc id="Ao0" inscription="1" nameOffsetX="0" nameOffsetY="0" source="T0" target="P1" type="normal" weight="1">
              <hlinscription>
                <text>(1'a + 2'b)</text>
                <structure>
@@ -68,7 +68,7 @@ public class OutgoingArcXmlWriterTest : IClassFixture<TestOutputHelper>
       {
         new ("a", 10),
         new ("b", 13),
-      }, "AB");
+      }, new ColourType("AB",new []{"A", "B"}));
       
       var prods = new List<Production>()
       {

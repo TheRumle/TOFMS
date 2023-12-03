@@ -10,7 +10,7 @@ internal class ToTransitionAttacher : ITransitionAttachable
         IEnumerable<KeyValuePair<string, int>> partsItemMovedIntoPlace)
     {
         _itemMovedIntoPlace = partsItemMovedIntoPlace;
-        (_place, _capacityPlace) = LocationTranslator.CreateLocationPlacePair(location);
+        (_place, _capacityPlace) = LocationTranslator.CreatePlaceAndCapacityPlacePair(location);
     }
 
     private readonly Place _capacityPlace;

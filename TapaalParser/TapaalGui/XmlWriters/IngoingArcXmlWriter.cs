@@ -1,8 +1,8 @@
 ﻿using System.Text;
 using TACPN.Net;
 using TACPN.Net.Arcs;
-using TapaalParser.TapaalGui.XmlWriters.Builders;
 using TapaalParser.TapaalGui.XmlWriters.Symbols;
+using TapaalParser.TapaalGui.XmlWriters.SymbolWriters;
 
 namespace TapaalParser.TapaalGui.XmlWriters;
 
@@ -22,7 +22,7 @@ public class IngoingArcXmlWriter : IGuiTranslater<IngoingArc>
     public string XmlString(IngoingArc arc)
     {
         _builder.Append(
-            $@"<arc id=""{ArcName.NextIn()}"" inscription=""[0,inf)"" nameOffsetX=""48"" nameOffsetY=""20"" source=""{arc.From.Name}"" target=""{arc.To.Name}"" type=""timed"" weight=""1""> ");
+            $@"<arc id=""{ArcName.NextIn()}"" inscription=""[0,inf)"" nameOffsetX=""0"" nameOffsetY=""0"" source=""{arc.From.Name}"" target=""{arc.To.Name}"" type=""timed"" weight=""1""> ");
         AppendIntervals(arc);
         AppendHlInscription(arc);
         _builder.Append(" </arc>");        

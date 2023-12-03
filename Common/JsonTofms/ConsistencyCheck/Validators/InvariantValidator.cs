@@ -7,12 +7,17 @@ public class InvariantValidator : IValidator<IEnumerable<InvariantDefinition>>
 {
     public IEnumerable<InvalidJsonTofmException> Validate(IEnumerable<InvariantDefinition> values)
     {
-        var result = new List<InvalidJsonTofmException>();
+        var errs = new List<InvalidJsonTofmException>();
         foreach (var invariant in values)
+        { 
             if (invariant.Max < invariant.Min)
-                result.Add(new InvalidInvariantException(invariant));
+                errs.Add(new InvalidInvariantException(invariant));
+            
+            if (String.IsNullOrWhiteSpace(invariant.Part))
+                errs.Add(new PartTypeNameEmptyException<InvariantDefinition>(invariant));
+        }
 
-        return result;
+        return errs;
     }
 
     public async Task<IEnumerable<InvalidJsonTofmException>> ValidateAsync(IEnumerable<InvariantDefinition> values)

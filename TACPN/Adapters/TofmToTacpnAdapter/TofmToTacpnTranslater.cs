@@ -24,19 +24,19 @@ public class TofmToTacpnTranslater : IMoveActionTranslation<PetriNetComponent>
         _transitionAttachableFactory.AdaptEmptyBefore(moveAction).AttachToTransition(transition);
 
 
-        var colourTypes = transition.InvolvedPlaces.Select(e => e.ColourType).ToHashSet();
+        var colourTypes = transition.InvolvedPlaces.Select(e => e.ColourType).DistinctBy(e=>e.Name);
         return new PetriNetComponent
         {
             Colors = moveAction.PartsToMove.Select(e => e.Key),
             Transitions = new List<Transition> { transition },
-            Places = new List<Place>(),
+            Places = transition.InvolvedPlaces.ToList(),
             ColourTypes = colourTypes,
             Name = moveAction.Name + "Component"
         };
     }
 
-    public Task<PetriNetComponent> TranslateAsync(MoveAction moveAction)
+    public async Task<PetriNetComponent> TranslateAsync(MoveAction moveAction)
     {
-        return Task.Run(() => Translate(moveAction));
+        return await Task.Run(() => Translate(moveAction));
     }
 }
