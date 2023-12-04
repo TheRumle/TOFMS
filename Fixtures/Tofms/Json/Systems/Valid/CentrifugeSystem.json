@@ -1,4 +1,10 @@
 ﻿{
+  "Journeys": [
+    {
+      "P1": ["CProc"]
+    }
+  ],
+  
   "Components": [
     {
       "Name": "Centrifuge",

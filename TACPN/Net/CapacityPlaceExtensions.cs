@@ -5,7 +5,7 @@ namespace TACPN.Net;
 public static class CapacityPlaceExtensions
 {
     public static readonly string DefaultCapacityColor = "dot";
-    public static readonly string Hat = "_buffer";
+    public static readonly string Hat = "_capacity";
 
     private static string CapacityNameFor(Place place)
     {

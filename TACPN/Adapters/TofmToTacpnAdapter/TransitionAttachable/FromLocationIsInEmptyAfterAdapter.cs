@@ -16,7 +16,7 @@ internal class FromLocationIsInEmptyAfterAdapter : ITransitionAttachable
     {
         _emptyAfter = emptyAfterLocations.ToArray();
         _fromLocation = fromLocation;
-        _guardAmount =  fromLocation.Capacity - partsToConsume.Sum(e=>e.Value) - 1;
+        _guardAmount = fromLocation.Capacity -  (fromLocation.Capacity - partsToConsume.Sum(e=>e.Value) - 1);
     }
 
     public void AttachToTransition(Transition transition)
