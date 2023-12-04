@@ -9,12 +9,12 @@ public static class CapacityPlaceExtensions
 
     private static string CapacityNameFor(Place place)
     {
-        return place.Name + "_buffer";
+        return place.Name + Hat;
     }
     
     public static string CapacityNameFor(string placeName)
     {
-        return placeName + "_buffer";
+        return placeName + Hat;
     }
     
     

@@ -60,5 +60,9 @@ public class Transition
         places.UnionWith(this.OutGoing.Select(e=>e.To));
         return places;
     }
-    
+
+    public override string ToString()
+    {
+        return this.Name;
+    }
 }

@@ -19,10 +19,11 @@ public class TofmToTacpnTranslater : IMoveActionTranslation<PetriNetComponent>
         var transition = new Transition(moveAction.Name);
 
         _transitionAttachableFactory.AdaptFrom(moveAction).AttachToTransition(transition);
-        _transitionAttachableFactory.AdaptEmptyAfter(moveAction).AttachToTransition(transition);
+            _transitionAttachableFactory.AdaptEmptyAfter(moveAction).AttachToTransition(transition);
         _transitionAttachableFactory.AdaptTo(moveAction).AttachToTransition(transition);
         _transitionAttachableFactory.AdaptEmptyBefore(moveAction).AttachToTransition(transition);
 
+        var places = transition.InvolvedPlaces.ToList();
 
         var colourTypes = transition.InvolvedPlaces.Select(e => e.ColourType).DistinctBy(e=>e.Name);
         return new PetriNetComponent

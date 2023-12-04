@@ -7,65 +7,107 @@ namespace TACPN.Adapters.TofmToTacpnAdapter.TransitionAttachable;
 
 internal class FromLocationIsInEmptyAfterAdapter : ITransitionAttachable
 {
-    private readonly Location[] _emptyAfter;
+    private readonly List<Location> _emptyAfter;
     private readonly Location _fromLocation;
     private readonly int _guardAmount;
+    private readonly IEnumerable<KeyValuePair<string, int>> _partsToConsume;
 
     public FromLocationIsInEmptyAfterAdapter(IEnumerable<Location> emptyAfterLocations, Location fromLocation,
         IEnumerable<KeyValuePair<string, int>> partsToConsume)
     {
-        _emptyAfter = emptyAfterLocations.ToArray();
+        _emptyAfter = emptyAfterLocations.ToList();
         _fromLocation = fromLocation;
-        _guardAmount = fromLocation.Capacity -  (fromLocation.Capacity - partsToConsume.Sum(e=>e.Value) - 1);
+        _guardAmount = fromLocation.Capacity - partsToConsume.Sum(e=>e.Value);
+        _partsToConsume = partsToConsume;
     }
 
     public void AttachToTransition(Transition transition)
     {
-        if (TryGetExistingInhibitor(transition, out var ingoingFromFromHat))
+        (Place p, Place pcap) = LocationTranslator.CreatePlaceAndCapacityPlacePair(this._fromLocation);
+        var existingCapPlace = transition
+            .InvolvedPlaces
+            .FirstOrDefault(e => pcap.Equals(e));
+        
+        if (existingCapPlace is null)
+            existingCapPlace = pcap;
+        
+        ModifyOrAddIncomingFromHat(transition, existingCapPlace);
+        ModifyOrAddOutggoingToHat(transition, existingCapPlace);
+
+        var alreadyCreated = _emptyAfter
+            .Where(l => transition.InvolvedPlaces
+                .Any(e => e.IsCreatedFrom(l)));
+
+        _emptyAfter.RemoveAll(e=>alreadyCreated.Contains(e));
+        foreach (var location in _emptyAfter)
         {
-            ModifyExistingArc(ingoingFromFromHat!);
+            transition.AddInhibitorFrom(LocationTranslator.CreatePlace(location), 1);
+        }
+
+    }
+
+    private void ModifyOrAddOutggoingToHat(Transition transition, Place fromPlaceHat)
+    {
+       
+        if (TryGetExistingOutgoingFromHat(transition, out var existingOutgoing))
+        {
+            ModifyExistingArc(existingOutgoing!);
             return;
         }
-        
-        var (_, fromPlaceHat) = LocationTranslator.CreatePlaceAndCapacityPlacePair(_fromLocation);
-        AppendArcs(transition, fromPlaceHat);
+
+        transition.AddOutGoingTo(fromPlaceHat, new Production(ColourType.DefaultColorType.Name, _guardAmount));
     }
 
-    private void ModifyExistingArc(InhibitorArc ingoing)
+    private void ModifyOrAddIncomingFromHat(Transition transition, Place fromPlaceHat)
+    {
+        if (TryGetExistingIngoingFromHat(transition, out var existingIngoing))
+        {
+            ModifyExistingArc(existingIngoing!);
+            return;
+        }
+        //Append arc
+        transition.AddInGoingFrom(fromPlaceHat, ColoredGuard.CapacityGuard(_partsToConsume.Sum(e => e.Value)));
+    }
+
+    private void ModifyExistingArc(IngoingArc ingoing)
     {
         if (!ingoing.From.IsCapacityLocation) throw new ArgumentException("The arc did not go from a capacity location!");
-        ingoing.Weight = _guardAmount;
+        ingoing.ReplaceGuard(ColoredGuard.CapacityGuard(_guardAmount));
+    }
+    
+    private void ModifyExistingArc(OutGoingArc arc)
+    {
+        if (!arc.To.IsCapacityLocation) throw new ArgumentException("The arc did not go from a capacity location!");
+        
+        arc.Productions = new List<Production>()
+        {
+            new(CapacityPlaceExtensions.DefaultCapacityColor, _fromLocation.Capacity)
+        };
     }
 
-    /// <summary>
-    /// Appends inhibitor arcs on all locations in emptyAfter and adds arc fromHat -> transition that consumes n tokens where n
-    /// is cap(from) - amountToMove - 1.
-    /// </summary>
-    /// <param name="transition"></param>
-    /// <param name="fromPlaceHat"></param>
-    private void AppendArcs(Transition transition, Place fromPlaceHat)
+    private bool TryGetExistingIngoingFromHat(Transition transition, out IngoingArc? arc)
     {
-        AppendEmptyAfterMinusFrom(transition);
-        transition.AddInhibitorFrom(fromPlaceHat, _guardAmount);
-    }
-
-    private void AppendEmptyAfterMinusFrom(Transition transition)
-    {
-        var emptyAfterMinusFromLocation = _emptyAfter
-            .Where(location => !location.Equals(_fromLocation));
-
-        InhibitorFromEmptyAfterAdapter inhibitorAdapter = new InhibitorFromEmptyAfterAdapter(emptyAfterMinusFromLocation);
-        inhibitorAdapter.AttachToTransition(transition);
-    }
-
-    private bool TryGetExistingInhibitor(Transition transition, out InhibitorArc? arc)
-    {
-        var arcFromFromHat = transition.InhibitorArcs
+        var arcFromFromHat = transition.InGoing
             .FirstOrDefault(e => e.From.IsCapacityLocation && e.From.IsCreatedFrom(_fromLocation)) ;
 
         if (arcFromFromHat != null)
         {
             arc = arcFromFromHat;
+            return true;
+        }
+        arc = null;
+        return false;
+    }
+    
+    private bool TryGetExistingOutgoingFromHat(Transition transition, out OutGoingArc? arc)
+    {
+        var arcToHat = transition.OutGoing
+            .FirstOrDefault(e => e.To.IsCapacityLocation && e.To.IsCreatedFrom(
+                _fromLocation));
+
+        if (arcToHat != null)
+        {
+            arc = arcToHat;
             return true;
         }
         arc = null;

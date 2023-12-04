@@ -13,6 +13,11 @@ public class ColoredGuard
 
     public Interval Interval { get; }
     public int Amount { get; }
+    
+    public static ColoredGuard CapacityGuard(int amount)
+    {
+        return new ColoredGuard(amount, CapacityPlaceExtensions.DefaultCapacityColor, Interval.ZeroToInfinity);
+    }
 
 
 }

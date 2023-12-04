@@ -1,10 +1,7 @@
 ﻿{
-  "Journeys": [
-    {
-      "P1": ["CProc"]
-    }
-  ],
-  
+  "Journeys": {
+      "P1": ["CProc", "hello"]
+    },
   "Components": [
     {
       "Name": "Centrifuge",

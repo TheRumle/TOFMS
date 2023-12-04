@@ -2,6 +2,29 @@
 
 public class Place
 {
+    protected bool Equals(Place other)
+    {
+        var a = Name == other.Name && IsCapacityLocation == other.IsCapacityLocation && ColourType.Equals(other.ColourType);
+        return a;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+        return Equals((Place)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Name, IsCapacityLocation, ColourType);
+    }
+
+    public override string ToString()
+    {
+        return this.Name;
+    }
 
     public TokenCollection Tokens { get; init; }
 

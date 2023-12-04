@@ -1,5 +1,4 @@
-﻿using TACPN.Adapters;
-using TACPN.Adapters.TofmToTacpnAdapter;
+﻿using TACPN.Adapters.TofmToTacpnAdapter;
 using TACPN.Adapters.TofmToTacpnAdapter.TransitionAttachable;
 using TACPN.Net;
 using TACPN.Net.Transitions;

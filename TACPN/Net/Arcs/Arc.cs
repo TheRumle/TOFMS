@@ -10,4 +10,9 @@ public class Arc<TFrom, TTo>
 
     public TFrom From { get; }
     public TTo To { get; }
+
+    public override string ToString()
+    {
+        return $"{From} -> {To}";
+    }
 }

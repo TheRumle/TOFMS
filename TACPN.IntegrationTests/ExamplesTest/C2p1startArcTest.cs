@@ -25,9 +25,9 @@ public class C2P1StartArcTest : ComponentTest, IClassFixture<CentrifugeFixture>
 
         net.Transitions.Should().HaveCount(1);
         var transition = net.Transitions.First();
-        transition.InGoing.Should().HaveCount(2);
+        transition.InGoing.Should().HaveCount(3);
         transition.OutGoing.Should().HaveCount(2);
-        transition.InhibitorArcs.Should().HaveCount(2);
+        transition.InhibitorArcs.Should().HaveCount(1);
     }
     
     [Fact]
@@ -63,7 +63,9 @@ public class C2P1StartArcTest : ComponentTest, IClassFixture<CentrifugeFixture>
 
         using (new AssertionScope())
         {
-            var arc = transition.FindFirstIngoingFromPlaceContaining("cproc", Hat);
+            var arc = transition.InGoing.First(e =>
+                e.From.Name.ToLower().Contains("cproc") && e.From.Name.ToLower().Contains(Hat));
+            
             arc.Guards.Should().HaveCount(1);
             arc.Guards.First().ShouldHaveLabels(dot, AmountToMove);
         }
@@ -98,32 +100,31 @@ public class C2P1StartArcTest : ComponentTest, IClassFixture<CentrifugeFixture>
     }
     
     [Fact]
-    public async Task ShouldHave_OutGoing_With_2Dot_To_BufferHat()
+    public async Task ShouldHave_OutGoing_With_2Dot_To_CBufferHat()
     {
         Transition transition = await GetFirstTransition();
 
         using (new AssertionScope())
         {
-            var arc = transition.FindFirstOutgoingToPlaceWithName("cbuffer", Hat);
+            var arc = transition.OutGoing.First(e =>
+                e.To.IsCapacityLocation && e.To.Name.ToLower().Contains("cbuffer"));
             arc.Productions.Should().HaveCount(1);
             Production production = arc.Productions.First();
             production.Color.Should().Be(dot);
-            production.Amount.Should().Be(AmountToMove);
+            production.Amount.Should().Be(4);
         }
     }
 
     [Fact]
-    public async Task FromHatShouldHave_InhibitorArc_WithWeight_CapacityMinusSumConsumeMinusOne()
+    public async Task FromHatShouldHave_IngoingArc_WithWeight_CapacityMinusSumConsumeMinusOne()
     {
         Transition transition = await GetFirstTransition();
         using (new AssertionScope())
         {
-            var consumptionGuard = transition.FindFirstInhibitorFromPlaceWithName("cbuffer", Hat);
-            consumptionGuard.Should().NotBeNull();
-            consumptionGuard!.Weight.Should().Be(4 - AmountToMove - 1);
+            var guards = transition.InGoing.First(e=>e.From.IsCapacityLocation && e.From.Name.ToLower().Contains("cbuffer")).Guards;
+            guards.Should().NotBeNull();
+            guards.Select(e=>e.Amount).Sum().Should().Be(4 - AmountToMove);
         }
-        
-        
     }
     
 }
