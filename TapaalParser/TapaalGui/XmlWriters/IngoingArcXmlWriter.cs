@@ -23,7 +23,7 @@ public class IngoingArcXmlWriter : IGuiTranslater<IngoingArc>
     {
         _builder.Append(
             $@"<arc id=""{ArcName.NextIn()}"" inscription=""[0,inf)"" nameOffsetX=""0"" nameOffsetY=""0"" source=""{arc.From.Name}"" target=""{arc.To.Name}"" type=""timed"" weight=""1""> ");
-        AppendIntervals(arc);
+        AppendIntervals(arc); //This needs ] -> ) TODo
         AppendHlInscription(arc);
         _builder.Append(" </arc>");        
 
@@ -33,7 +33,7 @@ public class IngoingArcXmlWriter : IGuiTranslater<IngoingArc>
 
     private void AppendIntervals(IngoingArc arc)
     {
-        var intervalDeclarations =
+        IEnumerable<ColorIntervalDeclaration> intervalDeclarations =
             from colour in arc.From.ColourType.Colours
             from guard in arc.Guards
             where colour == guard.Color
@@ -50,6 +50,8 @@ public class IngoingArcXmlWriter : IGuiTranslater<IngoingArc>
         {
             Colours = arc.From.ColourType.Colours
         };
+        
+        
         
         var expressionBuilder = new ColorExpressionAppender(_builder);
         _builder.Append(@" <hlinscription> <text>");

@@ -39,11 +39,14 @@ public partial class PlaceXmlWriter : IGuiTranslater<Placement<Place>>
 
     private string AppendInvariants(IDictionary<string, int> elementColorInvariants, string colourType)
     {
-        if (elementColorInvariants.Count == 1) return " ";
         
         foreach (var kvp in elementColorInvariants)
         {
-            InvariantDeclaration decl = InvariantDeclaration.LteInvariant(kvp.Key, kvp.Value, colourType);
+            var type = colourType;
+            if (colourType == ColourType.DefaultColorType.Name)
+                type = colourType.ToLower();
+            
+            InvariantDeclaration decl = InvariantDeclaration.LteInvariant(kvp.Key, kvp.Value, type);
             builder.Append(decl);
         }
 

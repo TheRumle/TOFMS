@@ -15,12 +15,7 @@ public class ColorExpressionAppender
     public void WriteColourExpression(TokenCollection collection)
     {
         _builder.Append('(');
-        var tokens = collection
-            .Colours
-            .Where(e => collection.AmountOfColour(e) > 0)
-            .Select(e=> (Color: e, Amount: collection.AmountOfColour(e)))
-            .OrderBy(e=>e)
-            .ToArray();
+        var tokens = collection.WithMoreThan0Occurances().ToArray();
 
         if (tokens.Length > 1)
             AppendColourExpressions(tokens);

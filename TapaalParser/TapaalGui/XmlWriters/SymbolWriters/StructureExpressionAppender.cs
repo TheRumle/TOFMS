@@ -14,8 +14,13 @@ public class StructureExpressionAppender
 
     public void AppendStructureText(TokenCollection tokens)
     {
-        if (tokens.Colours.Count() == 1)
-            HandleSingleColour(tokens);
+        
+        var occurances = tokens.WithMoreThan0Occurances().ToArray();
+        if (occurances.Count()== 1)
+        {
+            var (c, v) = occurances!.First();
+            HandleSingleColour(c,v);
+        }
         else
         {
             HandleMultipleColors(tokens);
@@ -35,22 +40,24 @@ public class StructureExpressionAppender
         _builder.Append(@" </add> </structure>" );
     }
 
-    private void HandleSingleColour(TokenCollection tokens)
+    private void HandleSingleColour(string color, int amount)
     {
-       
-        foreach (var color in tokens.Colours)
-        {
-            _builder.Append(" <structure> <add>");
-            var n = tokens.AmountOfColour(color);
-            AppendSubTerm(n, color);
-            _builder.Append(" </add> </structure>");
-        }
+        _builder.Append(" <structure> <add> ");
+        AppendSingleSubTerm(amount, color);
+        _builder.Append(" </add> </structure>");
     }
 
     private void AppendSubTerm(int n, string colour)
     {
         _builder.Append(
             $@" <subterm> <numberof> <subterm> <numberconstant value=""{n}""> <positive/> </numberconstant> </subterm> <subterm> <useroperator declaration=""{colour}""/> </subterm> </numberof> </subterm> ");
+    }
+
+    
+    private void AppendSingleSubTerm(int n, string colour)
+    {
+        _builder.Append(
+            $@"  <subterm> <numberof> <subterm> <numberconstant value=""{n}""> <positive/> </numberconstant> </subterm> <subterm> <useroperator declaration=""{colour}""/> </subterm> </numberof>  </subterm>");
     }
 
 

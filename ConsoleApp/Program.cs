@@ -12,5 +12,4 @@ var process = await TofmsToTapaal
     ;
 
 await process.WriteToOutputPath();
-
-    
+return 0;
