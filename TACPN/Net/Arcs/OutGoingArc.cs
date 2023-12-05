@@ -2,11 +2,11 @@
 
 namespace TACPN.Net.Arcs;
 
-public class OutGoingArc : Arc<Transition, Place>
+public class OutGoingArc : Arc<Transition, IPlace>
 {
     public IEnumerable<Production> Productions { get; set; }
 
-    public OutGoingArc(Transition from, Place to, IEnumerable<Production> productions) : base(from, to)
+    public OutGoingArc(Transition from, IPlace to, IEnumerable<Production> productions) : base(from, to)
     {
         Productions = productions;
     }

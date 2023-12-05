@@ -1,6 +1,6 @@
 ﻿namespace Tofms.Common.JsonTofms.Models;
 
-public record TofmSystem
+public record TofmJsonSystem
 {
     public List<string>? Parts { get; set; }
     public List<TofmComponent>? Components { get; set; }

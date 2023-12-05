@@ -3,7 +3,7 @@ using TACPN.Net;
 
 namespace TapaalParser.TapaalGui.XmlWriters.SymbolWriters;
 
-public class ColourDeclarationWriter : IGuiTranslater<ISet<ColourType>>
+public class CyclicEnumerationDeclarationWriter : IGuiTranslater<ISet<ColourType>>
 {
     public string XmlString(ISet<ColourType> colorTypes)
     {
@@ -23,9 +23,10 @@ public class ColourDeclarationWriter : IGuiTranslater<ISet<ColourType>>
                 builder.Append($@" <feconstant id=""{color}"" name=""{colorType.Name}""/> ");
             builder.Append("  </cyclicenumeration> ");
             builder.Append("</namedsort>");
-
         }
 
         return builder.ToString();
     }
+    
+    
 }

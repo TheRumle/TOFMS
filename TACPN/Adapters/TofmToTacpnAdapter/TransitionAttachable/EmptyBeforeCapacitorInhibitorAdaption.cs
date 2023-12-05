@@ -5,12 +5,14 @@ namespace TACPN.Adapters.TofmToTacpnAdapter.TransitionAttachable;
 
 internal class EmptyBeforeCapacitorInhibitorAdaption : ITransitionAttachable
 {
-    public EmptyBeforeCapacitorInhibitorAdaption(ISet<Location> locations)
+    public EmptyBeforeCapacitorInhibitorAdaption(ISet<Location> locations, JourneyCollection collection)
     {
         _locations = locations;
+        _collection = collection;
     }
 
     private readonly IEnumerable<Location> _locations;
+    private readonly JourneyCollection _collection;
 
     public void AttachToTransition(Transition transition)
     {
@@ -21,7 +23,7 @@ internal class EmptyBeforeCapacitorInhibitorAdaption : ITransitionAttachable
                 transition.AddInhibitorFrom(matchingPlace, 1);
             else
             {
-                transition.AddInhibitorFrom(LocationTranslator.CreatePlace(location), 1);
+                transition.AddInhibitorFrom(LocationTranslator.CreatePlace(location, _collection), 1);
             }
         }
     }

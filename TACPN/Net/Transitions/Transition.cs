@@ -1,4 +1,6 @@
-﻿using TACPN.Net.Arcs;
+﻿using System.Collections;
+using TACPN.Net.Arcs;
+using Tofms.Common;
 
 namespace TACPN.Net.Transitions;
 
@@ -14,55 +16,78 @@ public class Transition
     public ICollection<OutGoingArc> OutGoing { get; } = new List<OutGoingArc>();
     public ICollection<InhibitorArc> InhibitorArcs { get; } = new List<InhibitorArc>();
 
-    public IngoingArc AddInGoingFrom(Place from, IEnumerable<ColoredGuard> guards)
+    public IngoingArc AddInGoingFrom(IPlace from, IEnumerable<ColoredGuard> guards)
     {
         var arc = new IngoingArc(from, this, guards);
         InGoing.Add(arc);
         return arc;
     }
 
-    public Arc<Place, Transition> AddInGoingFrom(Place from, ColoredGuard guard)
+    public Arc<IPlace, Transition> AddInGoingFrom(IPlace from, ColoredGuard guard)
     {
         var arc = new IngoingArc(from, this, new[] { guard });
         InGoing.Add(arc);
         return arc;
     }
+    
+    
 
 
-    public OutGoingArc AddOutGoingTo(Place from, IEnumerable<Production> productions)
+    public OutGoingArc AddOutGoingTo(IPlace from, IEnumerable<Production> productions)
     {
         var arc = new OutGoingArc(this, from, productions);
         OutGoing.Add(arc);
         return arc;
     }
 
-    public Arc<Transition, Place> AddOutGoingTo(Place from, Production production)
+    public Arc<Transition, IPlace> AddOutGoingTo(IPlace from, Production production)
     {
         var arc = new OutGoingArc(this, from, new List<Production> { production });
         OutGoing.Add(arc);
         return arc;
     }
 
-    public InhibitorArc AddInhibitorFrom(Place from, int weight)
+    public InhibitorArc AddInhibitorFrom(IPlace from, int weight)
     {
         var arc = new InhibitorArc(from, this, weight);
         InhibitorArcs.Add(arc);
         return arc;
     }
 
-    public IEnumerable<Place> InvolvedPlaces => GetAllPlaces();
+    public IEnumerable<IPlace> InvolvedPlaces => GetAllPlaces();
 
-    private IEnumerable<Place> GetAllPlaces()
+    private IEnumerable<IPlace> GetAllPlaces()
     {
-        var places = new HashSet<Place>();
+        var places = new HashSet<IPlace>();
         places.UnionWith(this.InhibitorArcs.Select(e=>e.From));
         places.UnionWith(this.InGoing.Select(e=>e.From));
         places.UnionWith(this.OutGoing.Select(e=>e.To));
         return places;
     }
 
+
+    public TransitionGuard Guards { get; set; } = new TransitionGuard();
+
+    public void AddGuard(KeyValuePair<int, Place> guardFor)
+    {
+        this.Guards.Add(guardFor);
+    }
+
     public override string ToString()
     {
         return this.Name;
     }
+
+
+    public IEnumerable<CapacityPlace> IncomingFromCapacityPlaces()
+    {
+        return InvolvedPlaces.OfType<CapacityPlace>();
+    }
+}
+
+public class TransitionGuard : List<KeyValuePair<int, Place>>
+{
+    
+    
+    
 }

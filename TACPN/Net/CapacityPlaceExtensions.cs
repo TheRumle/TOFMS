@@ -18,16 +18,10 @@ public static class CapacityPlaceExtensions
     }
     
     
-    public static Place ToCapacityPlace(this Place place, int numTokens)
+    public static CapacityPlace ToCapacityPlace(this Place place, int numTokens)
     {
         var kvp = KeyValuePair.Create(DefaultCapacityColor, (int)InfinityInteger.Positive);
-        return new Place(CapacityNameFor(place), new[] { kvp }, ColourType.DefaultColorType)
-        {
-            IsCapacityLocation = true,
-            Tokens = new TokenCollection(Enumerable.Repeat(new Token(DefaultCapacityColor), numTokens))
-            {
-                Colours = new []{DefaultCapacityColor}.ToList()
-            }
-        };
+
+        return  new CapacityPlace(CapacityNameFor(place), ColourInvariant.DotDefault, numTokens);
     }
 }

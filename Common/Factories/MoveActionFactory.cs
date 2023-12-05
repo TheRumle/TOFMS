@@ -6,11 +6,11 @@ namespace Tofms.Common.Factories;
 
 public class MoveActionFactory : ITofmsFactory
 {
-    public IReadOnlyList<MoveAction> CreateMoveActions(TofmSystem tofmSystem)
+    public IReadOnlyCollection<MoveAction> CreateMoveActions(TofmJsonSystem tofmJsonSystem)
     {
-        var locationStructures = tofmSystem.Components.SelectMany(e => e.Locations).ToArray();
+        var locationStructures = tofmJsonSystem.Components.SelectMany(e => e.Locations).ToArray();
         var locations = CreateLocations(locationStructures);
-        return CreateMoveAction(tofmSystem.Components.SelectMany(e => e.Moves), locations);
+        return CreateMoveAction(tofmJsonSystem.Components.SelectMany(e => e.Moves), locations);
     }
 
     private ReadOnlyCollection<MoveAction> CreateMoveAction(IEnumerable<MoveActionDefinition> moveActionStructures,
@@ -50,7 +50,8 @@ public class MoveActionFactory : ITofmsFactory
             new Location(
                 locationStructure.Name,
                 locationStructure.Capacity,
-                locationStructure.Invariants.Select(e => new Invariant(e.Part, e.Min, e.Max))
+                locationStructure.Invariants.Select(e => new Invariant(e.Part, e.Min, e.Max)),
+                locationStructure.IsProcessing
             )
         ).ToArray();
     }

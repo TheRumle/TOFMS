@@ -11,6 +11,18 @@
                         <feconstant id="P2" name="Parts" />
                     </cyclicenumeration>
                 </namedsort>
+                <namedsort id="Journey" name="Journey">
+                    <finiteintrange end="1" start="0" />
+                </namedsort>
+                <namedsort id="Tokens" name="Tokens">
+                    <productsort>
+                        <usersort declaration="Parts" />
+                        <usersort declaration="Journey" />
+                    </productsort>
+                </namedsort>
+                <variabledcl id="Varx" name="x">
+                    <usersort declaration="Journey" />
+                </variabledcl>
             </declarations>
         </structure>
     </declaration>
@@ -18,13 +30,15 @@
         <colorinvariant>
             <inscription inscription="&lt; 12" />
             <colortype name="Parts">
-                <color value="P1" />
+                <color
+                    value="ColourInvariant { MaxAge = 12, ColourType = ColourType { Name = Parts, Colours = System.Linq.Enumerable+SelectEnumerableIterator`2[Tofms.Common.Invariant,System.String] }, FirstColour = 0, SecondColour = P1 }" />
             </colortype>
         </colorinvariant>
         <colorinvariant>
             <inscription inscription="&lt; 12" />
             <colortype name="Parts">
-                <color value="P2" />
+                <color
+                    value="ColourInvariant { MaxAge = 12, ColourType = ColourType { Name = Parts, Colours = System.Linq.Enumerable+SelectEnumerableIterator`2[Tofms.Common.Invariant,System.String] }, FirstColour = 0, SecondColour = P2 }" />
             </colortype>
         </colorinvariant>
         <type>
@@ -35,90 +49,12 @@
         </type>
     </shared-place>
     <shared-place initialMarking="0" invariant="&lt; inf" name="CBuffer">
-        <colorinvariant>
-            <inscription inscription="&lt; inf" />
-            <colortype name="Parts">
-                <color value="P1" />
-            </colortype>
-        </colorinvariant>
-        <colorinvariant>
-            <inscription inscription="&lt; inf" />
-            <colortype name="Parts">
-                <color value="P2" />
-            </colortype>
-        </colorinvariant>
         <type>
             <text>Parts</text>
             <structure>
                 <usersort declaration="Parts" />
             </structure>
         </type>
-    </shared-place>
-    <shared-place initialMarking="4" invariant="&lt; inf" name="CBuffer_capacity">
-        <colorinvariant>
-            <inscription inscription="&lt; inf" />
-            <colortype name="dot">
-                <color value="dot" />
-            </colortype>
-        </colorinvariant>
-        <type>
-            <text>dot</text>
-            <structure>
-                <usersort declaration="dot" />
-            </structure>
-        </type>
-        <hlinitialMarking>
-            <text>(4'dot)</text>
-            <structure>
-                <add>
-                    <subterm>
-                        <numberof>
-                            <subterm>
-                                <numberconstant value="4">
-                                    <positive />
-                                </numberconstant>
-                            </subterm>
-                            <subterm>
-                                <useroperator declaration="dot" />
-                            </subterm>
-                        </numberof>
-                    </subterm>
-                </add>
-            </structure>
-        </hlinitialMarking>
-    </shared-place>
-    <shared-place initialMarking="4" invariant="&lt; inf" name="CProc_capacity">
-        <colorinvariant>
-            <inscription inscription="&lt; inf" />
-            <colortype name="dot">
-                <color value="dot" />
-            </colortype>
-        </colorinvariant>
-        <type>
-            <text>dot</text>
-            <structure>
-                <usersort declaration="dot" />
-            </structure>
-        </type>
-        <hlinitialMarking>
-            <text>(4'dot)</text>
-            <structure>
-                <add>
-                    <subterm>
-                        <numberof>
-                            <subterm>
-                                <numberconstant value="4">
-                                    <positive />
-                                </numberconstant>
-                            </subterm>
-                            <subterm>
-                                <useroperator declaration="dot" />
-                            </subterm>
-                        </numberof>
-                    </subterm>
-                </add>
-            </structure>
-        </hlinitialMarking>
     </shared-place>
     <net active="true" id="c2p1startComponent" type="P/T net">
         <place displayName="true" id="CProc" initialMarking="0" invariant="&lt; inf" name="CProc"
@@ -129,112 +65,20 @@
                     <usersort declaration="Parts" />
                 </structure>
             </type>
-            <colorinvariant>
-                <inscription inscription="&lt;= 12" />
-                <colortype name="Parts">
-                    <color value="P1" />
-                </colortype>
-            </colorinvariant>
-            <colorinvariant>
-                <inscription inscription="&lt;= 12" />
-                <colortype name="Parts">
-                    <color value="P2" />
-                </colortype>
-            </colorinvariant>
         </place>
         <place displayName="true" id="CBuffer" initialMarking="0" invariant="&lt; inf"
-            name="CBuffer" nameOffsetX="0" nameOffsetY="0" positionX="300" positionY="500">
+            name="CBuffer" nameOffsetX="0" nameOffsetY="0" positionX="100" positionY="300">
             <type>
                 <text>Parts</text>
                 <structure>
                     <usersort declaration="Parts" />
                 </structure>
             </type>
-            <colorinvariant>
-                <inscription inscription="&lt; inf" />
-                <colortype name="Parts">
-                    <color value="P1" />
-                </colortype>
-            </colorinvariant>
-            <colorinvariant>
-                <inscription inscription="&lt; inf" />
-                <colortype name="Parts">
-                    <color value="P2" />
-                </colortype>
-            </colorinvariant>
-        </place>
-        <place displayName="true" id="CBuffer_capacity" initialMarking="4" invariant="&lt; inf"
-            name="CBuffer_capacity" nameOffsetX="0" nameOffsetY="0" positionX="100" positionY="300">
-            <type>
-                <text>dot</text>
-                <structure>
-                    <usersort declaration="dot" />
-                </structure>
-            </type>
-            <hlinitialMarking>
-                <text>(4'dot)</text>
-                <structure>
-                    <add>
-                        <subterm>
-                            <numberof>
-                                <subterm>
-                                    <numberconstant value="4">
-                                        <positive />
-                                    </numberconstant>
-                                </subterm>
-                                <subterm>
-                                    <useroperator declaration="dot" />
-                                </subterm>
-                            </numberof>
-                        </subterm>
-                    </add>
-                </structure>
-            </hlinitialMarking>
-            <colorinvariant>
-                <inscription inscription="&lt; inf" />
-                <colortype name="dot">
-                    <color value="dot" />
-                </colortype>
-            </colorinvariant>
-        </place>
-        <place displayName="true" id="CProc_capacity" initialMarking="4" invariant="&lt; inf"
-            name="CProc_capacity" nameOffsetX="0" nameOffsetY="0" positionX="300" positionY="100">
-            <type>
-                <text>dot</text>
-                <structure>
-                    <usersort declaration="dot" />
-                </structure>
-            </type>
-            <hlinitialMarking>
-                <text>(4'dot)</text>
-                <structure>
-                    <add>
-                        <subterm>
-                            <numberof>
-                                <subterm>
-                                    <numberconstant value="4">
-                                        <positive />
-                                    </numberconstant>
-                                </subterm>
-                                <subterm>
-                                    <useroperator declaration="dot" />
-                                </subterm>
-                            </numberof>
-                        </subterm>
-                    </add>
-                </structure>
-            </hlinitialMarking>
-            <colorinvariant>
-                <inscription inscription="&lt; inf" />
-                <colortype name="dot">
-                    <color value="dot" />
-                </colortype>
-            </colorinvariant>
         </place>
         <transition angle="0" displayName="true" id="c2p1start" infiniteServer="false"
             name="c2p1start" nameOffsetX="0" nameOffsetY="0" player="0" positionX="300"
             positionY="300" priority="0" urgent="false" />
-        <arc id="Ai1" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="CBuffer"
+        <arc id="Ai0" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="CBuffer"
             target="c2p1start" type="timed" weight="1">
             <colorinterval>
                 <inscription inscription="[0,inf)" />
@@ -262,7 +106,7 @@
                 </structure>
             </hlinscription>
         </arc>
-        <arc id="Ai2" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0"
+        <arc id="Ai1" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0"
             source="CBuffer_capacity" target="c2p1start" type="timed" weight="1">
             <colorinterval>
                 <inscription inscription="[0,inf)" />
@@ -290,7 +134,7 @@
                 </structure>
             </hlinscription>
         </arc>
-        <arc id="Ai0" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="CProc_capacity"
+        <arc id="Ai2" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="CProc_capacity"
             target="c2p1start" type="timed" weight="1">
             <colorinterval>
                 <inscription inscription="[0,inf)" />

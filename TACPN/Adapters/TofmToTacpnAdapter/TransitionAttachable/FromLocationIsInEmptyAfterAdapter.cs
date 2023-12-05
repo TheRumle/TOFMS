@@ -11,26 +11,31 @@ internal class FromLocationIsInEmptyAfterAdapter : ITransitionAttachable
     private readonly Location _fromLocation;
     private readonly int _guardAmount;
     private readonly IEnumerable<KeyValuePair<string, int>> _partsToConsume;
+    private readonly JourneyCollection _collection;
 
     public FromLocationIsInEmptyAfterAdapter(IEnumerable<Location> emptyAfterLocations, Location fromLocation,
-        IEnumerable<KeyValuePair<string, int>> partsToConsume)
+        IEnumerable<KeyValuePair<string, int>> partsToConsume, JourneyCollection collection)
     {
         _emptyAfter = emptyAfterLocations.ToList();
         _fromLocation = fromLocation;
         _guardAmount = fromLocation.Capacity - partsToConsume.Sum(e=>e.Value);
         _partsToConsume = partsToConsume;
+        _collection = collection;
     }
 
     public void AttachToTransition(Transition transition)
     {
-        (Place p, Place pcap) = LocationTranslator.CreatePlaceAndCapacityPlacePair(this._fromLocation);
-        var existingCapPlace = transition
+        (var p, var pcap) = LocationTranslator.CreatePlaceAndCapacityPlacePair(this._fromLocation, this._collection);
+        
+        IPlace? foundPlace = transition
             .InvolvedPlaces
+            .OfType<CapacityPlace>()
             .FirstOrDefault(e => pcap.Equals(e));
         
-        if (existingCapPlace is null)
-            existingCapPlace = pcap;
-        
+        if (foundPlace is null)
+            foundPlace = pcap;
+
+        var existingCapPlace = (CapacityPlace)foundPlace;
         ModifyOrAddIncomingFromHat(transition, existingCapPlace);
         ModifyOrAddOutggoingToHat(transition, existingCapPlace);
 
@@ -41,12 +46,12 @@ internal class FromLocationIsInEmptyAfterAdapter : ITransitionAttachable
         _emptyAfter.RemoveAll(e=>alreadyCreated.Contains(e));
         foreach (var location in _emptyAfter)
         {
-            transition.AddInhibitorFrom(LocationTranslator.CreatePlace(location), 1);
+            transition.AddInhibitorFrom(LocationTranslator.CreatePlace(location, _collection), 1);
         }
 
     }
 
-    private void ModifyOrAddOutggoingToHat(Transition transition, Place fromPlaceHat)
+    private void ModifyOrAddOutggoingToHat(Transition transition, CapacityPlace fromPlaceHat)
     {
        
         if (TryGetExistingOutgoingFromHat(transition, out var existingOutgoing))
@@ -58,7 +63,7 @@ internal class FromLocationIsInEmptyAfterAdapter : ITransitionAttachable
         transition.AddOutGoingTo(fromPlaceHat, new Production(ColourType.DefaultColorType.Name, _guardAmount));
     }
 
-    private void ModifyOrAddIncomingFromHat(Transition transition, Place fromPlaceHat)
+    private void ModifyOrAddIncomingFromHat(Transition transition, CapacityPlace fromPlaceHat)
     {
         if (TryGetExistingIngoingFromHat(transition, out var existingIngoing))
         {

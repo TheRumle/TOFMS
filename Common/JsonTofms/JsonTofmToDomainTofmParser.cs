@@ -11,29 +11,70 @@ namespace Tofms.Common.JsonTofms;
 public class JsonTofmToDomainTofmParser
 {
     private readonly ITofmsFactory _systemFactory;
-    private readonly IValidator<TofmSystem> _systemValidator;
+    private readonly IValidator<TofmJsonSystem> _systemValidator;
     private readonly MissingDefinitionValidator _missingDefinitionValidator = new MissingDefinitionValidator();
 
 
-    public JsonTofmToDomainTofmParser(IValidator<TofmSystem> systemValidator, ITofmsFactory systemFactory)
+    public JsonTofmToDomainTofmParser(IValidator<TofmJsonSystem> systemValidator, ITofmsFactory systemFactory)
     {
         _systemValidator = systemValidator;
         _systemFactory = systemFactory;
     }
     
-    public JsonTofmToDomainTofmParser(IValidator<TofmSystem> systemValidator)
+    public JsonTofmToDomainTofmParser(IValidator<TofmJsonSystem> systemValidator)
     {
         _systemValidator = systemValidator;
         _systemFactory = new MoveActionFactory();
     }
 
-    public async Task<IEnumerable<MoveAction>> ParseTofmsSystemJsonString(string jsonString)
+    public async Task<TofmSystem> ParseTofmsSystemJsonString(string jsonString)
     {
-        var system = JsonConvert.DeserializeObject<TofmSystem>(jsonString);
+        var system = JsonConvert.DeserializeObject<TofmJsonSystem>(jsonString);
         ValidateTopLevel(system);
         await PerformComponentDefinitionValidation(system.Components);
         await PerformSystemValidation(system);
-        return _systemFactory.CreateMoveActions(system!);
+        var moveActions =  _systemFactory.CreateMoveActions(system!);
+
+        var journeys = CreateJourneys(moveActions, system);
+
+
+        return new TofmSystem()
+        {
+            Journeys = journeys,
+            MoveActions = moveActions,
+            Parts = system.Parts!,
+        };
+    }
+
+    private static Dictionary<string, List<Location>> CreateJourneys(IReadOnlyCollection<MoveAction> moveActions, TofmJsonSystem system)
+    {
+        var journeys = new Dictionary<string, List<Location>>();
+
+        var processingLocations = moveActions
+            .SelectMany(e => e.InvolvedLocations).Where(e => e.IsProcessing);
+
+        foreach (KeyValuePair<string, IEnumerable<string>> jour in system.Journeys)
+        {
+            var partName = jour.Key;
+            var journeyTargetNames = jour.Value.ToList();
+            
+            foreach (var location in processingLocations)
+            {
+                if (journeyTargetNames.Contains(location.Name))
+                {
+                    if (journeys.ContainsKey(location.Name))
+                    {
+                        journeys[partName].Add(location);
+                    }
+                    else
+                    {
+                        journeys.Add(partName, new List<Location>() { location });
+                    }
+                }
+            }
+        }
+
+        return journeys;
     }
 
     private async Task PerformComponentDefinitionValidation(List<TofmComponent> systemComponents)
@@ -58,19 +99,19 @@ public class JsonTofmToDomainTofmParser
         await PerformComponentDefinitionValidation(component);
         
         var parts = component!.Moves.SelectMany(e => e.Parts.Select(e=>e.PartType));
-        TofmSystem system = new TofmSystem()
+        TofmJsonSystem jsonSystem = new TofmJsonSystem()
         {
             Components = new List<TofmComponent>() { component },
             Parts = new List<string>(parts)
         };
         
-        await PerformSystemValidation(system);
-        return _systemFactory.CreateMoveActions(system);
+        await PerformSystemValidation(jsonSystem);
+        return _systemFactory.CreateMoveActions(jsonSystem);
     }
 
-    private async Task PerformSystemValidation(TofmSystem system)
+    private async Task PerformSystemValidation(TofmJsonSystem jsonSystem)
     {
-        var errs = await _systemValidator.ValidateAsync(system);
+        var errs = await _systemValidator.ValidateAsync(jsonSystem);
         var invalidJsonTofmExceptions = errs as InvalidJsonTofmException[] ?? errs.ToArray();
         if (invalidJsonTofmExceptions.Any())
             ThrowErrorMessage(invalidJsonTofmExceptions);
@@ -82,7 +123,7 @@ public class JsonTofmToDomainTofmParser
         throw new Exception(message);
     }
     
-    private static void ValidateTopLevel(TofmSystem? system)
+    private static void ValidateTopLevel(TofmJsonSystem? system)
     {
         var errors = new List<Exception>();
         if (system is null)

@@ -2,9 +2,9 @@
 
 namespace TACPN.Net.Arcs;
 
-public class InhibitorArc : Arc<Place, Transition>
+public class InhibitorArc : Arc<IPlace, Transition>
 {
-    public InhibitorArc(Place from, Transition to, int weight) : base(from, to)
+    public InhibitorArc(IPlace from, Transition to, int weight) : base(from, to)
     {
         Weight = weight;
     }

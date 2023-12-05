@@ -13,7 +13,7 @@ namespace Common.IntegrationTest.JsonTofms;
 public class JsonTofmToDomainTofmParserTest : IClassFixture<CentrifugeFixture>
 {
     private readonly MoveActionFactory _factory;
-    private readonly TofmSystem _system;
+    private readonly TofmJsonSystem _jsonSystem;
     private readonly TofmSystemValidator _systemValidator;
     private readonly string systemText;
 
@@ -26,14 +26,14 @@ public class JsonTofmToDomainTofmParserTest : IClassFixture<CentrifugeFixture>
             new MoveActionValidator()
         );
 
-        _system = JsonConvert.DeserializeObject<TofmSystem>(systemText)!;
+        _jsonSystem = JsonConvert.DeserializeObject<TofmJsonSystem>(systemText)!;
         _factory = new MoveActionFactory();
     }
 
     [Fact]
     public void TheJsonParses()
     {
-        var a = JsonConvert.DeserializeObject<TofmSystem>(systemText);
+        var a = JsonConvert.DeserializeObject<TofmJsonSystem>(systemText);
         a.Should().NotBeNull();
         a!.Components.Should().NotBeEmpty();
         a.Parts.Should().NotBeEmpty();
@@ -42,7 +42,7 @@ public class JsonTofmToDomainTofmParserTest : IClassFixture<CentrifugeFixture>
     [Fact]
     public void ShouldNotGiveValidationErrorsForCorrectSystem()
     {
-        var errs = _systemValidator.Validate(_system);
+        var errs = _systemValidator.Validate(_jsonSystem);
         var invalidJsonTofmExceptions = errs as InvalidJsonTofmException[] ?? errs.ToArray();
         invalidJsonTofmExceptions.Should()
             .BeEmpty(new ErrorFormatter(invalidJsonTofmExceptions.ToArray()).ToErrorString());
@@ -53,6 +53,8 @@ public class JsonTofmToDomainTofmParserTest : IClassFixture<CentrifugeFixture>
     {
         var parser = new JsonTofmToDomainTofmParser(_systemValidator, _factory);
         var domains = await parser.ParseTofmsSystemJsonString(systemText);
-        domains.Should().NotBeEmpty();
+        domains.Journeys.Should().NotBeEmpty();
+        domains.MoveActions.Should().NotBeEmpty();
+        domains.Parts.Should().NotBeEmpty();
     }
 }

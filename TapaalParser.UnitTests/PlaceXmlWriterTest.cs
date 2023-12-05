@@ -56,7 +56,7 @@ public class PlaceXmlWriterTest : IClassFixture<TestOutputHelper>
     var ageInv = new KeyValuePair<string, int>("dot", InfinityInteger.Positive);
     return new Place("P0", new[] { ageInv }, ColourType.DefaultColorType)
     {
-      Tokens = TokenCollection.Singleton("dot",11)
+      Tokens = TokenCollection.Singleton(ColourType.DefaultColorType,"dot",11)
     };
   }
 

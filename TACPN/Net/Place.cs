@@ -1,53 +1,62 @@
-﻿namespace TACPN.Net;
+﻿using Tofms.Common;
 
-public class Place
+namespace TACPN.Net;
+
+public interface IPlace
 {
-    protected bool Equals(Place other)
-    {
-        var a = Name == other.Name && IsCapacityLocation == other.IsCapacityLocation && ColourType.Equals(other.ColourType);
-        return a;
-    }
+    TokenCollection Tokens { get; }
+    string Name { get; }
+    bool IsCapacityLocation { get;  }
+    ColourType ColourType { get; }
+    bool IsProcessingPlace { get; }
+}
 
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != this.GetType()) return false;
-        return Equals((Place)obj);
-    }
+public interface IPlace<T> : IPlace
+{
+    IEnumerable<ColourInvariant<T>> Invariant { get; }
+}
 
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(Name, IsCapacityLocation, ColourType);
-    }
+public interface IPlace<T, TT> : IPlace
+{
+    IEnumerable<ColourInvariant<T,TT>> ColourInvariants { get; }
+}
 
-    public override string ToString()
-    {
-        return this.Name;
-    }
+public class Place : IPlace<int, string>
+{
+    public TokenCollection Tokens { get; set; }
+    public string Name { get; set; }
+    public bool IsCapacityLocation { get; set; }
+    public ColourType ColourType { get; init; }
+    public bool IsProcessingPlace { get; set;  }
+    public IEnumerable<ColourInvariant<int, string>> ColourInvariants { get; set; }
 
-    public TokenCollection Tokens { get; init; }
-
-    public Place(string name, IEnumerable<KeyValuePair<string, int>> colorMaxAgeDict, ColourType colourType)
+    public Place(bool isProcessingPlace, string name, IEnumerable<ColourInvariant<int, string>> colourInvariantses, ColourType colourType)
     {
-        KeyValuePair<string, int>[] keyValuePairs = colorMaxAgeDict as KeyValuePair<string, int>[] ?? colorMaxAgeDict.ToArray();
-        if (keyValuePairs.Length == 0) throw new ArgumentException($"Tried to construct place {name} with colour type {colourType}, but the given invariants where empty so the colour type could not be constructed!");
-        
-        ColorInvariants = new Dictionary<string, int>(keyValuePairs);
+        IsProcessingPlace = isProcessingPlace;
         Name = name;
-        Tokens = new TokenCollection()
-        {
-            Colours = keyValuePairs.Select(e => e.Key).ToList()
-        };
-
+        Tokens = new TokenCollection(colourType, new List<Token>());
+        ColourInvariants = colourInvariantses; 
+        IsCapacityLocation = false;
         ColourType = colourType;
+
     }
+}
 
-    public string Name { get; init; }
-    public IDictionary<string, int> ColorInvariants { get; init; }
+public record ColourInvariant(int MaxAge)
+{
+    public static ColourInvariant<string> DotDefault = new ColourInvariant<string>(ColourType.DefaultColorType, ColourType.DefaultColorType.Colours.First(), InfinityInteger.Positive);
 
-    public bool IsCapacityLocation { get; init; }
 
-    public ColourType ColourType { get; } 
+}
+public record ColourInvariant<T1>(ColourType ColourType, T1 FirstColour, int MaxAge ) : ColourInvariant(MaxAge)
+{
+    
+}
+
+public record ColourInvariant<T1,T2>(ColourType ColourType, T1 FirstColour, T2 SecondColour, int MaxAge) : ColourInvariant<T1>(ColourType, FirstColour, MaxAge) 
+
+{
+
+
 
 }

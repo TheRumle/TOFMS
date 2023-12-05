@@ -3,13 +3,24 @@ public record Token(string Colour,  int Age = 0);
 
 public class TokenCollection : List<Token>
 {
-    public required IEnumerable<string> Colours { get; init; }
+    public ColourType ColourType { get; set; }
+    public IEnumerable<string> Colours { get; set; } 
+    
+    
 
-    public TokenCollection(IEnumerable<Token>tokens): base(tokens)
+
+    
+    
+    public TokenCollection(ColourType colourType, IEnumerable<Token>tokens) : base(tokens)
     {
+        this.ColourType = colourType;
+        this.Colours = colourType.Colours;
     }
-    public TokenCollection()
+    
+    public TokenCollection(IEnumerable<Token>tokens) : base(tokens)
     {
+        this.ColourType = new ColourType(tokens.First().Colour, new []{tokens.First().Colour});
+        this.Colours = tokens.Select(e=>e.Colour);
     }
 
     public new void Add(Token item)
@@ -22,7 +33,7 @@ public class TokenCollection : List<Token>
     public static TokenCollection Singleton(string colour, int amount)
     {
         var elements = Enumerable.Repeat(new Token(colour, 0), amount);
-        var collection = new TokenCollection()
+        var collection = new TokenCollection(new ColourType(colour, new List<string>(){colour}), elements)
         {
             Colours = Enumerable.Repeat(colour,1).ToList()
         };

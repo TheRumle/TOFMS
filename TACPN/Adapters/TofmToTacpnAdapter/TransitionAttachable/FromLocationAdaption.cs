@@ -6,22 +6,25 @@ namespace TACPN.Adapters.TofmToTacpnAdapter.TransitionAttachable;
 
 internal class FromLocationAdaption : ITransitionAttachable
 {
+    private readonly JourneyCollection collection;
+
     /// <summary>
     /// </summary>
     /// <param name="fromLocation"> A place representing a location l.</param>
     /// <param name="partsToConsume">The parts that need to be consumed from l.</param>
-    public FromLocationAdaption(Tofms.Common.Location fromLocation, IEnumerable<KeyValuePair<string, int>> partsToConsume)
+    public FromLocationAdaption(Tofms.Common.Location fromLocation, IEnumerable<KeyValuePair<string, int>> partsToConsume, JourneyCollection collection)
     {
         FromLocation = fromLocation;
         ToConsume = partsToConsume;
-        (FromPlace, FromPlaceHat) = LocationTranslator.CreatePlaceAndCapacityPlacePair(fromLocation);
+        (FromPlace, FromPlaceHat) = LocationTranslator.CreatePlaceAndCapacityPlacePair(fromLocation, collection);
+        this.collection = collection;
     }
 
     private Tofms.Common.Location FromLocation { get; set; }
 
     private IEnumerable<KeyValuePair<string, int>> ToConsume { get; set; }
 
-    private Place FromPlaceHat { get; set; }
+    private CapacityPlace FromPlaceHat { get; set; }
 
     private Place FromPlace { get; set; }
 

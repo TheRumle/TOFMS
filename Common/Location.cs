@@ -2,11 +2,15 @@
 
 public class Location
 {
-    public Location(string name, int capacity, IEnumerable<Invariant> invariants)
+    
+    public bool IsProcessing { get; set; }
+    
+    public Location(string name, int capacity, IEnumerable<Invariant> invariants, bool isProc)
     {
         Invariants = new HashSet<Invariant>(invariants);
         Capacity = capacity;
         Name = name;
+        this.IsProcessing = isProc;
     }
 
     public string Name { get; init; }

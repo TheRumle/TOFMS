@@ -9,18 +9,18 @@ namespace Common.UnitTests.Factories;
 public class MoveActionFactoryTest : IClassFixture<TofmSystems>
 {
     private readonly MoveActionFactory _factory = new();
-    private readonly TofmSystem _systemWithSameActions;
+    private readonly TofmJsonSystem _jsonSystemWithSameActions;
 
 
     public MoveActionFactoryTest(TofmSystems systems)
     {
-        _systemWithSameActions = systems.SameActionSystem();
+        _jsonSystemWithSameActions = systems.SameActionSystem();
     }
 
     [Fact]
     public void WhenInputSystemHasActionsWithSameLocation_TheyGetReferenceToSameLocation()
     {
-        var moveActions = _factory.CreateMoveActions(_systemWithSameActions);
+        var moveActions = _factory.CreateMoveActions(_jsonSystemWithSameActions);
         moveActions.Should().NotBeEmpty();
         var first = moveActions.ElementAt(0);
         var second = moveActions.ElementAt(1);

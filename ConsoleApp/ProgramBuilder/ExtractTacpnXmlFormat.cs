@@ -1,7 +1,8 @@
-﻿using System.Text;
+﻿using System.Reflection.Metadata.Ecma335;
+using System.Text;
+using TACPN.Adapters.TofmToTacpnAdapter;
 using TACPN.Net;
 using TapaalParser.TapaalGui;
-using TapaalParser.TapaalGui.XmlWriters;
 using TapaalParser.TapaalGui.XmlWriters.SymbolWriters;
 using Tofms.Common;
 
@@ -11,11 +12,13 @@ public class ExtractTacpnXmlFormat
 {
     private readonly IEnumerable<PetriNetComponent> _components;
     private readonly TranslateToTacpn _prevStep;
+    private readonly JourneyCollection _journeyCollection;
 
-    public ExtractTacpnXmlFormat(IEnumerable<PetriNetComponent> components, TranslateToTacpn translateToTacpn)
+    public ExtractTacpnXmlFormat(IEnumerable<PetriNetComponent> components, TranslateToTacpn translateToTacpn, JourneyCollection journeyCollection)
     {
         this._components = components;
         this._prevStep = translateToTacpn;
+        _journeyCollection = journeyCollection;
     }
 
     public async Task<WriteToFile> TranslateToTapaalXml()
@@ -39,7 +42,7 @@ public class ExtractTacpnXmlFormat
         var builder = new StringBuilder();
         builder.Append($"<pnml xmlns=\"http://www.informatik.hu-berlin.de/top/pnml/ptNetb\">");
         
-        AppendToplevelDcls(builder,this._components.SelectMany(e=>e.Places));
+        AppendToplevelDcls(builder,this._components.SelectMany(e=>e.Places), _journeyCollection);
         foreach (var componentStrings in strings)
             builder.Append(componentStrings);
 
@@ -47,19 +50,26 @@ public class ExtractTacpnXmlFormat
         return builder.ToString();
     }
 
-    private void AppendToplevelDcls(StringBuilder builder, IEnumerable<Place> places)
+    private void AppendToplevelDcls(StringBuilder builder, IEnumerable<Place> places, JourneyCollection j)
     {
         builder.Append($@" <declaration> <structure> <declarations>");
         var colourTypes = _components.SelectMany(e => e.Places.Select(p => p.ColourType)).DistinctBy(e=>e.Name).ToHashSet();
-        var topDcls = new ColourDeclarationWriter().XmlString(colourTypes);
+        var topDcls = new CyclicEnumerationDeclarationWriter().XmlString(colourTypes);
         builder.Append(topDcls);
+        var intRangeWriter = new SpecialVariableWriter(builder);
+
+        int longestCount = 0;
+        foreach (var jour in j) 
+            longestCount = longestCount > jour.Value.Count() ? longestCount : jour.Value.Count();
+
+
+        intRangeWriter.Write(JourneyCollection.ColourName, longestCount);
         builder.Append($@" </declarations> </structure> </declaration> ");
 
 
         foreach (var pl in places)
         {
             AppendSharedPlaceDcl(builder, pl);
-
         }
         
     }
@@ -89,14 +99,14 @@ public class ExtractTacpnXmlFormat
 
     private void CreateColorInvs(Place pl, StringBuilder builder)
     {
-        foreach (var r in pl.ColorInvariants)
+        foreach (var invariant in pl.ColourInvariants)
         {
             var colorTypeStr = pl.ColourType.Name == ColourType.DefaultColorType.Name
                 ? pl.ColourType.Name.ToLower()
                 : pl.ColourType.Name;
             
-            var invValue = r.Value != Infteger.PositiveInfinity ? r.Value.ToString() : "inf";
-            builder.Append($@"<colorinvariant> <inscription inscription=""&lt; {invValue}""/> <colortype name=""{colorTypeStr}""> <color value=""{r.Key}""/> </colortype> </colorinvariant>");
+            var invValue = invariant.MaxAge != Infteger.PositiveInfinity ? invariant.MaxAge.ToString() : "inf";
+            builder.Append($@"<colorinvariant> <inscription inscription=""&lt; {invValue}""/> <colortype name=""{colorTypeStr}""> <color value=""{invariant}""/> </colortype> </colorinvariant>");
         }
     }
     
@@ -111,4 +121,6 @@ public class ExtractTacpnXmlFormat
         structureBuilder.AppendStructureText(tokens);
         builder.Append("  </hlinitialMarking>");
     }
+    
+    
 }

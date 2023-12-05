@@ -32,24 +32,35 @@ public partial class PlaceXmlWriter : IGuiTranslater<Placement<Place>>
         if (marking.Count > 0)
             AppendInitialMarking(marking);
         
-        AppendInvariants(element.ColorInvariants, element.ColourType.Name);
+        AppendInvariants(element.ColourInvariants, element.ColourType.Name);
         builder.Append(" </place>");
         return MatchWhiteSpace().Replace(builder.ToString(), " ");
     }
 
-    private string AppendInvariants(IDictionary<string, int> elementColorInvariants, string colourType)
+    private string AppendInvariants(IEnumerable<ColourInvariant<string>>  elementColorInvariants, string colourType)
     {
-        
         foreach (var kvp in elementColorInvariants)
         {
             var type = colourType;
             if (colourType == ColourType.DefaultColorType.Name)
                 type = colourType.ToLower();
             
-            InvariantDeclaration decl = InvariantDeclaration.LteInvariant(kvp.Key, kvp.Value, type);
+            InvariantDeclaration decl = InvariantDeclaration.LteInvariant(kvp.FirstColour, kvp.MaxAge, type);
             builder.Append(decl);
         }
 
+        return builder.ToString();
+    }
+    
+    private string AppendInvariants(IEnumerable<ColourInvariant<int, string>>  elementColorInvariants, string colourType)
+    {
+        foreach (var kvp in elementColorInvariants)
+        {
+            var type = colourType;
+            if (colourType == ColourType.DefaultColorType.Name)
+                type = colourType.ToLower();
+            
+        }
         return builder.ToString();
     }
 

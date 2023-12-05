@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using TACPN.Net;
+﻿using TACPN.Net;
 using TACPN.Net.Arcs;
 
 namespace TapaalParser.TapaalGui;

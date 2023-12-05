@@ -9,7 +9,7 @@ public static class TransitionExtension
         return transition.InGoing.FirstOrDefault(e => e.From == from);
     }
 
-    public static Arc<Transition, Place>? GetArcTo(this Transition transition, Place to)
+    public static Arc<Transition, IPlace>? GetArcTo(this Transition transition, Place to)
     {
         return transition.OutGoing.FirstOrDefault(e => e.To == to);
     }
@@ -19,14 +19,14 @@ public static class TransitionExtension
         return transition.InGoing.FirstOrDefault(e => e.From.Name == name);
     }
 
-    public static Arc<Transition, Place>? GetArcTo(this Transition transition, string name)
+    public static Arc<Transition, IPlace>? GetArcTo(this Transition transition, string name)
     {
         return transition.OutGoing.FirstOrDefault(e => e.To.Name == name);
     }
     
 
-    public static IEnumerable<Place> CapacityPlaces(this Transition transition)
+    public static IEnumerable<CapacityPlace> CapacityPlaces(this Transition transition)
     {
-        return transition.InvolvedPlaces.Where(e => e.IsCapacityLocation);
+        return transition.InvolvedPlaces.OfType<CapacityPlace>();
     }
 }

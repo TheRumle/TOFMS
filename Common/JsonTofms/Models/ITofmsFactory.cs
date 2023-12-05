@@ -4,5 +4,5 @@ namespace Tofms.Common.JsonTofms.Models;
 
 public interface ITofmsFactory
 {
-    public IReadOnlyList<MoveAction> CreateMoveActions(TofmSystem tofmSystem);
+    public IReadOnlyCollection<MoveAction> CreateMoveActions(TofmJsonSystem tofmJsonSystem);
 }

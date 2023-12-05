@@ -1,14 +1,16 @@
 ﻿{
   "Journeys": {
-      "P1": ["CProc", "hello"]
+      "P1": ["CProc"],
+      "P2": ["CProc"]
     },
   "Components": [
     {
+      "IsProcessing" : false,
       "Name": "Centrifuge",
       "Locations": [
         {
           "Name": "CBuffer",
-          "Capacity": 4,
+          "Capacity": 4,  
           "Invariants": [
             {
               "Part": "P1",
@@ -23,6 +25,7 @@
           ]
         },
         {
+          "IsProcessing" : true,
           "Name": "CProc",
           "Capacity": 4,
           "Invariants": [

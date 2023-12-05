@@ -1,19 +1,20 @@
 ﻿using TACPN.Net;
 using TACPN.Net.Arcs;
 using TACPN.Net.Transitions;
+using Tofms.Common;
 
 namespace TACPN.Adapters.TofmToTacpnAdapter.TransitionAttachable;
 
 internal class ToTransitionAttacher : ITransitionAttachable
 {
-    public ToTransitionAttacher(Tofms.Common.Location location,
-        IEnumerable<KeyValuePair<string, int>> partsItemMovedIntoPlace)
+    public ToTransitionAttacher(Location location,
+        IEnumerable<KeyValuePair<string, int>> partsItemMovedIntoPlace, JourneyCollection journeyCollection)
     {
         _itemMovedIntoPlace = partsItemMovedIntoPlace;
-        (_place, _capacityPlace) = LocationTranslator.CreatePlaceAndCapacityPlacePair(location);
+        (_place, _capacityPlace) = LocationTranslator.CreatePlaceAndCapacityPlacePair(location, journeyCollection);
     }
 
-    private readonly Place _capacityPlace;
+    private readonly CapacityPlace _capacityPlace;
 
     private readonly Place _place;
 

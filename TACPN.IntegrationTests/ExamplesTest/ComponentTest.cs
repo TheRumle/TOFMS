@@ -2,6 +2,7 @@
 using TACPN.Adapters.TofmToTacpnAdapter.TransitionAttachable;
 using TACPN.Net;
 using TACPN.Net.Transitions;
+using Tofms.Common;
 using Tofms.Common.Factories;
 using Tofms.Common.JsonTofms;
 using Tofms.Common.JsonTofms.ConsistencyCheck.Validators;
@@ -11,7 +12,8 @@ using Tofms.Common.Translate;
 namespace TACPN.IntegrationTests.ExamplesTest;
 
 public abstract class ComponentTest {
-    protected readonly IMoveActionTranslation<PetriNetComponent> Translater = new TofmToTacpnTranslater(new MoveActionToTransitionFactory());
+    
+    protected readonly IMoveActionTranslation<PetriNetComponent> Translater = new TofmToTacpnTranslater(new MoveActionToTransitionFactory(), new Dictionary<string, IEnumerable<Location>>());
     
     protected readonly JsonTofmToDomainTofmParser JsonParser;
     protected readonly string JsonText;
@@ -21,12 +23,6 @@ public abstract class ComponentTest {
     {
         TofmSystemValidator systemValidator = new TofmSystemValidator(new LocationValidator(new InvariantValidator()),new NamingValidator(), new MoveActionValidator());
         JsonText = text;
-        new TofmSystemValidator(
-            new LocationValidator(new InvariantValidator()),
-            new NamingValidator(),
-            new MoveActionValidator()
-        );
-
         JsonParser = new JsonTofmToDomainTofmParser(systemValidator, new MoveActionFactory()); 
     }
     

@@ -18,9 +18,9 @@ public class AllComponentsFixture : JsonTofmsFixture
 
 
 
-    public TofmSystem AsTofmSystem()
+    public TofmJsonSystem AsTofmSystem()
     {
-        return new TofmSystem
+        return new TofmJsonSystem
         {
             Components = Components,
             Parts = PartTypes
