@@ -71,7 +71,8 @@ internal class FromLocationIsInEmptyAfterAdapter : ITransitionAttachable
             return;
         }
         //Append arc
-        transition.AddInGoingFrom(fromPlaceHat, ColoredGuard.CapacityGuard(_partsToConsume.Sum(e => e.Value)));
+        var amount = _partsToConsume.Sum(e => e.Value);
+        transition.AddInGoingFrom(fromPlaceHat, amount);
     }
 
     private void ModifyExistingArc(IngoingArc ingoing)

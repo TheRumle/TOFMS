@@ -87,7 +87,7 @@ public class TacpnComponentXmlParser
 
     public async Task<IEnumerable<string>> ConstructPlaces()
     {
-        return await ConstructTasks(_places, (p) => new PlaceXmlWriter().XmlString(p));
+        return await ConstructTasks(_places.OfType<Placement<CapacityPlace>>(), (p) => new PlaceXmlWriter().XmlString(p));
     }
 
     public async Task<IEnumerable<string>> ConstructTasks<T>(IEnumerable<T> source, Func<T, string> xmlWrite)

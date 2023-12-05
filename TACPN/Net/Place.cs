@@ -4,7 +4,6 @@ namespace TACPN.Net;
 
 public interface IPlace
 {
-    TokenCollection Tokens { get; }
     string Name { get; }
     bool IsCapacityLocation { get;  }
     ColourType ColourType { get; }
@@ -13,7 +12,7 @@ public interface IPlace
 
 public interface IPlace<T> : IPlace
 {
-    IEnumerable<ColourInvariant<T>> Invariant { get; }
+    IEnumerable<ColourInvariant<T>> ColourInvariants { get; }
 }
 
 public interface IPlace<T, TT> : IPlace
@@ -23,7 +22,6 @@ public interface IPlace<T, TT> : IPlace
 
 public class Place : IPlace<int, string>
 {
-    public TokenCollection Tokens { get; set; }
     public string Name { get; set; }
     public bool IsCapacityLocation { get; set; }
     public ColourType ColourType { get; init; }
@@ -34,11 +32,15 @@ public class Place : IPlace<int, string>
     {
         IsProcessingPlace = isProcessingPlace;
         Name = name;
-        Tokens = new TokenCollection(colourType, new List<Token>());
         ColourInvariants = colourInvariantses; 
         IsCapacityLocation = false;
         ColourType = colourType;
 
+    }
+
+    public override string ToString()
+    {
+        return this.Name;
     }
 }
 

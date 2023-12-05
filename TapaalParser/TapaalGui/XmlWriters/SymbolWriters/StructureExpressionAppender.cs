@@ -12,19 +12,25 @@ public class StructureExpressionAppender
         _builder = builder;
     }
 
-    public void AppendStructureText(TokenCollection tokens)
+    public void AppendStructureText(CapacityPlace place)
     {
-        
-        var occurances = tokens.WithMoreThan0Occurances().ToArray();
-        if (occurances.Count()== 1)
-        {
-            var (c, v) = occurances!.First();
-            HandleSingleColour(c,v);
-        }
-        else
-        {
-            HandleMultipleColors(tokens);
-        }
+_builder.Append(
+        $@"<structure>
+          <add>
+            <subterm>
+              <numberof>
+                <subterm>
+                  <numberconstant value=""{place.Tokens.AmountOfColour("dot")}"">
+                    <positive/>
+                  </numberconstant>
+                </subterm>
+                <subterm>
+                  <useroperator declaration=""dot""/>
+                </subterm>
+              </numberof>
+            </subterm>
+          </add>
+        </structure>");
     }
 
     private void HandleMultipleColors(TokenCollection tokens)

@@ -4,23 +4,23 @@ public record Token(string Colour,  int Age = 0);
 public class TokenCollection : List<Token>
 {
     public ColourType ColourType { get; set; }
-    public IEnumerable<string> Colours { get; set; } 
-    
-    
+    public IEnumerable<string> Colours { get; set; }
 
 
-    
-    
-    public TokenCollection(ColourType colourType, IEnumerable<Token>tokens) : base(tokens)
-    {
-        this.ColourType = colourType;
-        this.Colours = colourType.Colours;
-    }
-    
-    public TokenCollection(IEnumerable<Token>tokens) : base(tokens)
+    private TokenCollection(IEnumerable<Token>tokens) : base(tokens)
     {
         this.ColourType = new ColourType(tokens.First().Colour, new []{tokens.First().Colour});
         this.Colours = tokens.Select(e=>e.Colour);
+    }
+
+    public static TokenCollection DotColorTokenCollection(int amount)
+    {
+        var tokens = Enumerable.Repeat(() => { return new Token("dot", 0); }, amount);
+        return new TokenCollection(tokens.Select(e=>e.Invoke()))
+        {
+            ColourType = ColourType.DefaultColorType
+        };
+
     }
 
     public new void Add(Token item)
@@ -30,20 +30,33 @@ public class TokenCollection : List<Token>
         base.Add(item);
     }
 
-    public static TokenCollection Singleton(string colour, int amount)
-    {
-        var elements = Enumerable.Repeat(new Token(colour, 0), amount);
-        var collection = new TokenCollection(new ColourType(colour, new List<string>(){colour}), elements)
-        {
-            Colours = Enumerable.Repeat(colour,1).ToList()
-        };
-        collection.AddRange(elements);
-        return collection;
-    }
 
     public int AmountOfColour(string colour)
     {
         if (!Colours.Contains(colour)) return 0;
         return FindAll(e => e.Colour == colour).Count;
+    }
+
+    public string ToColourExpression()
+    {
+        var numCol = new Dictionary<string, int>();
+        foreach (var a in this)
+        {
+            if (numCol.ContainsKey(a.Colour))
+                numCol[a.Colour] += 1;
+            else
+                numCol[a.Colour] = 1;
+
+        }
+
+        string value = "";
+        foreach (var kvp in numCol)
+        {
+            value += $"({kvp.Value})'{kvp.Key}";
+        }
+
+        return value;
+
+
     }
 }

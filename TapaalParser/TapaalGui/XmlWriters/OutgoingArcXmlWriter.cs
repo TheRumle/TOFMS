@@ -29,16 +29,9 @@ public class OutgoingArcXmlWriter : IGuiTranslater<OutGoingArc>
 
     private void AppendHlInscription(OutGoingArc arc)
     {
-        var tokens = arc.Productions.ToTokenCollection();
         var expressionBuilder = new ColorExpressionAppender(_builder);
         
-        _builder.Append(@" <hlinscription> <text>");
-        expressionBuilder.WriteColourExpression(tokens);
-        _builder.Append(@"</text>");
 
-        var structureExpressionAppender = new StructureExpressionAppender(_builder);
-        structureExpressionAppender.AppendStructureText(tokens);
-        _builder.Append(" </hlinscription>");
     }
 
     private void AppendArcInfo(OutGoingArc arc)

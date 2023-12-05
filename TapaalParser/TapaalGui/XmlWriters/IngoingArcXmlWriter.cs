@@ -36,7 +36,7 @@ public class IngoingArcXmlWriter : IGuiTranslater<IngoingArc>
         IEnumerable<ColorIntervalDeclaration> intervalDeclarations =
             from colour in arc.From.ColourType.Colours
             from guard in arc.Guards
-            where colour == guard.Color
+            where colour == guard.Color.Name
             select new ColorIntervalDeclaration(guard, arc.From.ColourType, colour);
 
         foreach (var intervalDcl in intervalDeclarations)
@@ -45,22 +45,22 @@ public class IngoingArcXmlWriter : IGuiTranslater<IngoingArc>
     
     private void AppendHlInscription(IngoingArc arc)
     {
-        IEnumerable<Token> tokens = arc.Guards.SelectMany(e => Enumerable.Repeat(new Token(e.Color), e.Amount));
-        TokenCollection collection = new TokenCollection(tokens)
-        {
-            Colours = arc.From.ColourType.Colours
-        };
-        
         
         
         var expressionBuilder = new ColorExpressionAppender(_builder);
         _builder.Append(@" <hlinscription> <text>");
-        expressionBuilder.WriteColourExpression(collection);
+        if (arc.From is CapacityPlace cap)
+        {
+            var a = arc.Guards;
+        }
+        
+        
         _builder.Append(@"</text>");
 
         var structureExpressionAppender = new StructureExpressionAppender(_builder);
-        structureExpressionAppender.AppendStructureText(collection);
         _builder.Append(" </hlinscription>");
     }
+    
+    
 
 }

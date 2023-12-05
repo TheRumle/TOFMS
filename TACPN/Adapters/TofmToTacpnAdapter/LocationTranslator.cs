@@ -15,10 +15,8 @@ public static class LocationTranslator
 
     public static Place CreatePlace(Location location, JourneyCollection journeyCollection)
     {
-        
-        var colourType = new ColourType(TofmJsonSystem.PRODUCTNAME, location.Invariants.Select(e => e.PartType));
+        var colourType = ColourType.TokensColourType;
         var maxAges = location.Invariants.Select(e => new KeyValuePair<string, int>(e.PartType, e.Max));
-
 
         List<ColourInvariant<int, string>> invariants =
             CreateInvariants(colourType, location, journeyCollection, new Dictionary<string, int>(maxAges));

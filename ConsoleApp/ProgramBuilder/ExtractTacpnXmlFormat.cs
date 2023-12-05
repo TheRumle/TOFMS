@@ -42,7 +42,7 @@ public class ExtractTacpnXmlFormat
         var builder = new StringBuilder();
         builder.Append($"<pnml xmlns=\"http://www.informatik.hu-berlin.de/top/pnml/ptNetb\">");
         
-        AppendToplevelDcls(builder,this._components.SelectMany(e=>e.Places), _journeyCollection);
+        AppendToplevelDcls(builder,this._components.SelectMany(e=>e.AllPlaces()), _journeyCollection);
         foreach (var componentStrings in strings)
             builder.Append(componentStrings);
 
@@ -50,7 +50,7 @@ public class ExtractTacpnXmlFormat
         return builder.ToString();
     }
 
-    private void AppendToplevelDcls(StringBuilder builder, IEnumerable<Place> places, JourneyCollection j)
+    private void AppendToplevelDcls(StringBuilder builder, IEnumerable<IPlace> places, JourneyCollection j)
     {
         builder.Append($@" <declaration> <structure> <declarations>");
         var colourTypes = _components.SelectMany(e => e.Places.Select(p => p.ColourType)).DistinctBy(e=>e.Name).ToHashSet();
@@ -65,30 +65,45 @@ public class ExtractTacpnXmlFormat
 
         intRangeWriter.Write(JourneyCollection.ColourName, longestCount);
         builder.Append($@" </declarations> </structure> </declaration> ");
+        var ps = places.ToList();
 
-
-        foreach (var pl in places)
+        foreach (var pl in places.OfType<CapacityPlace>())
+        {
+            AppendSharedPlaceDcl(builder, pl);
+        }
+        
+        foreach (var pl in places.OfType<Place>())
         {
             AppendSharedPlaceDcl(builder, pl);
         }
         
     }
 
-    private void AppendSharedPlaceDcl(StringBuilder builder, Place pl)
+    private void AppendSharedPlaceDcl(StringBuilder builder, CapacityPlace pl)
     {
         builder.Append($@" <shared-place initialMarking=""{pl.Tokens.Count}"" invariant=""&lt; inf"" name=""{pl.Name}"">");
+        AppendType(builder, pl);
+        AppendInitialMarking(builder, pl);
+        
+        builder.Append("</shared-place>");
+    }
+    
+    private void AppendSharedPlaceDcl(StringBuilder builder, Place pl)
+    {
+        builder.Append($@" <shared-place initialMarking=""{0}"" invariant=""&lt; inf"" name=""{pl.Name}"">");
         CreateColorInvs(pl, builder);
         AppendType(builder, pl);
-        if (pl.Tokens.Count > 0)
-        {
-            AppendInitialMarking(builder, pl.Tokens);
-        }
-        
         builder.Append("</shared-place>");
 
     }
-
+    
     private void AppendType(StringBuilder builder, Place pl)
+    {
+        builder.Append(
+            $@"<type><text>{ColourType.TokensColourType.Name}</text><structure><usersort declaration=""{ColourType.TokensColourType.Name}""/></structure></type>");
+    }
+    
+    private void AppendType(StringBuilder builder, IPlace pl)
     {
         var colorTypeStr = pl.ColourType.Name == ColourType.DefaultColorType.Name
             ? pl.ColourType.Name.ToLower()
@@ -97,30 +112,32 @@ public class ExtractTacpnXmlFormat
             $@"<type><text>{colorTypeStr}</text><structure><usersort declaration=""{colorTypeStr}""/></structure></type>");
     }
 
+
+    
     private void CreateColorInvs(Place pl, StringBuilder builder)
     {
         foreach (var invariant in pl.ColourInvariants)
         {
-            var colorTypeStr = pl.ColourType.Name == ColourType.DefaultColorType.Name
-                ? pl.ColourType.Name.ToLower()
-                : pl.ColourType.Name;
-            
             var invValue = invariant.MaxAge != Infteger.PositiveInfinity ? invariant.MaxAge.ToString() : "inf";
-            builder.Append($@"<colorinvariant> <inscription inscription=""&lt; {invValue}""/> <colortype name=""{colorTypeStr}""> <color value=""{invariant}""/> </colortype> </colorinvariant>");
+            builder.Append($@"<colorinvariant> <inscription inscription=""&lt; {invValue}""/> <colortype name=""{invariant.ColourType.Name}""> <color value=""{invariant.SecondColour}""/> <color value=""{invariant.FirstColour}""/> </colortype> </colorinvariant>");
         }
     }
     
-    private void AppendInitialMarking(StringBuilder builder, TokenCollection tokens)
+    private void AppendInitialMarking(StringBuilder builder, CapacityPlace place)
     {
+        TokenCollection tokens = place.Tokens;
+        
+        
         builder.Append("<hlinitialMarking> <text>");
-
-        var colourExpressionBuilder = new ColorExpressionAppender(builder);
-        colourExpressionBuilder.WriteColourExpression(tokens);
+        builder.Append(place.Tokens.ToColourExpression());
         builder.Append("</text>");
+        
+        
         var structureBuilder = new StructureExpressionAppender(builder);
-        structureBuilder.AppendStructureText(tokens);
+        structureBuilder.AppendStructureText(place);
         builder.Append("  </hlinitialMarking>");
     }
-    
+
+
     
 }

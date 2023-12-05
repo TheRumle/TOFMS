@@ -43,12 +43,12 @@ internal class FromLocationAdaption : ITransitionAttachable
 
     private void AdaptPlace(Transition transition)
     {
+        var amount = ToConsume.Sum(e => e.Value);
         var guards = ToConsume.Select(pair =>
         {
             var first = FromLocation.Invariants.First(e => e.PartType == pair.Key);
-            return new ColoredGuard(pair.Value, pair.Key, new Interval(first.Min, first.Max));
+            return ColoredGuard.TokensGuard(amount, first.Min, first.Max);
         });
-
-        transition.AddInGoingFrom(FromPlace, guards);
+        transition.AddInGoingFrom(FromPlace,guards);
     }
 }

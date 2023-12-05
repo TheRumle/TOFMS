@@ -40,7 +40,8 @@ public class TranslateToTacpn
                 e.Wait();
                 return e.Result;
             });
-
+        
+        var transition = components.First().Transitions.First();
         return new ExtractTacpnXmlFormat(components, this, journey);
     }
 }

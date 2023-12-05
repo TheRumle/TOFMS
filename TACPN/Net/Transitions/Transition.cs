@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using TACPN.Net.Arcs;
-using Tofms.Common;
+﻿using TACPN.Net.Arcs;
 
 namespace TACPN.Net.Transitions;
 
@@ -16,20 +14,31 @@ public class Transition
     public ICollection<OutGoingArc> OutGoing { get; } = new List<OutGoingArc>();
     public ICollection<InhibitorArc> InhibitorArcs { get; } = new List<InhibitorArc>();
 
-    public IngoingArc AddInGoingFrom(IPlace from, IEnumerable<ColoredGuard> guards)
+    public IngoingArc AddInGoingFrom(Place from, IEnumerable<ColoredGuard> guards)
     {
         var arc = new IngoingArc(from, this, guards);
         InGoing.Add(arc);
         return arc;
     }
 
-    public Arc<IPlace, Transition> AddInGoingFrom(IPlace from, ColoredGuard guard)
+    public Arc<IPlace, Transition> AddInGoingFrom(CapacityPlace from, int amount)
     {
-        var arc = new IngoingArc(from, this, new[] { guard });
+        return AddInGoingFrom(from, new[] { ColoredGuard.CapacityGuard(amount) });
+    }
+    
+    
+    public IngoingArc AddInGoingFrom(CapacityPlace from, IEnumerable<ColoredGuard> guards)
+    {
+        var arc = new IngoingArc(from, this, guards);
         InGoing.Add(arc);
         return arc;
     }
-    
+
+    public Arc<IPlace, Transition> AddInGoingFrom(Place from, ColoredGuard guard)
+    {
+        return AddInGoingFrom(from, new[] { guard });
+    }
+
     
 
 
@@ -65,8 +74,7 @@ public class Transition
         return places;
     }
 
-
-    public TransitionGuard Guards { get; set; } = new TransitionGuard();
+    public TransitionGuard Guards { get; set; } = new();
 
     public void AddGuard(KeyValuePair<int, Place> guardFor)
     {

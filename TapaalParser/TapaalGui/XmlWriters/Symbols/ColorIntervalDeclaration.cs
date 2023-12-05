@@ -11,7 +11,7 @@ public class ColorIntervalDeclaration
 
     public ColorIntervalDeclaration(ColoredGuard guard, ColourType colorType, string color)
     {
-        if (!colorType.Colours.Contains(guard.Color)) throw new ArgumentException(guard + "had color " + guard.Color + " and colour type was " + colorType.Colours.Aggregate((f,e) => f + "," + e));
+        if (!colorType.Colours.Contains(guard.Color.Name)) throw new ArgumentException(guard + "had color " + guard.Color + " and colour type was " + colorType.Colours.Aggregate((f,e) => f + "," + e));
         _interval = guard.Interval;
         _colorType = colorType.Name;
         if (colorType.Name == ColourType.DefaultColorType.Name)

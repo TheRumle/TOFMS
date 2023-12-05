@@ -5,10 +5,9 @@
                 <namedsort id="dot" name="dot">
                     <dot />
                 </namedsort>
-                <namedsort id="Parts" name="Parts">
+                <namedsort id="Tokens" name="Tokens">
                     <cyclicenumeration>
-                        <feconstant id="P1" name="Parts" />
-                        <feconstant id="P2" name="Parts" />
+                        <feconstant id="Tokens" name="Tokens" />
                     </cyclicenumeration>
                 </namedsort>
                 <namedsort id="Journey" name="Journey">
@@ -26,186 +25,143 @@
             </declarations>
         </structure>
     </declaration>
+    <shared-place initialMarking="4" invariant="&lt; inf" name="CBuffer_capacity">
+        <type>
+            <text>dot</text>
+            <structure>
+                <usersort declaration="dot" />
+            </structure>
+        </type>
+        <hlinitialMarking>
+            <text>(4)'dot</text>
+            <structure>
+                <add>
+                    <subterm>
+                        <numberof>
+                            <subterm>
+                                <numberconstant value="4">
+                                    <positive />
+                                </numberconstant>
+                            </subterm>
+                            <subterm>
+                                <useroperator declaration="dot" />
+                            </subterm>
+                        </numberof>
+                    </subterm>
+                </add>
+            </structure>
+        </hlinitialMarking>
+    </shared-place>
+    <shared-place initialMarking="4" invariant="&lt; inf" name="CProc_capacity">
+        <type>
+            <text>dot</text>
+            <structure>
+                <usersort declaration="dot" />
+            </structure>
+        </type>
+        <hlinitialMarking>
+            <text>(4)'dot</text>
+            <structure>
+                <add>
+                    <subterm>
+                        <numberof>
+                            <subterm>
+                                <numberconstant value="4">
+                                    <positive />
+                                </numberconstant>
+                            </subterm>
+                            <subterm>
+                                <useroperator declaration="dot" />
+                            </subterm>
+                        </numberof>
+                    </subterm>
+                </add>
+            </structure>
+        </hlinitialMarking>
+    </shared-place>
+    <shared-place initialMarking="4" invariant="&lt; inf" name="CBuffer_capacity">
+        <type>
+            <text>dot</text>
+            <structure>
+                <usersort declaration="dot" />
+            </structure>
+        </type>
+        <hlinitialMarking>
+            <text>(4)'dot</text>
+            <structure>
+                <add>
+                    <subterm>
+                        <numberof>
+                            <subterm>
+                                <numberconstant value="4">
+                                    <positive />
+                                </numberconstant>
+                            </subterm>
+                            <subterm>
+                                <useroperator declaration="dot" />
+                            </subterm>
+                        </numberof>
+                    </subterm>
+                </add>
+            </structure>
+        </hlinitialMarking>
+    </shared-place>
     <shared-place initialMarking="0" invariant="&lt; inf" name="CProc">
         <colorinvariant>
             <inscription inscription="&lt; 12" />
-            <colortype name="Parts">
-                <color
-                    value="ColourInvariant { MaxAge = 12, ColourType = ColourType { Name = Parts, Colours = System.Linq.Enumerable+SelectEnumerableIterator`2[Tofms.Common.Invariant,System.String] }, FirstColour = 0, SecondColour = P1 }" />
+            <colortype name="Tokens">
+                <color value="P1" />
+                <color value="0" />
             </colortype>
         </colorinvariant>
         <colorinvariant>
             <inscription inscription="&lt; 12" />
-            <colortype name="Parts">
-                <color
-                    value="ColourInvariant { MaxAge = 12, ColourType = ColourType { Name = Parts, Colours = System.Linq.Enumerable+SelectEnumerableIterator`2[Tofms.Common.Invariant,System.String] }, FirstColour = 0, SecondColour = P2 }" />
+            <colortype name="Tokens">
+                <color value="P2" />
+                <color value="0" />
             </colortype>
         </colorinvariant>
         <type>
-            <text>Parts</text>
+            <text>Tokens</text>
             <structure>
-                <usersort declaration="Parts" />
+                <usersort declaration="Tokens" />
             </structure>
         </type>
     </shared-place>
     <shared-place initialMarking="0" invariant="&lt; inf" name="CBuffer">
         <type>
-            <text>Parts</text>
+            <text>Tokens</text>
             <structure>
-                <usersort declaration="Parts" />
+                <usersort declaration="Tokens" />
             </structure>
         </type>
     </shared-place>
     <net active="true" id="c2p1startComponent" type="P/T net">
-        <place displayName="true" id="CProc" initialMarking="0" invariant="&lt; inf" name="CProc"
-            nameOffsetX="0" nameOffsetY="0" positionX="500" positionY="300">
-            <type>
-                <text>Parts</text>
-                <structure>
-                    <usersort declaration="Parts" />
-                </structure>
-            </type>
-        </place>
-        <place displayName="true" id="CBuffer" initialMarking="0" invariant="&lt; inf"
-            name="CBuffer" nameOffsetX="0" nameOffsetY="0" positionX="100" positionY="300">
-            <type>
-                <text>Parts</text>
-                <structure>
-                    <usersort declaration="Parts" />
-                </structure>
-            </type>
-        </place>
         <transition angle="0" displayName="true" id="c2p1start" infiniteServer="false"
             name="c2p1start" nameOffsetX="0" nameOffsetY="0" player="0" positionX="300"
             positionY="300" priority="0" urgent="false" />
         <arc id="Ai0" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="CBuffer"
             target="c2p1start" type="timed" weight="1">
-            <colorinterval>
-                <inscription inscription="[0,inf)" />
-                <colortype name="Parts">
-                    <color value="P1" />
-                </colortype>
-            </colorinterval>
             <hlinscription>
-                <text>(2'P1)</text>
-                <structure>
-                    <add>
-                        <subterm>
-                            <numberof>
-                                <subterm>
-                                    <numberconstant value="2">
-                                        <positive />
-                                    </numberconstant>
-                                </subterm>
-                                <subterm>
-                                    <useroperator declaration="P1" />
-                                </subterm>
-                            </numberof>
-                        </subterm>
-                    </add>
-                </structure>
+                <text></text>
             </hlinscription>
         </arc>
         <arc id="Ai1" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0"
             source="CBuffer_capacity" target="c2p1start" type="timed" weight="1">
-            <colorinterval>
-                <inscription inscription="[0,inf)" />
-                <colortype name="dot">
-                    <color value="dot" />
-                </colortype>
-            </colorinterval>
             <hlinscription>
-                <text>(2'dot)</text>
-                <structure>
-                    <add>
-                        <subterm>
-                            <numberof>
-                                <subterm>
-                                    <numberconstant value="2">
-                                        <positive />
-                                    </numberconstant>
-                                </subterm>
-                                <subterm>
-                                    <useroperator declaration="dot" />
-                                </subterm>
-                            </numberof>
-                        </subterm>
-                    </add>
-                </structure>
+                <text></text>
             </hlinscription>
         </arc>
         <arc id="Ai2" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="CProc_capacity"
             target="c2p1start" type="timed" weight="1">
-            <colorinterval>
-                <inscription inscription="[0,inf)" />
-                <colortype name="dot">
-                    <color value="dot" />
-                </colortype>
-            </colorinterval>
             <hlinscription>
-                <text>(2'dot)</text>
-                <structure>
-                    <add>
-                        <subterm>
-                            <numberof>
-                                <subterm>
-                                    <numberconstant value="2">
-                                        <positive />
-                                    </numberconstant>
-                                </subterm>
-                                <subterm>
-                                    <useroperator declaration="dot" />
-                                </subterm>
-                            </numberof>
-                        </subterm>
-                    </add>
-                </structure>
+                <text></text>
             </hlinscription>
         </arc>
         <arc id="Ao0" inscription="1" nameOffsetX="0" nameOffsetY="0" source="c2p1start"
-            target="CBuffer_capacity" type="normal" weight="1">
-            <hlinscription>
-                <text>(4'dot)</text>
-                <structure>
-                    <add>
-                        <subterm>
-                            <numberof>
-                                <subterm>
-                                    <numberconstant value="4">
-                                        <positive />
-                                    </numberconstant>
-                                </subterm>
-                                <subterm>
-                                    <useroperator declaration="dot" />
-                                </subterm>
-                            </numberof>
-                        </subterm>
-                    </add>
-                </structure>
-            </hlinscription>
-        </arc>
+            target="CBuffer_capacity" type="normal" weight="1"> </arc>
         <arc id="Ao1" inscription="1" nameOffsetX="0" nameOffsetY="0" source="c2p1start"
-            target="CProc" type="normal" weight="1">
-            <hlinscription>
-                <text>(2'P1)</text>
-                <structure>
-                    <add>
-                        <subterm>
-                            <numberof>
-                                <subterm>
-                                    <numberconstant value="2">
-                                        <positive />
-                                    </numberconstant>
-                                </subterm>
-                                <subterm>
-                                    <useroperator declaration="P1" />
-                                </subterm>
-                            </numberof>
-                        </subterm>
-                    </add>
-                </structure>
-            </hlinscription>
-        </arc>
+            target="CProc" type="normal" weight="1"> </arc>
         <arc id="I0" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="CProc"
             target="c2p1start" type="tapnInhibitor" weight="1">
             <hlinscription>

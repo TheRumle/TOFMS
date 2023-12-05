@@ -7,7 +7,7 @@ using TapaalParser.TapaalGui.XmlWriters.SymbolWriters;
 
 namespace TapaalParser.TapaalGui.XmlWriters;
 
-public partial class PlaceXmlWriter : IGuiTranslater<Placement<Place>>
+public partial class PlaceXmlWriter : IGuiTranslater<Placement<CapacityPlace>>
 {
     private readonly StringBuilder builder;
 
@@ -18,7 +18,7 @@ public partial class PlaceXmlWriter : IGuiTranslater<Placement<Place>>
     public PlaceXmlWriter():this(new StringBuilder()){}
     
     
-    public string XmlString(Placement<Place> placement)
+    public string XmlString(Placement<CapacityPlace> placement)
     {
         var element = placement.Construct;
         var name = element.Name;
@@ -30,13 +30,14 @@ public partial class PlaceXmlWriter : IGuiTranslater<Placement<Place>>
         AppendPlaceInfo(name, marking, pos);
         AppendColourTypeInfo(element);
         if (marking.Count > 0)
-            AppendInitialMarking(marking);
+            AppendInitialMarking(marking, element);
         
         AppendInvariants(element.ColourInvariants, element.ColourType.Name);
         builder.Append(" </place>");
         return MatchWhiteSpace().Replace(builder.ToString(), " ");
     }
-
+    
+    
     private string AppendInvariants(IEnumerable<ColourInvariant<string>>  elementColorInvariants, string colourType)
     {
         foreach (var kvp in elementColorInvariants)
@@ -64,7 +65,7 @@ public partial class PlaceXmlWriter : IGuiTranslater<Placement<Place>>
         return builder.ToString();
     }
 
-    private void AppendInitialMarking(TokenCollection tokens)
+    private void AppendInitialMarking(TokenCollection tokens, CapacityPlace place)
     {
         builder.Append("<hlinitialMarking> <text>");
 
@@ -72,11 +73,11 @@ public partial class PlaceXmlWriter : IGuiTranslater<Placement<Place>>
         colourExpressionBuilder.WriteColourExpression(tokens);
         builder.Append("</text>");
         var structureBuilder = new StructureExpressionAppender(builder);
-        structureBuilder.AppendStructureText(tokens);
+        structureBuilder.AppendStructureText(place);
         builder.Append("  </hlinitialMarking>");
     }
 
-    private void AppendColourTypeInfo(Place element)
+    private void AppendColourTypeInfo(CapacityPlace element)
     {
         var dcl = element.ColourType.Colours.First();
         if (element.ColourType.Colours.Count() > 1)

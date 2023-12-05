@@ -2,22 +2,26 @@
 
 public class ColoredGuard
 {
-    public ColoredGuard(int amount, string color, Interval interval)
+    private ColoredGuard(int amount, ColourType color, Interval interval)
     {
         Amount = amount;
         Color = color;
         Interval = interval;
     }
 
-    public string Color { get; set; }
+    public ColourType Color { get; set; }
 
     public Interval Interval { get; }
     public int Amount { get; }
     
     public static ColoredGuard CapacityGuard(int amount)
     {
-        return new ColoredGuard(amount, CapacityPlaceExtensions.DefaultCapacityColor, Interval.ZeroToInfinity);
+        return new ColoredGuard(amount, ColourType.DefaultColorType, Interval.ZeroToInfinity);
     }
 
+    public static ColoredGuard TokensGuard(int amount, int from, int to)
+    {
+        return new ColoredGuard(amount, ColourType.DefaultColorType, new Interval(from, to));
+    } 
 
 }
