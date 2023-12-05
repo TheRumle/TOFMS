@@ -92,10 +92,3 @@ public class Transition
         return InvolvedPlaces.OfType<CapacityPlace>();
     }
 }
-
-public class TransitionGuard : List<KeyValuePair<int, Place>>
-{
-    
-    
-    
-}

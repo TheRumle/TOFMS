@@ -27,7 +27,7 @@ internal class FromLocationIsInEmptyAfterAdapter : ITransitionAttachable
     {
         (var p, var pcap) = LocationTranslator.CreatePlaceAndCapacityPlacePair(this._fromLocation, this._collection);
         
-        IPlace? foundPlace = transition
+        CapacityPlace? foundPlace = transition
             .InvolvedPlaces
             .OfType<CapacityPlace>()
             .FirstOrDefault(e => pcap.Equals(e));
@@ -35,9 +35,8 @@ internal class FromLocationIsInEmptyAfterAdapter : ITransitionAttachable
         if (foundPlace is null)
             foundPlace = pcap;
 
-        var existingCapPlace = (CapacityPlace)foundPlace;
-        ModifyOrAddIncomingFromHat(transition, existingCapPlace);
-        ModifyOrAddOutggoingToHat(transition, existingCapPlace);
+        ModifyOrAddIncomingFromHat(transition, foundPlace);
+        ModifyOrAddOutggoingToHat(transition, foundPlace);
 
         var alreadyCreated = _emptyAfter
             .Where(l => transition.InvolvedPlaces
@@ -48,7 +47,6 @@ internal class FromLocationIsInEmptyAfterAdapter : ITransitionAttachable
         {
             transition.AddInhibitorFrom(LocationTranslator.CreatePlace(location, _collection), 1);
         }
-
     }
 
     private void ModifyOrAddOutggoingToHat(Transition transition, CapacityPlace fromPlaceHat)

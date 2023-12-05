@@ -1,5 +1,4 @@
 ﻿namespace TACPN.Net;
-public record Token(string Colour,  int Age = 0);
 
 public class TokenCollection : List<Token>
 {

@@ -7,15 +7,15 @@ using TapaalParser.TapaalGui.XmlWriters.SymbolWriters;
 
 namespace TapaalParser.TapaalGui.XmlWriters;
 
-public partial class PlaceXmlWriter : IGuiTranslater<Placement<CapacityPlace>>
+public partial class CapacityPlaceXmlWriter : IGuiTranslater<Placement<CapacityPlace>>
 {
     private readonly StringBuilder builder;
 
-    public PlaceXmlWriter(StringBuilder builder)
+    public CapacityPlaceXmlWriter(StringBuilder builder)
     {
         this.builder = builder;
     }
-    public PlaceXmlWriter():this(new StringBuilder()){}
+    public CapacityPlaceXmlWriter():this(new StringBuilder()){}
     
     
     public string XmlString(Placement<CapacityPlace> placement)
@@ -38,7 +38,7 @@ public partial class PlaceXmlWriter : IGuiTranslater<Placement<CapacityPlace>>
     }
     
     
-    private string AppendInvariants(IEnumerable<ColourInvariant<string>>  elementColorInvariants, string colourType)
+    private void AppendInvariants(IEnumerable<ColourInvariant<string>> elementColorInvariants, string colourType)
     {
         foreach (var kvp in elementColorInvariants)
         {
@@ -49,20 +49,6 @@ public partial class PlaceXmlWriter : IGuiTranslater<Placement<CapacityPlace>>
             InvariantDeclaration decl = InvariantDeclaration.LteInvariant(kvp.FirstColour, kvp.MaxAge, type);
             builder.Append(decl);
         }
-
-        return builder.ToString();
-    }
-    
-    private string AppendInvariants(IEnumerable<ColourInvariant<int, string>>  elementColorInvariants, string colourType)
-    {
-        foreach (var kvp in elementColorInvariants)
-        {
-            var type = colourType;
-            if (colourType == ColourType.DefaultColorType.Name)
-                type = colourType.ToLower();
-            
-        }
-        return builder.ToString();
     }
 
     private void AppendInitialMarking(TokenCollection tokens, CapacityPlace place)

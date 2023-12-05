@@ -10,27 +10,30 @@ public class TacpnComponentXmlParser
 {
     private readonly IEnumerable<Placement<Transition>> _transitions;
     private readonly  IEnumerable<Placement<Place>> _places;
+    private readonly  IEnumerable<Placement<CapacityPlace>> _capacityPlaces;
     private readonly PlacableComponent _component
         ;
 
     public TacpnComponentXmlParser(PlacableComponent component)
     {
         _places = component.Places;
+        _capacityPlaces = component.CapacityPlaces;
         _transitions = component.Transitions;
         _component = component;
     }
 
     public async Task<string> CreateXmlComponent()
     {
-        var places = ConstructPlaces().ContinueWith(CombineStrings);
+        var places = ConstructCapacityPlaces().ContinueWith(CombineStrings);
+        var capPlaces = ConstructCapacityPlaces().ContinueWith(CombineStrings);
         var ingoingArcs = ConstructIngoingArcs().ContinueWith(CombineStrings);
         var outgoingArcs = ConstructOutgoingArcs().ContinueWith(CombineStrings);
         var inhibitorArcs = ConstructInhibitorArcs().ContinueWith(CombineStrings);
         var transitions = ConstructTransitions().ContinueWith(CombineStrings);
-        await Task.WhenAll(places, ingoingArcs, outgoingArcs, inhibitorArcs, transitions);
 
         var combiner = new StringBuilder();
         WriteTapaalComponentHeader(combiner);
+        combiner.Append(await capPlaces);
         combiner.Append(await places);
         combiner.Append(await transitions);
         combiner.Append(await ingoingArcs);
@@ -87,8 +90,14 @@ public class TacpnComponentXmlParser
 
     public async Task<IEnumerable<string>> ConstructPlaces()
     {
-        return await ConstructTasks(_places.OfType<Placement<CapacityPlace>>(), (p) => new PlaceXmlWriter().XmlString(p));
+        return await ConstructTasks(_places, (p) => new XmlPlaceWriter().XmlString(p));
     }
+    
+    public async Task<IEnumerable<string>> ConstructCapacityPlaces()
+    {
+        return await ConstructTasks(_capacityPlaces, (p) => new CapacityPlaceXmlWriter().XmlString(p));
+    }
+
 
     public async Task<IEnumerable<string>> ConstructTasks<T>(IEnumerable<T> source, Func<T, string> xmlWrite)
     {

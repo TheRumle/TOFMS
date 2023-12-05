@@ -14,23 +14,44 @@ public class StructureExpressionAppender
 
     public void AppendStructureText(CapacityPlace place)
     {
-_builder.Append(
-        $@"<structure>
-          <add>
-            <subterm>
-              <numberof>
+    _builder.Append(
+            $@"<structure>
+              <add>
                 <subterm>
-                  <numberconstant value=""{place.Tokens.AmountOfColour("dot")}"">
-                    <positive/>
-                  </numberconstant>
+                  <numberof>
+                    <subterm>
+                      <numberconstant value=""{place.Tokens.AmountOfColour("dot")}"">
+                        <positive/>
+                      </numberconstant>
+                    </subterm>
+                    <subterm>
+                      <useroperator declaration=""dot""/>
+                    </subterm>
+                  </numberof>
                 </subterm>
+              </add>
+            </structure>");
+    }
+    
+    public void AppendStructureText(Place place)
+    {
+        _builder.Append(
+            $@"<structure>
+              <add>
                 <subterm>
-                  <useroperator declaration=""dot""/>
+                  <numberof>
+                    <subterm>
+                      <numberconstant value=""{0}"">
+                        <positive/>
+                      </numberconstant>
+                    </subterm>
+                    <subterm>
+                      <useroperator declaration=""dot""/>
+                    </subterm>
+                  </numberof>
                 </subterm>
-              </numberof>
-            </subterm>
-          </add>
-        </structure>");
+              </add>
+            </structure>");
     }
 
     private void HandleMultipleColors(TokenCollection tokens)

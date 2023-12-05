@@ -9,6 +9,7 @@ public class MessyStrategy : IPositionPlacementStrategy
     {
         var transitions = component.Transitions.Select(e => new Placement<Transition>(e, new Position(0, 0)));
         var places = component.Places.Select(e => new Placement<Place>(e, new Position(0, 0)));
-        return new PlacableComponent(transitions, places, component.Colors, component.Name);
+        var caps = component.CapacityPlaces.Select(e => new Placement<CapacityPlace>(e, new Position(0, 0)));
+        return new PlacableComponent(transitions,places, caps, component.Colors, component.Name);
     }
 }

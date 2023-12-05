@@ -26,7 +26,11 @@ public class CircleAroundSingleTransitionStrategy : IPositionPlacementStrategy
         var placesArray = component.Places.ToList();
         var placePositions = GetPlacePlacements(component, coordinates, placesArray);
         var transitions = GetTransitionsPlacements(component, coordinates);
-        return new PlacableComponent(transitions, placePositions, component.Colors, component.Name);
+        
+        return new PlacableComponent(transitions, 
+            placePositions.OfType<Placement<Place>>(),
+            placePositions.OfType<Placement<CapacityPlace>>(),
+            component.Colors, component.Name);
     }
 
     private List<Placement<Transition>> GetTransitionsPlacements(PetriNetComponent component, Position[] coordinates)
@@ -42,16 +46,19 @@ public class CircleAroundSingleTransitionStrategy : IPositionPlacementStrategy
         return transitions;
     }
 
-    private static List<Placement<Place>> GetPlacePlacements(PetriNetComponent component, Position[] coordinates, List<Place> placesArray)
+    private static List<Placement<IPlace>> GetPlacePlacements(PetriNetComponent component, Position[] coordinates, List<Place> placesArray)
     {
-        List<Placement<Place>> placePositions = new List<Placement<Place>>(component.Places.Count);
-        for (int i = 0; i < component.Places.Count; i++)
+        List<Placement<IPlace>> placePositions = new List<Placement<IPlace>>(component.AllPlaces().Count);
+        
+        for (int i = 0; i < component.AllPlaces().Count; i++)
         {
             var position = coordinates[i];
             var place = placesArray[i];
-            placePositions.Add(new Placement<Place>(place, position));
+            placePositions.Add(new Placement<IPlace>(place, position));
         }
 
         return placePositions;
     }
+    
+    
 }

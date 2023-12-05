@@ -29,6 +29,21 @@ public class ExtractTacpnXmlFormat
 
     private async Task<string> ExtractTapaalXml()
     {
+        var sharedComponentTasks = BeginTranslateAllComponents();
+        
+        var builder = new StringBuilder();
+        builder.Append($"<pnml xmlns=\"http://www.informatik.hu-berlin.de/top/pnml/ptNetb\">");
+        
+        AppendToplevelDcls(builder,_components.SelectMany(e=>e.AllPlaces()), _journeyCollection);
+        foreach (var componentStrings in await Task.WhenAll(sharedComponentTasks))
+            builder.Append(componentStrings);
+
+        builder.Append(@$"<feature isColored=""true"" isGame=""false"" isTimed=""true""/>{'\n'}</pnml>");
+        return builder.ToString();
+    }
+
+    private IEnumerable<Task<string>> BeginTranslateAllComponents()
+    {
         var sharedComponentTasks = _components.Select(component =>
         {
             GuiPositioningFinder positioningFinder = new GuiPositioningFinder(component);
@@ -37,17 +52,7 @@ public class ExtractTacpnXmlFormat
             TacpnComponentXmlParser parser = new TacpnComponentXmlParser(positionalComponent);
             return parser.CreateXmlComponent();
         });
-
-        var strings = await Task.WhenAll(sharedComponentTasks);
-        var builder = new StringBuilder();
-        builder.Append($"<pnml xmlns=\"http://www.informatik.hu-berlin.de/top/pnml/ptNetb\">");
-        
-        AppendToplevelDcls(builder,this._components.SelectMany(e=>e.AllPlaces()), _journeyCollection);
-        foreach (var componentStrings in strings)
-            builder.Append(componentStrings);
-
-        builder.Append(@$"<feature isColored=""true"" isGame=""false"" isTimed=""true""/>{'\n'}</pnml>");
-        return builder.ToString();
+        return sharedComponentTasks;
     }
 
     private void AppendToplevelDcls(StringBuilder builder, IEnumerable<IPlace> places, JourneyCollection j)
