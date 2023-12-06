@@ -24,7 +24,7 @@ public class TacpnComponentXmlParser
 
     public async Task<string> CreateXmlComponent()
     {
-        var places = ConstructCapacityPlaces().ContinueWith(CombineStrings);
+        var places = ConstructPlaces().ContinueWith(CombineStrings);
         var capPlaces = ConstructCapacityPlaces().ContinueWith(CombineStrings);
         var ingoingArcs = ConstructIngoingArcs().ContinueWith(CombineStrings);
         var outgoingArcs = ConstructOutgoingArcs().ContinueWith(CombineStrings);
