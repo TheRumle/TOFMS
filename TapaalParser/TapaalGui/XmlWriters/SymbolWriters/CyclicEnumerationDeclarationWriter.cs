@@ -3,9 +3,9 @@ using TACPN.Net;
 
 namespace TapaalParser.TapaalGui.XmlWriters.SymbolWriters;
 
-public class CyclicEnumerationDeclarationWriter : IGuiTranslater<ISet<ColourType>>
+public class CyclicEnumerationDeclarationWriter : IGuiTranslater<IEnumerable<ColourType>>
 {
-    public string XmlString(ISet<ColourType> colorTypes)
+    public string XmlString(IEnumerable<ColourType> colorTypes)
     {
         StringBuilder builder = new StringBuilder();
         var dot = $@" <namedsort id=""dot"" name=""dot""> <dot/></namedsort> "; //DOT must be there

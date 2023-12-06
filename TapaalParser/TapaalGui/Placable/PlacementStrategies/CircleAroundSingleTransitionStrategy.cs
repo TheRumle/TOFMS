@@ -22,8 +22,8 @@ public class CircleAroundSingleTransitionStrategy : IPositionPlacementStrategy
     
     public PlacableComponent FindLocationsFor(PetriNetComponent component)
     {
-        var coordinates = PositionCalculator.GetCircularCoordinates(_center.X, _center.Y, _radius, component.Places.Count);
-        var placesArray = component.Places.ToList();
+        var coordinates = PositionCalculator.GetCircularCoordinates(_center.X, _center.Y, _radius, component.AllPlaces().Count);
+        var placesArray = component.AllPlaces().ToList();
         var placePositions = GetPlacePlacements(component, coordinates, placesArray);
         var transitions = GetTransitionsPlacements(component, coordinates);
         
@@ -46,7 +46,7 @@ public class CircleAroundSingleTransitionStrategy : IPositionPlacementStrategy
         return transitions;
     }
 
-    private static List<Placement<IPlace>> GetPlacePlacements(PetriNetComponent component, Position[] coordinates, List<Place> placesArray)
+    private static List<Placement<IPlace>> GetPlacePlacements(PetriNetComponent component, Position[] coordinates, List<IPlace> placesArray)
     {
         List<Placement<IPlace>> placePositions = new List<Placement<IPlace>>(component.AllPlaces().Count);
         

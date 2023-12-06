@@ -1,5 +1,4 @@
-﻿using Tofms.Common.JsonTofms.Models;
-using Tofms.Common.Move;
+﻿using Tofms.Common.Move;
 
 namespace Tofms.Common;
 

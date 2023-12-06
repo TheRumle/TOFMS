@@ -22,6 +22,6 @@ public class ParseAndValidateTofmSystem
     public TranslateToTacpn ParseAndValidateInputSystem()
     {
         TofmSystem system =  _parser.ParseTofmsSystemJsonString(System).Result;
-        return new TranslateToTacpn(system.MoveActions, system.Journeys, this);
+        return new TranslateToTacpn(system, system.MoveActions, system.Journeys, this);
     }
 }

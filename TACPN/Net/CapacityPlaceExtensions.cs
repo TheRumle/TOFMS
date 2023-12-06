@@ -20,7 +20,6 @@ public static class CapacityPlaceExtensions
     
     public static CapacityPlace ToCapacityPlace(this Place place, int numTokens)
     {
-        var kvp = KeyValuePair.Create(DefaultCapacityColor, (int)InfinityInteger.Positive);
         return  new CapacityPlace(CapacityNameFor(place), numTokens);
     }
 }

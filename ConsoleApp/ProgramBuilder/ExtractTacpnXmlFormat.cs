@@ -1,5 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using System.Text;
+﻿using System.Text;
 using TACPN.Adapters.TofmToTacpnAdapter;
 using TACPN.Net;
 using TapaalParser.TapaalGui;
@@ -13,12 +12,14 @@ public class ExtractTacpnXmlFormat
     private readonly IEnumerable<PetriNetComponent> _components;
     private readonly TranslateToTacpn _prevStep;
     private readonly JourneyCollection _journeyCollection;
+    private readonly TofmSystem _system;
 
     public ExtractTacpnXmlFormat(IEnumerable<PetriNetComponent> components, TranslateToTacpn translateToTacpn, JourneyCollection journeyCollection)
     {
         this._components = components;
         this._prevStep = translateToTacpn;
         _journeyCollection = journeyCollection;
+        this._system = _prevStep.TofmSystem;
     }
 
     public async Task<WriteToFile> TranslateToTapaalXml()
@@ -33,8 +34,9 @@ public class ExtractTacpnXmlFormat
         
         var builder = new StringBuilder();
         builder.Append($"<pnml xmlns=\"http://www.informatik.hu-berlin.de/top/pnml/ptNetb\">");
-        
-        AppendToplevelDcls(builder,_components.SelectMany(e=>e.AllPlaces()), _journeyCollection);
+
+        var parts = new ColourType("Parts", _system.Parts);
+        AppendToplevelDcls(builder,_components.SelectMany(e=>e.AllPlaces()),parts, _journeyCollection);
         foreach (var componentStrings in await Task.WhenAll(sharedComponentTasks))
             builder.Append(componentStrings);
 
@@ -55,14 +57,13 @@ public class ExtractTacpnXmlFormat
         return sharedComponentTasks;
     }
 
-    private void AppendToplevelDcls(StringBuilder builder, IEnumerable<IPlace> places, JourneyCollection j)
+    private void AppendToplevelDcls(StringBuilder builder, IEnumerable<IPlace> places, ColourType parts,
+        JourneyCollection j)
     {
-        builder.Append($@" <declaration> <structure> <declarations>");
-        var colourTypes = _components.SelectMany(e => e.Places.Select(p => p.ColourType)).DistinctBy(e=>e.Name).ToHashSet();
-        var topDcls = new CyclicEnumerationDeclarationWriter().XmlString(colourTypes);
+
+        var topDcls = new CyclicEnumerationDeclarationWriter().XmlString(new []{parts});
         builder.Append(topDcls);
         var intRangeWriter = new SpecialVariableWriter(builder);
-
         int longestCount = 0;
         foreach (var jour in j) 
             longestCount = longestCount > jour.Value.Count() ? longestCount : jour.Value.Count();
@@ -70,17 +71,13 @@ public class ExtractTacpnXmlFormat
 
         intRangeWriter.Write(JourneyCollection.ColourName, longestCount);
         builder.Append($@" </declarations> </structure> </declaration> ");
-        var ps = places.ToList();
 
-        foreach (var pl in places.OfType<CapacityPlace>())
-        {
+        var enumerable = places as IPlace[] ?? places.ToArray();
+        foreach (var pl in enumerable.OfType<CapacityPlace>())
             AppendSharedPlaceDcl(builder, pl);
-        }
         
-        foreach (var pl in places.OfType<Place>())
-        {
+        foreach (var pl in enumerable.OfType<Place>())
             AppendSharedPlaceDcl(builder, pl);
-        }
         
     }
 

@@ -25,7 +25,7 @@ internal class FromLocationIsInEmptyAfterAdapter : ITransitionAttachable
 
     public void AttachToTransition(Transition transition)
     {
-        (var p, var pcap) = LocationTranslator.CreatePlaceAndCapacityPlacePair(this._fromLocation, this._collection);
+        (Place p, CapacityPlace pcap) = LocationTranslator.CreatePlaceAndCapacityPlacePair(this._fromLocation, this._collection);
         
         CapacityPlace? foundPlace = transition
             .InvolvedPlaces

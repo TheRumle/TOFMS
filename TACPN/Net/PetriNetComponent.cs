@@ -18,5 +18,4 @@ public class PetriNetComponent
 
     public required IEnumerable<ColourType> ColourTypes { get; init; }
     public required string Name { get; init; }
-    public ColourType Journey { get; init; }
 }
