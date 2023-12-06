@@ -39,7 +39,7 @@ internal class ToTransitionAttacher : ITransitionAttachable
 
     private void AdaptPlace(Transition transition)
     {
-        IEnumerable<Production> productions = _itemMovedIntoPlace.Select(e => new Production(e.Key, e.Value));
+        IEnumerable<Production> productions = _itemMovedIntoPlace.Select(e => new Production(_place.ColourType, e.Value));
         transition.AddOutGoingTo(_place, productions);
     }
 }

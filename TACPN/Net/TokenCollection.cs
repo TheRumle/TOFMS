@@ -5,19 +5,13 @@ public class TokenCollection : List<Token>
     public ColourType ColourType { get; set; }
     public IEnumerable<string> Colours { get; set; }
 
-
-    private TokenCollection(IEnumerable<Token>tokens) : base(tokens)
-    {
-        this.ColourType = new ColourType(tokens.First().Colour, new []{tokens.First().Colour});
-        this.Colours = tokens.Select(e=>e.Colour);
-    }
-
     public static TokenCollection DotColorTokenCollection(int amount)
     {
         var tokens = Enumerable.Repeat(() => { return new Token("dot", 0); }, amount);
-        return new TokenCollection(tokens.Select(e=>e.Invoke()))
+        return new TokenCollection()
         {
-            ColourType = ColourType.DefaultColorType
+            ColourType = ColourType.DefaultColorType,
+            Colours = tokens.Select(e=>e.Invoke()).Select(e=>e.Colour)
         };
 
     }

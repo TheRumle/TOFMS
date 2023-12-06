@@ -42,14 +42,14 @@ public class Transition
     
 
 
-    public OutGoingArc AddOutGoingTo(IPlace from, IEnumerable<Production> productions)
+    public OutGoingArc AddOutGoingTo(Place from, IEnumerable<Production> productions)
     {
         var arc = new OutGoingArc(this, from, productions);
         OutGoing.Add(arc);
         return arc;
     }
 
-    public Arc<Transition, IPlace> AddOutGoingTo(IPlace from, Production production)
+    public Arc<Transition, IPlace> AddOutGoingTo(CapacityPlace from, Production production)
     {
         var arc = new OutGoingArc(this, from, new List<Production> { production });
         OutGoing.Add(arc);

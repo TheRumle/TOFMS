@@ -35,7 +35,9 @@ public class ExtractTacpnXmlFormat
         var builder = new StringBuilder();
         builder.Append($"<pnml xmlns=\"http://www.informatik.hu-berlin.de/top/pnml/ptNetb\">");
 
-        var parts = new ColourType("Parts", _system.Parts);
+        var t = _components.Select(e => e.Transitions.First()).First();
+        
+        var parts = ColourType.CreatePartColourType(_system.Parts);
         AppendToplevelDcls(builder,_components.SelectMany(e=>e.AllPlaces()),parts, _journeyCollection);
         foreach (var componentStrings in await Task.WhenAll(sharedComponentTasks))
             builder.Append(componentStrings);
@@ -61,7 +63,7 @@ public class ExtractTacpnXmlFormat
         JourneyCollection j)
     {
 
-        var topDcls = new CyclicEnumerationDeclarationWriter().XmlString(new []{parts});
+        string topDcls = new CyclicEnumerationDeclarationWriter().XmlString(new []{parts});
         builder.Append(topDcls);
         var intRangeWriter = new SpecialVariableWriter(builder);
         int longestCount = 0;

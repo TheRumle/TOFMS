@@ -1,3 +1,3 @@
 ﻿namespace TACPN.Net.Arcs;
 
-public record Production(string Color, int Amount);
+public record Production(ColourType Color, int Amount);

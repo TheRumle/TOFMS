@@ -58,7 +58,7 @@ internal class FromLocationIsInEmptyAfterAdapter : ITransitionAttachable
             return;
         }
 
-        transition.AddOutGoingTo(fromPlaceHat, new Production(ColourType.DefaultColorType.Name, _guardAmount));
+        transition.AddOutGoingTo(fromPlaceHat, new Production(ColourType.DefaultColorType, _guardAmount));
     }
 
     private void ModifyOrAddIncomingFromHat(Transition transition, CapacityPlace fromPlaceHat)
@@ -85,7 +85,7 @@ internal class FromLocationIsInEmptyAfterAdapter : ITransitionAttachable
         
         arc.Productions = new List<Production>()
         {
-            new(CapacityPlaceExtensions.DefaultCapacityColor, _fromLocation.Capacity)
+            new(ColourType.DefaultColorType, _fromLocation.Capacity)
         };
     }
 

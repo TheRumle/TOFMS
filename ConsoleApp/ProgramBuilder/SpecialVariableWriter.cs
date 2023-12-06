@@ -6,7 +6,7 @@ using Tofms.Common.JsonTofms.Models;
 
 namespace ConsoleApp.ProgramBuilder;
 
-internal class SpecialVariableWriter
+public class SpecialVariableWriter
 {
     private readonly StringBuilder _builder;
 
