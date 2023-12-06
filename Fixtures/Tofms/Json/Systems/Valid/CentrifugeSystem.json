@@ -1,7 +1,7 @@
 ﻿{
   "Journeys": {
       "P1": ["CProc"],
-      "P2": ["CProc"]
+      "P2": ["CBuffer"]
     },
   "Components": [
     {

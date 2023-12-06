@@ -63,14 +63,8 @@ public class ExtractTacpnXmlFormat
 
         var topDcls = new CyclicEnumerationDeclarationWriter().XmlString(new []{parts});
         builder.Append(topDcls);
-        var intRangeWriter = new SpecialVariableWriter(builder);
-        int longestCount = 0;
-        foreach (var jour in j) 
-            longestCount = longestCount > jour.Value.Count() ? longestCount : jour.Value.Count();
-
-
-        intRangeWriter.Write(JourneyCollection.ColourName, longestCount);
-        builder.Append($@" </declarations> </structure> </declaration> ");
+        var intRangeWriter = new SpecialVariableWriter(builder, j);
+        intRangeWriter.Write();
 
         var enumerable = places as IPlace[] ?? places.ToArray();
         foreach (var pl in enumerable.OfType<CapacityPlace>())

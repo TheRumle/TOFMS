@@ -19,7 +19,9 @@ public class TofmToTacpnTranslater : IMoveActionTranslation<PetriNetComponent>
 
     public PetriNetComponent Translate(MoveAction moveAction)
     {
-        var transition = new Transition(moveAction.Name);
+        TransitionGuard guard = CreateGuard(moveAction);
+        
+        var transition = new Transition(moveAction.Name, guard);
 
         _transitionAttachableFactory.AdaptFrom(moveAction).AttachToTransition(transition);
         _transitionAttachableFactory.AdaptEmptyAfter(moveAction).AttachToTransition(transition);
@@ -50,6 +52,14 @@ public class TofmToTacpnTranslater : IMoveActionTranslation<PetriNetComponent>
             ColourTypes = colourTypes,
             Name = moveAction.Name + "Component",
         };
+    }
+
+    private TransitionGuard CreateGuard(MoveAction moveAction)
+    {
+        var from = moveAction.From;
+        //TODO
+
+        return null;
     }
 
     public async Task<PetriNetComponent> TranslateAsync(MoveAction moveAction)

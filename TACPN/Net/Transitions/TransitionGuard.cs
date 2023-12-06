@@ -2,7 +2,10 @@
 
 public class TransitionGuard : List<KeyValuePair<int, Place>>
 {
-    
+    public TransitionGuard()
+    {
+        
+    }
     
     
 }

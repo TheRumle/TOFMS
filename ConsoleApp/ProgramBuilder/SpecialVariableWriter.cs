@@ -8,18 +8,26 @@ namespace ConsoleApp.ProgramBuilder;
 
 internal class SpecialVariableWriter
 {
+    public JourneyCollection JourneyCollection { get; }
     private readonly StringBuilder _builder;
 
-    public SpecialVariableWriter(StringBuilder builder)
+    public SpecialVariableWriter(StringBuilder builder, JourneyCollection journeyCollection)
     {
+        JourneyCollection = journeyCollection;
         _builder = builder;
     }
 
 
 
-    public void Write(string typeName, int maxValue)
+    public void Write()
     {
-        WriteJourney(typeName, maxValue);
+        foreach (var partAndJourney in this.JourneyCollection)
+        {
+            var part = partAndJourney.Key;
+            var journey = partAndJourney.Value;
+            WriteJourney(JourneyCollection.ColourName + part, journey.Count());
+        }
+        
         WriteTokens();
         WriteVariable();
     }

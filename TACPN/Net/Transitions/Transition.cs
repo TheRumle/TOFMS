@@ -2,9 +2,37 @@
 
 namespace TACPN.Net.Transitions;
 
+
+
+
+public class TransitionGuardEqualsString
+{
+    public string Text { get; set; }
+    public TransitionGuardEqualsString(string variable, IEnumerable<int> values)
+    {
+        this.Variable = variable;
+        Text = "";
+        var allExceptLast = values.Skip(1);
+        foreach (var value in allExceptLast)
+        {
+            Text += $"{variable} eq {value} or";
+        }
+        Text += $"{variable} eq {values.First()}";
+    }
+
+    public override string ToString()
+    {
+        return Text;
+    }
+
+    public string Variable { get; set; }
+}
+
 public class Transition
 {
-    public Transition(string name)
+    
+    
+    public Transition(string name, TransitionGuard guard)
     {
         Name = name;
     }

@@ -51,7 +51,7 @@ public class JsonTofmToDomainTofmParser
         var journeys = new Dictionary<string, List<Location>>();
 
         var processingLocations = moveActions
-            .SelectMany(e => e.InvolvedLocations).Where(e => e.IsProcessing);
+            .SelectMany(e => e.InvolvedLocations);
 
         foreach (KeyValuePair<string, IEnumerable<string>> jour in system.Journeys)
         {
