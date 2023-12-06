@@ -30,16 +30,13 @@ public class ColourDeclarer
           <dot/></namedsort>");
     }
 
-    public void WriteJourneys(StringBuilder builder, JourneyCollection journeys)
+    public void WriteJourney(StringBuilder builder, JourneyCollection journeys)
     {
-        foreach (var partjour in journeys)
-        {
-            var part = partjour.Key;
-            var journey = partjour.Value.Select(e => e.Value);
-            builder.Append($@" <namedsort id=""{part}Journey"" name=""{part}Journey"">
-                                <finiteintrange end=""{journey.Count()}"" start=""0""/>
-                               </namedsort>");
-        }
+        var maxLength = journeys.MaxBy(e => e.Value.Count()).Value.Count();
+        builder.Append($@" <namedsort id=""Journey"" name=""Journey"">
+                            <finiteintrange end=""{maxLength}"" start=""0""/>
+                           </namedsort>");
+        
     }
     
     public void WriteTokenDeclaration(JourneyCollection journeys)
@@ -48,12 +45,9 @@ public class ColourDeclarer
         stringBuilder.Append($@"<namedsort id=""{Colours.TokenColour}"" name=""{Colours.TokenColour}"">
           <productsort>
             <usersort declaration=""{Colours.Parts}""/>");
+
+        stringBuilder.Append($@"<usersort declaration=""{Colours.Journey}""/>");
         
-        foreach (var partjour in journeys)
-        {
-            var part = partjour.Key;
-            stringBuilder.Append($@"<usersort declaration=""{Colours.JourneyColorForPart(part)}""/>");
-        }
 
         stringBuilder.Append("</productsort>        </namedsort>");
 

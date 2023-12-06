@@ -32,13 +32,13 @@ public static class TransitionAssertions
 
     public static Place FindFirstConnectedPlaceWithName(this Transition transition, params string[] nameParts)
     {
-        var list = new List<Place>();
+        var list = new List<IPlace>();
         list.AddRange(transition.InhibitorArcs.Select(e=>e.From));
         list.AddRange(transition.InGoing.Select(e=>e.From));
         list.AddRange(transition.OutGoing.Select(e=>e.To));
 
-        var set = new HashSet<Place>(list);
-        return set.First(e =>
+        var set = new HashSet<IPlace>(list);
+        return set.OfType<Place>().First(e =>
         {
             var lowerName = e.Name.ToLower();
             return nameParts.All(part => lowerName.Contains(part.ToLower()));

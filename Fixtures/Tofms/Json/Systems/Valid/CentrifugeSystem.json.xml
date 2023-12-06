@@ -1,122 +1,151 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<pnml xmlns="http://www.informatik.hu-berlin.de/top/pnml/ptNetb">
-  <declaration>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> <pnml xmlns="http://www.informatik.hu-berlin.de/top/pnml/ptNetb">  <declaration>
     <structure>
-      <declarations>
-        <namedsort id="dot" name="dot">
-          <dot />
-        </namedsort>
-        <namedsort id="Parts" name="Parts">
-          <cyclicenumeration>
-            <feconstant id="P1" name="Parts" />
-            <feconstant id="P2" name="Parts" />
-          </cyclicenumeration>
-        </namedsort>
-        <namedsort id="P1Journey" name="P1Journey">
-          <finiteintrange end="1" start="0" />
-        </namedsort>
-        <namedsort id="P2Journey" name="P2Journey">
-          <finiteintrange end="1" start="0" />
-        </namedsort>
-        <namedsort id="Tokens" name="Tokens">
+      <declarations> <namedsort id="dot" name="dot">
+          <dot/></namedsort> <namedsort id="Parts" name="Parts"> <cyclicenumeration><feconstant id="P1" name="Parts"/><feconstant id="P2" name="Parts"/> </cyclicenumeration> </namedsort> <namedsort id="Journey" name="Journey">
+                            <finiteintrange end="1" start="0"/>
+                           </namedsort><namedsort id="Tokens" name="Tokens">
           <productsort>
-            <usersort declaration="Parts" />
-            <usersort declaration="P1Journey" />
-            <usersort declaration="P2Journey" />
-          </productsort>
-        </namedsort>
-        <variabledecl id="VarP1J" name="P1jourvar">
-          <usersort declaration="P1Journey" />
-        </variabledecl>
-        <variabledecl id="VarP2J" name="P2jourvar">
-          <usersort declaration="P2Journey" />
-        </variabledecl>
-      </declarations>
+            <usersort declaration="Parts"/><usersort declaration="Journey"/></productsort>        </namedsort>        <variabledecl id="VarP1" name="P1var">
+          <usersort declaration="Journey"/>
+            </variabledecl>        <variabledecl id="VarP2" name="P2var">
+          <usersort declaration="Journey"/>
+            </variabledecl>      </declarations>
     </structure>
-  </declaration>
-  <shared-place initialMarking="0" invariant="&lt; inf" name="CBuffer">
-    <type>
-      <text>Tokens</text>
-      <structure>
-        <usersort declaration="Tokens" />
-      </structure>
-    </type>
-  </shared-place>
-  <shared-place initialMarking="0" invariant="&lt; inf" name="CProc">
-    <colorinvariant>
-      <inscription inscription="&lt;= 12" />
-      <colortype name="Tokens">
-        <color value="P1" />
-        <color value="0" />
-      </colortype>
-    </colorinvariant>
-    <colorinvariant>
-      <inscription inscription="&lt;= 12" />
-      <colortype name="Tokens">
-        <color value="P2" />
-        <color value="0" />
-      </colortype>
-    </colorinvariant>
-    <type>
-      <text>Tokens</text>
-      <structure>
-        <usersort declaration="Tokens" />
-      </structure>
-    </type>
-  </shared-place>
-  <shared-place initialMarking="4" invariant="&lt; inf" name="CBuffer_capacity_capacity">
-    <type>
-      <text>dot</text>
-      <structure>
-        <usersort declaration="dot" />
-      </structure>
-    </type>
-    <hlinitialMarking>
-      <text>(4'dot)</text>
-      <structure>
-        <add>
-          <subterm>
-            <numberof>
-              <subterm>
-                <numberconstant value="4">
-                  <positive />
-                </numberconstant>
-              </subterm>
-              <subterm>
-                <useroperator declaration="dot" />
-              </subterm>
-            </numberof>
-          </subterm>
-        </add>
-      </structure>
-    </hlinitialMarking>
-  </shared-place>
-  <shared-place initialMarking="4" invariant="&lt; inf" name="CProc_capacity_capacity">
-    <type>
-      <text>dot</text>
-      <structure>
-        <usersort declaration="dot" />
-      </structure>
-    </type>
-    <hlinitialMarking>
-      <text>(4'dot)</text>
-      <structure>
-        <add>
-          <subterm>
-            <numberof>
-              <subterm>
-                <numberconstant value="4">
-                  <positive />
-                </numberconstant>
-              </subterm>
-              <subterm>
-                <useroperator declaration="dot" />
-              </subterm>
-            </numberof>
-          </subterm>
-        </add>
-      </structure>
-    </hlinitialMarking>
-  </shared-place>
-  <feature isColored="true" isGame="false" isTimed="true" />
-</pnml>
+  </declaration><shared-place initialMarking="0" invariant="&lt; inf" name="CBuffer">
+                                <type>
+                                  <text>Tokens</text>
+                                  <structure>
+                                    <usersort declaration="Tokens"/>
+                                  </structure>
+                                </type>
+                              </shared-place><shared-place initialMarking="0" invariant="&lt; inf" name="CProc"><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant>   <type> <text>Tokens</text> <structure><usersort declaration="Tokens"/> </structure> </type> </shared-place><shared-place initialMarking="4" invariant="&lt; inf" name="CBuffer_capacity_capacity">
+                                <type>
+                                  <text>dot</text>
+                                  <structure>
+                                    <usersort declaration="dot"/>
+                                  </structure>
+                                </type>
+                                <hlinitialMarking>
+                                  <text>(4'dot)</text>
+                                  <structure>
+                                    <add>
+                                      <subterm>
+                                        <numberof>
+                                          <subterm>
+                                            <numberconstant value="4">
+                                              <positive/>
+                                            </numberconstant>
+                                          </subterm>
+                                          <subterm>
+                                            <useroperator declaration="dot"/>
+                                          </subterm>
+                                        </numberof>
+                                      </subterm>
+                                    </add>
+                                  </structure>
+                                </hlinitialMarking>
+                              </shared-place><shared-place initialMarking="4" invariant="&lt; inf" name="CProc_capacity_capacity">
+                                <type>
+                                  <text>dot</text>
+                                  <structure>
+                                    <usersort declaration="dot"/>
+                                  </structure>
+                                </type>
+                                <hlinitialMarking>
+                                  <text>(4'dot)</text>
+                                  <structure>
+                                    <add>
+                                      <subterm>
+                                        <numberof>
+                                          <subterm>
+                                            <numberconstant value="4">
+                                              <positive/>
+                                            </numberconstant>
+                                          </subterm>
+                                          <subterm>
+                                            <useroperator declaration="dot"/>
+                                          </subterm>
+                                        </numberof>
+                                      </subterm>
+                                    </add>
+                                  </structure>
+                                </hlinitialMarking>
+                              </shared-place><place displayName="true" id="CBuffer_capacity_capacity" initialMarking="4" invariant="&lt; inf" name="CBuffer_capacity_capacity" nameOffsetX="0" nameOffsetY="0" positionX="0" positionY="0">
+      <type>
+        <text>dot</text>
+        <structure>
+          <usersort declaration="dot"/>
+        </structure>
+      </type>
+      <hlinitialMarking>
+        <text>(4'dot)</text>
+        <structure>
+          <add>
+            <subterm>
+              <numberof>
+                <subterm>
+                  <numberconstant value="4">
+                    <positive/>
+                  </numberconstant>
+                </subterm>
+                <subterm>
+                  <useroperator declaration="dot"/>
+                </subterm>
+              </numberof>
+            </subterm>
+          </add>
+        </structure>
+      </hlinitialMarking>
+    </place><place displayName="true" id="CProc_capacity_capacity" initialMarking="4" invariant="&lt; inf" name="CProc_capacity_capacity" nameOffsetX="0" nameOffsetY="0" positionX="0" positionY="0">
+      <type>
+        <text>dot</text>
+        <structure>
+          <usersort declaration="dot"/>
+        </structure>
+      </type>
+      <hlinitialMarking>
+        <text>(4'dot)</text>
+        <structure>
+          <add>
+            <subterm>
+              <numberof>
+                <subterm>
+                  <numberconstant value="4">
+                    <positive/>
+                  </numberconstant>
+                </subterm>
+                <subterm>
+                  <useroperator declaration="dot"/>
+                </subterm>
+              </numberof>
+            </subterm>
+          </add>
+        </structure>
+      </hlinitialMarking>
+    </place><place displayName="true" id="CBuffer" initialMarking="0" invariant="&lt; inf" name="CBuffer" nameOffsetX="30" nameOffsetY="30" positionX="30" positionY="30">
+          <type>
+            <text>Tokens</text>
+            <structure>
+              <usersort declaration="Tokens"/>
+            </structure>
+          </type>
+        </place><place displayName="true" id="CProc" initialMarking="0" invariant="&lt; inf" name="CProc" nameOffsetX="30" nameOffsetY="30" positionX="30" positionY="30">
+          <type>
+            <text>Tokens</text>
+            <structure>
+              <usersort declaration="Tokens"/>
+            </structure>
+          </type>
+        </place><net active="true" id="c2p1start" type="P/T net">  <feature isColored="true" isGame="false" isTimed="true"/> </pnml>

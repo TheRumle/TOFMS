@@ -19,8 +19,8 @@ public class VariableDeclarer
         {
             var part = partjour.Key;
             var journey = partjour.Value.Select(e => e.Value);
-            StringBuilder.Append($@"        <variabledecl id=""Var{part}J"" name=""{part}jourvar"">
-          <usersort declaration=""{part}Journey""/>
+            StringBuilder.Append($@"        <variabledecl id=""Var{part}"" name=""{part}var"">
+          <usersort declaration=""{Colours.Journey}""/>
             </variabledecl>");
 
 

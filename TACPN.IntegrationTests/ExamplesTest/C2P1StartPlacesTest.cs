@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Execution;
 using JsonFixtures.Tofms.Fixtures;
+using TACPN.Net;
 using TACPN.Net.Transitions;
 using Tofms.Common;
 using Tofms.Common.Move;
@@ -21,8 +22,8 @@ public class C2P1StartPlacesTest : ComponentTest, IClassFixture<CentrifugeFixtur
 
         using (new AssertionScope())
         {
-            var place = transition.FindFirstConnectedPlaceWithName("cproc");
-            var invariant = place.ColorInvariants.First(e => e.Key.ToLower().Contains("p1"));
+            Place place = transition.FindFirstConnectedPlaceWithName("cproc");
+            var invariant = place.ColourInvariants.First(e => e.SecondColour.ToLower().Contains("p1"));
             place.ColorInvariants.First().InvariantShouldBe("p1", 12);
         }
     }

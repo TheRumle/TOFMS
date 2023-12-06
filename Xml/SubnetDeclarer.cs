@@ -24,8 +24,9 @@ public class SubnetDeclarer
         foreach (var location in moveAction.InvolvedLocations)
             WriteLocation(location);
 
-        throw new NotImplementedException();
-        //TransitionWriter transitionWriter = new TransitionWriter();
+        
+        TransitionWriter transitionWriter = new TransitionWriter(_stringBuilder, moveAction);
+        transitionWriter.WriteTransition();
         
         
         
@@ -76,4 +77,21 @@ public class SubnetDeclarer
       </hlinitialMarking>
     </place>");
     }
+}
+
+public class TransitionWriter
+{
+  public StringBuilder StringBuilder { get; }
+  public MoveAction MoveAction { get; }
+
+  public TransitionWriter(StringBuilder stringBuilder, MoveAction moveAction)
+  {
+    StringBuilder = stringBuilder;
+    MoveAction = moveAction;
+    
+  }
+
+  public void WriteTransition()
+  {
+  }
 }

@@ -92,7 +92,7 @@ public class TofmSystemParser
         var declarer = new ColourDeclarer(_stringBuilder);
         declarer.WriteDot();
         declarer.WriteParts(_partnames);
-        declarer.WriteJourneys(_stringBuilder, _journeys);
+        declarer.WriteJourney(_stringBuilder, _journeys);
         declarer.WriteTokenDeclaration(_journeys);
     }
 }
