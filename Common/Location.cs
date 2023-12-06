@@ -1,6 +1,13 @@
 ﻿namespace Tofms.Common;
 
-public class Location
+public interface ILocation
+{
+    bool IsProcessing { get; set; }
+    string Name { get; init; }
+    int Capacity { get; init; }
+}
+
+public class Location : ILocation
 {
     
     public bool IsProcessing { get; set; }

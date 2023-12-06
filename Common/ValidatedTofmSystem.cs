@@ -2,7 +2,7 @@
 
 namespace Tofms.Common;
 
-public class TofmSystem
+public class ValidatedTofmSystem
 {
     public Dictionary<string, List<Location>> Journeys { get; set; }
     public IEnumerable<MoveAction> MoveActions { get; set; }

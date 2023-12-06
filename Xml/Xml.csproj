@@ -8,8 +8,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Common\Common.csproj" />
-      <ProjectReference Include="..\ConsoleApp\ConsoleApp.csproj" />
-      <ProjectReference Include="..\TACPN\TACPN.csproj" />
       <ProjectReference Include="..\TapaalParser\TapaalParser.csproj" />
     </ItemGroup>
 

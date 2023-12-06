@@ -1,6 +1,7 @@
-﻿using Tofms.Common.JsonTofms;
+﻿using Tofms.Common;
+using Tofms.Common.JsonTofms;
 using Tofms.Common.JsonTofms.ConsistencyCheck.Validators;
-using TofmSystem = Tofms.Common.TofmSystem;
+using Xml;
 
 namespace ConsoleApp.ProgramBuilder;
 
@@ -21,7 +22,15 @@ public class ParseAndValidateTofmSystem
 
     public TranslateToTacpn ParseAndValidateInputSystem()
     {
-        TofmSystem system =  _parser.ParseTofmsSystemJsonString(System).Result;
-        return new TranslateToTacpn(system, system.MoveActions, system.Journeys, this);
+        ValidatedTofmSystem system =  _parser.ParseTofmsSystemJsonString(System).Result;
+        return new (system, system.MoveActions, system.Journeys, this);
+    }
+    
+    public WriteToFile DirectTranslate()
+    {
+        ValidatedTofmSystem system =  _parser.ParseTofmsSystemJsonString(System).Result;
+        TofmSystemParser tofmSystemParser = new TofmSystemParser(system);
+        var a = tofmSystemParser.Parse();
+        return new WriteToFile(a, OutputFile);
     }
 }

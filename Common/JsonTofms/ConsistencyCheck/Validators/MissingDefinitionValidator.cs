@@ -3,7 +3,7 @@ using Tofms.Common.JsonTofms.Models;
 
 namespace Tofms.Common.JsonTofms.ConsistencyCheck.Validators;
 
-public class MissingDefinitionValidator : IValidator<TofmComponent>
+public class MissingDefinitionValidator : IValidator<Models.TofmComponent>
 {
     private List<InvalidJsonTofmException> _errors = new();
 
@@ -68,7 +68,7 @@ public class MissingDefinitionValidator : IValidator<TofmComponent>
         _errors.Add(new MissingDefinitionError(parent, fieldName));
     }
     
-    public IEnumerable<InvalidJsonTofmException> Validate(TofmComponent component)
+    public IEnumerable<InvalidJsonTofmException> Validate(Models.TofmComponent component)
     {
         VerifyMoves(component.Moves, component.Name);
         VerifyLocations(component.Locations);
@@ -104,7 +104,7 @@ public class MissingDefinitionValidator : IValidator<TofmComponent>
         }
     }
 
-    public Task<IEnumerable<InvalidJsonTofmException>> ValidateAsync(TofmComponent values)
+    public Task<IEnumerable<InvalidJsonTofmException>> ValidateAsync(Models.TofmComponent values)
     {
         return Task.Run(() => Validate(values));
     }

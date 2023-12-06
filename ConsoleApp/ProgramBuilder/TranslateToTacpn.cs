@@ -7,15 +7,15 @@ namespace ConsoleApp.ProgramBuilder;
 
 public class TranslateToTacpn
 {
-    public readonly TofmSystem TofmSystem;
+    public readonly ValidatedTofmSystem ValidatedTofmSystem;
     private readonly IEnumerable<MoveAction> _moveActions;
     private readonly Dictionary<string, List<Location>> _journeys;
     public readonly ParseAndValidateTofmSystem PrevStep;
 
-    public TranslateToTacpn(TofmSystem tofmSystem, IEnumerable<MoveAction> moveActions,
+    public TranslateToTacpn(ValidatedTofmSystem validatedTofmSystem, IEnumerable<MoveAction> moveActions,
         Dictionary<string, List<Location>> journeys, ParseAndValidateTofmSystem parseAndValidateTofmSystem)
     {
-        TofmSystem = tofmSystem;
+        ValidatedTofmSystem = validatedTofmSystem;
         this._moveActions = moveActions;
         _journeys = journeys;
         this.PrevStep = parseAndValidateTofmSystem;

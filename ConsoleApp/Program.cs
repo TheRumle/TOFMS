@@ -3,12 +3,10 @@
 using ConsoleApp.ProgramBuilder;
 
 
-var process = await TofmsToTapaal
+await TofmsToTapaal
     .GetInOutFiles()
-    .ParseAndValidateInputSystem()
-    .TranslateTofmsToTacpnComponents()
-    .TranslateToTapaalXml()
+    .DirectTranslate()
+    .WriteToOutputPath()
     ;
 
-await process.WriteToOutputPath();
 return 0;

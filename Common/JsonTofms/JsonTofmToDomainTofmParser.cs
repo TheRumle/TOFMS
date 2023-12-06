@@ -27,7 +27,7 @@ public class JsonTofmToDomainTofmParser
         _systemFactory = new MoveActionFactory();
     }
 
-    public async Task<TofmSystem> ParseTofmsSystemJsonString(string jsonString)
+    public async Task<ValidatedTofmSystem> ParseTofmsSystemJsonString(string jsonString)
     {
         var system = JsonConvert.DeserializeObject<TofmJsonSystem>(jsonString);
         ValidateTopLevel(system);
@@ -38,7 +38,7 @@ public class JsonTofmToDomainTofmParser
         var journeys = CreateJourneys(moveActions, system);
 
 
-        return new TofmSystem()
+        return new ValidatedTofmSystem()
         {
             Journeys = journeys,
             MoveActions = moveActions,
@@ -77,7 +77,7 @@ public class JsonTofmToDomainTofmParser
         return journeys;
     }
 
-    private async Task PerformComponentDefinitionValidation(List<TofmComponent> systemComponents)
+    private async Task PerformComponentDefinitionValidation(List<Models.TofmComponent> systemComponents)
     {
         var errs = new List<InvalidJsonTofmException>();
         foreach (var systemComponent in systemComponents) 
@@ -86,7 +86,7 @@ public class JsonTofmToDomainTofmParser
         if (errs.Any()) ThrowErrorMessage(errs.ToArray());
     }
     
-    private async Task PerformComponentDefinitionValidation(TofmComponent? systemComponent)
+    private async Task PerformComponentDefinitionValidation(Models.TofmComponent? systemComponent)
     {
         if (systemComponent is null) throw new Exception("Component was malformed");
         var errs = (await _missingDefinitionValidator.ValidateAsync(systemComponent)).ToArray();
@@ -95,13 +95,13 @@ public class JsonTofmToDomainTofmParser
 
     public async Task<IEnumerable<MoveAction>> ParseTofmComponentJsonString(string jsonString)
     {
-        var component = JsonConvert.DeserializeObject<TofmComponent>(jsonString);
+        var component = JsonConvert.DeserializeObject<Models.TofmComponent>(jsonString);
         await PerformComponentDefinitionValidation(component);
         
         var parts = component!.Moves.SelectMany(e => e.Parts.Select(e=>e.PartType));
         TofmJsonSystem jsonSystem = new TofmJsonSystem()
         {
-            Components = new List<TofmComponent>() { component },
+            Components = new List<Models.TofmComponent>() { component },
             Parts = new List<string>(parts)
         };
         

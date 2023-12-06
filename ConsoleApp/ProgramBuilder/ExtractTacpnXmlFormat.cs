@@ -12,14 +12,14 @@ public class ExtractTacpnXmlFormat
     private readonly IEnumerable<PetriNetComponent> _components;
     private readonly TranslateToTacpn _prevStep;
     private readonly JourneyCollection _journeyCollection;
-    private readonly TofmSystem _system;
+    private readonly ValidatedTofmSystem _system;
 
     public ExtractTacpnXmlFormat(IEnumerable<PetriNetComponent> components, TranslateToTacpn translateToTacpn, JourneyCollection journeyCollection)
     {
         this._components = components;
         this._prevStep = translateToTacpn;
         _journeyCollection = journeyCollection;
-        this._system = _prevStep.TofmSystem;
+        this._system = _prevStep.ValidatedTofmSystem;
     }
 
     public async Task<WriteToFile> TranslateToTapaalXml()

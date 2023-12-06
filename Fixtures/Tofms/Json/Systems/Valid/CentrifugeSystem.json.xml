@@ -1,32 +1,122 @@
-<pnml xmlns="http://www.informatik.hu-berlin.de/top/pnml/ptNetb"> <declaration> <structure> <declarations> <namedsort id="dot" name="dot"> <dot/></namedsort>  <namedsort id="Tokens" name="Tokens"> <cyclicenumeration>  <feconstant id="Tokens" name="Tokens"/>   </cyclicenumeration> </namedsort> <namedsort id="Parts" name="Parts"> <cyclicenumeration>  <feconstant id="P1" name="Parts"/>  <feconstant id="P2" name="Parts"/>   </cyclicenumeration> </namedsort><namedsort id="Journey" name="Journey"> <finiteintrange end="1" start="0"/> </namedsort><namedsort id="Tokens" name="Tokens"> <productsort> <usersort declaration="Parts"/> <usersort declaration="Journey"/> </productsort> </namedsort><variabledcl id="Varx" name="x"> <usersort declaration="Journey"/> </variabledcl> </declarations> </structure> </declaration>  <shared-place initialMarking="4" invariant="&lt; inf" name="CBuffer_capacity"><type><text>dot</text><structure><usersort declaration="dot"/></structure></type><hlinitialMarking> <text>(4)'dot</text><structure>
-              <add>
-                <subterm>
-                  <numberof>
-                    <subterm>
-                      <numberconstant value="4">
-                        <positive/>
-                      </numberconstant>
-                    </subterm>
-                    <subterm>
-                      <useroperator declaration="dot"/>
-                    </subterm>
-                  </numberof>
-                </subterm>
-              </add>
-            </structure>  </hlinitialMarking></shared-place> <shared-place initialMarking="4" invariant="&lt; inf" name="CProc_capacity"><type><text>dot</text><structure><usersort declaration="dot"/></structure></type><hlinitialMarking> <text>(4)'dot</text><structure>
-              <add>
-                <subterm>
-                  <numberof>
-                    <subterm>
-                      <numberconstant value="4">
-                        <positive/>
-                      </numberconstant>
-                    </subterm>
-                    <subterm>
-                      <useroperator declaration="dot"/>
-                    </subterm>
-                  </numberof>
-                </subterm>
-              </add>
-            </structure>  </hlinitialMarking></shared-place> <shared-place initialMarking="0" invariant="&lt; inf" name="CProc"><colorinvariant> <inscription inscription="&lt; 12"/> <colortype name="Tokens"> <color value="P1"/> <color value="0"/> </colortype> </colorinvariant><colorinvariant> <inscription inscription="&lt; 12"/> <colortype name="Tokens"> <color value="P2"/> <color value="0"/> </colortype> </colorinvariant><type><text>Tokens</text><structure><usersort declaration="Tokens"/></structure></type></shared-place> <shared-place initialMarking="0" invariant="&lt; inf" name="CBuffer"><type><text>Tokens</text><structure><usersort declaration="Tokens"/></structure></type></shared-place> <net active="true" id="c2p1startComponent" type="P/T net"> <transition angle="0" displayName="true" id="c2p1start" infiniteServer="false" name="c2p1start" nameOffsetX="0" nameOffsetY="0" player="0" positionX="300" positionY="300" priority="0" urgent="false"/><arc id="Ai0" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="CBuffer" target="c2p1start" type="timed" weight="1">  <hlinscription> <text></text> </hlinscription> </arc><arc id="Ai1" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="CBuffer_capacity" target="c2p1start" type="timed" weight="1">  <hlinscription> <text></text> </hlinscription> </arc><arc id="Ai2" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="CProc_capacity" target="c2p1start" type="timed" weight="1">  <hlinscription> <text></text> </hlinscription> </arc><arc id="Ao0" inscription="1" nameOffsetX="0" nameOffsetY="0" source="c2p1start" target="CBuffer_capacity" type="normal" weight="1"> </arc><arc id="Ao1" inscription="1" nameOffsetX="0" nameOffsetY="0" source="c2p1start" target="CProc" type="normal" weight="1"> </arc><arc id="I0" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="CProc" target="c2p1start" type="tapnInhibitor" weight="1"> <hlinscription> <text>1'dot.all</text> <structure> <numberof> <subterm> <numberconstant value="1"> <positive/> </numberconstant> </subterm> <subterm> <all> <usersort declaration="dot"/> </all> </subterm> </numberof> </structure> </hlinscription> </arc> </net><feature isColored="true" isGame="false" isTimed="true"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<pnml xmlns="http://www.informatik.hu-berlin.de/top/pnml/ptNetb">
+  <declaration>
+    <structure>
+      <declarations>
+        <namedsort id="dot" name="dot">
+          <dot />
+        </namedsort>
+        <namedsort id="Parts" name="Parts">
+          <cyclicenumeration>
+            <feconstant id="P1" name="Parts" />
+            <feconstant id="P2" name="Parts" />
+          </cyclicenumeration>
+        </namedsort>
+        <namedsort id="P1Journey" name="P1Journey">
+          <finiteintrange end="1" start="0" />
+        </namedsort>
+        <namedsort id="P2Journey" name="P2Journey">
+          <finiteintrange end="1" start="0" />
+        </namedsort>
+        <namedsort id="Tokens" name="Tokens">
+          <productsort>
+            <usersort declaration="Parts" />
+            <usersort declaration="P1Journey" />
+            <usersort declaration="P2Journey" />
+          </productsort>
+        </namedsort>
+        <variabledecl id="VarP1J" name="P1jourvar">
+          <usersort declaration="P1Journey" />
+        </variabledecl>
+        <variabledecl id="VarP2J" name="P2jourvar">
+          <usersort declaration="P2Journey" />
+        </variabledecl>
+      </declarations>
+    </structure>
+  </declaration>
+  <shared-place initialMarking="0" invariant="&lt; inf" name="CBuffer">
+    <type>
+      <text>Tokens</text>
+      <structure>
+        <usersort declaration="Tokens" />
+      </structure>
+    </type>
+  </shared-place>
+  <shared-place initialMarking="0" invariant="&lt; inf" name="CProc">
+    <colorinvariant>
+      <inscription inscription="&lt;= 12" />
+      <colortype name="Tokens">
+        <color value="P1" />
+        <color value="0" />
+      </colortype>
+    </colorinvariant>
+    <colorinvariant>
+      <inscription inscription="&lt;= 12" />
+      <colortype name="Tokens">
+        <color value="P2" />
+        <color value="0" />
+      </colortype>
+    </colorinvariant>
+    <type>
+      <text>Tokens</text>
+      <structure>
+        <usersort declaration="Tokens" />
+      </structure>
+    </type>
+  </shared-place>
+  <shared-place initialMarking="4" invariant="&lt; inf" name="CBuffer_capacity_capacity">
+    <type>
+      <text>dot</text>
+      <structure>
+        <usersort declaration="dot" />
+      </structure>
+    </type>
+    <hlinitialMarking>
+      <text>(4'dot)</text>
+      <structure>
+        <add>
+          <subterm>
+            <numberof>
+              <subterm>
+                <numberconstant value="4">
+                  <positive />
+                </numberconstant>
+              </subterm>
+              <subterm>
+                <useroperator declaration="dot" />
+              </subterm>
+            </numberof>
+          </subterm>
+        </add>
+      </structure>
+    </hlinitialMarking>
+  </shared-place>
+  <shared-place initialMarking="4" invariant="&lt; inf" name="CProc_capacity_capacity">
+    <type>
+      <text>dot</text>
+      <structure>
+        <usersort declaration="dot" />
+      </structure>
+    </type>
+    <hlinitialMarking>
+      <text>(4'dot)</text>
+      <structure>
+        <add>
+          <subterm>
+            <numberof>
+              <subterm>
+                <numberconstant value="4">
+                  <positive />
+                </numberconstant>
+              </subterm>
+              <subterm>
+                <useroperator declaration="dot" />
+              </subterm>
+            </numberof>
+          </subterm>
+        </add>
+      </structure>
+    </hlinitialMarking>
+  </shared-place>
+  <feature isColored="true" isGame="false" isTimed="true" />
 </pnml>
