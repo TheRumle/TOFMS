@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using TACPN.Adapters.TofmToTacpnAdapter;
 using Tofms.Common;
 using Tofms.Common.Move;
 
@@ -91,7 +92,14 @@ public class TransitionWriter
     
   }
 
-  public void WriteTransition()
+  public void WriteTransition(JourneyCollection collection)
   {
+    var from = MoveAction.From;
+    var to = MoveAction.To;
+    
+    
+    
+
+
   }
 }

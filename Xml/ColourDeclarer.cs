@@ -45,10 +45,8 @@ public class ColourDeclarer
         stringBuilder.Append($@"<namedsort id=""{Colours.TokenColour}"" name=""{Colours.TokenColour}"">
           <productsort>
             <usersort declaration=""{Colours.Parts}""/>");
-
-        stringBuilder.Append($@"<usersort declaration=""{Colours.Journey}""/>");
         
-
+        stringBuilder.Append($@"<usersort declaration=""{Colours.Journey}""/>");
         stringBuilder.Append("</productsort>        </namedsort>");
 
     }
