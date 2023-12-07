@@ -8,14 +8,17 @@ namespace Xml;
 public class SubnetDeclarer
 {
     private readonly StringBuilder _stringBuilder;
+    private readonly JourneyCollection _journeys;
 
-    public SubnetDeclarer(StringBuilder stringBuilder)
+    public SubnetDeclarer(StringBuilder stringBuilder, JourneyCollection collection)
     {
         _stringBuilder = stringBuilder;
+        this._journeys = collection;
     }
 
     public void WriteComponent(MoveAction moveAction, IEnumerable<CapacityLocation> capacityLocations)
     {
+        _stringBuilder.Append($@"<net active=""true"" id=""{moveAction.Name}"" type=""P/T net"">");
         var capacitylizedNames = moveAction.InvolvedLocations.Select(e => e.ToCapacityLocation());
         IEnumerable<CapacityLocation> involvedCapacityLocations = capacityLocations.Where(e=>capacitylizedNames.Any(c => c==e));
 
@@ -27,12 +30,15 @@ public class SubnetDeclarer
 
         
         TransitionWriter transitionWriter = new TransitionWriter(_stringBuilder, moveAction);
-        transitionWriter.WriteTransition();
+        transitionWriter.WriteTransition(_journeys);
+
+        ArcWriter arcWriter = new ArcWriter(_stringBuilder, moveAction, _journeys);
+        arcWriter.WriteArcs();
         
-        
-        
-        
-        _stringBuilder.Append($@"<net active=""true"" id=""{moveAction.Name}"" type=""P/T net"">");
+        _stringBuilder.Append("</net>");
+
+
+
     }
 
     private void WriteLocation(Location location)
@@ -78,28 +84,4 @@ public class SubnetDeclarer
       </hlinitialMarking>
     </place>");
     }
-}
-
-public class TransitionWriter
-{
-  public StringBuilder StringBuilder { get; }
-  public MoveAction MoveAction { get; }
-
-  public TransitionWriter(StringBuilder stringBuilder, MoveAction moveAction)
-  {
-    StringBuilder = stringBuilder;
-    MoveAction = moveAction;
-    
-  }
-
-  public void WriteTransition(JourneyCollection collection)
-  {
-    var from = MoveAction.From;
-    var to = MoveAction.To;
-    
-    
-    
-
-
-  }
 }

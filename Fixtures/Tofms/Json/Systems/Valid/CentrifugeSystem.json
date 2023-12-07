@@ -1,7 +1,7 @@
 ﻿{
   "Journeys": {
       "P1": ["CProc"],
-      "P2": ["CProc"]
+      "P2": ["CProc", "CProc", "CProc"]
     },
   "Components": [
     {
@@ -51,13 +51,13 @@
               "parttype": "P1"
             }
           ],
-          "from": "CBuffer",
-          "to": "CProc",
+          "from": "CProc",
+          "to": "CBuffer",
           "emptyBefore": [
-            "CProc"
+            "CBuffer"
           ],
           "emptyAfter": [
-            "CBuffer"
+            "CProc"
           ]
         }
       ]

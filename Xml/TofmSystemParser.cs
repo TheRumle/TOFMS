@@ -42,7 +42,7 @@ public class TofmSystemParser
             var k = e.Key!;
             var values = e.Value;
             IEnumerable<KeyValuePair<int, Location>> newValues =
-                values.Select(h => KeyValuePair.Create(values.IndexOf(h), h));
+                values.Select((h, index) => KeyValuePair.Create(index, h));
             return KeyValuePair.Create(k, newValues);
         });
         return new JourneyCollection(j);
@@ -67,7 +67,7 @@ public class TofmSystemParser
     {
         foreach (var moveAction in _moveactions)
         {
-            SubnetDeclarer subnetDeclarer = new SubnetDeclarer(_stringBuilder);
+            SubnetDeclarer subnetDeclarer = new SubnetDeclarer(_stringBuilder, _journeys);
             subnetDeclarer.WriteComponent(moveAction, _capacityLocations);
         }
     }

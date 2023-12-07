@@ -56,20 +56,18 @@ public class JsonTofmToDomainTofmParser
         foreach (KeyValuePair<string, IEnumerable<string>> jour in system.Journeys)
         {
             var partName = jour.Key;
-            var journeyTargetNames = jour.Value.ToList();
+            var journey = jour.Value.ToList();
             
-            foreach (var location in processingLocations)
+            
+            foreach (var journeyElement in journey)
             {
-                if (journeyTargetNames.Contains(location.Name))
+                if (journeys.ContainsKey(partName))
                 {
-                    if (journeys.ContainsKey(location.Name))
-                    {
-                        journeys[partName].Add(location);
-                    }
-                    else
-                    {
-                        journeys.Add(partName, new List<Location>() { location });
-                    }
+                    journeys[partName].Add(processingLocations.First(e=>e.Name == journeyElement));
+                }
+                else
+                {
+                    journeys.Add(partName, new List<Location>() { processingLocations.First(e=>e.Name == journeyElement) });
                 }
             }
         }
