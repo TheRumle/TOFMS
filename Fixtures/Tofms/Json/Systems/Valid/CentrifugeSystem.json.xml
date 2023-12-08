@@ -168,7 +168,7 @@
                         </subterm>
                         <subterm>
                           <finiteintrangeconstant value="0">
-                            <finiteintrange end="1" start="0"/>
+                            <finiteintrange end="3" start="0"/>
                           </finiteintrangeconstant>
                         </subterm>
                       </equality>
@@ -180,7 +180,7 @@
                         </subterm>
                         <subterm>
                           <finiteintrangeconstant value="0">
-                            <finiteintrange end="1" start="0"/>
+                            <finiteintrange end="3" start="0"/>
                           </finiteintrangeconstant>
                         </subterm>
                       </equality>
@@ -193,7 +193,7 @@
                         </subterm>
                         <subterm>
                           <finiteintrangeconstant value="0">
-                            <finiteintrange end="1" start="0"/>
+                            <finiteintrange end="3" start="0"/>
                           </finiteintrangeconstant>
                         </subterm>
                       </equality>
@@ -204,8 +204,8 @@
                           <variable refvariable="VarP2"/>
                         </subterm>
                         <subterm>
-                          <finiteintrangeconstant value="0">
-                            <finiteintrange end="1" start="0"/>
+                          <finiteintrangeconstant value="1">
+                            <finiteintrange end="3" start="0"/>
                           </finiteintrangeconstant>
                         </subterm>
                       </equality>
@@ -218,7 +218,7 @@
                         </subterm>
                         <subterm>
                           <finiteintrangeconstant value="0">
-                            <finiteintrange end="1" start="0"/>
+                            <finiteintrange end="3" start="0"/>
                           </finiteintrangeconstant>
                         </subterm>
                       </equality>
@@ -229,8 +229,8 @@
                           <variable refvariable="VarP2"/>
                         </subterm>
                         <subterm>
-                          <finiteintrangeconstant value="0">
-                            <finiteintrange end="1" start="0"/>
+                          <finiteintrangeconstant value="2">
+                            <finiteintrange end="3" start="0"/>
                           </finiteintrangeconstant>
                         </subterm>
                       </equality>

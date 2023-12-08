@@ -4,19 +4,20 @@
 
 public class Eq
 {
-    public string Var { get; set; }
+    private int longestJourneyLength;
+    public string VarId { get; set; }
     public int Number { get; set; }
     public override string ToString()
     {
-        return $"{Number} eq {Var}";
+        return $"{Number} eq {VarId}";
     }
 
-    public Eq(int number, string var, int journeyLength)
+    public Eq(int number, string varId, int journeyLength, int longestJourneyLength)
     {
         Number = number;
-        Var = var;
+        VarId = varId;
         this.Length = journeyLength;
-
+        this.longestJourneyLength = longestJourneyLength;
     }
 
     public int Length { get; set; }
@@ -25,11 +26,11 @@ public class Eq
     {
         return $@"<equality>
                         <subterm>
-                          <variable refvariable=""{Var}""/>
+                          <variable refvariable=""{VarId}""/>
                         </subterm>
                         <subterm>
-                          <finiteintrangeconstant value=""0"">
-                            <finiteintrange end=""{this.Length}"" start=""0""/>
+                          <finiteintrangeconstant value=""{this.Length}"">
+                            <finiteintrange end=""{this.longestJourneyLength}"" start=""0""/>
                           </finiteintrangeconstant>
                         </subterm>
                       </equality>";

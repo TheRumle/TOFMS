@@ -88,6 +88,10 @@ public class TransitionWriter
     {
       var ands = new List<And>();
 
+      var longestJourney = collection.Max(e => e.Value.Count());
+      
+      
+
       var kvp1 = collection.First();
           var firstPartName = kvp1.Key;
           var firstPartJourney = kvp1.Value;
@@ -102,8 +106,8 @@ public class TransitionWriter
               {
                   foreach (var second in secondPartJourney)
                   {
-                      var lhs = new Eq(first.Key, Colours.VariableIdForPart(firstPartName), firstPartJourney.Count());
-                      var rhs = new Eq(second.Key, Colours.VariableIdForPart(secondPartName), firstPartJourney.Count());
+                      var lhs = new Eq(first.Key, Colours.VariableIdForPart(firstPartName), first.Key,longestJourney);
+                      var rhs = new Eq(second.Key, Colours.VariableIdForPart(secondPartName), second.Key,longestJourney);
                       ands.Add(new And(lhs, rhs));
                   }
               }
