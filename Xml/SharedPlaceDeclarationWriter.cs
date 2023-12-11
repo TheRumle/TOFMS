@@ -38,26 +38,35 @@ internal class SharedPlaceDeclarationWriter
     private void WriteProcessingLocation(Location location, JourneyCollection collection)
     {
         StringBuilder.Append($@"<shared-place initialMarking=""0"" invariant=""&lt; inf"" name=""{location.Name}"">");
-        foreach (var inv in location.Invariants)
+        WriteInvariants(location, collection);
+
+        StringBuilder.Append($@"   <type> <text>{Colours.TokenColour}</text> <structure><usersort declaration=""{Colours.TokenColour}""/> </structure> </type> </shared-place>");
+    }
+
+    public void WriteInvariants(Location location, JourneyCollection collection)
+    {
+      foreach (var inv in location.Invariants)
+      {
+        var part = inv.PartType;
+        var v = collection[inv.PartType];
+        foreach (var jourIndex in v)
         {
-            var part = inv.PartType;
-            var v = collection[inv.PartType];
-            foreach (var jourIndex in v)
-            {
-                int jourNumber = jourIndex.Key;
-                
-                
-                StringBuilder.Append($@"<colorinvariant>
+          int jourNumber = jourIndex.Key;
+
+          WriteInvariant(inv, part, jourNumber);
+        }
+      }
+    }
+
+    public void WriteInvariant(Invariant inv, string part, int jourNumber)
+    {
+      StringBuilder.Append($@"<colorinvariant>
                                           <inscription inscription=""&lt;= {inv.Max}""/>
                                           <colortype name=""{Colours.TokenColour}"">
                                             <color value=""{part}""/>
                                             <color value=""{jourNumber}""/>
                                           </colortype>
                                         </colorinvariant>");
-            }
-        }
-
-        StringBuilder.Append($@"   <type> <text>{Colours.TokenColour}</text> <structure><usersort declaration=""{Colours.TokenColour}""/> </structure> </type> </shared-place>");
     }
 
     public void WriteCapacityPlaces(IEnumerable<CapacityLocation> capacityLocations, JourneyCollection journeys)

@@ -6,15 +6,15 @@ public class Eq
 {
     private int longestJourneyLength;
     public string VarId { get; set; }
-    public int Number { get; set; }
+    public int journeyVal { get; set; }
     public override string ToString()
     {
-        return $"{Number} eq {VarId}";
+        return $"{journeyVal} eq {VarId}";
     }
 
-    public Eq(int number, string varId, int journeyLength, int longestJourneyLength)
+    public Eq(int journeyVal, string varId, int journeyLength, int longestJourneyLength)
     {
-        Number = number;
+        this.journeyVal = journeyVal;
         VarId = varId;
         this.Length = journeyLength;
         this.longestJourneyLength = longestJourneyLength;
@@ -29,7 +29,7 @@ public class Eq
                           <variable refvariable=""{VarId}""/>
                         </subterm>
                         <subterm>
-                          <finiteintrangeconstant value=""{this.Length}"">
+                          <finiteintrangeconstant value=""{journeyVal}"">
                             <finiteintrange end=""{this.longestJourneyLength}"" start=""0""/>
                           </finiteintrangeconstant>
                         </subterm>

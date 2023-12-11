@@ -84,6 +84,9 @@ public class ArcWriter
       else HandleToNotInEmptyAfter();
       
       
+      AddInhibitorArc(_moveAction.EmptyAfter.Where(e=>e.Name != from.Name));
+      
+      
       StringBuilder.Append($@"<arc id=""{from.Name}To{transition}"" inscription=""[0,inf)"" nameOffsetX=""41"" nameOffsetY=""9"" source=""{from.Name}"" target=""{_moveAction.Name}"" type=""timed"" weight=""1"">");
       foreach (var amountOfPart in _moveAction.PartsToMove)
       {
@@ -224,9 +227,9 @@ public class ArcWriter
               </arc>");
     }
 
-    private void AddInhibitorArc(IEnumerable<Location> moveActionEmptyBefore)
+    private void AddInhibitorArc(IEnumerable<Location> locations)
     {
-        foreach (var location in moveActionEmptyBefore)
+        foreach (var location in locations)
         {
           StringBuilder.Append(
             $@"<arc id=""{location.Name}To{_moveAction.Name}I"" inscription=""[0,inf)"" nameOffsetX=""0"" nameOffsetY=""0"" source=""{location.Name}"" target=""{transition}"" type=""tapnInhibitor"" weight=""1"">

@@ -49,8 +49,13 @@ public class SubnetDeclarer
             <structure>
               <usersort declaration=""{Colours.TokenColour}""/>
             </structure>
-          </type>
-        </place>");
+          </type>");
+
+        SharedPlaceDeclarationWriter writer = new SharedPlaceDeclarationWriter(_stringBuilder);
+        writer.WriteInvariants(location, _journeys);
+        
+        
+        _stringBuilder.Append("</place>");
     }
 
     private void WriteCapacityLocation(CapacityLocation capacityLocation)

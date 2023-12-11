@@ -1,6 +1,6 @@
 ﻿{
   "Journeys": {
-      "P1": ["CProc"],
+      "P1": ["CProc", "CProc"],
       "P2": ["CProc", "CProc", "CProc"]
     },
   "Components": [

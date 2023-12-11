@@ -20,6 +20,12 @@
                                         </colorinvariant><colorinvariant>
                                           <inscription inscription="&lt;= 12"/>
                                           <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
                                             <color value="P2"/>
                                             <color value="0"/>
                                           </colortype>
@@ -152,17 +158,73 @@
             <structure>
               <usersort declaration="Tokens"/>
             </structure>
-          </type>
-        </place><place displayName="true" id="CBuffer" initialMarking="0" invariant="&lt; inf" name="CBuffer" nameOffsetX="30" nameOffsetY="30" positionX="30" positionY="30">
+          </type><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="2"/>
+                                          </colortype>
+                                        </colorinvariant></place><place displayName="true" id="CBuffer" initialMarking="0" invariant="&lt; inf" name="CBuffer" nameOffsetX="30" nameOffsetY="30" positionX="30" positionY="30">
           <type>
             <text>Tokens</text>
             <structure>
               <usersort declaration="Tokens"/>
             </structure>
-          </type>
-        </place><transition angle="0" displayName="true" id="c2p1start" infiniteServer="false" name="c2p1start" nameOffsetX="0" nameOffsetY="0" player="0" positionX="50" positionY="50" priority="0" urgent="false"> <condition><text>(((0 eq VarP1 and 0 eq VarP2) or (0 eq VarP1 and 2 eq VarP2)) or (0 eq VarP1 and 0 eq VarP2))</text><structure><or> <subterm><or> <subterm><and>
-                    <subterm>
-                      <equality>
+          </type><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="2"/>
+                                          </colortype>
+                                        </colorinvariant></place><transition angle="0" displayName="true" id="c2p1start" infiniteServer="false" name="c2p1start" nameOffsetX="0" nameOffsetY="0" player="0" positionX="50" positionY="50" priority="0" urgent="false"> <condition><text>(0 eq VarP1 or 1 eq VarP1)</text><structure><or> <subterm><equality>
                         <subterm>
                           <variable refvariable="VarP1"/>
                         </subterm>
@@ -171,71 +233,16 @@
                             <finiteintrange end="3" start="0"/>
                           </finiteintrangeconstant>
                         </subterm>
-                      </equality>
-                    </subterm>
-                    <subterm>
-                      <equality>
-                        <subterm>
-                          <variable refvariable="VarP2"/>
-                        </subterm>
-                        <subterm>
-                          <finiteintrangeconstant value="0">
-                            <finiteintrange end="3" start="0"/>
-                          </finiteintrangeconstant>
-                        </subterm>
-                      </equality>
-                    </subterm>
-                  </and></subterm> <subterm><and>
-                    <subterm>
-                      <equality>
+                      </equality></subterm> <subterm><equality>
                         <subterm>
                           <variable refvariable="VarP1"/>
-                        </subterm>
-                        <subterm>
-                          <finiteintrangeconstant value="0">
-                            <finiteintrange end="3" start="0"/>
-                          </finiteintrangeconstant>
-                        </subterm>
-                      </equality>
-                    </subterm>
-                    <subterm>
-                      <equality>
-                        <subterm>
-                          <variable refvariable="VarP2"/>
                         </subterm>
                         <subterm>
                           <finiteintrangeconstant value="1">
                             <finiteintrange end="3" start="0"/>
                           </finiteintrangeconstant>
                         </subterm>
-                      </equality>
-                    </subterm>
-                  </and></subterm> </or> </subterm> <subterm><and>
-                    <subterm>
-                      <equality>
-                        <subterm>
-                          <variable refvariable="VarP1"/>
-                        </subterm>
-                        <subterm>
-                          <finiteintrangeconstant value="0">
-                            <finiteintrange end="3" start="0"/>
-                          </finiteintrangeconstant>
-                        </subterm>
-                      </equality>
-                    </subterm>
-                    <subterm>
-                      <equality>
-                        <subterm>
-                          <variable refvariable="VarP2"/>
-                        </subterm>
-                        <subterm>
-                          <finiteintrangeconstant value="2">
-                            <finiteintrange end="3" start="0"/>
-                          </finiteintrangeconstant>
-                        </subterm>
-                      </equality>
-                    </subterm>
-                  </and></subterm> </or> </structure></condition> </transition><arc id="CBufferToc2p1startI" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="CBuffer" target="c2p1start" type="tapnInhibitor" weight="1">
+                      </equality></subterm> </or> </structure></condition> </transition><arc id="CBufferToc2p1startI" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="CBuffer" target="c2p1start" type="tapnInhibitor" weight="1">
                     <hlinscription>
                       <text>1'dot.all</text>
                       <structure>
@@ -290,6 +297,12 @@
                                   <colortype name="Tokens">
                                     <color value="P1"/>
                                     <color value="0"/>
+                                  </colortype>
+                                </colorinterval><colorinterval>
+                                  <inscription inscription="[7,12]"/>
+                                  <colortype name="Tokens">
+                                    <color value="P1"/>
+                                    <color value="1"/>
                                   </colortype>
                                 </colorinterval><hlinscription> <text>(2'(P1,P1var))</text><structure>
                                   <numberof>
