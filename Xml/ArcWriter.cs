@@ -42,17 +42,21 @@ public class ArcWriter
 
     private void WriteHlWithJourneyInscription(HashSet<KeyValuePair<string, int>> partsToMove)
     {
+      var minusText = _moveAction.From.IsProcessing ? "--" : ""; 
+      var closeTag = _moveAction.From.IsProcessing ? "  </predecessor> </subterm>" : ""; 
+      var startTag = _moveAction.From.IsProcessing ? "<subterm> <predecessor>" : ""; 
+      
       
       StringBuilder.Append($@"<hlinscription> <text>(");
       var first = partsToMove.First();
-      StringBuilder.Append($@"{first.Value}'({first.Key},{Colours.VariableNameForPart(first.Key)})");
+      StringBuilder.Append($@"{first.Value}'({first.Key},{Colours.VariableNameForPart(first.Key)}{minusText})");
       foreach (var other in partsToMove.Skip(1))
       {
-        StringBuilder.Append($@" + {other.Value}'({other.Key},{Colours.VariableNameForPart(other.Key)})");
+        StringBuilder.Append($@" + {other.Value}'({other.Key},{Colours.VariableNameForPart(other.Key)}{minusText})");
       }
       StringBuilder.Append($@")</text>");
       
-      foreach (var partToMove in partsToMove)
+      foreach (var partToMove in partsToMove) 
       {
 
         StringBuilder.Append($@"<structure>
@@ -67,9 +71,11 @@ public class ArcWriter
                                         <subterm>
                                           <useroperator declaration=""{partToMove.Key}""/>
                                         </subterm>
+                                          {startTag}
                                         <subterm>
                                           <variable refvariable=""{Colours.VariableIdForPart(partToMove.Key)}""/>
                                         </subterm>
+                                          {closeTag}
                                       </tuple>
                                     </subterm>
                                   </numberof>
@@ -99,16 +105,14 @@ public class ArcWriter
     private void WriteHlWithJourneyIncInscription(HashSet<KeyValuePair<string, int>> partsToMove, Location location)
     {
 
-      var minusText = location.IsProcessing ? "--" : ""; 
-      var closeTag = location.IsProcessing ? "  </predecessor> </subterm>" : ""; 
-      var startTag = location.IsProcessing ? "<subterm> <predecessor>" : ""; 
+
       
       StringBuilder.Append($@"<hlinscription> <text>(");
       var first = partsToMove.First();
       StringBuilder.Append($@"{first.Value}'({first.Key},{Colours.VariableNameForPart(first.Key)})");
       foreach (var other in partsToMove.Skip(1))
       {
-        StringBuilder.Append($@" + {other.Value}'({other.Key},{Colours.VariableNameForPart(other.Key)}{minusText})");
+        StringBuilder.Append($@" + {other.Value}'({other.Key},{Colours.VariableNameForPart(other.Key)})");
       }
       StringBuilder.Append($@")</text>");
       
@@ -127,11 +131,9 @@ public class ArcWriter
                                         <subterm>
                                           <useroperator declaration=""{partToMove.Key}""/>
                                         </subterm>
-                                        {startTag}
                                         <subterm>
                                           <variable refvariable=""{Colours.VariableIdForPart(partToMove.Key)}""/>
                                         </subterm>
-                                        {closeTag}
                                       </tuple>
                                     </subterm>
                                   </numberof>

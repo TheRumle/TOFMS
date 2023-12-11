@@ -316,15 +316,13 @@
                                         <subterm>
                                           <useroperator declaration="P1"/>
                                         </subterm>
-                                        <subterm> <predecessor>
                                         <subterm>
                                           <variable refvariable="VarP1"/>
                                         </subterm>
-                                          </predecessor> </subterm>
                                       </tuple>
                                     </subterm>
                                   </numberof>
-                                </structure></hlinscription></arc><arc id="c2p1startToCBuffer" inscription="1" nameOffsetX="41" nameOffsetY="9" source="c2p1start" target="CBuffer" type="normal" weight="1"><hlinscription> <text>(2'(P1,P1var))</text><structure>
+                                </structure></hlinscription></arc><arc id="c2p1startToCBuffer" inscription="1" nameOffsetX="41" nameOffsetY="9" source="c2p1start" target="CBuffer" type="normal" weight="1"><hlinscription> <text>(2'(P1,P1var--))</text><structure>
                                   <numberof>
                                     <subterm>
                                       <numberconstant value="2">
@@ -336,9 +334,11 @@
                                         <subterm>
                                           <useroperator declaration="P1"/>
                                         </subterm>
+                                          <subterm> <predecessor>
                                         <subterm>
                                           <variable refvariable="VarP1"/>
                                         </subterm>
+                                            </predecessor> </subterm>
                                       </tuple>
                                     </subterm>
                                   </numberof>
