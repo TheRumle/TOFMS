@@ -1,16 +1,23 @@
 ﻿{
   "Journeys": {
-      "P1": ["CProc", "CProc"],
-      "P2": ["CProc", "CProc", "CProc"]
-    },
+    "P1": [
+      "CProc",
+      "CProc"
+    ],
+    "P2": [
+      "CProc",
+      "CProc",
+      "CProc"
+    ]
+  },
   "Components": [
     {
-      "IsProcessing" : false,
-      "Name": "Centrifuge",
+      "Name": "Dispenser",
+      "IsProcessing": false,
       "Locations": [
         {
-          "Name": "CBuffer",
-          "Capacity": 4,  
+          "Name": "DBuffer",
+          "Capacity": 1,
           "Invariants": [
             {
               "Part": "P1",
@@ -25,7 +32,82 @@
           ]
         },
         {
-          "IsProcessing" : true,
+          "IsProcessing": true,
+          "Name": "DProc",
+          "Capacity": 1,
+          "Invariants": [
+            {
+              "Part": "P1",
+              "Min": 1,
+              "Max": 2
+            },
+            {
+              "Part": "P2",
+              "Min": 2,
+              "Max": 4
+            }
+          ]
+        }
+      ],
+      "Moves": [
+        {
+          "Name": "d1p1start",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P1"
+            }
+          ],
+          "from": "DBuffer",
+          "to": "DProc",
+          "emptyBefore": [
+            "DProc"
+          ],
+          "emptyAfter": [
+            "DBuffer"
+          ]
+        },
+        {
+          "Name": "d1p1end",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P1"
+            }
+          ],
+          "from": "DProc",
+          "to": "DBuffer",
+          "emptyBefore": [
+            "DBuffer"
+          ],
+          "emptyAfter": [
+            "DProc"
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Centrifuge",
+      "Locations": [
+        {
+          "IsProcessing": false,
+          "Name": "CBuffer",
+          "Capacity": 4,
+          "Invariants": [
+            {
+              "Part": "P1",
+              "Min": 0,
+              "Max": "infty"
+            },
+            {
+              "Part": "P2",
+              "Min": 0,
+              "Max": "infty"
+            }
+          ]
+        },
+        {
+          "IsProcessing": true,
           "Name": "CProc",
           "Capacity": 4,
           "Invariants": [
@@ -58,6 +140,89 @@
           ],
           "emptyAfter": [
             "CProc"
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "ArmOne",
+      "Locations": [
+        {
+          "Name": "armone",
+          "IsProcessing": false,
+          "Capacity": 1,
+          "Invariants": [
+            {
+              "Part": "P1",
+              "Min": 3,
+              "Max": "infty"
+            },
+            {
+              "Part": "P2",
+              "Min": 3,
+              "Max": "infty"
+            }
+          ]
+        }
+      ],
+      "Moves": [
+        {
+          "Name": "P1toDisp",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P1"
+            }
+          ],
+          "from": "armone",
+          "to": "DBuffer",
+          "emptyBefore": [
+            "DProc"
+          ],
+          "emptyAfter": []
+        },
+        {
+          "Name": "P1GrabDisp",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P1"
+            }
+          ],
+          "from": "DBuffer",
+          "to": "armone",
+          "emptyBefore": [],
+          "emptyAfter": []
+        },
+        {
+          "Name": "P1toCent",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P1"
+            }
+          ],
+          "from": "armone",
+          "to": "CBuffer",
+          "emptyBefore": [
+            "CProc"
+          ],
+          "emptyAfter": [
+          ]
+        },
+        {
+          "Name": "P1GrabCent",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P1"
+            }
+          ],
+          "from": "CBuffer",
+          "to": "armone",
+          "emptyBefore": [
+          ],
+          "emptyAfter": [
           ]
         }
       ]

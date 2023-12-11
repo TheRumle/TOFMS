@@ -13,6 +13,14 @@ public class JsonTofmToDomainTofmParser
     private readonly ITofmsFactory _systemFactory;
     private readonly IValidator<TofmJsonSystem> _systemValidator;
     private readonly MissingDefinitionValidator _missingDefinitionValidator = new MissingDefinitionValidator();
+    private readonly JsonSerializerSettings ParseSettings = CreateParser();
+
+    private static JsonSerializerSettings CreateParser()
+    {
+        var settings = new JsonSerializerSettings();
+        settings.NullValueHandling = NullValueHandling.Ignore;
+        return settings;
+    }
 
 
     public JsonTofmToDomainTofmParser(IValidator<TofmJsonSystem> systemValidator, ITofmsFactory systemFactory)
@@ -29,7 +37,7 @@ public class JsonTofmToDomainTofmParser
 
     public async Task<ValidatedTofmSystem> ParseTofmsSystemJsonString(string jsonString)
     {
-        var system = JsonConvert.DeserializeObject<TofmJsonSystem>(jsonString);
+        var system = JsonConvert.DeserializeObject<TofmJsonSystem>(jsonString, ParseSettings);
         ValidateTopLevel(system);
         await PerformComponentDefinitionValidation(system.Components);
         await PerformSystemValidation(system);
@@ -93,7 +101,7 @@ public class JsonTofmToDomainTofmParser
 
     public async Task<IEnumerable<MoveAction>> ParseTofmComponentJsonString(string jsonString)
     {
-        var component = JsonConvert.DeserializeObject<Models.TofmComponent>(jsonString);
+        var component = JsonConvert.DeserializeObject<Models.TofmComponent>(jsonString, ParseSettings);
         await PerformComponentDefinitionValidation(component);
         
         var parts = component!.Moves.SelectMany(e => e.Parts.Select(e=>e.PartType));

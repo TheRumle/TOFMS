@@ -56,12 +56,14 @@ public class TofmSystemValidator : IValidator<TofmJsonSystem>
     {
         var errs = new ConcurrentBag<InvalidJsonTofmException>();
         var validationTasks = new List<Task>();
-
+        var allLocations = jsonSystem.Components.SelectMany(e => e.Locations);
+        
+        
         foreach (var component in jsonSystem.Components)
         {
             var locationErrsTask = _locationValidator.ValidateAsync(component.Locations);
             var moveActionErrsTask = _moveActionValidator.ValidateAsync(component.Moves,
-                new MoveActionStructureValidationContext(component.Locations, jsonSystem.Parts));
+                new MoveActionStructureValidationContext(allLocations, jsonSystem.Parts));
 
             var namingErrorsTask = _namingValidator.ValidateAsync(component.Locations, component.Moves);
             var undefinedPartsErrs = _partsValidator.ValidateAsync(component.Moves, jsonSystem.Parts);

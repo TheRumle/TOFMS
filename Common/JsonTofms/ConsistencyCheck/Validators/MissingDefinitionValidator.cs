@@ -47,7 +47,7 @@ public class MissingDefinitionValidator : IValidator<Models.TofmComponent>
 
     private void VerifyEmpty(List<string> emptyAfter, MoveActionDefinition parent)
     {
-        if (!emptyAfter.Any())
+        if (emptyAfter is null)
         {
             AddError(parent.Name, nameof(parent.EmptyAfter));
         }
