@@ -17,10 +17,18 @@ internal class SharedPlaceDeclarationWriter
     {
         foreach (var location in locationDefinitions)
         {
-            if (location.IsProcessing) WriteProcessingLocation(location, collection);
+            if (location.Name == Location.EndLocationName) WriteEndLocation(location, collection);
+            else if (location.IsProcessing) WriteProcessingLocation(location, collection);
             else WriteBufferLocation(location);
         }
         
+    }
+
+    private void WriteEndLocation(Location location, JourneyCollection collection)
+    {
+      StringBuilder.Append($@"<shared-place initialMarking=""0"" invariant=""&lt; inf"" name=""{location.Name}"">");
+      WriteInvariants(location, collection);
+      StringBuilder.Append($@"   <type> <text>{Colours.TokenColour}</text> <structure><usersort declaration=""{Colours.TokenColour}""/> </structure> </type> </shared-place>");
     }
 
     private void WriteBufferLocation(Location location)
@@ -39,7 +47,6 @@ internal class SharedPlaceDeclarationWriter
     {
         StringBuilder.Append($@"<shared-place initialMarking=""0"" invariant=""&lt; inf"" name=""{location.Name}"">");
         WriteInvariants(location, collection);
-
         StringBuilder.Append($@"   <type> <text>{Colours.TokenColour}</text> <structure><usersort declaration=""{Colours.TokenColour}""/> </structure> </type> </shared-place>");
     }
 

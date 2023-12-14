@@ -7,8 +7,8 @@ namespace Xml;
 
 public class SubnetDeclarer
 {
-    private readonly StringBuilder _stringBuilder;
-    private readonly JourneyCollection _journeys;
+    protected readonly StringBuilder _stringBuilder;
+    protected readonly JourneyCollection _journeys;
 
     public SubnetDeclarer(StringBuilder stringBuilder, JourneyCollection collection)
     {
@@ -41,7 +41,7 @@ public class SubnetDeclarer
 
     }
 
-    private void WriteLocation(Location location)
+    protected void WriteLocation(Location location)
     {
         _stringBuilder.Append($@"<place displayName=""true"" id=""{location.Name}"" initialMarking=""0"" invariant=""&lt; inf"" name=""{location.Name}"" nameOffsetX=""30"" nameOffsetY=""30"" positionX=""30"" positionY=""30"">
           <type>
@@ -58,7 +58,7 @@ public class SubnetDeclarer
         _stringBuilder.Append("</place>");
     }
 
-    private void WriteCapacityLocation(CapacityLocation capacityLocation)
+    protected void WriteCapacityLocation(CapacityLocation capacityLocation)
     {
         _stringBuilder.Append(
             $@"<place displayName=""true"" id=""{capacityLocation.Name}"" initialMarking=""{capacityLocation.Capacity}"" invariant=""&lt; inf"" name=""{capacityLocation.Name}"" nameOffsetX=""0"" nameOffsetY=""0"" positionX=""0"" positionY=""0"">

@@ -1,0 +1,145 @@
+﻿{
+  "Journeys": {
+    "P1": [
+      "CProc",
+      "CProc"
+    ],
+    "P2": [
+      "CProc",
+      "CProc",
+      "CProc"
+    ]
+  },
+  "Components": [
+    {
+      "Name": "Centrifuge",
+      "Locations": [
+        {
+          "IsProcessing": false,
+          "Name": "CBuffer",
+          "Capacity": 4,
+          "Invariants": [
+            {
+              "Part": "P1",
+              "Min": 0,
+              "Max": "infty"
+            },
+            {
+              "Part": "P2",
+              "Min": 0,
+              "Max": "infty"
+            }
+          ]
+        },
+        {
+          "IsProcessing": true,
+          "Name": "CProc",
+          "Capacity": 4,
+          "Invariants": [
+            {
+              "Part": "P1",
+              "Min": 7,
+              "Max": 12
+            },
+            {
+              "Part": "P2",
+              "Min": 7,
+              "Max": 12
+            }
+          ]
+        },
+        {
+          "IsProcessing": true,
+          "Name": "End",
+          "Capacity": 9999,
+          "Invariants": [
+            {
+              "Part": "P1",
+              "Min": 0,
+              "Max": "infty"
+            },
+            {
+              "Part": "P2",
+              "Min": 0,
+              "Max": "infty"
+            }
+          ]
+        }
+      ],
+      "Moves": [
+        {
+          "Name": "c2p1start",
+          "Parts": [
+            {
+              "amount": 2,
+              "parttype": "P1"
+            }
+          ],
+          "from": "CBuffer",
+          "to": "CProc",
+          "emptyBefore": [
+            "CProc"
+          ],
+          "emptyAfter": [
+            "CBuffer"
+          ]
+        },
+        {
+          "Name": "c4p1start",
+          "Parts": [
+            {
+              "amount": 4,
+              "parttype": "P1"
+            }
+          ],
+          "from": "CBuffer",
+          "to": "CProc",
+          "emptyBefore": [
+            "CProc"
+          ],
+          "emptyAfter": [
+            "CBuffer"
+          ]
+        },
+        {
+          "Name": "c4p1End",
+          "Parts": [
+            {
+              "amount": 4,
+              "parttype": "P1"
+            }
+          ],
+          "from": "CProc",
+          "to": "CBuffer",
+          "emptyBefore": [
+            "CBuffer"
+          ],
+          "emptyAfter": [
+            "CProc"
+          ]
+        },
+        {
+          "Name": "c2p1End",
+          "Parts": [
+            {
+              "amount": 2,
+              "parttype": "P1"
+            }
+          ],
+          "from": "CProc",
+          "to": "CBuffer",
+          "emptyBefore": [
+            "CBuffer"
+          ],
+          "emptyAfter": [
+            "CProc"
+          ]
+        }
+      ]
+    }
+  ],
+  "Parts": [
+    "P1",
+    "P2"
+  ]
+}

@@ -11,81 +11,7 @@
     ]
   },
   "Components": [
-    {
-      "Name": "Dispenser",
-      "IsProcessing": false,
-      "Locations": [
-        {
-          "Name": "DBuffer",
-          "Capacity": 1,
-          "Invariants": [
-            {
-              "Part": "P1",
-              "Min": 0,
-              "Max": "infty"
-            },
-            {
-              "Part": "P2",
-              "Min": 0,
-              "Max": "infty"
-            }
-          ]
-        },
-        {
-          "IsProcessing": true,
-          "Name": "DProc",
-          "Capacity": 1,
-          "Invariants": [
-            {
-              "Part": "P1",
-              "Min": 1,
-              "Max": 2
-            },
-            {
-              "Part": "P2",
-              "Min": 2,
-              "Max": 4
-            }
-          ]
-        }
-      ],
-      "Moves": [
-        {
-          "Name": "d1p1start",
-          "Parts": [
-            {
-              "amount": 1,
-              "parttype": "P1"
-            }
-          ],
-          "from": "DBuffer",
-          "to": "DProc",
-          "emptyBefore": [
-            "DProc"
-          ],
-          "emptyAfter": [
-            "DBuffer"
-          ]
-        },
-        {
-          "Name": "d1p1end",
-          "Parts": [
-            {
-              "amount": 1,
-              "parttype": "P1"
-            }
-          ],
-          "from": "DProc",
-          "to": "DBuffer",
-          "emptyBefore": [
-            "DBuffer"
-          ],
-          "emptyAfter": [
-            "DProc"
-          ]
-        }
-      ]
-    },
+
     {
       "Name": "Centrifuge",
       "Locations": [
@@ -133,13 +59,13 @@
               "parttype": "P1"
             }
           ],
-          "from": "CProc",
-          "to": "CBuffer",
+          "from": "CBuffer",
+          "to": "CProc",
           "emptyBefore": [
-            "CBuffer"
+            "CProc"
           ],
           "emptyAfter": [
-            "CProc"
+            "CBuffer"
           ]
         }
       ]
@@ -223,6 +149,81 @@
           "emptyBefore": [
           ],
           "emptyAfter": [
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Dispenser",
+      "IsProcessing": false,
+      "Locations": [
+        {
+          "Name": "DBuffer",
+          "Capacity": 1,
+          "Invariants": [
+            {
+              "Part": "P1",
+              "Min": 0,
+              "Max": "infty"
+            },
+            {
+              "Part": "P2",
+              "Min": 0,
+              "Max": "infty"
+            }
+          ]
+        },
+        {
+          "IsProcessing": true,
+          "Name": "DProc",
+          "Capacity": 1,
+          "Invariants": [
+            {
+              "Part": "P1",
+              "Min": 1,
+              "Max": 2
+            },
+            {
+              "Part": "P2",
+              "Min": 2,
+              "Max": 4
+            }
+          ]
+        }
+      ],
+      "Moves": [
+        {
+          "Name": "d1p1start",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P1"
+            }
+          ],
+          "from": "DBuffer",
+          "to": "DProc",
+          "emptyBefore": [
+            "DProc"
+          ],
+          "emptyAfter": [
+            "DBuffer"
+          ]
+        },
+        {
+          "Name": "d1p1end",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P1"
+            }
+          ],
+          "from": "DProc",
+          "to": "DBuffer",
+          "emptyBefore": [
+            "DBuffer"
+          ],
+          "emptyAfter": [
+            "DProc"
           ]
         }
       ]

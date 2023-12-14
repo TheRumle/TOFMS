@@ -7,6 +7,7 @@ namespace Xml;
 
 public class TransitionWriter
 {
+    private readonly string transitionName;
     public StringBuilder StringBuilder { get; }
     public MoveAction MoveAction { get; }
 
@@ -14,16 +15,22 @@ public class TransitionWriter
     {
         StringBuilder = stringBuilder;
         MoveAction = moveAction;
+        this.transitionName = moveAction.Name;
     }
 
    
   
     public void WriteTransition(JourneyCollection collection)
     {
-        var from = MoveAction.From;
-        var to = MoveAction.To;
-        StringBuilder.Append($@"<transition angle=""0"" displayName=""true"" id=""{MoveAction.Name}"" infiniteServer=""false"" name=""{MoveAction.Name}"" nameOffsetX=""0"" nameOffsetY=""0"" player=""0"" positionX=""50"" positionY=""50"" priority=""0"" urgent=""false""> <condition>");
+        
+        StringBuilder.Append($@"<transition angle=""0"" displayName=""true"" id=""{MoveAction.Name}"" infiniteServer=""false"" name=""{MoveAction.Name}"" nameOffsetX=""0"" nameOffsetY=""0"" player=""0"" positionX=""50"" positionY=""50"" priority=""0"" urgent=""false""> ");
+        if (!MoveAction.To.IsProcessing)
+        {
+            StringBuilder.Append("</transition>");
+            return;
+        }
 
+        this.StringBuilder.Append("<condition>");
         if (MoveAction.PartsToMove.Select(e => e.Key).Count() > 1)
         {
             var ands = AppendAndText(collection);
@@ -37,8 +44,6 @@ public class TransitionWriter
             AppendOrStructures(ors);
         }
         
-
-
         StringBuilder.Append("</condition> </transition>");
     }
 

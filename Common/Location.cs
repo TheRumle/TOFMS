@@ -9,7 +9,7 @@ public interface ILocation
 
 public class Location : ILocation
 {
-    
+    public static string EndLocationName = "End";
     public bool IsProcessing { get; set; }
     
     public Location(string name, int capacity, IEnumerable<Invariant> invariants, bool isProc)

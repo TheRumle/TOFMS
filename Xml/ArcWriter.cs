@@ -30,14 +30,20 @@ public class ArcWriter
         HandleTo(_moveAction.To);
     }
 
-    private void HandleTo(Location to)
+    public void HandleTo(Location to)
+    {
+      var amount = WriteArcTo(to);
+      ConsumeFromCapPlace(to.ToCapacityLocation(), to.Capacity - amount);
+    }
+
+    public int WriteArcTo(Location to)
     {
       var amount = _moveAction.PartsToMove.Select(e => e.Value).Sum();
-      StringBuilder.Append($@"<arc id=""{_moveAction.Name}To{to.Name}"" inscription=""1"" nameOffsetX=""41"" nameOffsetY=""9"" source=""{_moveAction.Name}"" target=""{to.Name}"" type=""normal"" weight=""1"">");
-      WriteHlWithJourneyInscription( _moveAction.PartsToMove);
+      StringBuilder.Append(
+        $@"<arc id=""{_moveAction.Name}To{to.Name}"" inscription=""1"" nameOffsetX=""41"" nameOffsetY=""9"" source=""{_moveAction.Name}"" target=""{to.Name}"" type=""normal"" weight=""1"">");
+      WriteHlWithJourneyInscription(_moveAction.PartsToMove);
       StringBuilder.Append("</arc>");
-
-      ConsumeFromCapPlace(to.ToCapacityLocation(), to.Capacity - amount);
+      return amount;
     }
 
     private void WriteHlWithJourneyInscription(HashSet<KeyValuePair<string, int>> partsToMove)
@@ -86,13 +92,14 @@ public class ArcWriter
 
     private void HandleFrom(Location from)
     {
-      if (_moveAction.EmptyAfter.Contains(from)) WriteCapacityPlaceEmptyAfterContainsFrom();
+      if (_moveAction.EmptyAfter.Contains(from))
+        WriteCapacityPlaceEmptyAfterContainsFrom();
       else HandleToNotInEmptyAfter();
       
       
       AddInhibitorArc(_moveAction.EmptyAfter.Where(e=>e.Name != from.Name));
       
-      
+      //consume from 'from'
       StringBuilder.Append($@"<arc id=""{from.Name}To{transition}"" inscription=""[0,inf)"" nameOffsetX=""41"" nameOffsetY=""9"" source=""{from.Name}"" target=""{_moveAction.Name}"" type=""timed"" weight=""1"">");
       foreach (var amountOfPart in _moveAction.PartsToMove)
       {
@@ -104,9 +111,6 @@ public class ArcWriter
 
     private void WriteHlWithJourneyIncInscription(HashSet<KeyValuePair<string, int>> partsToMove, Location location)
     {
-
-
-      
       StringBuilder.Append($@"<hlinscription> <text>(");
       var first = partsToMove.First();
       StringBuilder.Append($@"{first.Value}'({first.Key},{Colours.VariableNameForPart(first.Key)})");
@@ -163,11 +167,11 @@ public class ArcWriter
 
     private void HandleToNotInEmptyAfter()
     {
-      var to = _moveAction.To;
-      var toHat = to.ToCapacityLocation();
-      var amount = _moveAction.PartsToMove.Count;
-      
-      ProduceToCapPlace(toHat, amount);
+      var amount = _moveAction.PartsToMove.Select(e=>e.Value).Sum();
+
+      var from = _moveAction.From;
+      var fromHat = from.ToCapacityLocation();
+      ProduceToCapPlace(fromHat, amount);
     }
 
     private void ProduceToCapPlace(CapacityLocation toHat, int amount)
@@ -204,7 +208,8 @@ public class ArcWriter
       
       //Consume from capacity place
       var amount = from.Capacity - toConsume;
-      ConsumeFromCapPlace(toHat, amount);
+      if (amount > 0)
+        ConsumeFromCapPlace(toHat, amount);
     }
 
     private void ConsumeFromCapPlace(CapacityLocation toHat, int toConsume)

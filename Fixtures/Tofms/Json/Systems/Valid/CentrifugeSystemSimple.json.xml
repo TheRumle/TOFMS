@@ -1,0 +1,1097 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> <pnml xmlns="http://www.informatik.hu-berlin.de/top/pnml/ptNetb">  <declaration>
+    <structure>
+      <declarations> <namedsort id="dot" name="dot">
+          <dot/></namedsort> <namedsort id="Parts" name="Parts"> <cyclicenumeration><feconstant id="P1" name="Parts"/><feconstant id="P2" name="Parts"/> </cyclicenumeration> </namedsort> <namedsort id="Journey" name="Journey">
+                            <finiteintrange end="3" start="0"/>
+                           </namedsort><namedsort id="Tokens" name="Tokens">
+          <productsort>
+            <usersort declaration="Parts"/><usersort declaration="Journey"/></productsort>        </namedsort><variabledecl id="VarP1" name="P1var">
+          <usersort declaration="Journey"/>
+            </variabledecl><variabledecl id="VarP2" name="P2var">
+          <usersort declaration="Journey"/>
+            </variabledecl>      </declarations>
+    </structure>
+  </declaration><shared-place initialMarking="0" invariant="&lt; inf" name="End"><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="2"/>
+                                          </colortype>
+                                        </colorinvariant>   <type> <text>Tokens</text> <structure><usersort declaration="Tokens"/> </structure> </type> </shared-place><shared-place initialMarking="0" invariant="&lt; inf" name="CBuffer">
+                                <type>
+                                  <text>Tokens</text>
+                                  <structure>
+                                    <usersort declaration="Tokens"/>
+                                  </structure>
+                                </type>
+                              </shared-place><shared-place initialMarking="0" invariant="&lt; inf" name="CProc"><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="2"/>
+                                          </colortype>
+                                        </colorinvariant>   <type> <text>Tokens</text> <structure><usersort declaration="Tokens"/> </structure> </type> </shared-place><shared-place initialMarking="4" invariant="&lt; inf" name="CBuffer_capacity">
+                                <type>
+                                  <text>dot</text>
+                                  <structure>
+                                    <usersort declaration="dot"/>
+                                  </structure>
+                                </type>
+                                <hlinitialMarking>
+                                  <text>(4'dot)</text>
+                                  <structure>
+                                    <add>
+                                      <subterm>
+                                        <numberof>
+                                          <subterm>
+                                            <numberconstant value="4">
+                                              <positive/>
+                                            </numberconstant>
+                                          </subterm>
+                                          <subterm>
+                                            <useroperator declaration="dot"/>
+                                          </subterm>
+                                        </numberof>
+                                      </subterm>
+                                    </add>
+                                  </structure>
+                                </hlinitialMarking>
+                              </shared-place><shared-place initialMarking="4" invariant="&lt; inf" name="CProc_capacity">
+                                <type>
+                                  <text>dot</text>
+                                  <structure>
+                                    <usersort declaration="dot"/>
+                                  </structure>
+                                </type>
+                                <hlinitialMarking>
+                                  <text>(4'dot)</text>
+                                  <structure>
+                                    <add>
+                                      <subterm>
+                                        <numberof>
+                                          <subterm>
+                                            <numberconstant value="4">
+                                              <positive/>
+                                            </numberconstant>
+                                          </subterm>
+                                          <subterm>
+                                            <useroperator declaration="dot"/>
+                                          </subterm>
+                                        </numberof>
+                                      </subterm>
+                                    </add>
+                                  </structure>
+                                </hlinitialMarking>
+                              </shared-place><net active="true" id="c2p1start" type="P/T net"><place displayName="true" id="CBuffer_capacity" initialMarking="4" invariant="&lt; inf" name="CBuffer_capacity" nameOffsetX="0" nameOffsetY="0" positionX="0" positionY="0">
+      <type>
+        <text>dot</text>
+        <structure>
+          <usersort declaration="dot"/>
+        </structure>
+      </type>
+      <hlinitialMarking>
+        <text>(4'dot)</text>
+        <structure>
+          <add>
+            <subterm>
+              <numberof>
+                <subterm>
+                  <numberconstant value="4">
+                    <positive/>
+                  </numberconstant>
+                </subterm>
+                <subterm>
+                  <useroperator declaration="dot"/>
+                </subterm>
+              </numberof>
+            </subterm>
+          </add>
+        </structure>
+      </hlinitialMarking>
+    </place><place displayName="true" id="CProc_capacity" initialMarking="4" invariant="&lt; inf" name="CProc_capacity" nameOffsetX="0" nameOffsetY="0" positionX="0" positionY="0">
+      <type>
+        <text>dot</text>
+        <structure>
+          <usersort declaration="dot"/>
+        </structure>
+      </type>
+      <hlinitialMarking>
+        <text>(4'dot)</text>
+        <structure>
+          <add>
+            <subterm>
+              <numberof>
+                <subterm>
+                  <numberconstant value="4">
+                    <positive/>
+                  </numberconstant>
+                </subterm>
+                <subterm>
+                  <useroperator declaration="dot"/>
+                </subterm>
+              </numberof>
+            </subterm>
+          </add>
+        </structure>
+      </hlinitialMarking>
+    </place><place displayName="true" id="CBuffer" initialMarking="0" invariant="&lt; inf" name="CBuffer" nameOffsetX="30" nameOffsetY="30" positionX="30" positionY="30">
+          <type>
+            <text>Tokens</text>
+            <structure>
+              <usersort declaration="Tokens"/>
+            </structure>
+          </type><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="2"/>
+                                          </colortype>
+                                        </colorinvariant></place><place displayName="true" id="CProc" initialMarking="0" invariant="&lt; inf" name="CProc" nameOffsetX="30" nameOffsetY="30" positionX="30" positionY="30">
+          <type>
+            <text>Tokens</text>
+            <structure>
+              <usersort declaration="Tokens"/>
+            </structure>
+          </type><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="2"/>
+                                          </colortype>
+                                        </colorinvariant></place><transition angle="0" displayName="true" id="c2p1start" infiniteServer="false" name="c2p1start" nameOffsetX="0" nameOffsetY="0" player="0" positionX="50" positionY="50" priority="0" urgent="false"> <condition><text>(0 eq VarP1 or 1 eq VarP1)</text><structure><or> <subterm><equality>
+                        <subterm>
+                          <variable refvariable="VarP1"/>
+                        </subterm>
+                        <subterm>
+                          <finiteintrangeconstant value="0">
+                            <finiteintrange end="3" start="0"/>
+                          </finiteintrangeconstant>
+                        </subterm>
+                      </equality></subterm> <subterm><equality>
+                        <subterm>
+                          <variable refvariable="VarP1"/>
+                        </subterm>
+                        <subterm>
+                          <finiteintrangeconstant value="1">
+                            <finiteintrange end="3" start="0"/>
+                          </finiteintrangeconstant>
+                        </subterm>
+                      </equality></subterm> </or> </structure></condition> </transition><arc id="CProcToc2p1startI" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="CProc" target="c2p1start" type="tapnInhibitor" weight="1">
+                    <hlinscription>
+                      <text>1'dot.all</text>
+                      <structure>
+                        <numberof>
+                          <subterm>
+                            <numberconstant value="1">
+                              <positive/>
+                            </numberconstant>
+                          </subterm>
+                          <subterm>
+                            <all>
+                              <usersort declaration="dot"/>
+                            </all>
+                          </subterm>
+                        </numberof>
+                      </structure>
+                    </hlinscription>
+                  </arc><arc id="c2p1startToCBuffer_capacity" inscription="1" nameOffsetX="41" nameOffsetY="9" source="c2p1start" target="CBuffer_capacity" type="normal" weight="1">
+      <hlinscription>
+        <text>4'dot</text>
+        <structure>
+          <numberof>
+            <subterm>
+              <numberconstant value="4">
+                <positive/>
+              </numberconstant>
+            </subterm>
+            <subterm>
+              <useroperator declaration="dot"/>
+            </subterm>
+          </numberof>
+        </structure>
+      </hlinscription>
+    </arc><arc id="CBuffer_capacityToc2p1start" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="-22" source="CBuffer_capacity" target="c2p1start" type="timed" weight="1">
+                <hlinscription>
+                  <text>2'dot</text>
+                  <structure>
+                    <numberof>
+                      <subterm>
+                        <numberconstant value="2">
+                          <positive/>
+                        </numberconstant>
+                      </subterm>
+                      <subterm>
+                        <useroperator declaration="dot"/>
+                      </subterm>
+                    </numberof>
+                  </structure>
+                </hlinscription>
+              </arc><arc id="CBufferToc2p1start" inscription="[0,inf)" nameOffsetX="41" nameOffsetY="9" source="CBuffer" target="c2p1start" type="timed" weight="1"><colorinterval>
+                                  <inscription inscription="[0,inf)"/>
+                                  <colortype name="Tokens">
+                                    <color value="P1"/>
+                                    <color value="0"/>
+                                  </colortype>
+                                </colorinterval><colorinterval>
+                                  <inscription inscription="[0,inf)"/>
+                                  <colortype name="Tokens">
+                                    <color value="P1"/>
+                                    <color value="1"/>
+                                  </colortype>
+                                </colorinterval><hlinscription> <text>(2'(P1,P1var))</text><structure>
+                                  <numberof>
+                                    <subterm>
+                                      <numberconstant value="2">
+                                        <positive/>
+                                      </numberconstant>
+                                    </subterm>
+                                    <subterm>
+                                      <tuple>
+                                        <subterm>
+                                          <useroperator declaration="P1"/>
+                                        </subterm>
+                                        <subterm>
+                                          <variable refvariable="VarP1"/>
+                                        </subterm>
+                                      </tuple>
+                                    </subterm>
+                                  </numberof>
+                                </structure></hlinscription></arc><arc id="c2p1startToCProc" inscription="1" nameOffsetX="41" nameOffsetY="9" source="c2p1start" target="CProc" type="normal" weight="1"><hlinscription> <text>(2'(P1,P1var))</text><structure>
+                                  <numberof>
+                                    <subterm>
+                                      <numberconstant value="2">
+                                        <positive/>
+                                      </numberconstant>
+                                    </subterm>
+                                    <subterm>
+                                      <tuple>
+                                        <subterm>
+                                          <useroperator declaration="P1"/>
+                                        </subterm>
+                                          
+                                        <subterm>
+                                          <variable refvariable="VarP1"/>
+                                        </subterm>
+                                          
+                                      </tuple>
+                                    </subterm>
+                                  </numberof>
+                                </structure></hlinscription></arc><arc id="CProc_capacityToc2p1start" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="-22" source="CProc_capacity" target="c2p1start" type="timed" weight="1">
+                <hlinscription>
+                  <text>2'dot</text>
+                  <structure>
+                    <numberof>
+                      <subterm>
+                        <numberconstant value="2">
+                          <positive/>
+                        </numberconstant>
+                      </subterm>
+                      <subterm>
+                        <useroperator declaration="dot"/>
+                      </subterm>
+                    </numberof>
+                  </structure>
+                </hlinscription>
+              </arc></net><net active="true" id="c4p1start" type="P/T net"><place displayName="true" id="CBuffer_capacity" initialMarking="4" invariant="&lt; inf" name="CBuffer_capacity" nameOffsetX="0" nameOffsetY="0" positionX="0" positionY="0">
+      <type>
+        <text>dot</text>
+        <structure>
+          <usersort declaration="dot"/>
+        </structure>
+      </type>
+      <hlinitialMarking>
+        <text>(4'dot)</text>
+        <structure>
+          <add>
+            <subterm>
+              <numberof>
+                <subterm>
+                  <numberconstant value="4">
+                    <positive/>
+                  </numberconstant>
+                </subterm>
+                <subterm>
+                  <useroperator declaration="dot"/>
+                </subterm>
+              </numberof>
+            </subterm>
+          </add>
+        </structure>
+      </hlinitialMarking>
+    </place><place displayName="true" id="CProc_capacity" initialMarking="4" invariant="&lt; inf" name="CProc_capacity" nameOffsetX="0" nameOffsetY="0" positionX="0" positionY="0">
+      <type>
+        <text>dot</text>
+        <structure>
+          <usersort declaration="dot"/>
+        </structure>
+      </type>
+      <hlinitialMarking>
+        <text>(4'dot)</text>
+        <structure>
+          <add>
+            <subterm>
+              <numberof>
+                <subterm>
+                  <numberconstant value="4">
+                    <positive/>
+                  </numberconstant>
+                </subterm>
+                <subterm>
+                  <useroperator declaration="dot"/>
+                </subterm>
+              </numberof>
+            </subterm>
+          </add>
+        </structure>
+      </hlinitialMarking>
+    </place><place displayName="true" id="CBuffer" initialMarking="0" invariant="&lt; inf" name="CBuffer" nameOffsetX="30" nameOffsetY="30" positionX="30" positionY="30">
+          <type>
+            <text>Tokens</text>
+            <structure>
+              <usersort declaration="Tokens"/>
+            </structure>
+          </type><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="2"/>
+                                          </colortype>
+                                        </colorinvariant></place><place displayName="true" id="CProc" initialMarking="0" invariant="&lt; inf" name="CProc" nameOffsetX="30" nameOffsetY="30" positionX="30" positionY="30">
+          <type>
+            <text>Tokens</text>
+            <structure>
+              <usersort declaration="Tokens"/>
+            </structure>
+          </type><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="2"/>
+                                          </colortype>
+                                        </colorinvariant></place><transition angle="0" displayName="true" id="c4p1start" infiniteServer="false" name="c4p1start" nameOffsetX="0" nameOffsetY="0" player="0" positionX="50" positionY="50" priority="0" urgent="false"> <condition><text>(0 eq VarP1 or 1 eq VarP1)</text><structure><or> <subterm><equality>
+                        <subterm>
+                          <variable refvariable="VarP1"/>
+                        </subterm>
+                        <subterm>
+                          <finiteintrangeconstant value="0">
+                            <finiteintrange end="3" start="0"/>
+                          </finiteintrangeconstant>
+                        </subterm>
+                      </equality></subterm> <subterm><equality>
+                        <subterm>
+                          <variable refvariable="VarP1"/>
+                        </subterm>
+                        <subterm>
+                          <finiteintrangeconstant value="1">
+                            <finiteintrange end="3" start="0"/>
+                          </finiteintrangeconstant>
+                        </subterm>
+                      </equality></subterm> </or> </structure></condition> </transition><arc id="CProcToc4p1startI" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="CProc" target="c4p1start" type="tapnInhibitor" weight="1">
+                    <hlinscription>
+                      <text>1'dot.all</text>
+                      <structure>
+                        <numberof>
+                          <subterm>
+                            <numberconstant value="1">
+                              <positive/>
+                            </numberconstant>
+                          </subterm>
+                          <subterm>
+                            <all>
+                              <usersort declaration="dot"/>
+                            </all>
+                          </subterm>
+                        </numberof>
+                      </structure>
+                    </hlinscription>
+                  </arc><arc id="c4p1startToCBuffer_capacity" inscription="1" nameOffsetX="41" nameOffsetY="9" source="c4p1start" target="CBuffer_capacity" type="normal" weight="1">
+      <hlinscription>
+        <text>4'dot</text>
+        <structure>
+          <numberof>
+            <subterm>
+              <numberconstant value="4">
+                <positive/>
+              </numberconstant>
+            </subterm>
+            <subterm>
+              <useroperator declaration="dot"/>
+            </subterm>
+          </numberof>
+        </structure>
+      </hlinscription>
+    </arc><arc id="CBufferToc4p1start" inscription="[0,inf)" nameOffsetX="41" nameOffsetY="9" source="CBuffer" target="c4p1start" type="timed" weight="1"><colorinterval>
+                                  <inscription inscription="[0,inf)"/>
+                                  <colortype name="Tokens">
+                                    <color value="P1"/>
+                                    <color value="0"/>
+                                  </colortype>
+                                </colorinterval><colorinterval>
+                                  <inscription inscription="[0,inf)"/>
+                                  <colortype name="Tokens">
+                                    <color value="P1"/>
+                                    <color value="1"/>
+                                  </colortype>
+                                </colorinterval><hlinscription> <text>(4'(P1,P1var))</text><structure>
+                                  <numberof>
+                                    <subterm>
+                                      <numberconstant value="4">
+                                        <positive/>
+                                      </numberconstant>
+                                    </subterm>
+                                    <subterm>
+                                      <tuple>
+                                        <subterm>
+                                          <useroperator declaration="P1"/>
+                                        </subterm>
+                                        <subterm>
+                                          <variable refvariable="VarP1"/>
+                                        </subterm>
+                                      </tuple>
+                                    </subterm>
+                                  </numberof>
+                                </structure></hlinscription></arc><arc id="c4p1startToCProc" inscription="1" nameOffsetX="41" nameOffsetY="9" source="c4p1start" target="CProc" type="normal" weight="1"><hlinscription> <text>(4'(P1,P1var))</text><structure>
+                                  <numberof>
+                                    <subterm>
+                                      <numberconstant value="4">
+                                        <positive/>
+                                      </numberconstant>
+                                    </subterm>
+                                    <subterm>
+                                      <tuple>
+                                        <subterm>
+                                          <useroperator declaration="P1"/>
+                                        </subterm>
+                                          
+                                        <subterm>
+                                          <variable refvariable="VarP1"/>
+                                        </subterm>
+                                          
+                                      </tuple>
+                                    </subterm>
+                                  </numberof>
+                                </structure></hlinscription></arc><arc id="CProc_capacityToc4p1start" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="-22" source="CProc_capacity" target="c4p1start" type="timed" weight="1">
+                <hlinscription>
+                  <text>0'dot</text>
+                  <structure>
+                    <numberof>
+                      <subterm>
+                        <numberconstant value="0">
+                          <positive/>
+                        </numberconstant>
+                      </subterm>
+                      <subterm>
+                        <useroperator declaration="dot"/>
+                      </subterm>
+                    </numberof>
+                  </structure>
+                </hlinscription>
+              </arc></net><net active="true" id="c4p1End" type="P/T net"><place displayName="true" id="CBuffer_capacity" initialMarking="4" invariant="&lt; inf" name="CBuffer_capacity" nameOffsetX="0" nameOffsetY="0" positionX="0" positionY="0">
+      <type>
+        <text>dot</text>
+        <structure>
+          <usersort declaration="dot"/>
+        </structure>
+      </type>
+      <hlinitialMarking>
+        <text>(4'dot)</text>
+        <structure>
+          <add>
+            <subterm>
+              <numberof>
+                <subterm>
+                  <numberconstant value="4">
+                    <positive/>
+                  </numberconstant>
+                </subterm>
+                <subterm>
+                  <useroperator declaration="dot"/>
+                </subterm>
+              </numberof>
+            </subterm>
+          </add>
+        </structure>
+      </hlinitialMarking>
+    </place><place displayName="true" id="CProc_capacity" initialMarking="4" invariant="&lt; inf" name="CProc_capacity" nameOffsetX="0" nameOffsetY="0" positionX="0" positionY="0">
+      <type>
+        <text>dot</text>
+        <structure>
+          <usersort declaration="dot"/>
+        </structure>
+      </type>
+      <hlinitialMarking>
+        <text>(4'dot)</text>
+        <structure>
+          <add>
+            <subterm>
+              <numberof>
+                <subterm>
+                  <numberconstant value="4">
+                    <positive/>
+                  </numberconstant>
+                </subterm>
+                <subterm>
+                  <useroperator declaration="dot"/>
+                </subterm>
+              </numberof>
+            </subterm>
+          </add>
+        </structure>
+      </hlinitialMarking>
+    </place><place displayName="true" id="CProc" initialMarking="0" invariant="&lt; inf" name="CProc" nameOffsetX="30" nameOffsetY="30" positionX="30" positionY="30">
+          <type>
+            <text>Tokens</text>
+            <structure>
+              <usersort declaration="Tokens"/>
+            </structure>
+          </type><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="2"/>
+                                          </colortype>
+                                        </colorinvariant></place><place displayName="true" id="CBuffer" initialMarking="0" invariant="&lt; inf" name="CBuffer" nameOffsetX="30" nameOffsetY="30" positionX="30" positionY="30">
+          <type>
+            <text>Tokens</text>
+            <structure>
+              <usersort declaration="Tokens"/>
+            </structure>
+          </type><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="2"/>
+                                          </colortype>
+                                        </colorinvariant></place><transition angle="0" displayName="true" id="c4p1End" infiniteServer="false" name="c4p1End" nameOffsetX="0" nameOffsetY="0" player="0" positionX="50" positionY="50" priority="0" urgent="false"> </transition><arc id="CBufferToc4p1EndI" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="CBuffer" target="c4p1End" type="tapnInhibitor" weight="1">
+                    <hlinscription>
+                      <text>1'dot.all</text>
+                      <structure>
+                        <numberof>
+                          <subterm>
+                            <numberconstant value="1">
+                              <positive/>
+                            </numberconstant>
+                          </subterm>
+                          <subterm>
+                            <all>
+                              <usersort declaration="dot"/>
+                            </all>
+                          </subterm>
+                        </numberof>
+                      </structure>
+                    </hlinscription>
+                  </arc><arc id="c4p1EndToCProc_capacity" inscription="1" nameOffsetX="41" nameOffsetY="9" source="c4p1End" target="CProc_capacity" type="normal" weight="1">
+      <hlinscription>
+        <text>4'dot</text>
+        <structure>
+          <numberof>
+            <subterm>
+              <numberconstant value="4">
+                <positive/>
+              </numberconstant>
+            </subterm>
+            <subterm>
+              <useroperator declaration="dot"/>
+            </subterm>
+          </numberof>
+        </structure>
+      </hlinscription>
+    </arc><arc id="CProcToc4p1End" inscription="[0,inf)" nameOffsetX="41" nameOffsetY="9" source="CProc" target="c4p1End" type="timed" weight="1"><colorinterval>
+                                  <inscription inscription="[7,12]"/>
+                                  <colortype name="Tokens">
+                                    <color value="P1"/>
+                                    <color value="0"/>
+                                  </colortype>
+                                </colorinterval><colorinterval>
+                                  <inscription inscription="[7,12]"/>
+                                  <colortype name="Tokens">
+                                    <color value="P1"/>
+                                    <color value="1"/>
+                                  </colortype>
+                                </colorinterval><hlinscription> <text>(4'(P1,P1var))</text><structure>
+                                  <numberof>
+                                    <subterm>
+                                      <numberconstant value="4">
+                                        <positive/>
+                                      </numberconstant>
+                                    </subterm>
+                                    <subterm>
+                                      <tuple>
+                                        <subterm>
+                                          <useroperator declaration="P1"/>
+                                        </subterm>
+                                        <subterm>
+                                          <variable refvariable="VarP1"/>
+                                        </subterm>
+                                      </tuple>
+                                    </subterm>
+                                  </numberof>
+                                </structure></hlinscription></arc><arc id="c4p1EndToCBuffer" inscription="1" nameOffsetX="41" nameOffsetY="9" source="c4p1End" target="CBuffer" type="normal" weight="1"><hlinscription> <text>(4'(P1,P1var--))</text><structure>
+                                  <numberof>
+                                    <subterm>
+                                      <numberconstant value="4">
+                                        <positive/>
+                                      </numberconstant>
+                                    </subterm>
+                                    <subterm>
+                                      <tuple>
+                                        <subterm>
+                                          <useroperator declaration="P1"/>
+                                        </subterm>
+                                          <subterm> <predecessor>
+                                        <subterm>
+                                          <variable refvariable="VarP1"/>
+                                        </subterm>
+                                            </predecessor> </subterm>
+                                      </tuple>
+                                    </subterm>
+                                  </numberof>
+                                </structure></hlinscription></arc><arc id="CBuffer_capacityToc4p1End" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="-22" source="CBuffer_capacity" target="c4p1End" type="timed" weight="1">
+                <hlinscription>
+                  <text>0'dot</text>
+                  <structure>
+                    <numberof>
+                      <subterm>
+                        <numberconstant value="0">
+                          <positive/>
+                        </numberconstant>
+                      </subterm>
+                      <subterm>
+                        <useroperator declaration="dot"/>
+                      </subterm>
+                    </numberof>
+                  </structure>
+                </hlinscription>
+              </arc></net><net active="true" id="c2p1End" type="P/T net"><place displayName="true" id="CBuffer_capacity" initialMarking="4" invariant="&lt; inf" name="CBuffer_capacity" nameOffsetX="0" nameOffsetY="0" positionX="0" positionY="0">
+      <type>
+        <text>dot</text>
+        <structure>
+          <usersort declaration="dot"/>
+        </structure>
+      </type>
+      <hlinitialMarking>
+        <text>(4'dot)</text>
+        <structure>
+          <add>
+            <subterm>
+              <numberof>
+                <subterm>
+                  <numberconstant value="4">
+                    <positive/>
+                  </numberconstant>
+                </subterm>
+                <subterm>
+                  <useroperator declaration="dot"/>
+                </subterm>
+              </numberof>
+            </subterm>
+          </add>
+        </structure>
+      </hlinitialMarking>
+    </place><place displayName="true" id="CProc_capacity" initialMarking="4" invariant="&lt; inf" name="CProc_capacity" nameOffsetX="0" nameOffsetY="0" positionX="0" positionY="0">
+      <type>
+        <text>dot</text>
+        <structure>
+          <usersort declaration="dot"/>
+        </structure>
+      </type>
+      <hlinitialMarking>
+        <text>(4'dot)</text>
+        <structure>
+          <add>
+            <subterm>
+              <numberof>
+                <subterm>
+                  <numberconstant value="4">
+                    <positive/>
+                  </numberconstant>
+                </subterm>
+                <subterm>
+                  <useroperator declaration="dot"/>
+                </subterm>
+              </numberof>
+            </subterm>
+          </add>
+        </structure>
+      </hlinitialMarking>
+    </place><place displayName="true" id="CProc" initialMarking="0" invariant="&lt; inf" name="CProc" nameOffsetX="30" nameOffsetY="30" positionX="30" positionY="30">
+          <type>
+            <text>Tokens</text>
+            <structure>
+              <usersort declaration="Tokens"/>
+            </structure>
+          </type><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 12"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="2"/>
+                                          </colortype>
+                                        </colorinvariant></place><place displayName="true" id="CBuffer" initialMarking="0" invariant="&lt; inf" name="CBuffer" nameOffsetX="30" nameOffsetY="30" positionX="30" positionY="30">
+          <type>
+            <text>Tokens</text>
+            <structure>
+              <usersort declaration="Tokens"/>
+            </structure>
+          </type><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P1"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="0"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="1"/>
+                                          </colortype>
+                                        </colorinvariant><colorinvariant>
+                                          <inscription inscription="&lt;= 2147483647"/>
+                                          <colortype name="Tokens">
+                                            <color value="P2"/>
+                                            <color value="2"/>
+                                          </colortype>
+                                        </colorinvariant></place><transition angle="0" displayName="true" id="c2p1End" infiniteServer="false" name="c2p1End" nameOffsetX="0" nameOffsetY="0" player="0" positionX="50" positionY="50" priority="0" urgent="false"> </transition><arc id="CBufferToc2p1EndI" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="CBuffer" target="c2p1End" type="tapnInhibitor" weight="1">
+                    <hlinscription>
+                      <text>1'dot.all</text>
+                      <structure>
+                        <numberof>
+                          <subterm>
+                            <numberconstant value="1">
+                              <positive/>
+                            </numberconstant>
+                          </subterm>
+                          <subterm>
+                            <all>
+                              <usersort declaration="dot"/>
+                            </all>
+                          </subterm>
+                        </numberof>
+                      </structure>
+                    </hlinscription>
+                  </arc><arc id="c2p1EndToCProc_capacity" inscription="1" nameOffsetX="41" nameOffsetY="9" source="c2p1End" target="CProc_capacity" type="normal" weight="1">
+      <hlinscription>
+        <text>4'dot</text>
+        <structure>
+          <numberof>
+            <subterm>
+              <numberconstant value="4">
+                <positive/>
+              </numberconstant>
+            </subterm>
+            <subterm>
+              <useroperator declaration="dot"/>
+            </subterm>
+          </numberof>
+        </structure>
+      </hlinscription>
+    </arc><arc id="CProc_capacityToc2p1End" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="-22" source="CProc_capacity" target="c2p1End" type="timed" weight="1">
+                <hlinscription>
+                  <text>2'dot</text>
+                  <structure>
+                    <numberof>
+                      <subterm>
+                        <numberconstant value="2">
+                          <positive/>
+                        </numberconstant>
+                      </subterm>
+                      <subterm>
+                        <useroperator declaration="dot"/>
+                      </subterm>
+                    </numberof>
+                  </structure>
+                </hlinscription>
+              </arc><arc id="CProcToc2p1End" inscription="[0,inf)" nameOffsetX="41" nameOffsetY="9" source="CProc" target="c2p1End" type="timed" weight="1"><colorinterval>
+                                  <inscription inscription="[7,12]"/>
+                                  <colortype name="Tokens">
+                                    <color value="P1"/>
+                                    <color value="0"/>
+                                  </colortype>
+                                </colorinterval><colorinterval>
+                                  <inscription inscription="[7,12]"/>
+                                  <colortype name="Tokens">
+                                    <color value="P1"/>
+                                    <color value="1"/>
+                                  </colortype>
+                                </colorinterval><hlinscription> <text>(2'(P1,P1var))</text><structure>
+                                  <numberof>
+                                    <subterm>
+                                      <numberconstant value="2">
+                                        <positive/>
+                                      </numberconstant>
+                                    </subterm>
+                                    <subterm>
+                                      <tuple>
+                                        <subterm>
+                                          <useroperator declaration="P1"/>
+                                        </subterm>
+                                        <subterm>
+                                          <variable refvariable="VarP1"/>
+                                        </subterm>
+                                      </tuple>
+                                    </subterm>
+                                  </numberof>
+                                </structure></hlinscription></arc><arc id="c2p1EndToCBuffer" inscription="1" nameOffsetX="41" nameOffsetY="9" source="c2p1End" target="CBuffer" type="normal" weight="1"><hlinscription> <text>(2'(P1,P1var--))</text><structure>
+                                  <numberof>
+                                    <subterm>
+                                      <numberconstant value="2">
+                                        <positive/>
+                                      </numberconstant>
+                                    </subterm>
+                                    <subterm>
+                                      <tuple>
+                                        <subterm>
+                                          <useroperator declaration="P1"/>
+                                        </subterm>
+                                          <subterm> <predecessor>
+                                        <subterm>
+                                          <variable refvariable="VarP1"/>
+                                        </subterm>
+                                            </predecessor> </subterm>
+                                      </tuple>
+                                    </subterm>
+                                  </numberof>
+                                </structure></hlinscription></arc><arc id="CBuffer_capacityToc2p1End" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="-22" source="CBuffer_capacity" target="c2p1End" type="timed" weight="1">
+                <hlinscription>
+                  <text>2'dot</text>
+                  <structure>
+                    <numberof>
+                      <subterm>
+                        <numberconstant value="2">
+                          <positive/>
+                        </numberconstant>
+                      </subterm>
+                      <subterm>
+                        <useroperator declaration="dot"/>
+                      </subterm>
+                    </numberof>
+                  </structure>
+                </hlinscription>
+              </arc></net>  <feature isColored="true" isGame="false" isTimed="true"/> </pnml>

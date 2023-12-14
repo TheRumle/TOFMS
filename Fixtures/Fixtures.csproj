@@ -17,6 +17,9 @@
         <None Update="Tofms\Json\Systems\Valid\CentrifugeSystem.json">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Update="Tofms\Json\Systems\Valid\CentrifugeSystemSimple.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 

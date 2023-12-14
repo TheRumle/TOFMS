@@ -16,6 +16,7 @@ public class TofmSystemParser
     private readonly JourneyCollection _journeys;
     private readonly CapacityLocation[] _capacityLocations;
     private readonly IEnumerable<MoveAction> _moveactions;
+    private readonly HashSet<Invariant> _invariants;
 
     public TofmSystemParser(ValidatedTofmSystem system)
     {
@@ -24,8 +25,9 @@ public class TofmSystemParser
         _locations = GetLocations();
         this._stringBuilder = new StringBuilder();
         this._journeys = CreateJourneyCollection();
-        this._capacityLocations = _locations.Select(e => e.ToCapacityLocation()).ToArray();
+        this._capacityLocations = _locations.Where(e=>e.Name != Location.EndLocationName).Select(e => e.ToCapacityLocation()).ToArray();
         this._moveactions = system.MoveActions;
+        this._invariants = system.MoveActions.SelectMany(e => e.InvolvedLocations.SelectMany(e => e.Invariants)).ToHashSet();
 
     }
 
@@ -67,24 +69,40 @@ public class TofmSystemParser
     {
         foreach (var moveAction in _moveactions)
         {
-            SubnetDeclarer subnetDeclarer = new SubnetDeclarer(_stringBuilder, _journeys);
-            subnetDeclarer.WriteComponent(moveAction, _capacityLocations);
+            if (moveAction.To.Name != Location.EndLocationName)
+            {
+                SubnetDeclarer subnetDeclarer = new SubnetDeclarer(_stringBuilder, _journeys);
+                subnetDeclarer.WriteComponent(moveAction, _capacityLocations);
+            }
+            else
+            {
+                EndSubnetWriter endWriter = new EndSubnetWriter(moveAction, _stringBuilder, _journeys);
+                endWriter.WriteEndAction();
+            }
+            
         }
     }
+
+ 
 
     private void DeclareLocations()
     {
         SharedPlaceDeclarationWriter declarationWriter = new SharedPlaceDeclarationWriter(this._stringBuilder);
-        declarationWriter.WritePlaces(this._locations, _journeys);
+        var endLocInvariants = _system.Parts.Select(e => new Invariant(e, 0, Infteger.PositiveInfinity));
+        var endLocation = new Location(Location.EndLocationName, Infteger.PositiveInfinity, endLocInvariants, true);
+        var locs = new List<Location>(_locations.Count()+1) { endLocation };
+        locs.AddRange(_locations);
+        declarationWriter.WritePlaces(locs, _journeys);
         declarationWriter.WriteCapacityPlaces(_capacityLocations, _journeys);
+        
+        
+        
     }
 
     private void DeclareVariables()
     {
         var variableDeclarationWriter = new VariableDeclarer(_stringBuilder);
         variableDeclarationWriter.WriteVariables(this._journeys);
-        
-        
     }
 
     private void DeclareColours()
@@ -94,5 +112,52 @@ public class TofmSystemParser
         declarer.WriteParts(_partnames);
         declarer.WriteJourney(_stringBuilder, _journeys);
         declarer.WriteTokenDeclaration(_journeys);
+    }
+}
+
+internal class EndSubnetWriter : SubnetDeclarer
+{
+    private readonly MoveAction moveAction;
+    private readonly Location _end;
+    private readonly IEnumerable<Location> locations;
+
+    public EndSubnetWriter(MoveAction moveAction, StringBuilder stringBuilder, JourneyCollection journeys) : base(stringBuilder, journeys)
+    {
+        if (moveAction.To.Name != Location.EndLocationName)
+            throw new ArgumentException(nameof(moveAction.To) + " was not named end!");
+        if (!moveAction.To.IsProcessing)
+            throw new ArgumentException("End locations must be declared a processing location!");
+        
+        this.moveAction = moveAction;
+        this._end = moveAction.To;
+        this.locations = moveAction.InvolvedLocations.Where(e => e.Name != Location.EndLocationName);
+    }
+
+    public void WriteEndAction()
+    {
+        _stringBuilder.Append($@"<net active=""true"" id=""{moveAction.Name}"" type=""P/T net"">");
+        IEnumerable<CapacityLocation> involvedCapacityLocations = locations.Select(e => e.ToCapacityLocation());
+        
+        foreach (var capacityLocation in involvedCapacityLocations)
+            WriteCapacityLocation(capacityLocation);
+
+        foreach (var location in moveAction.InvolvedLocations)
+            WriteLocation(location);
+
+        WriteEndLocation();
+
+        
+        TransitionWriter transitionWriter = new TransitionWriter(_stringBuilder, moveAction);
+        transitionWriter.WriteTransition(_journeys);
+        ArcWriter arcWriter = new ArcWriter(_stringBuilder, moveAction, _journeys);
+        arcWriter.WriteArcs();
+
+        arcWriter.WriteArcTo(this._end);
+        _stringBuilder.Append("</net>");
+    }
+
+    private void WriteEndLocation()
+    {
+        throw new NotImplementedException();
     }
 }
