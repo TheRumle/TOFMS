@@ -1,0 +1,72 @@
+﻿{
+  "Journeys": {
+    "P1": [
+      "End"
+    ],
+    "P2": [
+      "End"
+    ]
+  },
+  "Components": [
+    {
+      "Name": "Centrifuge",
+      "Locations": [
+        {
+          "IsProcessing": true,
+          "Name": "End",
+          "Capacity": 9999,
+          "Invariants": [
+            {
+              "Part": "P1",
+              "Min": 0,
+              "Max": "infty"
+            },
+            {
+              "Part": "P2",
+              "Min": 0,
+              "Max": "infty"
+            }
+          ]
+        },
+        {
+          "IsProcessing": false,
+          "Name": "CBuffer",
+          "Capacity": 4,
+          "Invariants": [
+            {
+              "Part": "P1",
+              "Min": 0,
+              "Max": "infty"
+            },
+            {
+              "Part": "P2",
+              "Min": 0,
+              "Max": "infty"
+            }
+          ]
+        }
+      ],
+      "Moves": [
+        {
+          "Name": "cbufToEnd",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P1"
+            }
+          ],
+          "from": "CBuffer",
+          "to": "End",
+          "emptyBefore": [
+          ],
+          "emptyAfter": [
+          ]
+        }
+      ]
+    }
+  ],
+  "Parts": [
+    "P1",
+    "P2"
+  ]
+}

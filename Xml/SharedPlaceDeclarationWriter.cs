@@ -67,8 +67,9 @@ internal class SharedPlaceDeclarationWriter
 
     public void WriteInvariant(Invariant inv, string part, int jourNumber)
     {
+      var invMaxText = inv.Max == Infteger.PositiveInfinity ? "&lt; inf" : $";= {inv.Max}";
       StringBuilder.Append($@"<colorinvariant>
-                                          <inscription inscription=""&lt;= {inv.Max}""/>
+                                          <inscription inscription=""{invMaxText}""/>
                                           <colortype name=""{Colours.TokenColour}"">
                                             <color value=""{part}""/>
                                             <color value=""{jourNumber}""/>

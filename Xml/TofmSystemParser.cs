@@ -1,7 +1,5 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using System.Text;
+﻿using System.Text;
 using TACPN.Adapters.TofmToTacpnAdapter;
-using TACPN.Net;
 using Tofms.Common;
 using Tofms.Common.Move;
 
@@ -60,9 +58,15 @@ public class TofmSystemParser
         _stringBuilder.Append($"      </declarations>\n    </structure>\n  </declaration>");
         DeclareLocations();
         DeclareComponents();
-
+        DeclareAllButEndEmptyQuery();
         _stringBuilder.Append($@"  <feature isColored=""true"" isGame=""false"" isTimed=""true""/> </pnml>");
         return _stringBuilder.ToString();
+    }
+
+    private void DeclareAllButEndEmptyQuery()
+    {
+        AllPlacesButEndEmptyQueryWriter writer = new AllPlacesButEndEmptyQueryWriter(_stringBuilder, this._locations);
+        writer.WriteXmlQuery();
     }
 
     private void DeclareComponents()
@@ -73,10 +77,10 @@ public class TofmSystemParser
             {
                 SubnetDeclarer subnetDeclarer = new SubnetDeclarer(_stringBuilder, _journeys);
                 subnetDeclarer.WriteComponent(moveAction, _capacityLocations);
-            }
+            }   
             else
             {
-                EndSubnetWriter endWriter = new EndSubnetWriter(moveAction, _stringBuilder, _journeys);
+                EndSubnetWriter endWriter = new EndSubnetWriter(moveAction, _stringBuilder, _journeys, _partnames);
                 endWriter.WriteEndAction();
             }
             
@@ -88,15 +92,9 @@ public class TofmSystemParser
     private void DeclareLocations()
     {
         SharedPlaceDeclarationWriter declarationWriter = new SharedPlaceDeclarationWriter(this._stringBuilder);
-        var endLocInvariants = _system.Parts.Select(e => new Invariant(e, 0, Infteger.PositiveInfinity));
-        var endLocation = new Location(Location.EndLocationName, Infteger.PositiveInfinity, endLocInvariants, true);
-        var locs = new List<Location>(_locations.Count()+1) { endLocation };
-        locs.AddRange(_locations);
-        declarationWriter.WritePlaces(locs, _journeys);
+    
+        declarationWriter.WritePlaces(_locations.Where(e=>e.Name!=Location.EndLocationName), _journeys);
         declarationWriter.WriteCapacityPlaces(_capacityLocations, _journeys);
-        
-        
-        
     }
 
     private void DeclareVariables()
@@ -112,52 +110,5 @@ public class TofmSystemParser
         declarer.WriteParts(_partnames);
         declarer.WriteJourney(_stringBuilder, _journeys);
         declarer.WriteTokenDeclaration(_journeys);
-    }
-}
-
-internal class EndSubnetWriter : SubnetDeclarer
-{
-    private readonly MoveAction moveAction;
-    private readonly Location _end;
-    private readonly IEnumerable<Location> locations;
-
-    public EndSubnetWriter(MoveAction moveAction, StringBuilder stringBuilder, JourneyCollection journeys) : base(stringBuilder, journeys)
-    {
-        if (moveAction.To.Name != Location.EndLocationName)
-            throw new ArgumentException(nameof(moveAction.To) + " was not named end!");
-        if (!moveAction.To.IsProcessing)
-            throw new ArgumentException("End locations must be declared a processing location!");
-        
-        this.moveAction = moveAction;
-        this._end = moveAction.To;
-        this.locations = moveAction.InvolvedLocations.Where(e => e.Name != Location.EndLocationName);
-    }
-
-    public void WriteEndAction()
-    {
-        _stringBuilder.Append($@"<net active=""true"" id=""{moveAction.Name}"" type=""P/T net"">");
-        IEnumerable<CapacityLocation> involvedCapacityLocations = locations.Select(e => e.ToCapacityLocation());
-        
-        foreach (var capacityLocation in involvedCapacityLocations)
-            WriteCapacityLocation(capacityLocation);
-
-        foreach (var location in moveAction.InvolvedLocations)
-            WriteLocation(location);
-
-        WriteEndLocation();
-
-        
-        TransitionWriter transitionWriter = new TransitionWriter(_stringBuilder, moveAction);
-        transitionWriter.WriteTransition(_journeys);
-        ArcWriter arcWriter = new ArcWriter(_stringBuilder, moveAction, _journeys);
-        arcWriter.WriteArcs();
-
-        arcWriter.WriteArcTo(this._end);
-        _stringBuilder.Append("</net>");
-    }
-
-    private void WriteEndLocation()
-    {
-        throw new NotImplementedException();
     }
 }

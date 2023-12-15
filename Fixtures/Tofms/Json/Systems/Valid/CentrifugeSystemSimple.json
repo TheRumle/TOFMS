@@ -1,10 +1,12 @@
 ﻿{
   "Journeys": {
     "P1": [
+      "End",
       "CProc",
       "CProc"
     ],
     "P2": [
+      "End",
       "CProc",
       "CProc",
       "CProc"
@@ -133,6 +135,21 @@
           ],
           "emptyAfter": [
             "CProc"
+          ]
+        },
+        {
+          "Name": "cbufToEnd",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P1"
+            }
+          ],
+          "from": "CBuffer",
+          "to": "End",
+          "emptyBefore": [
+          ],
+          "emptyAfter": [
           ]
         }
       ]

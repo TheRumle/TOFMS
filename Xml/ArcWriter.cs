@@ -32,11 +32,11 @@ public class ArcWriter
 
     public void HandleTo(Location to)
     {
-      var amount = WriteArcTo(to);
+      var amount = WriteTokenArcTo(to);
       ConsumeFromCapPlace(to.ToCapacityLocation(), to.Capacity - amount);
     }
 
-    public int WriteArcTo(Location to)
+    public int WriteTokenArcTo(ILocation to)
     {
       var amount = _moveAction.PartsToMove.Select(e => e.Value).Sum();
       StringBuilder.Append(
@@ -100,12 +100,19 @@ public class ArcWriter
       AddInhibitorArc(_moveAction.EmptyAfter.Where(e=>e.Name != from.Name));
       
       //consume from 'from'
-      StringBuilder.Append($@"<arc id=""{from.Name}To{transition}"" inscription=""[0,inf)"" nameOffsetX=""41"" nameOffsetY=""9"" source=""{from.Name}"" target=""{_moveAction.Name}"" type=""timed"" weight=""1"">");
+      WriteArcFrom(from);
+    }
+
+    public void WriteArcFrom(Location from)
+    {
+      StringBuilder.Append(
+        $@"<arc id=""{from.Name}To{transition}"" inscription=""[0,inf)"" nameOffsetX=""41"" nameOffsetY=""9"" source=""{from.Name}"" target=""{_moveAction.Name}"" type=""timed"" weight=""1"">");
       foreach (var amountOfPart in _moveAction.PartsToMove)
       {
-          WriteTokenColourInterval(amountOfPart.Key);
+        WriteTokenColourInterval(amountOfPart.Key);
       }
-      WriteHlWithJourneyIncInscription( _moveAction.PartsToMove, from);
+
+      WriteHlWithJourneyIncInscription(_moveAction.PartsToMove, from);
       StringBuilder.Append("</arc>");
     }
 
@@ -168,13 +175,13 @@ public class ArcWriter
     private void HandleToNotInEmptyAfter()
     {
       var amount = _moveAction.PartsToMove.Select(e=>e.Value).Sum();
+      if (amount == _moveAction.From.Capacity) return;
 
-      var from = _moveAction.From;
-      var fromHat = from.ToCapacityLocation();
+      var fromHat = _moveAction.From.ToCapacityLocation();
       ProduceToCapPlace(fromHat, amount);
     }
 
-    private void ProduceToCapPlace(CapacityLocation toHat, int amount)
+    public void ProduceToCapPlace(CapacityLocation toHat, int amount)
     {
       //Write into capacity place
       StringBuilder.Append(
@@ -214,6 +221,7 @@ public class ArcWriter
 
     private void ConsumeFromCapPlace(CapacityLocation toHat, int toConsume)
     {
+      if (toConsume <= 0) return; 
       StringBuilder.Append(
         $@"<arc id=""{toHat.Name}To{_moveAction.Name}"" inscription=""[0,inf)"" nameOffsetX=""0"" nameOffsetY=""-22"" source=""{toHat.Name}"" target=""{_moveAction.Name}"" type=""timed"" weight=""1"">
                 <hlinscription>

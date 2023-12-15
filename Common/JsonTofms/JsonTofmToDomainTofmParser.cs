@@ -69,9 +69,10 @@ public class JsonTofmToDomainTofmParser
             
             foreach (var journeyElement in journey)
             {
-                if (journeys.ContainsKey(partName))
+                if (journeys.ContainsKey(partName)) 
                 {
-                    journeys[partName].Add(processingLocations.First(e=>e.Name == journeyElement));
+                    journeys[partName].Add(processingLocations
+                        .First(e=>e.Name == journeyElement));
                 }
                 else
                 {

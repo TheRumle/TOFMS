@@ -30,15 +30,22 @@ public class TransitionWriter
             return;
         }
 
+       var indexesForThisLocation = collection
+                .Where(e=>e
+                    .Value
+                    .Select(kvp=>kvp.Value.Name == MoveAction.To.Name)
+                    .Any())
+                .ToArray();
+        
         this.StringBuilder.Append("<condition>");
-        if (MoveAction.PartsToMove.Select(e => e.Key).Count() > 1)
+        if (indexesForThisLocation.Count() > 1)
         {
-            var ands = AppendAndText(collection);
+            var ands = AppendAndText(indexesForThisLocation);
             AppendAndStructures(ands);
         }
         else
         {
-            var part = MoveAction.PartsToMove.Select(e => e.Key).First();
+            var part = indexesForThisLocation.First().Key;
             var longest = collection.MaxBy(e => e.Value.Count()).Value.Count();
             List<Eq> ors = AppendOrText(collection[part], part, longest);
             AppendOrStructures(ors);
@@ -144,7 +151,7 @@ public class TransitionWriter
 
     }
 
-    private List<And> AppendAndText(JourneyCollection collection)
+    private List<And> AppendAndText(IEnumerable<KeyValuePair<string, IEnumerable<KeyValuePair<int, Location>>>> collection)
     {
         StringBuilder.Append($@"<text>");
         var andss = CreateAnds(collection);
@@ -169,7 +176,7 @@ public class TransitionWriter
     
     
 
-    private List<And> CreateAnds(JourneyCollection collection)
+    private List<And> CreateAnds(IEnumerable<KeyValuePair<string, IEnumerable<KeyValuePair<int, Location>>>> collection)
     {
         var ands = new List<And>();
         var longestJourney = collection.Max(e => e.Value.Count());
