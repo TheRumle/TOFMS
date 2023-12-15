@@ -30,14 +30,12 @@ public class TransitionWriter
             return;
         }
 
-       var indexesForThisLocation = collection
-                .Where(e=>e
-                    .Value
-                    .Select(kvp=>kvp.Value.Name == MoveAction.To.Name)
-                    .Any())
-                .ToArray();
+        KeyValuePair<string, IEnumerable<KeyValuePair<int, Location>>>[] indexesForThisLocation = collection
+            .MatchingJourneysFor(MoveAction).ToArray();
+
         
         this.StringBuilder.Append("<condition>");
+        //If we move more than one part type, all parts must have the location as the next journey
         if (indexesForThisLocation.Count() > 1)
         {
             var ands = AppendAndText(indexesForThisLocation);
@@ -46,8 +44,7 @@ public class TransitionWriter
         else
         {
             var part = indexesForThisLocation.First().Key;
-            var longest = collection.MaxBy(e => e.Value.Count()).Value.Count();
-            List<Eq> ors = AppendOrText(collection[part], part, longest);
+            var longest = collection.MaxBy(e => e.Value.Count()).Value.Count();            List<Eq> ors = AppendOrText(indexesForThisLocation.First().Value, part, longest);
             AppendOrStructures(ors);
         }
         
@@ -206,4 +203,33 @@ public class TransitionWriter
 
         return ands;
     }
+}
+
+public static class JourneyCollectionExtension
+{
+    public static IEnumerable<KeyValuePair<string, IEnumerable<KeyValuePair<int, Location>>>> WithPartType (this IEnumerable<KeyValuePair<string, IEnumerable<KeyValuePair<int, Location>>>> collection,
+        string partType)
+    {
+        return collection.Where(e => e.Key == partType);
+    }
+    
+    public static IEnumerable<KeyValuePair<string, IEnumerable<KeyValuePair<int, Location>>>> WithPartTypes (this IEnumerable<KeyValuePair<string, IEnumerable<KeyValuePair<int, Location>>>> collection,
+        IEnumerable<string> partTypes)
+    {
+        return collection.Where(e => partTypes.Contains(e.Key));
+    }
+
+    public static IEnumerable<KeyValuePair<string, IEnumerable<KeyValuePair<int, Location>>>> MatchingJourneysFor (this IEnumerable<KeyValuePair<string, IEnumerable<KeyValuePair<int, Location>>>> collection,
+        MoveAction moveAction)
+    {
+        var a = collection.WithPartTypes(moveAction.PartsToMove.Select(e => e.Key))
+            .Select(e =>
+            {
+                IEnumerable<KeyValuePair<int, Location>> sorted = e.Value.Where(elem => elem.Value.Name == moveAction.To.Name);
+                return KeyValuePair.Create(e.Key, sorted);
+            });
+
+        return a;
+    }
+    
 }

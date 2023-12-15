@@ -67,6 +67,7 @@ public class TofmSystemParser
     {
         AllPlacesButEndEmptyQueryWriter writer = new AllPlacesButEndEmptyQueryWriter(_stringBuilder, this._locations);
         writer.WriteXmlQuery();
+        writer.WriteFastestTrace();
     }
 
     private void DeclareComponents()

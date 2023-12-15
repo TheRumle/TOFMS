@@ -33,7 +33,7 @@ public class ArcWriter
     public void HandleTo(Location to)
     {
       var amount = WriteTokenArcTo(to);
-      ConsumeFromCapPlace(to.ToCapacityLocation(), to.Capacity - amount);
+      ConsumeFromCapPlace(to.ToCapacityLocation(), amount);
     }
 
     public int WriteTokenArcTo(ILocation to)
@@ -175,7 +175,6 @@ public class ArcWriter
     private void HandleToNotInEmptyAfter()
     {
       var amount = _moveAction.PartsToMove.Select(e=>e.Value).Sum();
-      if (amount == _moveAction.From.Capacity) return;
 
       var fromHat = _moveAction.From.ToCapacityLocation();
       ProduceToCapPlace(fromHat, amount);
