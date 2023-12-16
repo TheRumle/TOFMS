@@ -93,6 +93,8 @@ public class TransitionWriter
         
         var startParents = journey.Count() > 1 ? Enumerable.Repeat("(", eqs.Count() -1).Aggregate((prev,curr)=>  prev+curr) : "";
         StringBuilder.Append(startParents);
+        
+        
         StringBuilder.Append(eqs.First());
         if (journey.Count() > 1)
         {

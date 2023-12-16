@@ -1,0 +1,512 @@
+﻿{
+  "Journeys": {
+    "P1": [
+      "End",
+      "DProc",
+      "CProc"
+    ],
+    "P2": [
+      "End",
+      "CProc",
+      "DProc"
+    ]
+  },
+  "Components": [
+    {
+      "Name": "Centrifuge",
+      "Locations": [
+        {
+          "IsProcessing": false,
+          "Name": "CBuffer",
+          "Capacity": 4,
+          "Invariants": [
+            {
+              "Part": "P1",
+              "Min": 0,
+              "Max": "infty"
+            },
+            {
+              "Part": "P2",
+              "Min": 0,
+              "Max": "infty"
+            }
+          ]
+        },
+        {
+          "IsProcessing": true,
+          "Name": "CProc",
+          "Capacity": 4,
+          "Invariants": [
+            {
+              "Part": "P1",
+              "Min": 7,
+              "Max": 12
+            },
+            {
+              "Part": "P2",
+              "Min": 7,
+              "Max": 12
+            }
+          ]
+        }
+      ],
+      "Moves": [
+        {
+          "Name": "c2p1start",
+          "Parts": [
+            {
+              "amount": 2,
+              "parttype": "P1"
+            }
+          ],
+          "from": "CBuffer",
+          "to": "CProc",
+          "emptyBefore": [
+            "CProc"
+          ],
+          "emptyAfter": [
+            "CBuffer"
+          ]
+        },
+        {
+          "Name": "c2p2start",
+          "Parts": [
+            {
+              "amount": 2,
+              "parttype": "P2"
+            }
+          ],
+          "from": "CBuffer",
+          "to": "CProc",
+          "emptyBefore": [
+            "CProc"
+          ],
+          "emptyAfter": [
+            "CBuffer"
+          ]
+        },
+        {
+          "Name": "c4p1start",
+          "Parts": [
+            {
+              "amount": 4,
+              "parttype": "P1"
+            }
+          ],
+          "from": "CBuffer",
+          "to": "CProc",
+          "emptyBefore": [
+            "CProc"
+          ],
+          "emptyAfter": [
+            "CBuffer"
+          ]
+        },
+        {
+          "Name": "c4p2start",
+          "Parts": [
+            {
+              "amount": 4,
+              "parttype": "P2"
+            }
+          ],
+          "from": "CBuffer",
+          "to": "CProc",
+          "emptyBefore": [
+            "CProc"
+          ],
+          "emptyAfter": [
+            "CBuffer"
+          ]
+        },
+        {
+          "Name": "c4p1End",
+          "Parts": [
+            {
+              "amount": 4,
+              "parttype": "P1"
+            }
+          ],
+          "from": "CProc",
+          "to": "CBuffer",
+          "emptyBefore": [
+            "CBuffer"
+          ],
+          "emptyAfter": [
+            "CProc"
+          ]
+        },
+        {
+          "Name": "c4p2End",
+          "Parts": [
+            {
+              "amount": 4,
+              "parttype": "P2"
+            }
+          ],
+          "from": "CProc",
+          "to": "CBuffer",
+          "emptyBefore": [
+            "CBuffer"
+          ],
+          "emptyAfter": [
+            "CProc"
+          ]
+        },
+        {
+          "Name": "c2p1End",
+          "Parts": [
+            {
+              "amount": 2,
+              "parttype": "P1"
+            }
+          ],
+          "from": "CProc",
+          "to": "CBuffer",
+          "emptyBefore": [
+            "CBuffer"
+          ],
+          "emptyAfter": [
+            "CProc"
+          ]
+        },
+        {
+          "Name": "c2p2End",
+          "Parts": [
+            {
+              "amount": 2,
+              "parttype": "P2"
+            }
+          ],
+          "from": "CProc",
+          "to": "CBuffer",
+          "emptyBefore": [
+            "CBuffer"
+          ],
+          "emptyAfter": [
+            "CProc"
+          ]
+        }
+      ]
+    },
+    {"Name":  "OvenComponent",
+      "Locations":  [
+        {
+          "IsProcessing": false,
+          "Name": "Oven",
+          "Capacity": 20,
+          "Invariants": [
+            {
+              "Part": "P1",
+              "Min": 3,
+              "Max": 40
+            },
+            {
+              "Part": "P2",
+              "Min": 2,
+              "Max": 50
+            }
+          ]
+        }
+      ],
+      "Moves": []
+    },
+    {"Name":  "Dispenser",
+      "Locations": [
+        {
+          "IsProcessing": false,
+          "Name": "DBuffer",
+          "Capacity": 1,
+          "Invariants": [
+            {
+              "Part": "P1",
+              "Min": 0,
+              "Max": "infty"
+            },
+            {
+              "Part": "P2",
+              "Min": 0,
+              "Max": "infty"
+            }
+          ]
+        },
+        {
+          "IsProcessing": true,
+          "Name": "DProc",
+          "Capacity": 1,
+          "Invariants": [
+            {
+              "Part": "P1",
+              "Min": 1,
+              "Max": 2
+            },
+            {
+              "Part": "P2",
+              "Min": 2,
+              "Max": 4
+            }
+          ]
+        }
+      ],
+      "Moves": [
+        {
+          "Name": "startP1",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P1"
+            }
+          ],
+          "from": "DBuffer",
+          "to": "DProc",
+          "emptyBefore": [],
+          "emptyAfter": []
+        },
+        {
+          "Name": "startP2",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P2"
+            }
+          ],
+          "from": "DBuffer",
+          "to": "DProc",
+          "emptyBefore": [],
+          "emptyAfter": []
+        },
+        {
+          "Name": "endP1",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P1"
+            }
+          ],
+          "from": "DProc",
+          "to": "DBuffer",
+          "emptyBefore": [],
+          "emptyAfter": []
+        },
+        {
+          "Name": "endP2",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P2"
+            }
+          ],
+          "from": "DProc",
+          "to": "DBuffer",
+          "emptyBefore": [],
+          "emptyAfter": []
+        }
+      ]
+    },
+    {"Name":  "ArmOne",
+      "Locations":  [
+        {
+          "IsProcessing": false,
+          "Name": "Arm",
+          "Capacity": 1,
+          "Invariants": [
+            {
+              "Part": "P1",
+              "Min": 3,
+              "Max": "infty"
+            },
+            {
+              "Part": "P2",
+              "Min": 3,
+              "Max": "infty"
+            }
+          ]
+        }
+      ],
+      "Moves": [
+        {
+          "Name": "grabp1cent",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P1"
+            }
+          ],
+          "from": "CBuffer",
+          "to": "Arm",
+          "emptyBefore": [],
+          "emptyAfter": []
+        },
+        {
+          "Name": "grabp2cent",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P2"
+            }
+          ],
+          "from": "CBuffer",
+          "to": "Arm",
+          "emptyBefore": [],
+          "emptyAfter": []
+        },
+        {
+          "Name": "grabp1oven",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P1"
+            }
+          ],
+          "from": "Oven",
+          "to": "Arm",
+          "emptyBefore": [],
+          "emptyAfter": []
+        },
+        {
+          "Name": "grabp2oven",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P2"
+            }
+          ],
+          "from": "Oven",
+          "to": "Arm",
+          "emptyBefore": [],
+          "emptyAfter": []
+        },
+        {
+          "Name": "placep1cent",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P1"
+            }
+          ],
+          "from": "Arm",
+          "to": "CBuffer",
+          "emptyBefore": ["CProc"],
+          "emptyAfter": []
+        },
+        {
+          "Name": "placep2cent",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P2"
+            }
+          ],
+          "from": "Arm",
+          "to": "CBuffer",
+          "emptyBefore": ["CProc"],
+          "emptyAfter": []
+        },
+        {
+          "Name": "placeP1end",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P1"
+            }
+          ],
+          "from": "Arm",
+          "to": "End",
+          "emptyBefore": [],
+          "emptyAfter": []
+        },
+        {
+          "Name": "placeP2end",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P2"
+            }
+          ],
+          "from": "Arm",
+          "to": "End",
+          "emptyBefore": [],
+          "emptyAfter": []
+        },
+        {
+          "Name": "placeP1Disp",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P1"
+            }
+          ],
+          "from": "Arm",
+          "to": "DBuffer",
+          "emptyBefore": [],
+          "emptyAfter": []
+        },
+        {
+          "Name": "placeP2Disp",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P2"
+            }
+          ],
+          "from": "Arm",
+          "to": "DBuffer",
+          "emptyBefore": [],
+          "emptyAfter": []
+        },
+        {
+          "Name": "GrabP1Disp",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P1"
+            }
+          ],
+          "from": "DBuffer",
+          "to": "Arm",
+          "emptyBefore": [],
+          "emptyAfter": []
+        },
+        {
+          "Name": "GrabP2Disp",
+          "Parts": [
+            {
+              "amount": 1,
+              "parttype": "P2"
+            }
+          ],
+          "from": "DBuffer",
+          "to": "Arm",
+          "emptyBefore": [],
+          "emptyAfter": []
+        }
+      ]
+    },
+    {"Name":  "EndComponent",
+      "Locations":  [
+        {
+          "IsProcessing": true,
+          "Name": "End",
+          "Capacity": 99999,
+          "Invariants": [
+            {
+              "Part": "P1",
+              "Min": 0,
+              "Max": "infty"
+            },
+            {
+              "Part": "P2",
+              "Min": 0,
+              "Max": "infty"
+            }
+          ]
+        }
+      ],
+      "Moves": []
+    }
+  ],
+  "Parts": [
+    "P1",
+    "P2"
+  ]
+}
