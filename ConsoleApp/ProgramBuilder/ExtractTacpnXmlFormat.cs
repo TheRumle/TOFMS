@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using TACPN.Net;
-using TACPN.Net.Colours;
 using TACPN.Net.Colours.Type;
 using TACPN.Net.Places;
 using TapaalParser.TapaalGui;

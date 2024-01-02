@@ -13,4 +13,4 @@ public class OutGoingArc : Arc<Transition, IPlace>
         GuardFrom.InvalidExpressionAssignment(from, to, colourExpression);
         Expression = colourExpression;
     }
-}
+}   

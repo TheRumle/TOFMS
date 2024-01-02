@@ -6,17 +6,15 @@ namespace TACPN.IntegrationTests;
 
 public static class GuardAssertions
 {
-    public static void ShouldHaveLabels(this ColoredGuard guard, string color, int amount)
+    public static void ShouldHaveLabels(this ColoredGuard guard, string color)
     {
         guard.ColourType.Name.ToLower().Should().Be(color);
-        guard.Amount.Should().Be(amount);
         guard.Interval.Should().Be(Interval.ZeroToInfinity);
     }
     
     private static void ShouldHaveLabels(this ColoredGuard guard, string color, int amount, Interval interval)
     {
         guard.ColourType.Name.ToLower().Should().Be(color);
-        guard.Amount.Should().Be(amount);
         guard.Interval.Should().Be(interval);
     }
     

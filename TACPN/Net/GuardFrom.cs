@@ -7,10 +7,10 @@ using TACPN.Net.Transitions;
 namespace TACPN.Net;
 
 internal static class GuardFrom{
-    public static void InvalidArcColourAssignment(IPlace place, Transition transition)
+    public static void InvalidArcColourAssignment(IPlace from, Transition to)
     {
-        if (transition.ColourType != place.ColourType) 
-            throw new ArgumentException($"Cannot create arc from {place.Name} ----> {transition.Name} because their colours do not match");
+        if (!to.IsCompatibleWith(from)) 
+            throw new ArgumentException($"Cannot create arc from {from.Name} ----> {to.Name} because their colours do not match");
     }
     
     public static void InvalidGuardColourAssignment(IPlace place, Transition t, IEnumerable<ColoredGuard> guards)
@@ -23,7 +23,7 @@ internal static class GuardFrom{
 
     public static void InvalidExpressionAssignment(IPlace place, Transition t, IColourExpression expression)
     {
-        if (expression.ColourType != t.ColourType || place.ColourType != expression.ColourType)
+        if (!t.IsCompatibleWith(place) || place.ColourType != expression.ColourType)
             throw new ArgumentException($"Cannot create arc from {place.Name} ----> {t.Name} with arc expression {expression.Expression}");
     }
     
@@ -43,7 +43,7 @@ internal static class GuardFrom{
 
     public static void InvalidExpressionAssignment(Transition t,IPlace place,  IColourExpression expression)
     {
-        if (expression.ColourType != t.ColourType || place.ColourType != expression.ColourType)
+        if (place.ColourType != expression.ColourType)
             throw new ArgumentException($"Cannot create arc from {t.Name} ----> {place.Name} with arc expression {expression.Expression} because colour types does not match");
     }
 

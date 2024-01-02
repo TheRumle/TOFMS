@@ -1,5 +1,4 @@
 ﻿using TACPN.Net.Arcs;
-using TACPN.Net.Colours;
 using TACPN.Net.Colours.Expression;
 using TACPN.Net.Colours.Type;
 using TACPN.Net.Places;
@@ -8,11 +7,19 @@ namespace TACPN.Net.Transitions;
 
 public class Transition
 {
-    public ColourType ColourType { get; init; }
+    public bool IsCompatibleWith(IPlace other)
+    {
+        return other.ColourType.Colours.All(e => this.ColourType.Colours.Contains(e));
+    }
     
-    public Transition(string name)
+    public ColourType ColourType { get; init; }
+    public TransitionGuard TransitionGuard { get; init; }
+    
+    public Transition(string name, ColourType colourType, TransitionGuard transitionGuard)
     {
         Name = name;
+        ColourType = colourType;
+        TransitionGuard = transitionGuard;
     }
 
     public string Name { get; }
@@ -59,19 +66,11 @@ public class Transition
         return places;
     }
 
-    public TransitionGuard Guards { get; set; } = new();
-
-    public void AddGuard(KeyValuePair<int, Place> guardFor)
-    {
-        this.Guards.Add(guardFor);
-    }
 
     public override string ToString()
     {
         return this.Name;
     }
-
-
     public IEnumerable<CapacityPlace> IncomingFromCapacityPlaces()
     {
         return InvolvedPlaces.OfType<CapacityPlace>();

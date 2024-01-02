@@ -1,7 +1,6 @@
 ﻿using TACPN.Net;
 using TACPN.Net.Arcs;
 using TACPN.Net.Colours.Expression;
-using TACPN.Net.Colours.Type;
 using TACPN.Net.Places;
 using TACPN.Net.Transitions;
 using Tofms.Common;

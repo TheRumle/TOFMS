@@ -1,4 +1,5 @@
 ﻿using TACPN.Net;
+using TACPN.Net.Colours.Type;
 using TACPN.Net.Places;
 using TACPN.Net.Transitions;
 using Tofms.Common;
@@ -20,7 +21,7 @@ public class TofmToTacpnTranslater : IMoveActionTranslation<PetriNetComponent>
 
     public PetriNetComponent Translate(MoveAction moveAction)
     {
-        var transition = new Transition(moveAction.Name);
+        var transition = new Transition(moveAction.Name, ColourType.TokenAndDefaultColourType, TransitionGuard.Empty( ColourType.TokensColourType) );
 
         _transitionAttachableFactory.AdaptFrom(moveAction).AttachToTransition(transition);
         _transitionAttachableFactory.AdaptEmptyAfter(moveAction).AttachToTransition(transition);
