@@ -1,7 +1,7 @@
-﻿using TACPN.Net.Colours;
+﻿using TACPN.Net.Colours.Type;
 using Tofms.Common;
 
-namespace TACPN.Net;
+namespace TACPN.Net.Colours;
 
 public record ColourInvariant(int MaxAge)
 {

@@ -1,13 +1,16 @@
-﻿using TACPN.Net.Transitions;
+﻿using TACPN.Net.Colours.Expression;
+using TACPN.Net.Places;
+using TACPN.Net.Transitions;
 
 namespace TACPN.Net.Arcs;
 
 public class OutGoingArc : Arc<Transition, IPlace>
 {
-    public IEnumerable<Production> Productions { get; set; }
+    public IColourExpression Expression { get; set; }
 
-    public OutGoingArc(Transition from, IPlace to, IEnumerable<Production> productions) : base(from, to)
+    public OutGoingArc(Transition from, IPlace to, IColourExpression colourExpression) : base(from, to)
     {
-        Productions = productions;
+        GuardFrom.InvalidExpressionAssignment(from, to, colourExpression);
+        Expression = colourExpression;
     }
 }

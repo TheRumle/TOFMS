@@ -1,4 +1,6 @@
 ﻿using TACPN.Net.Colours;
+using TACPN.Net.Colours.Type;
+using TACPN.Net.Places;
 using TACPN.Net.Transitions;
 
 namespace TACPN.Net;
@@ -7,7 +9,7 @@ public class PetriNetComponent
 {
     public required ICollection<Transition> Transitions { get; init; }
     public required ICollection<CapacityPlace> CapacityPlaces { get; init; }
-    public required ICollection<Place> Places { get; init; }
+    public required ICollection<Places.Place> Places { get; init; }
 
     public  HashSet<IPlace> AllPlaces()
     {

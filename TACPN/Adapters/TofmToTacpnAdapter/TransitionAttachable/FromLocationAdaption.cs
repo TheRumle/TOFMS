@@ -1,6 +1,8 @@
 ﻿using TACPN.Net;
-using TACPN.Net.Arcs;
-using TACPN.Net.Colours;
+using TACPN.Net.Colours.Evaluatable;
+using TACPN.Net.Colours.Expression;
+using TACPN.Net.Colours.Type;
+using TACPN.Net.Places;
 using TACPN.Net.Transitions;
 using Tofms.Common;
 
@@ -14,7 +16,7 @@ internal class FromLocationAdaption : ITransitionAttachable
     /// </summary>
     /// <param name="fromLocation"> A place representing a location l.</param>
     /// <param name="partsToConsume">The parts that need to be consumed from l.</param>
-    public FromLocationAdaption(Tofms.Common.Location fromLocation, IEnumerable<KeyValuePair<string, int>> partsToConsume, JourneyCollection collection)
+    public FromLocationAdaption(Location fromLocation, IEnumerable<KeyValuePair<string, int>> partsToConsume, JourneyCollection collection)
     {
         FromLocation = fromLocation;
         ToConsume = partsToConsume;
@@ -22,7 +24,7 @@ internal class FromLocationAdaption : ITransitionAttachable
         this.collection = collection;
     }
 
-    private Tofms.Common.Location FromLocation { get; set; }
+    private Location FromLocation { get; set; }
 
     private IEnumerable<KeyValuePair<string, int>> ToConsume { get; set; }
 
@@ -39,18 +41,19 @@ internal class FromLocationAdaption : ITransitionAttachable
     private void AdaptCapacityPlace(Transition transition)
     {
         var consProdAmount = ToConsume.Sum(e => e.Value);
-        var capPlaceColor = CapacityPlaceExtensions.DefaultCapacityColor;
-        transition.AddOutGoingTo(FromPlaceHat, new Production(ColourType.DefaultColorType, consProdAmount));
+        var expression = new ColourExpression(Colour.DefaultTokenColour, ColourType.DefaultColorType, consProdAmount);
+        transition.AddOutGoingTo(FromPlaceHat, expression );
     }
 
     private void AdaptPlace(Transition transition)
     {
-        var amount = ToConsume.Sum(e => e.Value);
         var guards = ToConsume.Select(pair =>
         {
             var first = FromLocation.Invariants.First(e => e.PartType == pair.Key);
-            return ColoredGuard.TokensGuard(amount, first.Min, first.Max);
+            return ColoredGuard.TokensGuard(first.Min, first.Max);
         });
-        transition.AddInGoingFrom(FromPlace,guards);
+        
+        var expression = ColourExpressions.MovePartsExpression(ToConsume);
+        transition.AddInGoingFrom(FromPlace,guards, expression);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using TACPN.Adapters.TofmToTacpnAdapter;
 using TACPN.Adapters.TofmToTacpnAdapter.TransitionAttachable;
 using TACPN.Net;
+using TACPN.Net.Places;
 using TACPN.Net.Transitions;
 using Tofms.Common;
 using Tofms.Common.Factories;

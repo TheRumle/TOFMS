@@ -1,6 +1,7 @@
 ﻿using TACPN.Net.Colours;
+using TACPN.Net.Colours.Type;
 
-namespace TACPN.Net;
+namespace TACPN.Net.Places;
 
 
 public class Place : IPlace<int, string>

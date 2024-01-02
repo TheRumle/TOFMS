@@ -1,5 +1,6 @@
 ﻿using TACPN.Net;
 using TACPN.Net.Colours;
+using TACPN.Net.Colours.Type;
 using Tofms.Common;
 
 namespace TapaalParser.TapaalGui.XmlWriters.Symbols;
@@ -12,7 +13,7 @@ public class ColorIntervalDeclaration
 
     public ColorIntervalDeclaration(ColoredGuard guard, ColourType colorType, string color)
     {
-        if (!colorType.ColourValues.Contains(guard.Color.Name)) throw new ArgumentException(guard + "had color " + guard.Color + " and colour type was " + colorType.ColourValues.Aggregate((f,e) => f + "," + e));
+        if (!colorType.ColourValues.Contains(guard.ColourType.Name)) throw new ArgumentException(guard + "had color " + guard.ColourType + " and colour type was " + colorType.ColourValues.Aggregate((f,e) => f + "," + e));
         _interval = guard.Interval;
         _colorType = colorType.Name;
         if (colorType.Name == ColourType.DefaultColorType.Name)

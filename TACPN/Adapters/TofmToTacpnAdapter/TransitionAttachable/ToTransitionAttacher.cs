@@ -1,5 +1,7 @@
-﻿using TACPN.Net;
-using TACPN.Net.Arcs;
+﻿using TACPN.Net.Arcs;
+using TACPN.Net.Colours;
+using TACPN.Net.Colours.Expression;
+using TACPN.Net.Places;
 using TACPN.Net.Transitions;
 using Tofms.Common;
 
@@ -39,7 +41,12 @@ internal class ToTransitionAttacher : ITransitionAttachable
 
     private void AdaptPlace(Transition transition)
     {
-        IEnumerable<Production> productions = _itemMovedIntoPlace.Select(e => new Production(_place.ColourType, e.Value));
-        transition.AddOutGoingTo(_place, productions);
+        IColourExpression expression = _place.IsProcessingPlace 
+            ? ColourExpressions.PartDecrementExpression(this._itemMovedIntoPlace) 
+            : ColourExpressions.MovePartsExpression(this._itemMovedIntoPlace) ;
+            
+        
+
+        transition.AddOutGoingTo(_place, expression);
     }
 }

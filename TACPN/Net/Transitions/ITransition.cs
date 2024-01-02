@@ -1,5 +1,7 @@
 ﻿using TACPN.Net.Arcs;
 using TACPN.Net.Colours;
+using TACPN.Net.Colours.Type;
+using TACPN.Net.Places;
 
 namespace TACPN.Net.Transitions;
 

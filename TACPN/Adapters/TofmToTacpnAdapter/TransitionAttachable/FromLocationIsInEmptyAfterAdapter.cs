@@ -1,6 +1,8 @@
 ﻿using TACPN.Net;
 using TACPN.Net.Arcs;
-using TACPN.Net.Colours;
+using TACPN.Net.Colours.Expression;
+using TACPN.Net.Colours.Type;
+using TACPN.Net.Places;
 using TACPN.Net.Transitions;
 using Tofms.Common;
 
@@ -59,7 +61,7 @@ internal class FromLocationIsInEmptyAfterAdapter : ITransitionAttachable
             return;
         }
 
-        transition.AddOutGoingTo(fromPlaceHat, new Production(ColourType.DefaultColorType, _guardAmount));
+        transition.AddOutGoingTo(fromPlaceHat, ColourExpression.CapacityExpression(_guardAmount));
     }
 
     private void ModifyOrAddIncomingFromHat(Transition transition, CapacityPlace fromPlaceHat)
@@ -77,17 +79,16 @@ internal class FromLocationIsInEmptyAfterAdapter : ITransitionAttachable
     private void ModifyExistingArc(IngoingArc ingoing)
     {
         if (!ingoing.From.IsCapacityLocation) throw new ArgumentException("The arc did not go from a capacity location!");
-        ingoing.ReplaceGuard(ColoredGuard.CapacityGuard(_guardAmount));
+        
+        ingoing.ReplaceGuardedExpression(ColoredGuard.CapacityGuard(),
+            ColourExpression.CapacityExpression(_guardAmount));
     }
     
     private void ModifyExistingArc(OutGoingArc arc)
     {
         if (!arc.To.IsCapacityLocation) throw new ArgumentException("The arc did not go from a capacity location!");
-        
-        arc.Productions = new List<Production>()
-        {
-            new(ColourType.DefaultColorType, _fromLocation.Capacity)
-        };
+        var expression = ColourExpression.CapacityExpression(_fromLocation.Capacity);
+        arc.Expression = expression;
     }
 
     private bool TryGetExistingIngoingFromHat(Transition transition, out IngoingArc? arc)

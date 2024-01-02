@@ -1,5 +1,7 @@
 ﻿using TACPN.Net;
 using TACPN.Net.Colours;
+using TACPN.Net.Colours.Type;
+using TACPN.Net.Places;
 using Tofms.Common;
 using Tofms.Common.JsonTofms.Models;
 
@@ -21,8 +23,7 @@ public static class LocationTranslator
 
         List<ColourInvariant<int, string>> invariants =
             CreateInvariants(colourType, location, journeyCollection, new Dictionary<string, int>(maxAges));
-
-
+        
         Place p = new Place(location.IsProcessing, location.Name, invariants, colourType);
         return p;
     }

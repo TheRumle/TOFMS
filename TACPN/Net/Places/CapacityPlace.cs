@@ -1,7 +1,8 @@
 ﻿
 using TACPN.Net.Colours;
+using TACPN.Net.Colours.Type;
 
-namespace TACPN.Net;
+namespace TACPN.Net.Places;
 
 public class CapacityPlace : IPlace<string>
 {

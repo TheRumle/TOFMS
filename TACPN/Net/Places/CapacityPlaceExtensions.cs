@@ -1,13 +1,11 @@
-﻿using Tofms.Common;
-
-namespace TACPN.Net;
+﻿namespace TACPN.Net.Places;
 
 public static class CapacityPlaceExtensions
 {
     public static readonly string DefaultCapacityColor = "dot";
     public static readonly string Hat = "_capacity";
 
-    private static string CapacityNameFor(Place place)
+    private static string CapacityNameFor(Places.Place place)
     {
         return place.Name + Hat;
     }
@@ -18,7 +16,7 @@ public static class CapacityPlaceExtensions
     }
     
     
-    public static CapacityPlace ToCapacityPlace(this Place place, int numTokens)
+    public static CapacityPlace ToCapacityPlace(this Places.Place place, int numTokens)
     {
         return  new CapacityPlace(CapacityNameFor(place), numTokens);
     }

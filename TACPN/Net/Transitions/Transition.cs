@@ -1,9 +1,15 @@
 ﻿using TACPN.Net.Arcs;
+using TACPN.Net.Colours;
+using TACPN.Net.Colours.Expression;
+using TACPN.Net.Colours.Type;
+using TACPN.Net.Places;
 
 namespace TACPN.Net.Transitions;
 
 public class Transition
 {
+    public ColourType ColourType { get; init; }
+    
     public Transition(string name)
     {
         Name = name;
@@ -14,44 +20,23 @@ public class Transition
     public ICollection<OutGoingArc> OutGoing { get; } = new List<OutGoingArc>();
     public ICollection<InhibitorArc> InhibitorArcs { get; } = new List<InhibitorArc>();
 
-    public IngoingArc AddInGoingFrom(Place from, IEnumerable<ColoredGuard> guards)
+    public IngoingArc AddInGoingFrom(IPlace from, IEnumerable<ColoredGuard> guards, IColourExpression expression)
     {
-        var arc = new IngoingArc(from, this, guards);
+        var arc = new IngoingArc(from, this, guards, expression);
         InGoing.Add(arc);
         return arc;
     }
 
-    public Arc<IPlace, Transition> AddInGoingFrom(CapacityPlace from, int amount)
+    public IngoingArc AddInGoingFrom(CapacityPlace from, int amount)
     {
-        return AddInGoingFrom(from, new[] { ColoredGuard.CapacityGuard(amount) });
-    }
-    
-    
-    public IngoingArc AddInGoingFrom(CapacityPlace from, IEnumerable<ColoredGuard> guards)
-    {
-        var arc = new IngoingArc(from, this, guards);
-        InGoing.Add(arc);
-        return arc;
-    }
-
-    public Arc<IPlace, Transition> AddInGoingFrom(Place from, ColoredGuard guard)
-    {
-        return AddInGoingFrom(from, new[] { guard });
+        var expression = ColourExpression.CapacityExpression(amount);
+        return AddInGoingFrom(from, new[] { ColoredGuard.CapacityGuard()}, expression);
     }
 
     
-
-
-    public OutGoingArc AddOutGoingTo(Place from, IEnumerable<Production> productions)
+    public OutGoingArc AddOutGoingTo(IPlace from, IColourExpression expression)
     {
-        var arc = new OutGoingArc(this, from, productions);
-        OutGoing.Add(arc);
-        return arc;
-    }
-
-    public Arc<Transition, IPlace> AddOutGoingTo(CapacityPlace from, Production production)
-    {
-        var arc = new OutGoingArc(this, from, new List<Production> { production });
+        var arc = new OutGoingArc(this, from, expression);
         OutGoing.Add(arc);
         return arc;
     }
