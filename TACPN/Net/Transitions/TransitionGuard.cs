@@ -3,7 +3,7 @@ using TACPN.Net.Colours.Type;
 
 namespace TACPN.Net.Transitions;
 
-public class TransitionGuard
+public class TransitionGuard//TODO this needs to be conjunction or disjunction
 {
     public TransitionGuard(ColourType colourType)
     {
@@ -28,6 +28,10 @@ public class TransitionGuard
         if (!ColourType.Colours.Contains(lhs)) throw new ArgumentException($"{lhs} is not in colour type {this.ColourType}");
         if (!ColourType.Colours.Contains(rhs)) throw new ArgumentException($"{rhs} is not in colour type {this.ColourType}");
         this._colourComparisons.Add(comparator);
+    }
+    public void AddComparison(IEnumerable<ColourComparison> comparisons)
+    {
+        foreach (var comparison in comparisons) AddComparison(comparison);
     }
 
     public static TransitionGuard Empty(ColourType colourType) => new(colourType);

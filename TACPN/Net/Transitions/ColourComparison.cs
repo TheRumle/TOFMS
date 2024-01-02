@@ -6,7 +6,6 @@ public class ColourComparison
 {
     public ColourComparison(Colour lhs, BooleanOperator booleanOperator, Colour rhs)
     {
-        
         this.Operator = booleanOperator;
         this.Rhs = rhs;
         this.Lhs = lhs;

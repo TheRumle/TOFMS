@@ -54,6 +54,11 @@ public class Transition
         this.TransitionGuard.AddComparison(comparison);
         return this.AddOutGoingTo(to, expression);
     }
+    public OutGoingArc AddOutGoingTo(IPlace to, IColourExpression expression, IEnumerable<ColourComparison> comparison)
+    {
+        this.TransitionGuard.AddComparison(comparison);
+        return this.AddOutGoingTo(to, expression);
+    }
     
 
     public InhibitorArc AddInhibitorFrom(IPlace from, int weight)
