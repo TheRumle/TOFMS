@@ -14,17 +14,20 @@ namespace TACPN.IntegrationTests.ExamplesTest;
 
 public abstract class ComponentTest {
     
-    protected readonly IMoveActionTranslation<PetriNetComponent> Translater = new TofmToTacpnTranslater(new MoveActionToTransitionFactory(), new Dictionary<string, IEnumerable<Location>>());
     
+    private static JourneyCollection collection = new JourneyCollection(new List<KeyValuePair<string, IEnumerable<KeyValuePair<int, Location>>>>());
+
     protected readonly JsonTofmToDomainTofmParser JsonParser;
     protected readonly string JsonText;
     protected static readonly string Hat = CapacityPlaceExtensions.Hat;
     protected static readonly string dot = CapacityPlaceExtensions.DefaultCapacityColor;
+    public TofmToTacpnTranslater Translater = new TofmToTacpnTranslater(new MoveActionToTransitionFactory(collection), collection);
     public ComponentTest(string text)
     {
         TofmSystemValidator systemValidator = new TofmSystemValidator(new LocationValidator(new InvariantValidator()),new NamingValidator(), new MoveActionValidator());
         JsonText = text;
         JsonParser = new JsonTofmToDomainTofmParser(systemValidator, new MoveActionFactory()); 
+        
     }
     
         
@@ -39,6 +42,7 @@ public abstract class ComponentTest {
     protected async Task<Transition> GetFirstTransition()
     {
         var component = await Translater.TranslateAsync(await GetAction());
+        
         return component.Transitions.First();
     }
 }

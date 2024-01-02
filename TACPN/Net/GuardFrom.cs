@@ -24,7 +24,7 @@ internal static class GuardFrom{
     public static void InvalidExpressionAssignment(IPlace place, Transition t, IColourExpression expression)
     {
         if (!t.IsCompatibleWith(place) || place.ColourType != expression.ColourType)
-            throw new ArgumentException($"Cannot create arc from {place.Name} ----> {t.Name} with arc expression {expression.Expression}");
+            throw new ArgumentException($"Cannot create arc from {place.Name} ----> {t.Name} with arc expression {expression.ExpressionText}");
     }
     
     public static void InvalidArcColourAssignment(Transition transition, IPlace place)
@@ -44,7 +44,7 @@ internal static class GuardFrom{
     public static void InvalidExpressionAssignment(Transition t,IPlace place,  IColourExpression expression)
     {
         if (place.ColourType != expression.ColourType)
-            throw new ArgumentException($"Cannot create arc from {t.Name} ----> {place.Name} with arc expression {expression.Expression} because colour types does not match");
+            throw new ArgumentException($"Cannot create arc from {t.Name} ----> {place.Name} with arc expression {expression.ExpressionText} because colour types does not match");
     }
 
     public static void InvalidExpressionAssignment(IEnumerable<IColourExpression> subExpressions, ColourType colourType)

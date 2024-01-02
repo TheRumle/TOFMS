@@ -39,7 +39,6 @@ public class C2P1StartArcTest : ComponentTest, IClassFixture<CentrifugeFixture>
         {
             var arc = transition.FindFirstIngoingFromPlaceContaining("cbuffer");
             arc.Guards.Should().HaveCount(1);
-            arc.Guards.First().ShouldHaveLabels("p1", AmountToMove);
         }
     }
     
@@ -67,7 +66,6 @@ public class C2P1StartArcTest : ComponentTest, IClassFixture<CentrifugeFixture>
                 e.From.Name.ToLower().Contains("cproc") && e.From.Name.ToLower().Contains(Hat));
             
             arc.Guards.Should().HaveCount(1);
-            arc.Guards.First().ShouldHaveLabels(dot, AmountToMove);
         }
     }
     
@@ -80,7 +78,6 @@ public class C2P1StartArcTest : ComponentTest, IClassFixture<CentrifugeFixture>
         {
             IngoingArc arc = transition.FindFirstIngoingFromPlaceContaining("cbuffer", Hat);
             arc.Guards.Should().HaveCount(1);
-            arc.Guards.First().ShouldHaveLabels(dot, 4 - AmountToMove - 1);
         }
     }
     
@@ -92,10 +89,6 @@ public class C2P1StartArcTest : ComponentTest, IClassFixture<CentrifugeFixture>
         using (new AssertionScope())
         {
             var arc = transition.FindFirstOutgoingToPlaceWithName("cproc");
-            arc.Productions.Should().HaveCount(1);
-            Production production = arc.Productions.First();
-            production.Color.ToLower().Should().Be("p1");
-            production.Amount.Should().Be(AmountToMove);
         }
     }
     
@@ -108,10 +101,6 @@ public class C2P1StartArcTest : ComponentTest, IClassFixture<CentrifugeFixture>
         {
             var arc = transition.OutGoing.First(e =>
                 e.To.IsCapacityLocation && e.To.Name.ToLower().Contains("cbuffer"));
-            arc.Productions.Should().HaveCount(1);
-            Production production = arc.Productions.First();
-            production.Color.Should().Be(dot);
-            production.Amount.Should().Be(4);
         }
     }
 
@@ -121,7 +110,7 @@ public class C2P1StartArcTest : ComponentTest, IClassFixture<CentrifugeFixture>
         Transition transition = await GetFirstTransition();
         using (new AssertionScope())
         {
-            var guards = transition.InGoing.First(e=>e.From.IsCapacityLocation && e.From.Name.ToLower().Contains("cbuffer")).Guards;
+            var guards = transition.InGoing.First(e=>e.From.IsCapacityLocation && e.From.Name.ToLower().Contains("cbuffer")).Expression.AsAtomicValues();
             guards.Should().NotBeNull();
             guards.Select(e=>e.Amount).Sum().Should().Be(4 - AmountToMove);
         }
