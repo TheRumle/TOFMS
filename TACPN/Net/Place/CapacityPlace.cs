@@ -1,4 +1,7 @@
-﻿    namespace TACPN.Net;
+﻿
+using TACPN.Net.Colours;
+
+namespace TACPN.Net;
 
 public class CapacityPlace : IPlace<string>
 {

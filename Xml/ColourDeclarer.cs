@@ -1,7 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Drawing;
-using System.Text;
-using TACPN.Adapters.TofmToTacpnAdapter;
+﻿using System.Text;
+using Tofms.Common;
 
 namespace Xml;
 

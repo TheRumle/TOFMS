@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using TACPN.Adapters.TofmToTacpnAdapter;
 using Tofms.Common;
 
 namespace Xml;

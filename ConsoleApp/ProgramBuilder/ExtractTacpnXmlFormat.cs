@@ -1,6 +1,6 @@
 ﻿using System.Text;
-using TACPN.Adapters.TofmToTacpnAdapter;
 using TACPN.Net;
+using TACPN.Net.Colours;
 using TapaalParser.TapaalGui;
 using TapaalParser.TapaalGui.XmlWriters.SymbolWriters;
 using Tofms.Common;
@@ -37,7 +37,7 @@ public class ExtractTacpnXmlFormat
 
         var t = _components.Select(e => e.Transitions.First()).First();
         
-        var parts = ColourType.CreatePartColourType(_system.Parts);
+        var parts = new ColourType("Parts", _system.Parts);
         AppendToplevelDcls(builder,_components.SelectMany(e=>e.AllPlaces()),parts, _journeyCollection);
         foreach (var componentStrings in await Task.WhenAll(sharedComponentTasks))
             builder.Append(componentStrings);

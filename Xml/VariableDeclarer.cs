@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using TACPN.Adapters.TofmToTacpnAdapter;
 using Tofms.Common;
 
 namespace Xml;
@@ -22,8 +21,6 @@ public class VariableDeclarer
             StringBuilder.Append($@"<variabledecl id=""{Colours.VariableIdForPart(part)}"" name=""{Colours.VariableNameForPart(part)}"">
           <usersort declaration=""{Colours.Journey}""/>
             </variabledecl>");
-
-
         }
     }
 }

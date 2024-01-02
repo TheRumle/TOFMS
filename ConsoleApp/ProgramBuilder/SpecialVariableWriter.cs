@@ -1,7 +1,8 @@
 ﻿using System.Text;
-using TACPN.Adapters.TofmToTacpnAdapter;
 using TACPN.Net;
+using TACPN.Net.Colours;
 using TapaalParser.TapaalGui.XmlWriters.Symbols;
+using Tofms.Common;
 using Tofms.Common.JsonTofms.Models;
 
 namespace ConsoleApp.ProgramBuilder;

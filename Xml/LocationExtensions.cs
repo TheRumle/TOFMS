@@ -1,5 +1,4 @@
-﻿using TACPN.Net;
-using Tofms.Common;
+﻿using Tofms.Common;
 
 namespace Xml;
 
@@ -10,7 +9,7 @@ public static class LocationExtensions
         return new CapacityLocation(location.Name, location.Capacity);
     }
     
-    public static Invariant Infinity = new Invariant(ColourType.DefaultColorType.Name, 0, Infteger.PositiveInfinity);
+    public static Invariant Infinity = new Invariant("Dot", 0, Infteger.PositiveInfinity);
 }
 
 public static class SymbolExtensions {

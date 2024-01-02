@@ -1,10 +1,11 @@
-﻿using Tofms.Common;
+﻿using TACPN.Net.Colours;
+using Tofms.Common;
 
 namespace TACPN.Net;
 
 public record ColourInvariant(int MaxAge)
 {
-    public static ColourInvariant<string> DotDefault = new ColourInvariant<string>(ColourType.DefaultColorType, ColourType.DefaultColorType.Colours.First(), InfinityInteger.Positive);
+    public static ColourInvariant<string> DotDefault = new(ColourType.DefaultColorType, ColourType.DefaultColorType.Name, InfinityInteger.Positive);
 }
 
 public record ColourInvariant<T1>(ColourType ColourType, T1 FirstColour, int MaxAge ) : ColourInvariant(MaxAge);

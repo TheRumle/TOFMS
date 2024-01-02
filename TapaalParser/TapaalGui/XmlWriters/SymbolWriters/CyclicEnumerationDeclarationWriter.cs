@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using TACPN.Net;
+using TACPN.Net.Colours;
 
 namespace TapaalParser.TapaalGui.XmlWriters.SymbolWriters;
 
@@ -19,7 +20,7 @@ public class CyclicEnumerationDeclarationWriter : IGuiTranslater<IEnumerable<Col
             
             builder.Append(dclString);
             builder.Append(" <cyclicenumeration> ");
-            foreach (var color in colorType.Colours)
+            foreach (var color in colorType.ColourValues)
                 builder.Append($@" <feconstant id=""{color}"" name=""{colorType.Name}""/> ");
             builder.Append("  </cyclicenumeration> ");
             builder.Append("</namedsort>");

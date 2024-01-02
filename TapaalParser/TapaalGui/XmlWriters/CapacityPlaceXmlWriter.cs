@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 using TACPN.Net;
+using TACPN.Net.Colours;
 using TapaalParser.TapaalGui.Placable;
 using TapaalParser.TapaalGui.XmlWriters.Symbols;
 using TapaalParser.TapaalGui.XmlWriters.SymbolWriters;
@@ -65,8 +66,8 @@ public partial class CapacityPlaceXmlWriter : IGuiTranslater<Placement<CapacityP
 
     private void AppendColourTypeInfo(CapacityPlace element)
     {
-        var dcl = element.ColourType.Colours.First();
-        if (element.ColourType.Colours.Count() > 1)
+        var dcl = element.ColourType.ColourValues.First();
+        if (element.ColourType.ColourValues.Count() > 1)
             dcl = element.ColourType.Name;
 
         builder.Append(
