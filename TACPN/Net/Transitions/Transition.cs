@@ -41,12 +41,20 @@ public class Transition
     }
 
     
-    public OutGoingArc AddOutGoingTo(IPlace from, IColourExpression expression)
+    public OutGoingArc AddOutGoingTo(IPlace to, IColourExpression expression)
     {
-        var arc = new OutGoingArc(this, from, expression);
+        var arc = new OutGoingArc(this, to, expression);
         OutGoing.Add(arc);
         return arc;
     }
+    
+    //TODO add the guards at the right places
+    public OutGoingArc AddOutGoingTo(IPlace to, IColourExpression expression, ColourComparison comparison)
+    {
+        this.TransitionGuard.AddComparison(comparison);
+        return this.AddOutGoingTo(to, expression);
+    }
+    
 
     public InhibitorArc AddInhibitorFrom(IPlace from, int weight)
     {

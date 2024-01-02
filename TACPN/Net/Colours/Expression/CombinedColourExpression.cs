@@ -1,9 +1,8 @@
-﻿using TACPN.Adapters.TofmToTacpnAdapter;
-using TACPN.Net.Colours.Type;
+﻿using TACPN.Net.Colours.Type;
 
 namespace TACPN.Net.Colours.Expression;
 
-public class CombinedColourExpression : IColourExpression
+public class CombinedColourExpression : ICompositeColourExpression
 {
     private readonly IEnumerable<ColourExpression> _subexpressions;
 

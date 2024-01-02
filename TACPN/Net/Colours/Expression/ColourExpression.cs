@@ -7,10 +7,6 @@ public class ColourExpression : IColourExpression
     public IColourExpressionEvaluatable Colour { get; private set; }
     public ColourType ColourType { get; init; }
     public int Amount { get; }
-    public IEnumerable<IColourExpression> AsAtomicValues()
-    {
-        return new[] { this };
-    }
 
     public ColourExpression(IColourExpressionEvaluatable colour, ColourType colourType, int amount)
     {
