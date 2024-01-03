@@ -24,11 +24,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TACPN\TACPN.csproj" />
+      <ProjectReference Include="..\PetriNet\PetriNet.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Net\Colours\Expression\" />
+      <Folder Include="Adapters\TMPMSToTacpnAdapter\" />
     </ItemGroup>
 
 </Project>

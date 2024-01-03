@@ -26,9 +26,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Common\Common.csproj"/>
+        <ProjectReference Include="..\MultiPartSystem\MultiPartSystem.csproj" />
         <ProjectReference Include="..\Fixtures\Fixtures.csproj" />
-        <ProjectReference Include="..\TACPN\TACPN.csproj"/>
+        <ProjectReference Include="..\PetriNet\PetriNet.csproj" />
     </ItemGroup>
 
 

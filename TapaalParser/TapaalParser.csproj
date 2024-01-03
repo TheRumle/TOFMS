@@ -8,7 +8,7 @@
 
 
     <ItemGroup>
-      <ProjectReference Include="..\TACPN\TACPN.csproj" />
+      <ProjectReference Include="..\PetriNet\PetriNet.csproj" />
     </ItemGroup>
 
     <ItemGroup>

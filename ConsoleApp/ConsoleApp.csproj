@@ -16,8 +16,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Common\Common.csproj" />
-      <ProjectReference Include="..\TACPN\TACPN.csproj" />
+      <ProjectReference Include="..\MultiPartSystem\MultiPartSystem.csproj" />
+      <ProjectReference Include="..\PetriNet\PetriNet.csproj" />
       <ProjectReference Include="..\TapaalParser\TapaalParser.csproj" />
       <ProjectReference Include="..\Xml\Xml.csproj" />
     </ItemGroup>

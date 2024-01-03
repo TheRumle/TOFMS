@@ -4,11 +4,19 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>TACPN</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\MultiPartSystem\MultiPartSystem.csproj" />
+        <ProjectReference Include="..\MultiPartSystem\MultiPartSystem.csproj" />
+
+
+
+
+
     </ItemGroup>
+
+
 
 
 </Project>

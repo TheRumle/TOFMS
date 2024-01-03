@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Setup", "Setup\Setup.csproj", "{CC1E5646-ED09-477A-BFC9-60EBC23765E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{61C0BC62-9F6A-4BF2-B1F3-551FF1792EC4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiPartSystem", "MultiPartSystem\MultiPartSystem.csproj", "{61C0BC62-9F6A-4BF2-B1F3-551FF1792EC4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{82AC6CC0-DB7F-4B02-8D5A-F9DF0A43F0D8}"
 EndProject
@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E8FFD48F-D6F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.UnitTests", "Common.UnitTests\Common.UnitTests.csproj", "{ED4B59CD-756F-4BC3-965A-B7E7682E9B79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TACPN", "TACPN\TACPN.csproj", "{A1F7CE7D-29DD-4704-A10E-C9DD22A0BCD3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetriNet", "PetriNet\PetriNet.csproj", "{A1F7CE7D-29DD-4704-A10E-C9DD22A0BCD3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TACPN.IntegrationTests", "TACPN.IntegrationTests\TACPN.IntegrationTests.csproj", "{335C54E9-1E48-4533-B97E-FA642AD7F295}"
 EndProject

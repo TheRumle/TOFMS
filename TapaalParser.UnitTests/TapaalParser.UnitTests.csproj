@@ -24,7 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TACPN\TACPN.csproj" />
+      <ProjectReference Include="..\PetriNet\PetriNet.csproj" />
       <ProjectReference Include="..\TapaalParser\TapaalParser.csproj" />
     </ItemGroup>
 

@@ -27,7 +27,7 @@
 
 
     <ItemGroup>
-        <ProjectReference Include="..\Common\Common.csproj"/>
+        <ProjectReference Include="..\MultiPartSystem\MultiPartSystem.csproj" />
         <ProjectReference Include="..\Fixtures\Fixtures.csproj" />
     </ItemGroup>
 
