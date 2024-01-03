@@ -51,7 +51,7 @@ public class InhibitorArcXmlWriterTest : IClassFixture<TestOutputHelper>
     private static InhibitorArc CreateArc()
     {
       var dict = new Dictionary<string, int>();
-      dict.Add(ColourType.DefaultColorType.ColourValues.First(), InfinityInteger.Positive);
+      dict.Add(ColourType.DefaultColorType.Colours.First(), InfinityInteger.Positive);
       
       var transition = new Transition("T0");
       var place = new Place("P4", dict, ColourType.DefaultColorType);

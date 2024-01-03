@@ -1,4 +1,4 @@
-﻿using TACPN.Adapters.TmpmsToTacpnAdapter;
+﻿using TACPN.Net.Colours.Type;
 
 namespace TapaalParser.TapaalGui.XmlWriters.Symbols;
 
@@ -9,5 +9,5 @@ public static class GuiSymbols
 
     public static string TokensVariableName = "x";
     public static string TokensVariableDclName = "Varx";
-    public static string TokenVariableColourType = JourneyCollection.ColourName;
+    public static string TokenVariableColourType = ColourType.TokensColourType.Name;
 }

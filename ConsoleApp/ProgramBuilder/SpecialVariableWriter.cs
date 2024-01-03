@@ -35,7 +35,7 @@ public class SpecialVariableWriter
     private void WriteTokens()
     {
         _builder.Append(
-            $@"<namedsort id=""{ColourType.TokensColourType.Name}"" name=""{ColourType.TokensColourType.Name}""> <productsort> <usersort declaration=""{TofmJsonSystem.PRODUCTNAME}""/> <usersort declaration=""{JourneyCollection.ColourName}""/> </productsort> </namedsort>");
+            $@"<namedsort id=""{ColourType.TokensColourType.Name}"" name=""{ColourType.TokensColourType.Name}""> <productsort> <usersort declaration=""{TofmJsonSystem.PRODUCTNAME}""/> <usersort declaration=""{ColourType.JourneyColourName}""/> </productsort> </namedsort>");
     }
 
     private void WriteJourney(string typeName, int maxValue)

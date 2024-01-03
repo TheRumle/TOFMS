@@ -72,7 +72,7 @@ public class ExtractTacpnXmlFormat
             longestCount = longestCount > jour.Value.Count() ? longestCount : jour.Value.Count();
 
 
-        intRangeWriter.Write(JourneyCollection.ColourName, longestCount);
+        intRangeWriter.Write(ColourType.JourneyColourName, longestCount);
         builder.Append($@" </declarations> </structure> </declaration> ");
 
         var enumerable = places as IPlace[] ?? places.ToArray();

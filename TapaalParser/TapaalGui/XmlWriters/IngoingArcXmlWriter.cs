@@ -35,9 +35,9 @@ public class IngoingArcXmlWriter : IGuiTranslater<IngoingArc>
     private void AppendIntervals(IngoingArc arc)
     {
         IEnumerable<ColorIntervalDeclaration> intervalDeclarations =
-            from colour in arc.From.ColourType.ColourValues
+            from colour in arc.From.ColourType.Colours
             from guard in arc.Guards
-            where colour == guard.Color.Name
+            where colour == guard.ColourType.Name
             select new ColorIntervalDeclaration(guard, arc.From.ColourType, colour);
 
         foreach (var intervalDcl in intervalDeclarations)

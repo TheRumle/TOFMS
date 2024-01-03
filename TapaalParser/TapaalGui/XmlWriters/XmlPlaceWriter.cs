@@ -63,9 +63,7 @@ public partial class XmlPlaceWriter
 
     private void AppendColourTypeInfo(Place element)
     {
-        var dcl = element.ColourType.ColourValues.First();
-        if (element.ColourType.ColourValues.Count() > 1)
-            dcl = element.ColourType.Name;
+        var dcl = element.ColourType.Colours;
 
         
         //TODO Do structure info for non-capacity place

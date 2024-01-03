@@ -6,7 +6,6 @@ public class JourneyCollection : Dictionary<string, IEnumerable<KeyValuePair<int
     {
     }
     
-    public static string ColourName = "Journey";
     
 
 }

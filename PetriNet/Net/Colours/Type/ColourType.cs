@@ -5,8 +5,14 @@ namespace TACPN.Net.Colours.Type;
 
 public class ColourType
 {
+    public static readonly SingletonColourType DefaultColorType = SingletonColour(Colour.DefaultTokenColour, SingletonColourType.NamingConvention.CapitalizeFirstLetter);
+    public static readonly ColourType TokensColourType = new("Tokens", new []{Colour.PartsColour, Colour.JourneyColour});
+    public static readonly ColourType PartsColourType = TokensColourType;
+    public static readonly ColourType TokenAndDefaultColourType = UnionColour("TokensDot", new []{DefaultColorType, TokensColourType});
+    public static readonly string JourneyColourName = "Journey";
     public string Name { get; init; }
     public IReadOnlyCollection<Colour> Colours { get; init; }
+    public IEnumerable<string> ColourNames => Colours.Select(e => e.Value);
     
     public ColourType(string name, IEnumerable<string> colours)
     {
@@ -29,12 +35,9 @@ public class ColourType
         };
     }
 
-    public static readonly SingletonColourType DefaultColorType = SingletonColour(Colour.DefaultTokenColour, SingletonColourType.NamingConvention.CapitalizeFirstLetter);
-    public static readonly ColourType TokensColourType = new("Tokens", new []{Colour.PartsColour, Colour.JourneyColour});
-    public static readonly SingletonColourType PartsColourType = SingletonColour(Colour.TokensColour, SingletonColourType.NamingConvention.ExactSameAsValue);
-    public static readonly ColourType TokenAndDefaultColourType = UnionColour("TokensDot", new []{DefaultColorType, TokensColourType});
+   
 
-    public static ColourType UnionColour(string name, IEnumerable<ColourType> over)
+    private static ColourType UnionColour(string name, IEnumerable<ColourType> over)
     {
         var colours = over.SelectMany(e => e.Colours).DistinctBy(e => e.Value);
         return new ColourType(name,colours);

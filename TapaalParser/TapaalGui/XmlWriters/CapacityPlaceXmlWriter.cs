@@ -68,7 +68,7 @@ public partial class CapacityPlaceXmlWriter : IGuiTranslater<Placement<CapacityP
 
     private void AppendColourTypeInfo(CapacityPlace element)
     {
-        var dcl = element.ColourType.Colours.First();
+        var dcl = element.ColourType.Colours.First().Value;
         if (element.ColourType.Colours.Count() > 1)
             dcl = element.ColourType.Name;
 
