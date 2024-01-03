@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Tofms.Common.JsonTofms.Models;
+using Tmpms.Common.JsonTofms.Models;
 
 namespace JsonFixtures.Tofms.Fixtures;
 

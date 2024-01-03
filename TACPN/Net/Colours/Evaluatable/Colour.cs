@@ -2,7 +2,7 @@
 
 namespace TACPN.Net.Colours.Evaluatable;
 
-public record struct Colour (string Value) : IColourExpressionEvaluatable 
+public record struct Colour (string Value) : IColourValue 
 {
     public static implicit operator string(Colour color)
     {

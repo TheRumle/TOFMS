@@ -1,6 +1,6 @@
-﻿using Tofms.Common.JsonTofms.Models;
+﻿using Tmpms.Common.JsonTofms.Models;
 
-namespace Tofms.Common.JsonTofms.ConsistencyCheck.Validators;
+namespace Tmpms.Common.JsonTofms.ConsistencyCheck.Validators;
 
 
 public record MoveActionStructureValidationContext(IEnumerable<LocationDefinition> LocationStructures,

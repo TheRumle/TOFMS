@@ -1,7 +1,7 @@
 ﻿using TACPN.Net.Transitions;
-using Tofms.Common;
+using Tmpms.Common;
 
-namespace TACPN.Adapters.TofmToTacpnAdapter.TransitionAttachable;
+namespace TACPN.Adapters.TmpmsToTacpnAdapter.TransitionAttachable;
 
 internal class InhibitorFromEmptyAfterAdapter : ITransitionAttachable
 {

@@ -1,7 +1,7 @@
-﻿using Tofms.Common.JsonTofms.ConsistencyCheck.Error;
-using Tofms.Common.JsonTofms.Models;
+﻿using Tmpms.Common.JsonTofms.ConsistencyCheck.Error;
+using Tmpms.Common.JsonTofms.Models;
 
-namespace Tofms.Common.JsonTofms.ConsistencyCheck.Validators;
+namespace Tmpms.Common.JsonTofms.ConsistencyCheck.Validators;
 
 public class LocationValidator : IValidator<IEnumerable<LocationDefinition>>
 {

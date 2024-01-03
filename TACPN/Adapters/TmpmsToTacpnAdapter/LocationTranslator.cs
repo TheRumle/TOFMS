@@ -2,10 +2,9 @@
 using TACPN.Net.Colours;
 using TACPN.Net.Colours.Type;
 using TACPN.Net.Places;
-using Tofms.Common;
-using Tofms.Common.JsonTofms.Models;
+using Tmpms.Common;
 
-namespace TACPN.Adapters.TofmToTacpnAdapter;
+namespace TACPN.Adapters.TmpmsToTacpnAdapter;
 
 public static class LocationTranslator
 {

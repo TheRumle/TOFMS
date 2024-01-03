@@ -3,7 +3,7 @@ using FluentAssertions.Execution;
 using JsonFixtures.Tofms.Fixtures;
 using TACPN.Net.Arcs;
 using TACPN.Net.Transitions;
-using Tofms.Common.Move;
+using Tmpms.Common.Move;
 using Xunit;
 
 namespace TACPN.IntegrationTests.ExamplesTest;
@@ -110,7 +110,7 @@ public class C2P1StartArcTest : ComponentTest, IClassFixture<CentrifugeFixture>
         Transition transition = await GetFirstTransition();
         using (new AssertionScope())
         {
-            var guards = transition.InGoing.First(e=>e.From.IsCapacityLocation && e.From.Name.ToLower().Contains("cbuffer")).Expression.AsAtomicValues();
+            var guards = transition.InGoing.First(e=>e.From.IsCapacityLocation && e.From.Name.ToLower().Contains("cbuffer")).Expression.();
             guards.Should().NotBeNull();
             guards.Select(e=>e.Amount).Sum().Should().Be(4 - AmountToMove);
         }

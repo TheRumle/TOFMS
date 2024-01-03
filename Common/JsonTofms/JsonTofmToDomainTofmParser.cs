@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
-using Tofms.Common.Factories;
-using Tofms.Common.JsonTofms.ConsistencyCheck;
-using Tofms.Common.JsonTofms.ConsistencyCheck.Error;
-using Tofms.Common.JsonTofms.ConsistencyCheck.Validators;
-using Tofms.Common.JsonTofms.Models;
-using Tofms.Common.Move;
+using Tmpms.Common.Factories;
+using Tmpms.Common.JsonTofms.ConsistencyCheck;
+using Tmpms.Common.JsonTofms.ConsistencyCheck.Error;
+using Tmpms.Common.JsonTofms.ConsistencyCheck.Validators;
+using Tmpms.Common.JsonTofms.Models;
+using Tmpms.Common.Move;
 
-namespace Tofms.Common.JsonTofms;
+namespace Tmpms.Common.JsonTofms;
 
 public class JsonTofmToDomainTofmParser
 {

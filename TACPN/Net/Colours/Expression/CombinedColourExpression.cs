@@ -19,21 +19,21 @@ public class CombinedColourExpression : ICompositeColourExpression
 
     private static string AssignExpressionText(ColourExpression[] colourExpressions)
     {
-        if (colourExpressions.Count() <= 1)
+        if (colourExpressions.Length <= 1)
         {
             var expression = colourExpressions.First();
-            return $"{expression.Amount}'{expression.Colour}";
+            return $"{expression.Amount}'{expression.ExpressionText}";
         }
 
         var exprs = colourExpressions.Select(e => $"{e.Amount}'{e.ExpressionText}");
-        return exprs.Aggregate("", (first, second) => $"{first} + {second}");
+        return string.Join(" + ", exprs);
     }
 
     public ColourType ColourType { get; init; }
 
-    public IEnumerable<IColourExpressionEvaluatable> Colours { get;}
+    public IEnumerable<IColourValue> Colours { get;}
 
-    public string ExpressionText { get; set; }
+    public string ExpressionText { get; }
     public int Amount { get; }
     public IEnumerable<IColourExpression> AsAtomicValues()
     {

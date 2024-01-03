@@ -3,13 +3,25 @@ using TACPN.Net.Colours.Type;
 
 namespace TACPN.Net.Colours.Evaluatable;
 
-public record VariableDecrement(string Variable, ColourType ColourType) : IColourExpressionEvaluatable
+public record VariableDecrement : IColourTypedColourValue
 {
-    public string Value { get; set; } = $"{Variable}--";
-    public string Variable { get; init; } = Variable;
-
-    public static implicit operator string(VariableDecrement color)
+    public VariableDecrement(Variable variable)
     {
-        return color.Value;
+
+        this.Variable = variable;
+        this.ColourType = variable.ColourType;
+        Value = $"{Variable.Value}--";
+        this.VariableName = Variable.Name;
+    }
+
+    public Variable Variable { get; set; }
+
+    public string Value { get; set; }
+    public string VariableName { get; init; }
+    public ColourType ColourType { get; init; }
+
+    public override string ToString()
+    {
+        return this.Value;
     }
 }

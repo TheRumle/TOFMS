@@ -1,4 +1,4 @@
-﻿namespace Tofms.Common.JsonTofms.ConsistencyCheck.Error;
+﻿namespace Tmpms.Common.JsonTofms.ConsistencyCheck.Error;
 
 public class PartTypeNameEmptyException<T> : InvalidJsonTofmException
 {

@@ -1,6 +1,6 @@
 ﻿namespace TACPN.Net.Colours.Expression;
 
-public interface IColourExpressionEvaluatable
+public interface IColourValue
 {
     public string Value { get; }
 }

@@ -4,16 +4,26 @@ namespace TACPN.Net.Colours.Expression;
 
 public class ColourExpression : IColourExpression
 {
-    public IColourExpressionEvaluatable Colour { get; private set; }
+    public IColourValue Colour { get; private set; }
     public ColourType ColourType { get; init; }
     public int Amount { get; }
 
-    public ColourExpression(IColourExpressionEvaluatable colour, ColourType colourType, int amount)
+    private ColourExpression(IColourValue colour, int amount)
+    {
+        ExpressionText = $"2'{colour.Value}";
+    }
+
+    public ColourExpression(IColourValue colour, ColourType colourType, int amount): this(colour, amount)
     {
         Colour = colour;
         ColourType = colourType;
         Amount = amount;
-        ExpressionText = colour.Value;
+    }
+    public ColourExpression(IColourTypedColourValue colour,  int amount): this(colour as IColourValue, amount)
+    {
+        Colour = colour;
+        ColourType = colour.ColourType;
+        Amount = amount;
     }
     
     

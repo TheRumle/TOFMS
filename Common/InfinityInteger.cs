@@ -1,4 +1,4 @@
-﻿namespace Tofms.Common;
+﻿namespace Tmpms.Common;
 
 public static class InfinityInteger
 {

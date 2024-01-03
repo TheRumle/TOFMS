@@ -2,11 +2,11 @@
 using TACPN.Net.Colours.Type;
 using TACPN.Net.Places;
 using TACPN.Net.Transitions;
-using Tofms.Common;
-using Tofms.Common.Move;
-using Tofms.Common.Translate;
+using Tmpms.Common;
+using Tmpms.Common.Move;
+using Tmpms.Common.Translate;
 
-namespace TACPN.Adapters.TofmToTacpnAdapter;
+namespace TACPN.Adapters.TmpmsToTacpnAdapter;
 
 public class TofmToTacpnTranslater : IMoveActionTranslation<PetriNetComponent>
 {

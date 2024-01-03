@@ -8,7 +8,7 @@ using TACPN.Net.Places;
 using TapaalParser.TapaalGui;
 using TapaalParser.TapaalGui.Placable;
 using TapaalParser.TapaalGui.XmlWriters;
-using Tofms.Common;
+using Tmpms.Common;
 using Xunit.Sdk;
 
 namespace TapaalParser.UnitTests;

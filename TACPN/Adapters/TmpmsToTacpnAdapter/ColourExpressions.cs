@@ -2,16 +2,17 @@
 using TACPN.Net.Colours.Expression;
 using TACPN.Net.Colours.Type;
 
-namespace TACPN.Adapters.TofmToTacpnAdapter;
+namespace TACPN.Adapters.TmpmsToTacpnAdapter;
 
 public static class ColourExpressions
 {
+    
     public static CombinedColourExpression PartDecrementExpression(IEnumerable<KeyValuePair<string,int>> partsToMove)
     {
         var expressions = new List<ColourExpression>();
         foreach (var pair in partsToMove)
         {
-            var decrementStatement = Variables.DecrementFor(pair.Key);
+            var decrementStatement = Variable.DecrementFor(pair.Key);
             expressions.Add(new ColourExpression(decrementStatement, decrementStatement.ColourType, pair.Value));
         }
 
@@ -23,8 +24,10 @@ public static class ColourExpressions
     {
         var expressions = new List<ColourExpression>();
         foreach (var pair in partsToMove)
-            expressions.Add(new ColourExpression(new Colour(Variables.VariableNameFor(pair.Key)), ColourType.TokensColourType, pair.Value));
+            expressions.Add(new ColourExpression(new Colour(Variable.VariableNameFor(pair.Key)), ColourType.TokensColourType, pair.Value));
 
         return new CombinedColourExpression(expressions, ColourType.TokensColourType);
     }
+    
+    
 }

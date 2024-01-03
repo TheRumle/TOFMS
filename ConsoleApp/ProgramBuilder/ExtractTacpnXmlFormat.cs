@@ -4,7 +4,7 @@ using TACPN.Net.Colours.Type;
 using TACPN.Net.Places;
 using TapaalParser.TapaalGui;
 using TapaalParser.TapaalGui.XmlWriters.SymbolWriters;
-using Tofms.Common;
+using Tmpms.Common;
 
 namespace ConsoleApp.ProgramBuilder;
 

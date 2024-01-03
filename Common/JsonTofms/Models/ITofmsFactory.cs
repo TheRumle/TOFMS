@@ -1,6 +1,6 @@
-﻿using Tofms.Common.Move;
+﻿using Tmpms.Common.Move;
 
-namespace Tofms.Common.JsonTofms.Models;
+namespace Tmpms.Common.JsonTofms.Models;
 
 public interface ITofmsFactory
 {

@@ -1,8 +1,8 @@
 ﻿using TACPN.Net;
 using TACPN.Net.Places;
-using Tofms.Common;
+using Tmpms.Common;
 
-namespace TACPN.Adapters.TofmToTacpnAdapter;
+namespace TACPN.Adapters.TmpmsToTacpnAdapter;
 
 public static class PlaceExtensions
 {

@@ -3,9 +3,9 @@ using TACPN.Net.Arcs;
 using TACPN.Net.Colours.Expression;
 using TACPN.Net.Places;
 using TACPN.Net.Transitions;
-using Tofms.Common;
+using Tmpms.Common;
 
-namespace TACPN.Adapters.TofmToTacpnAdapter.TransitionAttachable;
+namespace TACPN.Adapters.TmpmsToTacpnAdapter.TransitionAttachable;
 
 internal class FromLocationIsInEmptyAfterAdapter : ITransitionAttachable
 {

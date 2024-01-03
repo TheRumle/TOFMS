@@ -1,4 +1,4 @@
-﻿using TACPN.Adapters.TofmToTacpnAdapter;
+﻿using TACPN.Adapters.TmpmsToTacpnAdapter;
 
 namespace TapaalParser.TapaalGui.XmlWriters.Symbols;
 

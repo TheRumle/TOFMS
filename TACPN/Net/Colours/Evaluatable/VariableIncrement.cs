@@ -3,7 +3,7 @@ using TACPN.Net.Colours.Type;
 
 namespace TACPN.Net.Colours.Evaluatable;
 
-public record VariableIncrement(string Variable, ColourType ColourType) : IColourExpressionEvaluatable
+public record VariableIncrement(string Variable, ColourType ColourType) : IColourTypedColourValue
 {
     public string Value { get; set; } = $"{Variable}--";
     public string Variable { get; init; } = Variable;

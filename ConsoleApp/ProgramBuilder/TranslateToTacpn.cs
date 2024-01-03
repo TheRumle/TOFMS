@@ -1,7 +1,7 @@
-﻿using TACPN.Adapters.TofmToTacpnAdapter;
-using TACPN.Adapters.TofmToTacpnAdapter.TransitionAttachable;
-using Tofms.Common;
-using Tofms.Common.Move;
+﻿using TACPN.Adapters.TmpmsToTacpnAdapter;
+using TACPN.Adapters.TmpmsToTacpnAdapter.TransitionAttachable;
+using Tmpms.Common;
+using Tmpms.Common.Move;
 
 namespace ConsoleApp.ProgramBuilder;
 

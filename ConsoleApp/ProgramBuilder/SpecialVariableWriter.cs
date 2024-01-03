@@ -3,8 +3,8 @@ using TACPN.Net;
 using TACPN.Net.Colours;
 using TACPN.Net.Colours.Type;
 using TapaalParser.TapaalGui.XmlWriters.Symbols;
-using Tofms.Common;
-using Tofms.Common.JsonTofms.Models;
+using Tmpms.Common;
+using Tmpms.Common.JsonTofms.Models;
 
 namespace ConsoleApp.ProgramBuilder;
 

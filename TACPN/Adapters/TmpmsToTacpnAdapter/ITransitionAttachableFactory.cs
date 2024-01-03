@@ -1,7 +1,7 @@
 ﻿using TACPN.Net.Transitions;
-using Tofms.Common.Move;
+using Tmpms.Common.Move;
 
-namespace TACPN.Adapters.TofmToTacpnAdapter;
+namespace TACPN.Adapters.TmpmsToTacpnAdapter;
 
 public interface ITransitionAttachableFactory
 {

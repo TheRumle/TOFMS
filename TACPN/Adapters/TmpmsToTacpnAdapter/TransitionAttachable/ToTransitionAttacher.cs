@@ -1,9 +1,9 @@
 ﻿using TACPN.Net.Colours.Expression;
 using TACPN.Net.Places;
 using TACPN.Net.Transitions;
-using Tofms.Common;
+using Tmpms.Common;
 
-namespace TACPN.Adapters.TofmToTacpnAdapter.TransitionAttachable;
+namespace TACPN.Adapters.TmpmsToTacpnAdapter.TransitionAttachable;
 
 internal class ToTransitionAttacher : ITransitionAttachable
 {
@@ -46,7 +46,7 @@ internal class ToTransitionAttacher : ITransitionAttachable
         
         
         if (this._place.IsProcessingPlace)
-            transition.AddOutGoingTo(_place, expression, );
+            transition.AddOutGoingTo(_place, expression );
         else
             transition.AddOutGoingTo(_place, expression);
     }

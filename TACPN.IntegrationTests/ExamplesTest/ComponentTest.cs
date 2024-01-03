@@ -1,14 +1,13 @@
-﻿using TACPN.Adapters.TofmToTacpnAdapter;
-using TACPN.Adapters.TofmToTacpnAdapter.TransitionAttachable;
+﻿using TACPN.Adapters.TmpmsToTacpnAdapter;
+using TACPN.Adapters.TmpmsToTacpnAdapter.TransitionAttachable;
 using TACPN.Net;
 using TACPN.Net.Places;
 using TACPN.Net.Transitions;
-using Tofms.Common;
-using Tofms.Common.Factories;
-using Tofms.Common.JsonTofms;
-using Tofms.Common.JsonTofms.ConsistencyCheck.Validators;
-using Tofms.Common.Move;
-using Tofms.Common.Translate;
+using Tmpms.Common;
+using Tmpms.Common.Factories;
+using Tmpms.Common.JsonTofms;
+using Tmpms.Common.JsonTofms.ConsistencyCheck.Validators;
+using Tmpms.Common.Move;
 
 namespace TACPN.IntegrationTests.ExamplesTest;
 

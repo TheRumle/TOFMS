@@ -1,6 +1,6 @@
-﻿using Tofms.Common.JsonTofms.Models;
+﻿using Tmpms.Common.JsonTofms.Models;
 
-namespace Tofms.Common.JsonTofms.ConsistencyCheck.Error;
+namespace Tmpms.Common.JsonTofms.ConsistencyCheck.Error;
 
 public abstract class LocationInconsistencyException : InvalidJsonTofmException
 {

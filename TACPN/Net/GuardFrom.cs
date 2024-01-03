@@ -1,4 +1,4 @@
-﻿using TACPN.Net.Colours;
+﻿using TACPN.Net.Colours.Evaluatable;
 using TACPN.Net.Colours.Expression;
 using TACPN.Net.Colours.Type;
 using TACPN.Net.Places;
@@ -52,5 +52,20 @@ internal static class GuardFrom{
         if (subExpressions.Any(e=>e.ColourType != colourType))
             throw new ArgumentException($"Cannot create colour expression with colourtype {colourType.Name} from expressions {subExpressions.Select(e=>e + "  ")} because at least one subexpression has a different colour type");
 
+    }
+    
+    public static void InvalidColourTypeAssignment(IEnumerable<IColourValue> values, ColourType colourType)
+    {
+        //Get all values that are not of type variable, variableDecrement, variableIncrement
+        if (!AllColoursMatch(values, colourType) )
+            throw new ArgumentException($@"Cannot make assignment of colour values ""{string.Join(", ", values.Select(e=>e.Value))}"" with colour type {colourType.Name} because at least one of the colours does not belong to the colour type");
+
+    }
+
+    private static bool AllColoursMatch(IEnumerable<IColourValue> values, ColourType colourType)
+    {
+        var typedElements = values.OfType<IColourTypedColourValue>();
+        var rawColours = values.OfType<Colour>();
+        return typedElements.All(v => v.ColourType == colourType) && rawColours.All(e=>colourType.Colours.Contains(e));
     }
 }

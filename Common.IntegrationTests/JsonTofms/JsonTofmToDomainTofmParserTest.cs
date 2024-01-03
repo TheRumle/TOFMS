@@ -1,12 +1,12 @@
 ﻿using FluentAssertions;
 using JsonFixtures.Tofms.Fixtures;
 using Newtonsoft.Json;
-using Tofms.Common.Factories;
-using Tofms.Common.JsonTofms;
-using Tofms.Common.JsonTofms.ConsistencyCheck;
-using Tofms.Common.JsonTofms.ConsistencyCheck.Error;
-using Tofms.Common.JsonTofms.ConsistencyCheck.Validators;
-using Tofms.Common.JsonTofms.Models;
+using Tmpms.Common.Factories;
+using Tmpms.Common.JsonTofms;
+using Tmpms.Common.JsonTofms.ConsistencyCheck;
+using Tmpms.Common.JsonTofms.ConsistencyCheck.Error;
+using Tmpms.Common.JsonTofms.ConsistencyCheck.Validators;
+using Tmpms.Common.JsonTofms.Models;
 
 namespace Common.IntegrationTest.JsonTofms;
 

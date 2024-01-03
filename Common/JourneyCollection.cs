@@ -1,4 +1,4 @@
-﻿namespace Tofms.Common;
+﻿namespace Tmpms.Common;
 
 public class JourneyCollection : Dictionary<string, IEnumerable<KeyValuePair<int, Location>>>
 {

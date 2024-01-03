@@ -1,6 +1,6 @@
-﻿using Tofms.Common;
-using Tofms.Common.JsonTofms;
-using Tofms.Common.JsonTofms.ConsistencyCheck.Validators;
+﻿using Tmpms.Common;
+using Tmpms.Common.JsonTofms;
+using Tmpms.Common.JsonTofms.ConsistencyCheck.Validators;
 using Xml;
 
 namespace ConsoleApp.ProgramBuilder;

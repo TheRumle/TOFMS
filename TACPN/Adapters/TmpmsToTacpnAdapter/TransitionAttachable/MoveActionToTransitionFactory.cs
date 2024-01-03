@@ -1,8 +1,8 @@
 ﻿using TACPN.Net.Transitions;
-using Tofms.Common;
-using Tofms.Common.Move;
+using Tmpms.Common;
+using Tmpms.Common.Move;
 
-namespace TACPN.Adapters.TofmToTacpnAdapter.TransitionAttachable;
+namespace TACPN.Adapters.TmpmsToTacpnAdapter.TransitionAttachable;
 
 
 public class MoveActionToTransitionFactory : ITransitionAttachableFactory

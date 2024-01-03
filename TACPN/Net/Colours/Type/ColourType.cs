@@ -44,6 +44,11 @@ public class ColourType
     {
         return this.Name;
     }
+
+    public bool Contains(string colour)
+    {
+        return this.Colours.Select(e => e.Value).Contains(colour);
+    }
     
     
 }
