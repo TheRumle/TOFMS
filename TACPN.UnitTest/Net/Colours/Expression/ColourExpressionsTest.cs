@@ -12,7 +12,7 @@ public class ColourExpressionsTest
     private static readonly Colour P1 = new("P1");
     private static readonly Colour P2 = new("P2");
     private static readonly ColourType TestColour = new ColourType("Test", new[] { P1 });
-    private static readonly Variable Variable = Variable.Create("VarP1", TestColour);
+    private static readonly ColourVariable ColourVariable = ColourVariable.Create("VarP1", TestColour);
 
 
 
@@ -21,7 +21,7 @@ public class ColourExpressionsTest
     {
         var colour = CreateTupleColour();
         var expression = new ColourExpression(colour, N);
-        var varName = Variable.VariableNameFor(P1);
+        var varName = ColourVariable.VariableNameFor(P1);
         expression.ExpressionText.Should().Be($"{N}'({varName}--, P1)");
     }
 
@@ -58,7 +58,7 @@ public class ColourExpressionsTest
 
     private static TupleColour CreateTupleColour()
     {
-        IColourValue p1Decr = new VariableDecrement(Variable);
+        IColourValue p1Decr = new VariableDecrement(ColourVariable);
         var colour = new TupleColour(new[] { p1Decr, P1 }, TestColour);
         return colour;
     }

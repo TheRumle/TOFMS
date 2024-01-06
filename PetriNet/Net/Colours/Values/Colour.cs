@@ -2,7 +2,7 @@
 
 namespace TACPN.Net.Colours.Values;
 
-public record struct Colour (string Value) : IColourValue 
+public record Colour (string Value) : IColourValue 
 {
     public static implicit operator string(Colour color)
     {

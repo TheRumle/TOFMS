@@ -5,16 +5,16 @@ namespace TACPN.Net.Colours.Values;
 
 public record VariableDecrement : IColourTypedColourValue
 {
-    public VariableDecrement(Variable variable)
+    public VariableDecrement(ColourVariable colourVariable)
     {
 
-        this.Variable = variable;
-        this.ColourType = variable.ColourType;
-        Value = $"{Variable.Value}--";
-        this.VariableName = Variable.Name;
+        this.ColourVariable = colourVariable;
+        this.ColourType = colourVariable.ColourType;
+        Value = $"{ColourVariable.Value}--";
+        this.VariableName = ColourVariable.Name;
     }
 
-    public Variable Variable { get; set; }
+    public ColourVariable ColourVariable { get; set; }
 
     public string Value { get; set; }
     public string VariableName { get; init; }

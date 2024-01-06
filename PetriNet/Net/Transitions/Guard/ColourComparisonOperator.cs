@@ -1,6 +1,6 @@
 ﻿namespace TACPN.Net.Transitions;
 
-public enum BooleanOperator
+public enum ColourComparisonOperator
 {
     Eq, Neq, Leq, Le, Geq, Gr
 }
