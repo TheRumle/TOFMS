@@ -85,8 +85,7 @@ internal class FromLocationIsInEmptyAfterAdapter : ITransitionAttachable
     private void ModifyExistingArc(OutGoingArc arc)
     {
         if (!arc.To.IsCapacityLocation) throw new ArgumentException("The arc did not go from a capacity location!");
-        var expression = ColourExpression.CapacityExpression(_fromLocation.Capacity);
-        arc.Expression = new ArcExpression(expression);
+        arc.SubstituteArcExpressionFor(ColourExpression.CapacityExpression(_fromLocation.Capacity));
     }
 
     private bool TryGetExistingIngoingFromHat(Transition transition, out IngoingArc? arc)

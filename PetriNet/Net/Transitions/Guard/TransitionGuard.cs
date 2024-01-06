@@ -1,5 +1,7 @@
-﻿using TACPN.Net.Colours.Type;
+﻿using TACPN.Net.Colours;
+using TACPN.Net.Colours.Type;
 using TACPN.Net.Colours.Values;
+using TACPN.Net.Exceptions;
 
 namespace TACPN.Net.Transitions.Guard;
 
@@ -16,25 +18,25 @@ public class TransitionGuard//TODO this needs to be conjunction or disjunction
 
     public void AddComparison(Colour lhs, ColourComparison comparator, Colour rhs)
     {
-        if (!ColourType.Colours.Contains(lhs)) throw new ArgumentException($"{lhs} is not in colour type {ColourType}");
-        if (!ColourType.Colours.Contains(rhs)) throw new ArgumentException($"{rhs} is not in colour type {ColourType}");
-        this._colourComparisons.Add(comparator);
+        ColourType.MustContain(lhs);
+        ColourType.MustContain(rhs);
+        _colourComparisons.Add(comparator);
     }
     
     public void AddComparison(ColourVariable lhs, ColourComparison comparator, int rhs)
     {
-        if (!ColourType.IsCompatibleWith(lhs)) throw new ArgumentException($"{lhs} is not in colour type {ColourType}");
-        if (!lhs.VariableValues.AsInts.Contains(rhs)) throw new ArgumentException($"{rhs} is not in colour type {ColourType}");
-        this._colourComparisons.Add(comparator);
+        ColourType.MustBeCompatibleWith(lhs);
+        lhs.MustBeAssignableTo(rhs);
+        _colourComparisons.Add(comparator);
     }
     
     public void AddComparison<T>(ColourComparison<T> comparator) where T : Colour
     {
         var lhs = comparator.Lhs;
         var rhs = comparator.Rhs;
-        if (!ColourType.Colours.Contains(lhs)) throw new ArgumentException($"{lhs} is not in colour type {ColourType}");
-        if (!ColourType.Colours.Contains(rhs)) throw new ArgumentException($"{rhs} is not in colour type {ColourType}");
-        this._colourComparisons.Add(comparator);
+        ColourType.MustContain(lhs);
+        ColourType.MustContain(rhs);
+        _colourComparisons.Add(comparator);
     }
     public void AddComparison<T>(IEnumerable<ColourComparison<T>> comparisons)  where T : Colour
     {

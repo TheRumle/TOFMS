@@ -1,4 +1,5 @@
 ﻿using TACPN.Net.Colours.Expression;
+using TACPN.Net.Colours.Type;
 
 namespace TACPN.Net.Arcs;
 
@@ -6,8 +7,8 @@ public class TimeGuardedArcExpression : ArcExpression
 {
     public IList<ColourTimeGuard> TimeGuards { get;  }
 
-    public TimeGuardedArcExpression(IEnumerable<ColourTimeGuard> timeGuards,  IEnumerable<IColourExpressionAmount> amounts) :
-        base(amounts)
+    public TimeGuardedArcExpression(IEnumerable<ColourTimeGuard> timeGuards,  IEnumerable<IColourExpressionAmount> amounts, ColourType colourType) :
+        base(amounts, colourType)
     {
         ColourTimeGuard[] colourTimeGuards = timeGuards as ColourTimeGuard[] ?? timeGuards.ToArray();
         var guardedExpressions = colourTimeGuards.Select(e => e.ColourValue);

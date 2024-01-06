@@ -1,21 +1,6 @@
 ﻿using TACPN.Net.Colours.Expression;
 
-namespace TACPN.Net.Transitions;
-
-
-public enum BooleanOperator
-{
-    Or,
-    And
-}
-
-public interface IBooleanCombination<T>
-{
-    ColourComparison Comparison { get; }
-
-    BooleanOperator? Operator { get; }
-    ColourComparison? NestedComparison { get; }
-}
+namespace TACPN.Net.Transitions.Guard;
 
 public class ColourComparison
 {

@@ -43,8 +43,8 @@ public class ColourExpressionsTest
         ColourExpression[] subexpressions = {new ColourExpression(P1,TestColour, N),
             new ColourExpression(tuple, TestColour, X)};
         
-        var expression = new ArcExpression(subexpressions).Amounts;
-        expression.Should().Be($"{N}'{P1.Value} + {X}'{tuple.Value}");
+        var expression = new ArcExpression(subexpressions, TestColour);
+        expression.ExpressionText.Should().Be($"{N}'{P1.Value} + {X}'{tuple.Value}");
     }
 
     private static TupleColour CreateTupleColour()

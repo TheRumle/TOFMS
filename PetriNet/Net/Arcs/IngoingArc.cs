@@ -14,10 +14,11 @@ public class IngoingArc : Arc<IPlace, Transition>
     public IngoingArc(IPlace from, Transition to, IEnumerable<ColourTimeGuard> guards, IEnumerable<IColourExpressionAmount> expressions ) 
         : base(from, to)
     {
-        GuardFrom.InvalidArcColourAssignment(from, to);
-        GuardFrom.InvalidGuardColourAssignment(from, to, guards);
+        ColourTimeGuard[] colourTimeGuards = guards as ColourTimeGuard[] ?? guards.ToArray();
+        ArcGuards.InvalidArcColourAssignment(from, to);
+        ArcGuards.InvalidGuardColourAssignment(from, to, colourTimeGuards);
         ColourType = from.ColourType;
-        ArcExpression = new TimeGuardedArcExpression(guards, expressions);
+        ArcExpression = new TimeGuardedArcExpression(colourTimeGuards, expressions, to.ColourType);
     }
 
     public IList<ColourTimeGuard> Guards => ArcExpression.TimeGuards;

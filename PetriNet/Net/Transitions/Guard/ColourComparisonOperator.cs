@@ -1,4 +1,4 @@
-﻿namespace TACPN.Net.Transitions;
+﻿namespace TACPN.Net.Transitions.Guard;
 
 public enum ColourComparisonOperator
 {

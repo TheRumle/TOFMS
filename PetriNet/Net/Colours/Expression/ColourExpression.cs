@@ -1,5 +1,4 @@
-﻿using TACPN.Net.Arcs;
-using TACPN.Net.Colours.Type;
+﻿using TACPN.Net.Colours.Type;
 
 namespace TACPN.Net.Colours.Expression;
 
@@ -32,9 +31,4 @@ public class ColourExpression : IColourExpressionAmount
     }
 
     public string ExpressionText { get; }
-
-    public ArcExpression AsArcExpression()
-    {
-        return new ArcExpression(this);
-    }
 }
