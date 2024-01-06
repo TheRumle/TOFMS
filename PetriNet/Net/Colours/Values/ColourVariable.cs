@@ -1,9 +1,8 @@
-﻿using TACPN.Net.Colours.Expression;
-using TACPN.Net.Colours.Type;
+﻿using TACPN.Net.Colours.Type;
 
 namespace TACPN.Net.Colours.Values;
 
-public record ColourVariable : IColourTypedValue
+public record ColourVariable : IColourVariableExpression
 {
     private ColourVariable(string name, ColourType colourType)
     {
@@ -42,4 +41,6 @@ public record ColourVariable : IColourTypedValue
         return new ColourVariable(name, colourType);
 
     }
+
+    ColourVariable IColourVariableExpression.ColourVariable => this;
 }

@@ -1,4 +1,5 @@
 ﻿using TACPN.Net.Colours.Expression;
+using TACPN.Net.Colours.Values;
 
 namespace TACPN.Net.Transitions.Guard;
 
@@ -21,5 +22,13 @@ public class ColourComparison<T> : ColourComparison
     }
     
     public T Rhs { get; private set; }
+}
+
+public class VariableComparison : ColourComparison<int>
+{
+    public VariableComparison(IColourVariableExpression lhs, ColourComparisonOperator colourComparisonOperator, int rhs)
+        : base(lhs, colourComparisonOperator, rhs)
+    {
+    }
 
 }

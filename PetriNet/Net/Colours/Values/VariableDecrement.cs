@@ -1,9 +1,8 @@
-﻿using TACPN.Net.Colours.Expression;
-using TACPN.Net.Colours.Type;
+﻿using TACPN.Net.Colours.Type;
 
 namespace TACPN.Net.Colours.Values;
 
-public record VariableDecrement : IColourTypedValue
+public record VariableDecrement : IColourVariableExpression
 {
     public VariableDecrement(ColourVariable colourVariable)
     {
@@ -11,13 +10,11 @@ public record VariableDecrement : IColourTypedValue
         this.ColourVariable = colourVariable;
         this.ColourType = colourVariable.ColourType;
         Value = $"{ColourVariable.Value}--";
-        this.VariableName = ColourVariable.Name;
     }
 
     public ColourVariable ColourVariable { get; set; }
 
     public string Value { get; set; }
-    public string VariableName { get; init; }
     public ColourType ColourType { get; init; }
 
     public override string ToString()
