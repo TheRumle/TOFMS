@@ -110,7 +110,7 @@ public class C2P1StartArcTest : ComponentTest, IClassFixture<CentrifugeFixture>
         Transition transition = await GetFirstTransition();
         using (new AssertionScope())
         {
-            var guards = transition.InGoing.First(e=>e.From.IsCapacityLocation && e.From.Name.ToLower().Contains("cbuffer")).Expression.();
+            var guards = transition.InGoing.First(e=>e.From.IsCapacityLocation && e.From.Name.ToLower().Contains("cbuffer")).;
             guards.Should().NotBeNull();
             guards.Select(e=>e.Amount).Sum().Should().Be(4 - AmountToMove);
         }

@@ -6,28 +6,28 @@ namespace TACPN.IntegrationTests;
 
 public static class GuardAssertions
 {
-    public static void ShouldHaveLabels(this ColoredGuard guard, string color)
+    public static void ShouldHaveLabels(this ColourTimeGuard timeGuard, string color)
     {
-        guard.ColourType.Name.ToLower().Should().Be(color);
-        guard.Interval.Should().Be(Interval.ZeroToInfinity);
+        timeGuard.ColourType.Name.ToLower().Should().Be(color);
+        timeGuard.Interval.Should().Be(Interval.ZeroToInfinity);
     }
     
-    private static void ShouldHaveLabels(this ColoredGuard guard, string color, int amount, Interval interval)
+    private static void ShouldHaveLabels(this ColourTimeGuard timeGuard, string color, int amount, Interval interval)
     {
-        guard.ColourType.Name.ToLower().Should().Be(color);
-        guard.Interval.Should().Be(interval);
+        timeGuard.ColourType.Name.ToLower().Should().Be(color);
+        timeGuard.Interval.Should().Be(interval);
     }
     
-    public static void ShouldHaveFirstColorIntervalBeDotWithZeroToInfinity(this ColoredGuard guard)
+    public static void ShouldHaveFirstColorIntervalBeDotWithZeroToInfinity(this ColourTimeGuard timeGuard)
     {
-        guard.ColourType.Should().Be(CapacityPlaceExtensions.DefaultCapacityColor);
-        guard.Interval.Should().Be(Interval.ZeroToInfinity);
+        timeGuard.ColourType.Should().Be(CapacityPlaceExtensions.DefaultCapacityColor);
+        timeGuard.Interval.Should().Be(Interval.ZeroToInfinity);
     }
 
-    public static void ShouldBeOfColorAndHaveZeroToInfinity(this ColoredGuard guard, string color)
+    public static void ShouldBeOfColorAndHaveZeroToInfinity(this ColourTimeGuard timeGuard, string color)
     {
-        guard.ColourType.Should().Be(color);
-        guard.Interval.Should().Be(Interval.ZeroToInfinity);
+        timeGuard.ColourType.Should().Be(color);
+        timeGuard.Interval.Should().Be(Interval.ZeroToInfinity);
     }
 
     public static void InvariantShouldBe(this KeyValuePair<string, int> invariant, string name, int value )

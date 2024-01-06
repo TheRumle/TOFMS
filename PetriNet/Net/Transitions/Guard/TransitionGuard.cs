@@ -23,7 +23,7 @@ public class TransitionGuard//TODO this needs to be conjunction or disjunction
     
     public void AddComparison(ColourVariable lhs, ColourComparison comparator, int rhs)
     {
-        if (!ColourType.IsCombatibleWith(lhs)) throw new ArgumentException($"{lhs} is not in colour type {ColourType}");
+        if (!ColourType.IsCompatibleWith(lhs)) throw new ArgumentException($"{lhs} is not in colour type {ColourType}");
         if (!lhs.VariableValues.AsInts.Contains(rhs)) throw new ArgumentException($"{rhs} is not in colour type {ColourType}");
         this._colourComparisons.Add(comparator);
     }

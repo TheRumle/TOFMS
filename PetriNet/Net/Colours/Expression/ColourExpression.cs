@@ -1,21 +1,22 @@
-﻿using TACPN.Net.Colours.Type;
+﻿using TACPN.Net.Arcs;
+using TACPN.Net.Colours.Type;
 
 namespace TACPN.Net.Colours.Expression;
 
-public class ColourExpression : IColourExpression
+public class ColourExpression : IColourExpressionAmount
 {
-    public IColourValue Colour { get; private set; }
+    public IColourValue ColourValue { get; private set; }
     public ColourType ColourType { get; init; }
-    public int Amount { get; }
+    public int Amount { get; set; }
 
-    private ColourExpression(IColourValue colour, int amount)
+    private ColourExpression(IColourValue colourValue, int amount)
     {
-        ExpressionText = $"{amount}'{colour.Value}";
+        ExpressionText = $"{amount}'{colourValue.Value}";
         this.Amount = amount;
-        this.Colour = colour;
+        this.ColourValue = colourValue;
     }
 
-    public ColourExpression(IColourValue colour, ColourType colourType, int amount): this(colour, amount)
+    public ColourExpression(IColourValue colourValue, ColourType colourType, int amount): this(colourValue, amount)
     {
         ColourType = colourType;
     }
@@ -31,4 +32,9 @@ public class ColourExpression : IColourExpression
     }
 
     public string ExpressionText { get; }
+
+    public ArcExpression AsArcExpression()
+    {
+        return new ArcExpression(this);
+    }
 }

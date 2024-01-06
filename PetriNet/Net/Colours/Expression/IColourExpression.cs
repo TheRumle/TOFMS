@@ -2,13 +2,14 @@
 
 namespace TACPN.Net.Colours.Expression;
 
-public interface ICompositeColourExpression : IColourExpression
+public interface IColourExpressionAmount : IColourExpression
 {
-    public IEnumerable<IColourExpression> AsAtomicValues();
-} 
+        public int Amount { get; internal set; }
+}
 
 public interface IColourExpression
 {
     public ColourType ColourType { get; }
     public string ExpressionText { get; }
+    public IColourValue ColourValue { get; }
 }

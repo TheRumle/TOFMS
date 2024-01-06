@@ -11,12 +11,12 @@ public class ColorIntervalDeclaration
     private readonly string _colorType;
     private readonly string _color;
 
-    public ColorIntervalDeclaration(ColoredGuard guard, ColourType colorType, string color)
+    public ColorIntervalDeclaration(ColourTimeGuard timeGuard, ColourType colorType, string color)
     {
-        if (colorType != guard.ColourType)
-            throw new ArgumentException(guard + "had color " + guard.ColourType + " and colour type was " + colorType.ColourNames.Aggregate((f,e) => f + "," + e));
+        if (colorType != timeGuard.ColourType)
+            throw new ArgumentException(timeGuard + "had color " + timeGuard.ColourType + " and colour type was " + colorType.ColourNames.Aggregate((f,e) => f + "," + e));
         
-        _interval = guard.Interval;
+        _interval = timeGuard.Interval;
         _colorType = colorType.Name;
         if (colorType.Name == ColourType.DefaultColorType.Name)
             this._colorType = ColourType.DefaultColorType.Name.ToLower();

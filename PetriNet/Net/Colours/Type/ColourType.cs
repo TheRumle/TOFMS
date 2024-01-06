@@ -54,7 +54,7 @@ public class ColourType
         return this.Colours.Select(e => e.Value).Contains(colour);
     }
 
-    public bool IsCombatibleWith(IColourValue value)
+    public bool IsCompatibleWith(IColourValue value)
     {
         return value switch
         {
@@ -62,6 +62,12 @@ public class ColourType
             Colour c => this.Colours.Contains(c),
             _ => false
         };
+    }
+
+    public static ColourExpression TokenColourExpression(int amount)
+    {
+        return new ColourExpression(TokensColourType.Colours.First(), TokensColourType, amount);
+
     }
     
 }

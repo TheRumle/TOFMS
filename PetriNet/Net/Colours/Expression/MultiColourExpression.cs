@@ -2,7 +2,7 @@
 
 namespace TACPN.Net.Colours.Expression;
 
-public class MultiColourExpression : ICompositeColourExpression
+public class MultiColourExpression : IColourExpression
 {
     private readonly IEnumerable<ColourExpression> _subexpressions;
 
@@ -10,10 +10,11 @@ public class MultiColourExpression : ICompositeColourExpression
     {
         var colourExpressions = subExpressions as ColourExpression[] ?? subExpressions.ToArray();
         GuardFrom.InvalidExpressionAssignment(colourExpressions, colourType);
-        Colours = colourExpressions.Select(e => e.Colour);
+        Colours = colourExpressions.Select(e => e.ColourValue);
         ColourType = colourType;
         _subexpressions = colourExpressions;
         ExpressionText = string.Join(" + ", colourExpressions.Select(e => $"{e.ExpressionText}"));
+        ColourValue = new TupleColour(Colours, colourType);
     }
 
     public ColourType ColourType { get; init; }
@@ -21,8 +22,12 @@ public class MultiColourExpression : ICompositeColourExpression
     public IEnumerable<IColourValue> Colours { get;}
 
     public string ExpressionText { get; }
+    public IColourValue ColourValue { get; }
+
     public IEnumerable<IColourExpression> AsAtomicValues()
     {
         return _subexpressions;
     }
+    
+    
 }

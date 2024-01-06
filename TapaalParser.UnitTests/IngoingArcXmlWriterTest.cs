@@ -82,7 +82,7 @@ public class IngoingArcXmlWriterTest: IClassFixture<TestOutputHelper>
       new ("a", 10),
       new ("b", 13),
     }, new ColourType("AB", new []{"a", "b"}));
-    var guards = new List<ColoredGuard>()
+    var guards = new List<ColourTimeGuard>()
     {
       new(3,"b", new Interval(0,8)),
       new(1,"a", new Interval(5,12))

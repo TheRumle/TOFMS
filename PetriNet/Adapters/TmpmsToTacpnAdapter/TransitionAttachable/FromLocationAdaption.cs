@@ -50,10 +50,10 @@ internal class FromLocationAdaption : ITransitionAttachable
         var guards = ToConsume.Select(pair =>
         {
             var first = FromLocation.Invariants.First(e => e.PartType == pair.Key);
-            return ColoredGuard.TokensGuard(first.Min, first.Max);
+            return ColourTimeGuard.TokensGuard(first.Min, first.Max);
         });
         
         var expression = ColourExpressions.MovePartsExpression(ToConsume);
-        transition.AddInGoingFrom(FromPlace,guards, expression);
+        transition.AddInGoingFrom(FromPlace,guards,expression);
     }
 }

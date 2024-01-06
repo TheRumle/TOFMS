@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using TACPN.Net.Arcs;
 using TACPN.Net.Colours.Expression;
 using TACPN.Net.Colours.Type;
 using TACPN.Net.Colours.Values;
@@ -33,17 +34,7 @@ public class ColourExpressionsTest
         var expression = new ColourExpression(P1, TestColour, N);
         expression.ExpressionText.Should().Be($"{N}'{P1.Value}");
     }
-
     
-    [Fact]
-    public void TextForMultipleColourExpressions_ShouldBe_NOfFirst_Plus_XOfSecond()
-    {
-        ColourExpression[] subexpressions = {new ColourExpression(P1,TestColour, N),
-            new ColourExpression(P2, TestColour, X)};
-        
-        var expression = new MultiColourExpression(subexpressions, TestColour);
-        expression.ExpressionText.Should().Be($"{N}'{P1.Value} + {X}'{P2.Value}");
-    }
     
     [Fact]
     public void TextForMultipleColourExpressions_WithTuple_ShouldBe_NOfFirst_Plus_XOfSecond()
@@ -52,8 +43,8 @@ public class ColourExpressionsTest
         ColourExpression[] subexpressions = {new ColourExpression(P1,TestColour, N),
             new ColourExpression(tuple, TestColour, X)};
         
-        var expression = new MultiColourExpression(subexpressions, TestColour);
-        expression.ExpressionText.Should().Be($"{N}'{P1.Value} + {X}'{tuple.Value}");
+        var expression = new ArcExpression(subexpressions).Amounts;
+        expression.Should().Be($"{N}'{P1.Value} + {X}'{tuple.Value}");
     }
 
     private static TupleColour CreateTupleColour()

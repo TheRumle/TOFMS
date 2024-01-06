@@ -1,5 +1,4 @@
-﻿using TACPN.Net.Colours;
-using TACPN.Net.Colours.Expression;
+﻿using TACPN.Net.Colours.Expression;
 using TACPN.Net.Colours.Type;
 using TACPN.Net.Places;
 using TACPN.Net.Transitions;
@@ -9,27 +8,42 @@ namespace TACPN.Net.Arcs;
 public class IngoingArc : Arc<IPlace, Transition>
 {
     public ColourType ColourType { get; init; }
-    public IColourExpression Expression { get; set; }
+    public TimeGuardedArcExpression ArcExpression { get; }
+    public IEnumerable<IColourExpressionAmount> Consumptions => ArcExpression.Amounts;
     
-    public IngoingArc(IPlace from, Transition to, IEnumerable<ColoredGuard> guards, IColourExpression expression ) : base(from, to)
+    public IngoingArc(IPlace from, Transition to, IEnumerable<ColourTimeGuard> guards, IEnumerable<IColourExpressionAmount> expressions ) 
+        : base(from, to)
     {
-        var coloredGuards = guards as ColoredGuard[] ?? guards.ToArray();
         GuardFrom.InvalidArcColourAssignment(from, to);
-        GuardFrom.InvalidGuardColourAssignment(from, to, coloredGuards);
-        GuardFrom.InvalidExpressionAssignment(from, to, expression);
+        GuardFrom.InvalidGuardColourAssignment(from, to, guards);
         ColourType = from.ColourType;
-        Guards = coloredGuards.ToList();
-        Expression = expression;
+        ArcExpression = new TimeGuardedArcExpression(guards, expressions);
     }
 
-    public IList<ColoredGuard> Guards { get; set; }
-    public bool ReplaceGuardedExpression(ColoredGuard newGuard, ColourExpression expression)
+    public IList<ColourTimeGuard> Guards => ArcExpression.TimeGuards;
+    public bool TrySetGuardAmount(ColourTimeGuard guard, int amount)
     {
-        var oldGuard = Guards.FirstOrDefault(e => e.ColourType == newGuard.ColourType);
-        if (oldGuard is null) return false;
-        this.Expression = expression;
-        Guards.Remove(oldGuard);
-        Guards.Add(newGuard);
+        var timeGuard = GetGuard(guard);
+        if (timeGuard is null) return false;
+        
+        var consumption = ArcExpression.Amounts.First(e => e.ColourValue == timeGuard.ColourValue);
+        consumption.Amount = amount;
+        return true;
+    }
+
+    private ColourTimeGuard? GetGuard(ColourTimeGuard guard)
+    {
+        var timeGuard = ArcExpression
+            .TimeGuards
+            .FirstOrDefault(e => e.ColourType == guard.ColourType);
+        return timeGuard;
+    }
+
+    public bool TryAdjustGuardTime(ColourTimeGuard guard, Interval interval)
+    {
+        var timeGuard = GetGuard(guard);
+        if (timeGuard is null) return false;
+        timeGuard.Interval = interval;
         return true;
     }
     

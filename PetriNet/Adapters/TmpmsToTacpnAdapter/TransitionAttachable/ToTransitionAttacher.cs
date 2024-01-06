@@ -39,14 +39,14 @@ internal class ToTransitionAttacher : ITransitionAttachable
 
     private void AdaptPlace(Transition transition)
     {
-        IColourExpression expression = _place.IsProcessingPlace 
-            ? ColourExpressions.PartDecrementExpression(this._itemMovedIntoPlace) 
+        var expression = _place.IsProcessingPlace 
+            ? ColourExpressions.PartDecrementExpressions(this._itemMovedIntoPlace) 
             : ColourExpressions.MovePartsExpression(this._itemMovedIntoPlace) ;
 
         
         
         if (this._place.IsProcessingPlace)
-            transition.AddOutGoingTo(_place, expression );
+            transition.AddOutGoingTo(_place, expression);
         else
             transition.AddOutGoingTo(_place, expression);
     }

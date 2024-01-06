@@ -6,11 +6,20 @@ namespace TACPN.Net.Arcs;
 
 public class OutGoingArc : Arc<Transition, IPlace>
 {
-    public IColourExpression Expression { get; set; }
+    public ArcExpression Expression { get; set; }
+    public IEnumerable<IColourExpressionAmount> Productions => Expression.Amounts;
 
-    public OutGoingArc(Transition from, IPlace to, IColourExpression colourExpression) : base(from, to)
+    public OutGoingArc(Transition from, IPlace to, IColourExpressionAmount colourExpression) : base(from, to)
     {
         GuardFrom.InvalidExpressionAssignment(from, to, colourExpression);
-        Expression = colourExpression;
+        Expression = new ArcExpression(colourExpression);
+    }
+    
+    public OutGoingArc(Transition from, IPlace to, IEnumerable<IColourExpressionAmount> colourExpression) : base(from, to)
+    {
+        foreach (var expression in colourExpression)
+            GuardFrom.InvalidExpressionAssignment(from, to, expression);
+        
+        Expression = new ArcExpression(colourExpression);
     }
 }   
