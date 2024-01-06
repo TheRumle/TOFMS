@@ -29,9 +29,9 @@ public record ColourVariable : IColourVariableExpression
         return new VariableDecrement(new ColourVariable(VariableNameFor(part), ColourType.TokensColourType));
     }
 
-    public string Name { get; init; }
-    public string Value { get; init; }
-    public ColourType ColourType { get; set; }
+    public string Name { get; }
+    public string Value { get; }
+    public ColourType ColourType { get; }
 
     public static ColourVariable Create(string name, ColourType colourType)
     {
