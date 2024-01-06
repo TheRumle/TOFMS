@@ -64,7 +64,7 @@ internal static class GuardFrom{
 
     private static bool AllColoursMatch(IEnumerable<IColourValue> values, ColourType colourType)
     {
-        var typedElements = values.OfType<IColourTypedColourValue>();
+        var typedElements = values.OfType<IColourTypedValue>();
         var rawColours = values.OfType<Colour>();
         return typedElements.All(v => v.ColourType == colourType) && rawColours.All(e=>colourType.Colours.Contains(e));
     }

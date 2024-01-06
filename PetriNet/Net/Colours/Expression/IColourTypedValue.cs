@@ -2,7 +2,7 @@
 
 namespace TACPN.Net.Colours.Expression;
 
-public interface IColourTypedColourValue : IColourValue
+public interface IColourTypedValue : IColourValue
 {
     public ColourType ColourType { get; }
 }

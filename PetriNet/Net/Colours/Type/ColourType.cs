@@ -1,4 +1,5 @@
 ﻿
+using TACPN.Net.Colours.Expression;
 using TACPN.Net.Colours.Values;
 
 namespace TACPN.Net.Colours.Type;
@@ -52,6 +53,15 @@ public class ColourType
     {
         return this.Colours.Select(e => e.Value).Contains(colour);
     }
-    
+
+    public bool IsCombatibleWith(IColourValue value)
+    {
+        return value switch
+        {
+            IColourTypedValue variable => variable.ColourType == this,
+            Colour c => this.Colours.Contains(c),
+            _ => false
+        };
+    }
     
 }

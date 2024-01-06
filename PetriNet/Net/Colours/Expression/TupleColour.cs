@@ -2,7 +2,7 @@
 
 namespace TACPN.Net.Colours.Expression;
 
-public class TupleColour : IColourTypedColourValue
+public class TupleColour : IColourTypedValue
 {
     public string Value { get; }
     
@@ -15,6 +15,13 @@ public class TupleColour : IColourTypedColourValue
         this.ColourType = colourType;
         var values = colours.Select(e => e.Value);
         Value = $"({string.Join(", ", values)})";
+    }
+
+    public TupleColour(IEnumerable<IColourTypedValue> colours):
+        this(colours, new ColourType(string.Join("",colours.Select(e=>e.ColourType.Name)),
+            colours.Select(e=>e.Value)))
+    {
+        
     }
 
 

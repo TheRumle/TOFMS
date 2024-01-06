@@ -19,7 +19,7 @@ public class ColourExpression : IColourExpression
     {
         ColourType = colourType;
     }
-    public ColourExpression(IColourTypedColourValue colour,  int amount): this(colour as IColourValue, amount)
+    public ColourExpression(IColourTypedValue colour,  int amount): this(colour as IColourValue, amount)
     {
         ColourType = colour.ColourType;
     }

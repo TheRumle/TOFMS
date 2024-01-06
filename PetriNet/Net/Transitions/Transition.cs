@@ -2,6 +2,7 @@
 using TACPN.Net.Colours.Expression;
 using TACPN.Net.Colours.Type;
 using TACPN.Net.Places;
+using TACPN.Net.Transitions.Guard;
 
 namespace TACPN.Net.Transitions;
 
@@ -46,18 +47,6 @@ public class Transition
         var arc = new OutGoingArc(this, to, expression);
         OutGoing.Add(arc);
         return arc;
-    }
-    
-    //TODO add the guards at the right places
-    public OutGoingArc AddOutGoingTo(IPlace to, IColourExpression expression, ColourComparison comparison)
-    {
-        this.TransitionGuard.AddComparison(comparison);
-        return this.AddOutGoingTo(to, expression);
-    }
-    public OutGoingArc AddOutGoingTo(IPlace to, IColourExpression expression, IEnumerable<ColourComparison> comparison)
-    {
-        this.TransitionGuard.AddComparison(comparison);
-        return this.AddOutGoingTo(to, expression);
     }
     
 

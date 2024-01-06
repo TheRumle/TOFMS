@@ -3,7 +3,7 @@ using TACPN.Net.Colours.Type;
 
 namespace TACPN.Net.Colours.Values;
 
-public record VariableDecrement : IColourTypedColourValue
+public record VariableDecrement : IColourTypedValue
 {
     public VariableDecrement(ColourVariable colourVariable)
     {

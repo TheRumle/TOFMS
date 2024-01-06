@@ -3,14 +3,17 @@ using TACPN.Net.Colours.Type;
 
 namespace TACPN.Net.Colours.Values;
 
-public record struct ColourVariable : IColourTypedColourValue
+public record ColourVariable : IColourTypedValue
 {
-    private ColourVariable(string Name, ColourType ColourType)
+    private ColourVariable(string name, ColourType colourType)
     {
-        this.Name = Name;
-        this.ColourType = ColourType;
-        this.Value = Name;
+        this.Name = name;
+        this.ColourType = colourType;
+        this.Value = name;
+        this.VariableValues = new VariableValueList(colourType);
     }
+
+    public readonly VariableValueList VariableValues;
 
     public static string VariableNameFor(string part)
     {

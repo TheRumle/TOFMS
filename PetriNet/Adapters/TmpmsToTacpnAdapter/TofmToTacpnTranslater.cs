@@ -2,6 +2,7 @@
 using TACPN.Net.Colours.Type;
 using TACPN.Net.Places;
 using TACPN.Net.Transitions;
+using TACPN.Net.Transitions.Guard;
 using Tmpms.Common;
 using Tmpms.Common.Move;
 using Tmpms.Common.Translate;
