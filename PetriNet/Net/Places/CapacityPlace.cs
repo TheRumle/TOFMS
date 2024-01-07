@@ -35,7 +35,7 @@ public class CapacityPlace : IPlace<string>
     {
         IsCapacityLocation = true;
         IsProcessingPlace = false;
-        ColourInvariants = new List<ColourInvariant<string>>(){ColourInvariant.DotDefault};
+        ColourInvariants = new List<ColourInvariant<string>> {ColourInvariant.DotDefault};
         ColourType = ColourType.DefaultColorType;
         Name = name;
         Tokens = TokenCollection.DotColorTokenCollection(capacity);

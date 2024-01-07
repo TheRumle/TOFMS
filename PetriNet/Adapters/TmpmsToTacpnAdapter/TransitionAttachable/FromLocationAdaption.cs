@@ -41,7 +41,7 @@ internal class FromLocationAdaption : ITransitionAttachable
     private void AdaptCapacityPlace(Transition transition)
     {
         var consProdAmount = ToConsume.Sum(e => e.Value);
-        var expression = new ColourExpression(Colour.DefaultTokenColour, ColourType.DefaultColorType, consProdAmount);
+        var expression = new ColourExpression(ColourType.DefaultColorType.ColourValue, ColourType.DefaultColorType, consProdAmount);
         transition.AddOutGoingTo(FromPlaceHat, expression );
     }
 
