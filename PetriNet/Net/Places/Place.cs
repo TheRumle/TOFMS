@@ -12,11 +12,11 @@ public class Place : IPlace<int, string>
     public bool IsProcessingPlace { get; set;  }
     public IEnumerable<ColourInvariant<int, string>> ColourInvariants { get; set; }
 
-    public Place(bool isProcessingPlace, string name, IEnumerable<ColourInvariant<int, string>> colourInvariantses, ColourType colourType)
+    public Place(bool isProcessingPlace, string name, IEnumerable<ColourInvariant<int, string>> colourInvariants, ColourType colourType)
     {
         IsProcessingPlace = isProcessingPlace;
         Name = name;
-        ColourInvariants = colourInvariantses; 
+        ColourInvariants = colourInvariants; 
         IsCapacityLocation = false;
         ColourType = colourType;
 

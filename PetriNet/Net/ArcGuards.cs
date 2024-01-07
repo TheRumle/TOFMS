@@ -30,7 +30,6 @@ internal static class ArcGuards{
 
     public static void InvalidColourTypeAssignment(IEnumerable<IColourValue> values, ColourType colourType)
     {
-        //Get all values that are not of type variable, variableDecrement, variableIncrement
         if (!AllColoursMatch(values, colourType))
             throw new InvalidColourAssignment(values, colourType);
     }

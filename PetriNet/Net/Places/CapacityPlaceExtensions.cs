@@ -16,7 +16,7 @@ public static class CapacityPlaceExtensions
     }
     
     
-    public static CapacityPlace ToCapacityPlace(this Places.Place place, int numTokens)
+    public static CapacityPlace ToCapacityPlace(this Place place, int numTokens)
     {
         return  new CapacityPlace(CapacityNameFor(place), numTokens);
     }

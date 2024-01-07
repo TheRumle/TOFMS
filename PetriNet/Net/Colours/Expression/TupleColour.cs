@@ -1,4 +1,5 @@
-﻿using TACPN.Net.Colours.Type;
+﻿using TACPN.Net.Arcs;
+using TACPN.Net.Colours.Type;
 
 namespace TACPN.Net.Colours.Expression;
 

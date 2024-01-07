@@ -12,9 +12,9 @@ public class Transition
 {
 
     public ColourType ColourType { get; init; }
-    public TransitionGuard TransitionGuard { get; init; }
+    public ITransitionGuard TransitionGuard { get; init; }
     
-    public Transition(string name, ColourType colourType, TransitionGuard transitionGuard)
+    public Transition(string name, ColourType colourType, ITransitionGuard transitionGuard)
     {
         Name = name;
         ColourType = colourType;

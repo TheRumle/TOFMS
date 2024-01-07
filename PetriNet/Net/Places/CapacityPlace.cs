@@ -6,7 +6,7 @@ namespace TACPN.Net.Places;
 
 public class CapacityPlace : IPlace<string>
 {
-    protected bool Equals(CapacityPlace other)
+    public bool Equals(CapacityPlace other)
     {
         return Name == other.Name && IsCapacityLocation == other.IsCapacityLocation && ColourType.Equals(other.ColourType) && IsProcessingPlace == other.IsProcessingPlace;
     }

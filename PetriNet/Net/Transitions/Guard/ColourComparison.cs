@@ -1,17 +1,23 @@
 ﻿using TACPN.Net.Colours.Expression;
-using TACPN.Net.Colours.Values;
 
 namespace TACPN.Net.Transitions.Guard;
 
 public class ColourComparison
 {
-    public ColourComparison(ColourComparisonOperator @operator, IColourValue lhs)
+    
+    internal ColourComparison(ColourComparisonOperator @operator, IColourValue lhs)
     {
         Operator = @operator;
         Lhs = lhs;
     }
-    public ColourComparisonOperator Operator { get; protected set; }
+    internal ColourComparisonOperator Operator { get; set; }
     public IColourValue Lhs { get; protected set; }
+    public override string ToString()
+    {
+        
+        
+        return base.ToString();
+    }
 }
 public class ColourComparison<T> : ColourComparison
 {
@@ -22,13 +28,4 @@ public class ColourComparison<T> : ColourComparison
     }
     
     public T Rhs { get; private set; }
-}
-
-public class VariableComparison : ColourComparison<int>
-{
-    public VariableComparison(IColourVariableExpression lhs, ColourComparisonOperator colourComparisonOperator, int rhs)
-        : base(lhs, colourComparisonOperator, rhs)
-    {
-    }
-
 }
