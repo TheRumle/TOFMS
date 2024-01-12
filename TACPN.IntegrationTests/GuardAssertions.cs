@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using TACPN.Net;
-using TACPN.Net.Places;
+using TACPN.Places;
 
 namespace TACPN.IntegrationTests;
 

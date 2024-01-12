@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using TACPN.Net.Transitions;
+using TACPN.Transitions;
 using TapaalParser.TapaalGui.Placable;
 
 namespace TapaalParser.TapaalGui.XmlWriters;

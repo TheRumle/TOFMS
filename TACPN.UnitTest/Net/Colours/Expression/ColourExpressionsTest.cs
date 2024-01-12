@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
-using TACPN.Net.Arcs;
-using TACPN.Net.Colours.Expression;
-using TACPN.Net.Colours.Type;
-using TACPN.Net.Colours.Values;
+using TACPN.Arcs;
+using TACPN.Colours.Expression;
+using TACPN.Colours.Type;
+using TACPN.Colours.Values;
 
 namespace TACPN.UnitTest.Net.Colours.Expression;
 

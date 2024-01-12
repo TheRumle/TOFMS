@@ -1,7 +1,7 @@
-﻿using TACPN.Net;
-using TACPN.Net.Colours;
-using TACPN.Net.Colours.Type;
-using Tmpms.Common;
+﻿using Common;
+using TACPN;
+using TACPN.Colours.Type;
+using TACPN.Net;
 
 namespace TapaalParser.TapaalGui.XmlWriters.Symbols;
 

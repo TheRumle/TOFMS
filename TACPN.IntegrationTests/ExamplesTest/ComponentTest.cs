@@ -1,8 +1,8 @@
 ﻿using TACPN.Adapters.TmpmsToTacpnAdapter;
 using TACPN.Adapters.TmpmsToTacpnAdapter.TransitionAttachable;
 using TACPN.Net;
-using TACPN.Net.Places;
-using TACPN.Net.Transitions;
+using TACPN.Places;
+using TACPN.Transitions;
 using Tmpms.Common;
 using Tmpms.Common.Factories;
 using Tmpms.Common.JsonTofms;

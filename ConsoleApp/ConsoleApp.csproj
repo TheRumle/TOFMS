@@ -19,6 +19,7 @@
       <ProjectReference Include="..\MultiPartSystem\MultiPartSystem.csproj" />
       <ProjectReference Include="..\PetriNet\PetriNet.csproj" />
       <ProjectReference Include="..\TapaalParser\TapaalParser.csproj" />
+      <ProjectReference Include="..\TmpmsPetriNetAdapter\TmpmsPetriNetAdapter.csproj" />
       <ProjectReference Include="..\Xml\Xml.csproj" />
     </ItemGroup>
 

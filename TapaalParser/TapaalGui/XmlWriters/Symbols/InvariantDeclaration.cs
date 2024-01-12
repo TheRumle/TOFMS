@@ -1,4 +1,4 @@
-﻿using Tmpms.Common;
+﻿using Common;
 
 namespace TapaalParser.TapaalGui.XmlWriters.Symbols;
 

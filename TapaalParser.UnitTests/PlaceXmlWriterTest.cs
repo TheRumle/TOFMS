@@ -1,10 +1,10 @@
 using System.Text.RegularExpressions;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using TACPN;
+using TACPN.Colours.Type;
 using TACPN.Net;
-using TACPN.Net.Colours;
-using TACPN.Net.Colours.Type;
-using TACPN.Net.Places;
+using TACPN.Places;
 using TapaalParser.TapaalGui;
 using TapaalParser.TapaalGui.Placable;
 using TapaalParser.TapaalGui.XmlWriters;

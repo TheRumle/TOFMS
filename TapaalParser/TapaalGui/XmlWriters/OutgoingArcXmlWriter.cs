@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using TACPN.Net.Arcs;
+using TACPN.Arcs;
 using TapaalParser.TapaalGui.XmlWriters.Symbols;
 using TapaalParser.TapaalGui.XmlWriters.SymbolWriters;
 

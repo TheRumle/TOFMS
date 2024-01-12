@@ -1,11 +1,11 @@
 ﻿using System.Text.RegularExpressions;
 using FluentAssertions;
+using TACPN;
+using TACPN.Arcs;
+using TACPN.Colours.Type;
 using TACPN.Net;
-using TACPN.Net.Arcs;
-using TACPN.Net.Colours;
-using TACPN.Net.Colours.Type;
-using TACPN.Net.Places;
-using TACPN.Net.Transitions;
+using TACPN.Places;
+using TACPN.Transitions;
 using TapaalParser.TapaalGui.XmlWriters;
 using Xunit.Sdk;
 

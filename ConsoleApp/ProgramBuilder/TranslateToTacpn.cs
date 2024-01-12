@@ -1,7 +1,7 @@
-﻿using TACPN.Adapters.TmpmsToTacpnAdapter;
-using TACPN.Adapters.TmpmsToTacpnAdapter.TransitionAttachable;
-using Tmpms.Common;
+﻿using Tmpms.Common;
 using Tmpms.Common.Move;
+using TmpmsPetriNetAdapter;
+using TmpmsPetriNetAdapter.TransitionAttachable;
 
 namespace ConsoleApp.ProgramBuilder;
 

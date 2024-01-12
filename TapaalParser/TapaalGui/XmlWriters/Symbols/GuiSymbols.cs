@@ -1,4 +1,4 @@
-﻿using TACPN.Net.Colours.Type;
+﻿using TACPN.Colours.Type;
 
 namespace TapaalParser.TapaalGui.XmlWriters.Symbols;
 

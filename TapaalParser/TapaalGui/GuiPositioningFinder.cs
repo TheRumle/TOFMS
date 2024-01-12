@@ -1,4 +1,5 @@
-﻿using TACPN.Net;
+﻿using TACPN;
+using TACPN.Net;
 using TapaalParser.TapaalGui.Placable;
 using TapaalParser.TapaalGui.Placable.PlacementStrategies;
 

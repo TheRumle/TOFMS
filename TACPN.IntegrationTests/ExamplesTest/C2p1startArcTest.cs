@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Execution;
 using JsonFixtures.Tofms.Fixtures;
-using TACPN.Net.Arcs;
-using TACPN.Net.Transitions;
+using TACPN.Arcs;
+using TACPN.Transitions;
 using Tmpms.Common.Move;
 using Xunit;
 

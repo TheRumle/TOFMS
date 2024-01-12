@@ -8,14 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\MultiPartSystem\MultiPartSystem.csproj" />
-
-
-
-
-
-
-
+      <ProjectReference Include="..\Common\Common.csproj" />
     </ItemGroup>
 
 

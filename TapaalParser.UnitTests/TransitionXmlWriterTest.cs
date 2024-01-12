@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using FluentAssertions;
-using TACPN.Net.Transitions;
+using TACPN.Transitions;
 using TapaalParser.TapaalGui.Placable;
 using TapaalParser.TapaalGui.XmlWriters;
 using Xunit.Sdk;

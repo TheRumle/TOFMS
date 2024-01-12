@@ -1,7 +1,9 @@
 ﻿using System.Text;
+using Common;
+using TACPN;
+using TACPN.Colours.Type;
 using TACPN.Net;
-using TACPN.Net.Colours.Type;
-using TACPN.Net.Places;
+using TACPN.Places;
 using TapaalParser.TapaalGui;
 using TapaalParser.TapaalGui.XmlWriters.SymbolWriters;
 using Tmpms.Common;

@@ -1,5 +1,5 @@
-﻿using TACPN.Net;
-using TACPN.Net.Arcs;
+﻿using TACPN;
+using TACPN.Net;
 
 namespace TapaalParser.TapaalGui.XmlWriters;
 

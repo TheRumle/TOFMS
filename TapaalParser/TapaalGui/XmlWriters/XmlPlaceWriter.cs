@@ -1,9 +1,9 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
+using TACPN.Colours;
+using TACPN.Colours.Type;
 using TACPN.Net;
-using TACPN.Net.Colours;
-using TACPN.Net.Colours.Type;
-using TACPN.Net.Places;
+using TACPN.Places;
 using TapaalParser.TapaalGui.Placable;
 using TapaalParser.TapaalGui.XmlWriters.SymbolWriters;
 

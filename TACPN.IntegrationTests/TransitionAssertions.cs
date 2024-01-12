@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Collections;
+using TACPN.Arcs;
 using TACPN.Net;
-using TACPN.Net.Arcs;
-using TACPN.Net.Places;
-using TACPN.Net.Transitions;
+using TACPN.Places;
+using TACPN.Transitions;
 
 namespace TACPN.IntegrationTests;
 
