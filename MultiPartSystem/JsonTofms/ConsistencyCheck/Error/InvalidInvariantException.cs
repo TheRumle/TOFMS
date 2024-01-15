@@ -9,8 +9,7 @@ public class InvalidInvariantException : InvalidJsonTofmException
     private readonly string _part;
     private readonly string _readableMessage;
 
-    public InvalidInvariantException(string part, string min, string max) : base(
-        $"Invalid definition invariant for {part}: {min} to {max}. Is {min} > {max} and did you use infty/inf wrong?")
+    public InvalidInvariantException(string part, string min, string max)
     {
         _part = part;
         _min = min;
