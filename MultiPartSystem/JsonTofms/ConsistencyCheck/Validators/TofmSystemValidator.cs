@@ -46,7 +46,7 @@ public class TofmSystemValidator : IValidator<TofmJsonSystem>
         foreach (var partName in sPartNames)
         {
             if (jPartNames != null && !jPartNames.Contains(partName))
-                errs.Add(new JourneyUdnefinedPartType());
+                errs.Add(new JourneyUdnefinedPartType(partName));
         }
 
         return errs;
