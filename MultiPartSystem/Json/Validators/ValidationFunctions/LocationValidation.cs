@@ -1,5 +1,4 @@
 ﻿using Tmpms.Common.Json.Errors;
-using Tmpms.Common.JsonTofms.ConsistencyCheck.Error;
 using Tmpms.Common.JsonTofms.Models;
 
 namespace Tmpms.Common.Json.Validators.ValidationFunctions;

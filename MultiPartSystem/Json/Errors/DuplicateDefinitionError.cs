@@ -1,6 +1,4 @@
-﻿using Tmpms.Common.JsonTofms.ConsistencyCheck.Error;
-
-namespace Tmpms.Common.Json.Errors;
+﻿namespace Tmpms.Common.Json.Errors;
 
 public class DuplicateDefinitionError<T> : InvalidJsonTofmException
 {

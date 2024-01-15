@@ -1,8 +1,8 @@
-﻿using Tmpms.Common.JsonTofms.ConsistencyCheck.Error;
+﻿using Tmpms.Common.Json.Errors;
 
 namespace Tmpms.Common.Json.Validators;
 
-public abstract class JsonValidator<T> : Validators.IValidator<T> 
+public abstract class JsonValidator<T> : IValidator<T> 
 {
     public IEnumerable<InvalidJsonTofmException> Validate(T values)
     {
@@ -13,7 +13,7 @@ public abstract class JsonValidator<T> : Validators.IValidator<T>
     public abstract Task<IEnumerable<InvalidJsonTofmException>>[] ValidationTasksFor(T inputs);
 }
 
-public abstract class JsonValidator<T, TT> : Validators.IValidator<T, TT> 
+public abstract class JsonValidator<T, TT> : IValidator<T, TT> 
 {
     public IEnumerable<InvalidJsonTofmException> Validate(T values, TT context)
     {

@@ -1,4 +1,4 @@
-﻿namespace Tmpms.Common.JsonTofms.ConsistencyCheck.Error;
+﻿namespace Tmpms.Common.Json.Errors;
 
 public class LocationNameEmptyException<T> : InvalidJsonTofmException
 {

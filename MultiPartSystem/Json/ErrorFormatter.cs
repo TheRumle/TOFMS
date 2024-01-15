@@ -1,7 +1,7 @@
 ﻿using System.Text;
-using Tmpms.Common.JsonTofms.ConsistencyCheck.Error;
+using Tmpms.Common.Json.Errors;
 
-namespace Tmpms.Common.JsonTofms.ConsistencyCheck;
+namespace Tmpms.Common.Json;
 
 public class ErrorFormatter
 {
