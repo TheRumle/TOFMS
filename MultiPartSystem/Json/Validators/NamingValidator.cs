@@ -7,7 +7,7 @@ public class NamingValidator : JsonValidator<IEnumerable<LocationDefinition>, IE
 {
     readonly List<InvalidJsonTofmException> _errs = new();
 
-    public IEnumerable<InvalidJsonTofmException> Validate(IEnumerable<LocationDefinition> locations,
+    public IEnumerable<InvalidJsonTofmException> PerformValidation(IEnumerable<LocationDefinition> locations,
         IEnumerable<MoveActionDefinition> moveActions)
     {
         var definitions = locations as LocationDefinition[] ?? locations.ToArray();
@@ -35,7 +35,7 @@ public class NamingValidator : JsonValidator<IEnumerable<LocationDefinition>, IE
     {
         return new[]
         {
-            Task.Run(() => Validate(inputs, context))
+            Task.Run(() => PerformValidation(inputs, context))
         };
     }
 
