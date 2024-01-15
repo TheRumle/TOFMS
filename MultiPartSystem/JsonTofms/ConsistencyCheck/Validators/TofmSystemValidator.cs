@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using Tmpms.Common.Json.Errors;
 using Tmpms.Common.JsonTofms.ConsistencyCheck.Error;
 using Tmpms.Common.JsonTofms.Models;
 
@@ -46,7 +47,7 @@ public class TofmSystemValidator : IValidator<TofmJsonSystem>
         foreach (var partName in sPartNames)
         {
             if (jPartNames != null && !jPartNames.Contains(partName))
-                errs.Add(new JourneyUdnefinedPartType(partName));
+                errs.Add(new JourneyUndefinedPartType(partName));
         }
 
         return errs;

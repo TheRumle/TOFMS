@@ -2,7 +2,7 @@
 using Tmpms.Common.JsonTofms.ConsistencyCheck.Error;
 using Tmpms.Common.JsonTofms.Models;
 
-namespace Tmpms.Common.Json.Validators;
+namespace Tmpms.Common.Json.Validators.ValidationFunctions;
 
 public static class JourneyValidation
 {
@@ -51,7 +51,7 @@ public static class JourneyValidation
         foreach (var kvp in journey)
         {
             if (!declaredParts.Contains(kvp.Key))
-                errors.Add(new JourneyUdnefinedPartType(kvp.Key));
+                errors.Add(new JourneyUndefinedPartType(kvp.Key));
         }
 
         return errors;

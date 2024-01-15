@@ -4,9 +4,6 @@ namespace Tmpms.Common.Json.Validators;
 
 public class TimedMultiPartSystemJsonInputValidator : JsonValidator<TimedMultiPartSystemJsonInput>
 {
-    private readonly LocationValidator _locationValidator = new();
-    private readonly MoveActionValidator _moveActionValidator;
-
     public override Task<IEnumerable<InvalidJsonTofmException>>[] ValidationTasksFor(TimedMultiPartSystemJsonInput inputs)
     {
         var moveActionValidator = new MoveActionValidator(inputs.LocationDeclarations, inputs.Parts)
@@ -17,11 +14,15 @@ public class TimedMultiPartSystemJsonInputValidator : JsonValidator<TimedMultiPa
         
         var journeyValidator = new JourneyValidator(inputs.LocationDeclarations, inputs.Parts)
             .ValidationTasksFor(inputs.Journeys);
+
+        var namingValidator = new NamingValidator()
+            .ValidationTasksFor(inputs.LocationDeclarations, inputs.Actions);
         
-        var a =  new List<Task<IEnumerable<InvalidJsonTofmException>>>(moveActionValidator.Length + locationsValidators.Length + journeyValidator.Length);
-        a.AddRange(moveActionValidator);
-        a.AddRange(locationsValidators);
-        a.AddRange(journeyValidator);
-        return a.ToArray();
+        var results =  new List<Task<IEnumerable<InvalidJsonTofmException>>>(moveActionValidator.Length + locationsValidators.Length + journeyValidator.Length);
+        results.AddRange(moveActionValidator);
+        results.AddRange(locationsValidators);
+        results.AddRange(journeyValidator);
+        results.AddRange(namingValidator);
+        return results.ToArray();
     }
 }

@@ -1,10 +1,12 @@
-﻿namespace Tmpms.Common.JsonTofms.ConsistencyCheck.Error;
+﻿using Tmpms.Common.JsonTofms.ConsistencyCheck.Error;
 
-public class JourneyUdnefinedPartType : InvalidJsonTofmException
+namespace Tmpms.Common.Json.Errors;
+
+public class JourneyUndefinedPartType : InvalidJsonTofmException
 {
     private readonly string part;
 
-    public JourneyUdnefinedPartType(string partType)
+    public JourneyUndefinedPartType(string partType)
     {
         this.part = partType;
     }
