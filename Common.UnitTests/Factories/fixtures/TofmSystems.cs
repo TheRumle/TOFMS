@@ -1,4 +1,4 @@
-﻿using Tmpms.Common.JsonTofms.Models;
+﻿using Tmpms.Common.Json.Models;
 
 namespace Common.UnitTests.Factories.fixtures;
 

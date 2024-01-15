@@ -4,9 +4,9 @@ using Tmpms.Common.Move;
 
 namespace Xml;
 
-public class TofmSystemParser
+public class TmpmsParser
 {
-    private ValidatedTofmSystem _system;
+    private TimedMultipartSystem _system;
     private readonly List<string> _partnames;
     private readonly IEnumerable<Location> _locations;
     private readonly StringBuilder _stringBuilder;
@@ -15,7 +15,7 @@ public class TofmSystemParser
     private readonly IEnumerable<MoveAction> _moveactions;
     private readonly HashSet<Invariant> _invariants;
 
-    public TofmSystemParser(ValidatedTofmSystem system)
+    public TmpmsParser(TimedMultipartSystem system)
     {
         _system = system;
         this._partnames = system.Parts.ToList();
@@ -35,7 +35,8 @@ public class TofmSystemParser
 
     private JourneyCollection CreateJourneyCollection()
     {
-        var dict = new Dictionary<string, List<Location>>(_system.Journeys);
+        var a = _system.Journeys;
+        var dict = new Dictionary<string, IEnumerable<Location>>(_system.Journeys);
         IEnumerable<KeyValuePair<string, IEnumerable<KeyValuePair<int, Location>>>> j = dict.Select(e =>
         {
             var k = e.Key!;

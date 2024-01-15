@@ -7,15 +7,15 @@ namespace ConsoleApp.ProgramBuilder;
 
 public class TranslateToTacpn
 {
-    public readonly ValidatedTofmSystem ValidatedTofmSystem;
+    public readonly TimedMultipartSystem TimedMultipartSystem;
     private readonly IEnumerable<MoveAction> _moveActions;
-    private readonly Dictionary<string, List<Location>> _journeys;
+    private readonly IReadOnlyDictionary<string, IEnumerable<Location>> _journeys;
     public readonly ParseAndValidateTofmSystem PrevStep;
 
-    public TranslateToTacpn(ValidatedTofmSystem validatedTofmSystem, IEnumerable<MoveAction> moveActions,
-        Dictionary<string, List<Location>> journeys, ParseAndValidateTofmSystem parseAndValidateTofmSystem)
+    public TranslateToTacpn(TimedMultipartSystem timedMultipartSystem, IEnumerable<MoveAction> moveActions,
+        IReadOnlyDictionary<string, IEnumerable<Location>> journeys, ParseAndValidateTofmSystem parseAndValidateTofmSystem)
     {
-        ValidatedTofmSystem = validatedTofmSystem;
+        TimedMultipartSystem = timedMultipartSystem;
         this._moveActions = moveActions;
         _journeys = journeys;
         this.PrevStep = parseAndValidateTofmSystem;
@@ -24,11 +24,11 @@ public class TranslateToTacpn
     public ExtractTacpnXmlFormat TranslateTofmsToTacpnComponents()
     {
 
-        IEnumerable<KeyValuePair<string, IEnumerable<KeyValuePair<int, Location>>>> j = _journeys.Select(e =>
+        var j = _journeys.Select(e =>
         {
             var k = e.Key!;
             var values = e.Value;
-            var newValues = values.Select(h => KeyValuePair.Create(values.IndexOf(h), h));
+            var newValues = values.Select((h,index) => KeyValuePair.Create(index, h));
             return KeyValuePair.Create(k, newValues);
         });
 

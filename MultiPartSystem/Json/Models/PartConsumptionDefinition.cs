@@ -1,3 +1,3 @@
-﻿namespace Tmpms.Common.JsonTofms.Models;
+﻿namespace Tmpms.Common.Json.Models;
 
 public record PartConsumptionDefinition(int Amount, string PartType);

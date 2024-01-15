@@ -1,6 +1,6 @@
 ﻿using Tmpms.Common.Move;
 
-namespace Tmpms.Common.JsonTofms.Models;
+namespace Tmpms.Common.Json.Models;
 
 public interface ITofmsFactory
 {

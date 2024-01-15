@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using JsonFixtures.Tofms.Fixtures;
 using Newtonsoft.Json;
-using Tmpms.Common.JsonTofms.Models;
+using Tmpms.Common.Json.Models;
 
 namespace Common.UnitTests.JsonTofms;
 

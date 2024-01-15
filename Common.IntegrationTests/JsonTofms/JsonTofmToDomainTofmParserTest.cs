@@ -4,10 +4,10 @@ using Newtonsoft.Json;
 using Tmpms.Common.Factories;
 using Tmpms.Common.Json;
 using Tmpms.Common.Json.Errors;
+using Tmpms.Common.Json.Models;
 using Tmpms.Common.JsonTofms;
 using Tmpms.Common.JsonTofms.ConsistencyCheck;
 using Tmpms.Common.JsonTofms.ConsistencyCheck.Validators;
-using Tmpms.Common.JsonTofms.Models;
 
 namespace Common.IntegrationTest.JsonTofms;
 

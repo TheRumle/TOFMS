@@ -1,4 +1,4 @@
-﻿using Tmpms.Common.JsonTofms.Models;
+﻿using Tmpms.Common.Json.Models;
 using Tmpms.Common.Move;
 
 namespace Tmpms.Common.Json.Convertion;
@@ -15,7 +15,7 @@ public static class JsonToDomain
     public static MoveAction ToDomain(this MoveActionDefinition actionDefinition, IEnumerable<Location> locations)
     {
         var enumerable = locations as Location[] ?? locations.ToArray();
-        return new MoveAction()
+        return new MoveAction
         {
             From = enumerable.First(e => e.Name == actionDefinition.From),
             Name = actionDefinition.Name,

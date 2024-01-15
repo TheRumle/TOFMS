@@ -2,7 +2,7 @@
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Tmpms.Common.Factories;
-using Tmpms.Common.JsonTofms.Models;
+using Tmpms.Common.Json.Models;
 
 namespace Common.UnitTests.Factories;
 

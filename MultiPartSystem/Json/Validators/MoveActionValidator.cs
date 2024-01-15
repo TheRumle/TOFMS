@@ -1,6 +1,6 @@
 ﻿using Tmpms.Common.Json.Errors;
+using Tmpms.Common.Json.Models;
 using Tmpms.Common.Json.Validators.ValidationFunctions;
-using Tmpms.Common.JsonTofms.Models;
 
 namespace Tmpms.Common.Json.Validators;
 

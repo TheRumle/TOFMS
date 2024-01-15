@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using Tmpms.Common.JsonTofms.Models;
+using Tmpms.Common.Json.Models;
 using Tmpms.Common.Move;
 
 namespace Tmpms.Common.Factories;

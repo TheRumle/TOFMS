@@ -1,4 +1,4 @@
-﻿namespace Tmpms.Common.JsonTofms.Models;
+﻿namespace Tmpms.Common.Json.Models;
 
 public record MoveActionDefinition(string Name, List<PartConsumptionDefinition> Parts, string From, string To,
     List<string> EmptyBefore, List<string> EmptyAfter)

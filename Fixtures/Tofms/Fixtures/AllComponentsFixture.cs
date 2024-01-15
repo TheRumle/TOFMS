@@ -1,5 +1,5 @@
 ﻿using System.Collections.Concurrent;
-using Tmpms.Common.JsonTofms.Models;
+using Tmpms.Common.Json.Models;
 
 namespace JsonFixtures.Tofms.Fixtures;
 

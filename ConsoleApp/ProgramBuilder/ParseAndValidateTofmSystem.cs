@@ -1,13 +1,13 @@
 ﻿using Tmpms.Common;
-using Tmpms.Common.JsonTofms;
-using Tmpms.Common.JsonTofms.ConsistencyCheck.Validators;
+using Tmpms.Common.Json;
+using Tmpms.Common.Json.Validators;
 using Xml;
 
 namespace ConsoleApp.ProgramBuilder;
 
 public class ParseAndValidateTofmSystem
 {
-    private readonly JsonTofmToDomainTofmParser _parser;
+    private readonly TmpmsJsonInputParser _parser;
     public readonly string System;
     public readonly string InputFile;
     public readonly string OutputFile;
@@ -17,20 +17,20 @@ public class ParseAndValidateTofmSystem
         this.System = tofmSystem;
         this.InputFile = inputFile;
         this.OutputFile = outputFile;
-        this._parser = new JsonTofmToDomainTofmParser(TofmSystemValidator.Default());
+        this._parser = new TmpmsJsonInputParser(new TimedMultiPartSystemJsonInputValidator());
     }
 
     public TranslateToTacpn ParseAndValidateInputSystem()
     {
-        ValidatedTofmSystem system =  _parser.ParseTofmsSystemJsonString(System).Result;
+        TimedMultipartSystem system =  _parser.ParseTofmsSystemJsonString(System).Result;
         return new (system, system.MoveActions, system.Journeys, this);
     }
     
     public WriteToFile DirectTranslate()
     {
-        ValidatedTofmSystem system =  _parser.ParseTofmsSystemJsonString(System).Result;
-        TofmSystemParser tofmSystemParser = new TofmSystemParser(system);
-        var a = tofmSystemParser.Parse();
+        TimedMultipartSystem system =  _parser.ParseTofmsSystemJsonString(System).Result;
+        TmpmsParser tmpmsParser = new TmpmsParser(system);
+        var a = tmpmsParser.Parse();
         return new WriteToFile(a, OutputFile);
     }
 }

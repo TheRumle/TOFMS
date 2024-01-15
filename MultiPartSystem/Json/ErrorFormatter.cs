@@ -15,10 +15,8 @@ public class ErrorFormatter
 
     public string ToErrorString()
     {
-        var bob = new StringBuilder($"Found errors in component:\n");
-        var errorsByLocationName = Errors.GroupBy(e => e.ErrorCategory);
-
-        foreach (var errGroup in errorsByLocationName)
+        var bob = new StringBuilder($"Found errors in TMPMS json:\n");
+        foreach (var errGroup in  Errors.GroupBy(e => e.ErrorCategory))
         {
             bob.AppendLine($"'{errGroup.Key} errors:'").Append('\n');
             foreach (var exception in errGroup) bob.Append('\t').Append(exception).Append("\n\n");
