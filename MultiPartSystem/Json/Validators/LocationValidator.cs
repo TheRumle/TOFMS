@@ -6,7 +6,7 @@ namespace Tmpms.Common.Json.Validators;
 
 public class LocationValidator : JsonValidator<IEnumerable<LocationDefinition>>
 {
-    public override Task<IEnumerable<InvalidJsonTofmException>>[] ValidationTasks(IEnumerable<LocationDefinition> inputs)
+    public override Task<IEnumerable<InvalidJsonTofmException>>[] ValidationTasksFor(IEnumerable<LocationDefinition> inputs)
     {
         return new[]
         {

@@ -6,9 +6,9 @@ public abstract class JsonValidator<T> : Validators.IValidator<T>
 {
     public IEnumerable<InvalidJsonTofmException> Validate(T values)
     {
-        var validationTasks = ValidationTasks(values);
+        var validationTasks = ValidationTasksFor(values);
         return Task.WhenAll(validationTasks).Result.SelectMany(e=>e);
     }
 
-    public abstract Task<IEnumerable<InvalidJsonTofmException>>[] ValidationTasks(T inputs);
+    public abstract Task<IEnumerable<InvalidJsonTofmException>>[] ValidationTasksFor(T inputs);
 }
