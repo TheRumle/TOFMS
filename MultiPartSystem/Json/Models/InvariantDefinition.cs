@@ -5,7 +5,7 @@ namespace Tmpms.Common.Json.Models;
 
 public record InvariantDefinition(string Part, int Min, int Max)
 {
-    public InvariantDefinition((string name, int minValue, int maxValue) tuple) : this(tuple.name, tuple.minValue,
+    private InvariantDefinition((string name, int minValue, int maxValue) tuple) : this(tuple.name, tuple.minValue,
         tuple.maxValue)
     {
     }
