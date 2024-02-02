@@ -9,7 +9,7 @@ public record VariableDecrement : IColourVariableExpression
 
         this.ColourVariable = colourVariable;
         this.ColourType = colourVariable.ColourType;
-        Value = $"{ColourVariable.Value}--";
+        Value = VariableDecrementFor(colourVariable);
     }
 
     public ColourVariable ColourVariable { get; set; }
@@ -21,4 +21,10 @@ public record VariableDecrement : IColourVariableExpression
     {
         return this.Value;
     }
+
+    public static string VariableDecrementFor(ColourVariable variable)
+    {
+        return $"{variable.Value}--";
+    }
+
 }

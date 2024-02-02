@@ -1,6 +1,5 @@
-﻿using System.Collections.Concurrent;
-using Newtonsoft.Json;
-using Tmpms.Common.Json.Models;
+﻿using Newtonsoft.Json;
+using Tmpms.Common;
 
 namespace JsonFixtures.Tofms.Fixtures;
 
@@ -36,21 +35,15 @@ public abstract class JsonTofmsFixture
         return File.ReadAllText($"{InvalidSystemPath}{fileName}");
     }
     
-    protected static void ReadComponent(string file, ConcurrentQueue<string> partTypes,
-        ConcurrentQueue<TofmComponent> components)
+    protected static TimedMultipartSystem ReadComponent(string file)
     {
         var text = File.ReadAllText(file);
-        var component = JsonConvert.DeserializeObject<TofmComponent>(text);
+        var component = JsonConvert.DeserializeObject<TimedMultipartSystem>(text);
 
-        if (component is null || !component.Locations.Any() || !component.Moves.Any())
+        if (component is null || !component.Locations.Any() || !component.MoveActions.Any())
             throw new ArgumentException($"Could not deserialize {file} to component.");
 
-        AppendParts(component, partTypes);
-        components.Enqueue(component);
+        return component;
     }
-    
-    protected static void AppendParts(TofmComponent component, ConcurrentQueue<string> parts)
-    {
-        component.Moves.ForEach(action => action.Parts.ForEach(p => parts.Enqueue(p.PartType)));
-    }
+ 
 }

@@ -4,7 +4,7 @@ using Tmpms.Common.Json.Validators.ValidationFunctions;
 
 namespace Tmpms.Common.Json.Validators;
 
-public class JourneyValidator : JsonValidator<Dictionary<string, IEnumerable<string>>>
+internal sealed class JourneyValidator : JsonValidator<Dictionary<string, IEnumerable<string>>>
 {
     private Dictionary<string, LocationDefinition> _locationByName;
     private readonly IEnumerable<string> _partTypes;

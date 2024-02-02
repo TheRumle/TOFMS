@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RootNamespace>Tmpms.Common</RootNamespace>
@@ -15,24 +15,13 @@
 
 
     <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
+      <ProjectReference Include="..\Common\Common.csproj" />
     </ItemGroup>
 
 
     <ItemGroup>
-      <ProjectReference Include="..\Common\Common.csproj" />
-
-
-
-
-
-
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
-
-
-
-
-
 
 
 

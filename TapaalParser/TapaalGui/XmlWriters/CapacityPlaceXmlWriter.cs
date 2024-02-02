@@ -38,7 +38,7 @@ public partial class CapacityPlaceXmlWriter : IGuiTranslater<Placement<CapacityP
         
         AppendInvariants(element.ColourInvariants, element.ColourType.Name);
         builder.Append(" </place>");
-        return MatchWhiteSpace().Replace(builder.ToString(), " ");
+        return MatchWhiteSpace.Replace(builder.ToString(), " ");
     }
     
     
@@ -82,6 +82,5 @@ public partial class CapacityPlaceXmlWriter : IGuiTranslater<Placement<CapacityP
         builder.Append($@"displayName=""true"" id=""{name}"" initialMarking=""{tokens.Count}"" invariant=""{GuiSymbols.LessThanInfinity}"" name=""{name}"" nameOffsetX=""0"" nameOffsetY=""0"" positionX=""{pos.X}"" positionY=""{pos.Y}""> ");
     }
 
-    [GeneratedRegex("\\s+")]
-    private static partial Regex MatchWhiteSpace();
+    private static Regex MatchWhiteSpace = new Regex("\\s+");
 }

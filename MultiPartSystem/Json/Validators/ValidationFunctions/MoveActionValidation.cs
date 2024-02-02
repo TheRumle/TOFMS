@@ -3,7 +3,7 @@ using Tmpms.Common.Json.Models;
 
 namespace Tmpms.Common.Json.Validators.ValidationFunctions;
 
-public static class MoveActionValidation
+internal static class MoveActionValidation
 {
     public static IEnumerable<InvalidJsonTofmException> ValidatePartTypesAreDefined(IEnumerable<MoveActionDefinition> values,
         IEnumerable<string> definedPartTypes)

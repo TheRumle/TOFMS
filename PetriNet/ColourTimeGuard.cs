@@ -25,6 +25,10 @@ public class ColourTimeGuard
     public static ColourTimeGuard TokensGuard(int from, int to)
     {
         return new ColourTimeGuard(ColourType.TokensColourType, ColourType.TokensColourType.Colours.First(), new Interval(from, to));
-    } 
+    }
 
+    public override string ToString()
+    {
+        return $"T:{ColourType.Name}: {Interval}, {ColourValue.Value}";
+    }
 }

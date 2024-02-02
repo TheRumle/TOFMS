@@ -5,14 +5,14 @@ namespace TmpmsPetriNetAdapter.TransitionAttachable;
 
 internal class EmptyBeforeCapacitorInhibitorAdaption : ITransitionAttachable
 {
-    public EmptyBeforeCapacitorInhibitorAdaption(ISet<Location> locations, JourneyCollection collection)
+    public EmptyBeforeCapacitorInhibitorAdaption(ISet<Location> locations, IndexedJourney collection)
     {
         _locations = locations;
         _collection = collection;
     }
 
     private readonly IEnumerable<Location> _locations;
-    private readonly JourneyCollection _collection;
+    private readonly IndexedJourney _collection;
 
     public void AttachToTransition(Transition transition)
     {

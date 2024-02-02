@@ -4,7 +4,7 @@ using Tmpms.Common.Json.Validators.ValidationFunctions;
 
 namespace Tmpms.Common.Json.Validators;
 
-public class MoveActionValidator : JsonValidator<IEnumerable<MoveActionDefinition>>
+internal class MoveActionValidator : JsonValidator<IEnumerable<MoveActionDefinition>>
 {
     private readonly IEnumerable<LocationDefinition> _locations;
     private readonly IEnumerable<string> _parts;

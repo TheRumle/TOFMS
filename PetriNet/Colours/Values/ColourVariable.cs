@@ -35,11 +35,21 @@ public record ColourVariable : IColourVariableExpression
 
     public static ColourVariable Create(string name, ColourType colourType)
     {
+        return CreateIfValid(name, colourType);
+    }
+
+    private static ColourVariable CreateIfValid(string name, ColourType colourType)
+    {
         if (colourType.Colours.Any(e=>e.Value == name)) 
             throw new ArgumentException($"Cannot create variable with same name as assigned colour type: {string.Join(" ", colourType.Colours.Select(e=>e.Value))}");
 
         return new ColourVariable(name, colourType);
+    }
 
+    public static ColourVariable CreateFromPartName(string part, ColourType colourType)
+    {
+        var name = VariableNameFor(part);
+        return CreateIfValid(name, colourType);
     }
 
     ColourVariable IColourVariableExpression.ColourVariable => this;

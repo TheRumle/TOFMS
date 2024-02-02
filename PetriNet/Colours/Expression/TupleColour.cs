@@ -17,13 +17,6 @@ public class TupleColour : IColourTypedValue
         Value = $"({string.Join(", ", values)})";
     }
 
-    public TupleColour(IEnumerable<IColourTypedValue> colours):
-        this(colours, new ColourType(string.Join("",colours.Select(e=>e.ColourType.Name)),
-            colours.Select(e=>e.Value)))
-    {
-        
-    }
-
 
     public ColourType ColourType { get; set; }
     public IColourValue[] ColourComponents { get; set; }

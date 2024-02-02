@@ -10,33 +10,26 @@ using Tmpms.Common.Translate;
 
 namespace TmpmsPetriNetAdapter;
 
-public class TofmToTacpnTranslater : IMoveActionTranslation<PetriNetComponent>
+public class TofmToTacpnTranslater(ITransitionAttachableFactory transitionAttachableFactory,
+        IndexedJourney indexedJourneys)
+    : IMoveActionTranslation<PetriNetComponent>
 {
-    private readonly ITransitionAttachableFactory _transitionAttachableFactory;
-    private readonly Dictionary<string, IEnumerable<KeyValuePair<int, Location>>> _journeysCollection;
-
-    public TofmToTacpnTranslater(ITransitionAttachableFactory transitionAttachableFactory, JourneyCollection journeysCollection)
-    {
-        _transitionAttachableFactory = transitionAttachableFactory;
-        _journeysCollection = journeysCollection;
-    }
+    private readonly Dictionary<string, IEnumerable<KeyValuePair<int, Location>>> _indexedJourneys = indexedJourneys;
 
     public PetriNetComponent Translate(MoveAction moveAction)
     {
-
-
+        //TODO transition factory
         Transition transition = new Transition(moveAction.Name, ColourType.TokenAndDefaultColourType, TransitionGuard.Empty());
-
-        _transitionAttachableFactory.AdaptFrom(moveAction).AttachToTransition(transition);
-        _transitionAttachableFactory.AdaptEmptyAfter(moveAction).AttachToTransition(transition);
-        _transitionAttachableFactory.AdaptTo(moveAction).AttachToTransition(transition);
-        _transitionAttachableFactory.AdaptEmptyBefore(moveAction).AttachToTransition(transition);
+        transitionAttachableFactory.AdaptFrom(moveAction).AttachToTransition(transition);
+        transitionAttachableFactory.AdaptEmptyAfter(moveAction).AttachToTransition(transition);
+        transitionAttachableFactory.AdaptTo(moveAction).AttachToTransition(transition);
+        transitionAttachableFactory.AdaptEmptyBefore(moveAction).AttachToTransition(transition);
 
         var processingLocationsForAction = moveAction.InvolvedLocations.Where(e => e.IsProcessing).Select(e=>e.Name);
         IEnumerable<string> involvedParts = moveAction.PartsToMove.Select(e => e.Key);
         
         
-        foreach (var kv in _journeysCollection)
+        foreach (var kv in _indexedJourneys)
         {
             var part = kv.Key;
             var locations = kv.Value;

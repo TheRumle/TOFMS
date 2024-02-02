@@ -14,10 +14,10 @@ internal class FromLocationIsInEmptyAfterAdapter : ITransitionAttachable
     private readonly Location _fromLocation;
     private readonly int _guardAmount;
     private readonly IEnumerable<KeyValuePair<string, int>> _partsToConsume;
-    private readonly JourneyCollection _collection;
+    private readonly IndexedJourney _collection;
 
     public FromLocationIsInEmptyAfterAdapter(IEnumerable<Location> emptyAfterLocations, Location fromLocation,
-        IEnumerable<KeyValuePair<string, int>> partsToConsume, JourneyCollection collection)
+        IEnumerable<KeyValuePair<string, int>> partsToConsume, IndexedJourney collection)
     {
         _emptyAfter = emptyAfterLocations.ToList();
         _fromLocation = fromLocation;

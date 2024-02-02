@@ -18,7 +18,7 @@ public class IngoingArc : Arc<IPlace, Transition>
         ArcGuards.InvalidArcColourAssignment(from, to);
         ArcGuards.InvalidGuardColourAssignment(from, to, colourTimeGuards);
         ColourType = from.ColourType;
-        ArcExpression = new TimeGuardedArcExpression(colourTimeGuards, expressions, to.ColourType);
+        ArcExpression = new TimeGuardedArcExpression(colourTimeGuards, expressions, from.ColourType);
     }
 
     public IList<ColourTimeGuard> Guards => ArcExpression.TimeGuards;

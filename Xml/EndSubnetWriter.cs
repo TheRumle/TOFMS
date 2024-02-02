@@ -12,7 +12,7 @@ internal class EndSubnetWriter : SubnetDeclarer
     private readonly MoveAction _moveAction;
 
 
-    public EndSubnetWriter(MoveAction moveAction, StringBuilder stringBuilder, JourneyCollection journeys, IEnumerable<string> parts) : base(stringBuilder, journeys)
+    public EndSubnetWriter(MoveAction moveAction, StringBuilder stringBuilder, IndexedJourney indexedJourneys, IEnumerable<string> parts) : base(stringBuilder, indexedJourneys)
     {
         this._locations = moveAction.InvolvedLocations.Where(e=>e.Name!= Location.EndLocationName);
         
@@ -36,9 +36,9 @@ internal class EndSubnetWriter : SubnetDeclarer
         WriteEndLocation();
 
         TransitionWriter transitionWriter = new TransitionWriter(_stringBuilder, _moveAction);
-        transitionWriter.WriteTransition(_journeys);
+        transitionWriter.WriteTransition(IndexedJourneys);
 
-        ArcWriter writer = new ArcWriter(_stringBuilder, _moveAction, _journeys);
+        ArcWriter writer = new ArcWriter(_stringBuilder, _moveAction, IndexedJourneys);
         
         writer.WriteTokenArcTo(_endLocation);
         writer.ProduceToCapPlace(_moveAction.From.ToCapacityLocation(),

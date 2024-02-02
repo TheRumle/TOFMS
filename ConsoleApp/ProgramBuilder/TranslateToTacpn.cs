@@ -32,7 +32,7 @@ public class TranslateToTacpn
             return KeyValuePair.Create(k, newValues);
         });
 
-        var journey = new JourneyCollection(j);
+        var journey = new IndexedJourney(j);
 
 
         var translater = new TofmToTacpnTranslater(new MoveActionToTransitionFactory(journey), journey);

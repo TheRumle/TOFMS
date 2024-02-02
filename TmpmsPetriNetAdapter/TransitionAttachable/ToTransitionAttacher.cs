@@ -1,16 +1,46 @@
-﻿using TACPN.Places;
+﻿using TACPN.Colours.Expression;
+using TACPN.Colours.Type;
+using TACPN.Colours.Values;
+using TACPN.Places;
 using TACPN.Transitions;
 using Tmpms.Common;
 
 namespace TmpmsPetriNetAdapter.TransitionAttachable;
 
+public class PartColourTupleExpressionFactory
+{
+    public static List<ColourExpression> CreatePartMoveTuple(IEnumerable<KeyValuePair<string, int>> partsItemMovedIntoPlace, IPlace place )
+    {
+        var tuples = new List<ColourExpression>();
+        foreach (KeyValuePair<string, int> amountAndPart in partsItemMovedIntoPlace)
+        {
+            IColourTypedValue variableExpression = CreateVariableExpression(place, amountAndPart.Key);
+            IEnumerable<IColourValue> values = new[] { new PartColourValue(amountAndPart.Key), variableExpression };
+            var tuple = new TupleColour(values,ColourType.TokensColourType);
+            tuples.Add(new ColourExpression(tuple, tuple.ColourType, amountAndPart.Value));
+        }
+
+        return tuples;
+    }
+
+    private static IColourVariableExpression CreateVariableExpression(IPlace place, string part)
+    {
+        if (place.IsProcessingPlace)
+        {
+            return ColourVariable.DecrementFor(part);
+        }
+
+        return ColourVariable.CreateFromPartName(part, ColourType.PartsColourType);
+    }
+}
+
 internal class ToTransitionAttacher : ITransitionAttachable
 {
-    public ToTransitionAttacher(Location location,
-        IEnumerable<KeyValuePair<string, int>> partsItemMovedIntoPlace, JourneyCollection journeyCollection)
+    public ToTransitionAttacher(Location toLocation,
+        IEnumerable<KeyValuePair<string, int>> partsItemMovedIntoPlace, IndexedJourney indexedJourney)
     {
         _itemMovedIntoPlace = partsItemMovedIntoPlace;
-        (_place, _capacityPlace) = LocationTranslator.CreatePlaceAndCapacityPlacePair(location, journeyCollection);
+        (_place, _capacityPlace) = LocationTranslator.CreatePlaceAndCapacityPlacePair(toLocation, indexedJourney);
     }
 
     private readonly CapacityPlace _capacityPlace;
@@ -38,15 +68,10 @@ internal class ToTransitionAttacher : ITransitionAttachable
 
     private void AdaptPlace(Transition transition)
     {
-        var expression = _place.IsProcessingPlace 
-            ? ColourExpressions.PartDecrementExpressions(this._itemMovedIntoPlace) 
-            : ColourExpressions.MovePartsExpression(this._itemMovedIntoPlace) ;
-
-        
-        
-        if (this._place.IsProcessingPlace)
-            transition.AddOutGoingTo(_place, expression);
-        else
-            transition.AddOutGoingTo(_place, expression);
+        var tuples = PartColourTupleExpressionFactory.CreatePartMoveTuple(this._itemMovedIntoPlace, this._place);
+        transition.AddOutGoingTo(_place, tuples);
     }
+
+    
+
 }

@@ -12,9 +12,9 @@ public class VariableDeclarer
         StringBuilder = stringBuilder;
     }
 
-    public void WriteVariables(JourneyCollection journeyCollection)
+    public void WriteVariables(IndexedJourney indexedJourney)
     {
-        foreach (var partjour in journeyCollection)
+        foreach (var partjour in indexedJourney)
         {
             var part = partjour.Key;
             var journey = partjour.Value.Select(e => e.Value);

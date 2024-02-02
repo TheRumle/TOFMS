@@ -4,7 +4,7 @@ using Tmpms.Common.Json.Validators.ValidationFunctions;
 
 namespace Tmpms.Common.Json.Validators;
 
-public class LocationValidator : JsonValidator<IEnumerable<LocationDefinition>>
+internal class LocationValidator : JsonValidator<IEnumerable<LocationDefinition>>
 {
     public override Task<IEnumerable<InvalidJsonTofmException>>[] ValidationTasksFor(IEnumerable<LocationDefinition> inputs)
     {

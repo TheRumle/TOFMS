@@ -3,7 +3,7 @@ using Tmpms.Common.Json.Models;
 
 namespace Tmpms.Common.Json.Validators.ValidationFunctions;
 
-public static class LocationValidation
+internal static class LocationValidation
 {
     public static IEnumerable<InvalidJsonTofmException> CapacityValidation(IEnumerable<LocationDefinition> locations)
     {

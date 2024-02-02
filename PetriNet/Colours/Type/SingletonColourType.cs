@@ -14,4 +14,9 @@ public class SingletonColourType : ColourType
     {
         this.ColourValue = color;
     }
+
+    public override string ToString()
+    {
+        return ColourValue.Value;
+    }
 }

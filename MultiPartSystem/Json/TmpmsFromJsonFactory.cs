@@ -3,15 +3,17 @@ using Tmpms.Common.Move;
 
 namespace Tmpms.Common.Json;
 
-internal class FromJsonFactory : ITmpmsSystemFactory<TimedMultiPartSystemJsonInput>
+public class TmpmsFromJsonFactory : ITmpmsSystemFactory<TimedMultiPartSystemJsonInput>
 {
     public TimedMultipartSystem Create(TimedMultiPartSystemJsonInput structure)
     {
+        var moveActions = CreateMoveActions(structure).ToArray();
         return new TimedMultipartSystem()
         {
             Journeys = CreateJourneys(structure),
-            MoveActions = CreateMoveActions(structure),
-            Parts = structure.Parts
+            MoveActions = moveActions,
+            Parts = structure.Parts,
+            Locations = moveActions.SelectMany(e => e.InvolvedLocations).ToHashSet()
         };
     }
 

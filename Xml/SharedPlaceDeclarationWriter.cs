@@ -13,7 +13,7 @@ internal class SharedPlaceDeclarationWriter
         StringBuilder = stringBuilder;
     }
 
-    public void WritePlaces(IEnumerable<Location> locationDefinitions, JourneyCollection collection)
+    public void WritePlaces(IEnumerable<Location> locationDefinitions, IndexedJourney collection)
     {
         foreach (var location in locationDefinitions)
         {
@@ -24,7 +24,7 @@ internal class SharedPlaceDeclarationWriter
         
     }
 
-    private void WriteEndLocation(Location location, JourneyCollection collection)
+    private void WriteEndLocation(Location location, IndexedJourney collection)
     {
       StringBuilder.Append($@"<shared-place initialMarking=""0"" invariant=""&lt; inf"" name=""{location.Name}"">");
       WriteInvariants(location, collection);
@@ -43,14 +43,14 @@ internal class SharedPlaceDeclarationWriter
                               </shared-place>");
     }
 
-    private void WriteProcessingLocation(Location location, JourneyCollection collection)
+    private void WriteProcessingLocation(Location location, IndexedJourney collection)
     {
         StringBuilder.Append($@"<shared-place initialMarking=""0"" invariant=""&lt; inf"" name=""{location.Name}"">");
         WriteInvariants(location, collection);
         StringBuilder.Append($@"   <type> <text>{Colours.TokenColour}</text> <structure><usersort declaration=""{Colours.TokenColour}""/> </structure> </type> </shared-place>");
     }
 
-    public void WriteInvariants(Location location, JourneyCollection collection)
+    public void WriteInvariants(Location location, IndexedJourney collection)
     {
       foreach (var inv in location.Invariants)
       {
@@ -77,7 +77,7 @@ internal class SharedPlaceDeclarationWriter
                                         </colorinvariant>");
     }
 
-    public void WriteCapacityPlaces(IEnumerable<CapacityLocation> capacityLocations, JourneyCollection journeys)
+    public void WriteCapacityPlaces(IEnumerable<CapacityLocation> capacityLocations, IndexedJourney indexedJourneys)
     {
       foreach (var capPlace in capacityLocations)
         StringBuilder.Append($@"<shared-place initialMarking=""{capPlace.Capacity}"" invariant=""&lt; inf"" name=""{capPlace.Name}"">

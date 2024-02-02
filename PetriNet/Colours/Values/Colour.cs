@@ -13,4 +13,9 @@ public record Colour (string Value) : IColourValue
     public static Colour TokensColour = new Colour("Tokens");
     public static Colour PartsColour = new Colour("Parts");
     public static Colour JourneyColour = new Colour("Journey");
+
+    public override string ToString()
+    {
+        return Value;
+    }
 }

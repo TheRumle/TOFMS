@@ -28,16 +28,16 @@ public class ColourDeclarer
           <dot/></namedsort>");
     }
 
-    public void WriteJourney(StringBuilder builder, JourneyCollection journeys)
+    public void WriteJourney(StringBuilder builder, IndexedJourney indexedJourneys)
     {
-        var maxLength = journeys.MaxBy(e => e.Value.Count()).Value.Count();
+        var maxLength = indexedJourneys.MaxBy(e => e.Value.Count()).Value.Count();
         builder.Append($@" <namedsort id=""Journey"" name=""Journey"">
                             <finiteintrange end=""{maxLength}"" start=""0""/>
                            </namedsort>");
         
     }
     
-    public void WriteTokenDeclaration(JourneyCollection journeys)
+    public void WriteTokenDeclaration(IndexedJourney indexedJourneys)
     {
 
         stringBuilder.Append($@"<namedsort id=""{Colours.TokenColour}"" name=""{Colours.TokenColour}"">

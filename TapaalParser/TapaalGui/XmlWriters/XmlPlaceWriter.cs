@@ -33,7 +33,7 @@ public partial class XmlPlaceWriter
         
         AppendInvariants(element.ColourInvariants, element.ColourType.Name);
         builder.Append(" </place>");
-        return MatchWhiteSpace().Replace(builder.ToString(), " ");
+        return MatchWhiteSpace.Replace(builder.ToString(), " ");
     }
 
 
@@ -77,8 +77,8 @@ public partial class XmlPlaceWriter
         //TODO Do place info for non-capacity place
     }
 
-    [GeneratedRegex("\\s+")]
-    private static partial Regex MatchWhiteSpace();
+    private static Regex MatchWhiteSpace = new Regex("\\s+");
+
     
     
 }

@@ -14,14 +14,14 @@ public class ExtractTacpnXmlFormat
 {
     private readonly IEnumerable<PetriNetComponent> _components;
     private readonly TranslateToTacpn _prevStep;
-    private readonly JourneyCollection _journeyCollection;
+    private readonly IndexedJourney _indexedJourney;
     private readonly TimedMultipartSystem _system;
 
-    public ExtractTacpnXmlFormat(IEnumerable<PetriNetComponent> components, TranslateToTacpn translateToTacpn, JourneyCollection journeyCollection)
+    public ExtractTacpnXmlFormat(IEnumerable<PetriNetComponent> components, TranslateToTacpn translateToTacpn, IndexedJourney indexedJourney)
     {
         this._components = components;
         this._prevStep = translateToTacpn;
-        _journeyCollection = journeyCollection;
+        _indexedJourney = indexedJourney;
         this._system = _prevStep.TimedMultipartSystem;
     }
 
@@ -41,7 +41,7 @@ public class ExtractTacpnXmlFormat
         var t = _components.Select(e => e.Transitions.First()).First();
         
         var parts = new ColourType("Parts", _system.Parts);
-        AppendToplevelDcls(builder,_components.SelectMany(e=>e.AllPlaces()),parts, _journeyCollection);
+        AppendToplevelDcls(builder,_components.SelectMany(e=>e.AllPlaces()),parts, _indexedJourney);
         foreach (var componentStrings in await Task.WhenAll(sharedComponentTasks))
             builder.Append(componentStrings);
 
@@ -63,7 +63,7 @@ public class ExtractTacpnXmlFormat
     }
 
     private void AppendToplevelDcls(StringBuilder builder, IEnumerable<IPlace> places, ColourType parts,
-        JourneyCollection j)
+        IndexedJourney j)
     {
 
         string topDcls = new CyclicEnumerationDeclarationWriter().XmlString(new []{parts});

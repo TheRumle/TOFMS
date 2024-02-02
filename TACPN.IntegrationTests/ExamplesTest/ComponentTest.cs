@@ -2,8 +2,8 @@
 using TACPN.Transitions;
 using Tmpms.Common;
 using Tmpms.Common.Factories;
-using Tmpms.Common.JsonTofms;
-using Tmpms.Common.JsonTofms.ConsistencyCheck.Validators;
+using Tmpms.Common.Json;
+using Tmpms.Common.Json.Validators;
 using Tmpms.Common.Move;
 using TmpmsPetriNetAdapter;
 using TmpmsPetriNetAdapter.TransitionAttachable;
@@ -13,19 +13,18 @@ namespace TACPN.IntegrationTests.ExamplesTest;
 public abstract class ComponentTest {
     
     
-    private static JourneyCollection collection = new JourneyCollection(new List<KeyValuePair<string, IEnumerable<KeyValuePair<int, Location>>>>());
+    private static IndexedJourney collection = new IndexedJourney(new List<KeyValuePair<string, IEnumerable<KeyValuePair<int, Location>>>>());
 
-    protected readonly JsonTofmToDomainTofmParser JsonParser;
+    protected readonly  TmpmsJsonInputParser JsonParser;
     protected readonly string JsonText;
     protected static readonly string Hat = CapacityPlaceExtensions.Hat;
     protected static readonly string dot = CapacityPlaceExtensions.DefaultCapacityColor;
     public TofmToTacpnTranslater Translater = new TofmToTacpnTranslater(new MoveActionToTransitionFactory(collection), collection);
     public ComponentTest(string text)
     {
-        TofmSystemValidator systemValidator = new TofmSystemValidator(new LocationValidator(new InvariantValidator()),new NamingValidator(), new MoveActionValidator());
+        var systemValidator = new TimedMultiPartSystemJsonInputValidator();
         JsonText = text;
         JsonParser = new JsonTofmToDomainTofmParser(systemValidator, new MoveActionFactory()); 
-        
     }
     
         

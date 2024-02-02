@@ -7,12 +7,12 @@ namespace Xml;
 public class SubnetDeclarer
 {
     protected readonly StringBuilder _stringBuilder;
-    protected readonly JourneyCollection _journeys;
+    protected readonly IndexedJourney IndexedJourneys;
 
-    public SubnetDeclarer(StringBuilder stringBuilder, JourneyCollection collection)
+    public SubnetDeclarer(StringBuilder stringBuilder, IndexedJourney collection)
     {
         _stringBuilder = stringBuilder;
-        this._journeys = collection;
+        this.IndexedJourneys = collection;
     }
 
     public void WriteComponent(MoveAction moveAction, IEnumerable<CapacityLocation> capacityLocations)
@@ -29,9 +29,9 @@ public class SubnetDeclarer
 
         
         TransitionWriter transitionWriter = new TransitionWriter(_stringBuilder, moveAction);
-        transitionWriter.WriteTransition(_journeys);
+        transitionWriter.WriteTransition(IndexedJourneys);
 
-        ArcWriter arcWriter = new ArcWriter(_stringBuilder, moveAction, _journeys);
+        ArcWriter arcWriter = new ArcWriter(_stringBuilder, moveAction, IndexedJourneys);
         arcWriter.WriteArcs();
         
         _stringBuilder.Append("</net>");
@@ -51,7 +51,7 @@ public class SubnetDeclarer
           </type>");
 
         SharedPlaceDeclarationWriter writer = new SharedPlaceDeclarationWriter(_stringBuilder);
-        writer.WriteInvariants(location, _journeys);
+        writer.WriteInvariants(location, IndexedJourneys);
         
         
         _stringBuilder.Append("</place>");

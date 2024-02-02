@@ -3,7 +3,7 @@ using Tmpms.Common.Json.Models;
 
 namespace Tmpms.Common.Json.Validators;
 
-public class NamingValidator : JsonValidator<IEnumerable<LocationDefinition>, IEnumerable<MoveActionDefinition>>
+internal class NamingValidator : JsonValidator<IEnumerable<LocationDefinition>, IEnumerable<MoveActionDefinition>>
 {
     readonly List<InvalidJsonTofmException> _errs = new();
 

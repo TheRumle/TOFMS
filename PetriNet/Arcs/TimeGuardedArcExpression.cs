@@ -11,13 +11,6 @@ public class TimeGuardedArcExpression : ArcExpression
         base(amounts, colourType)
     {
         ColourTimeGuard[] colourTimeGuards = timeGuards as ColourTimeGuard[] ?? timeGuards.ToArray();
-        var guardedExpressions = colourTimeGuards.Select(e => e.ColourValue);
-        var colourExpressionAmounts = amounts as IColourExpressionAmount[] ?? amounts.ToArray();
-        var consProdExpressions = colourExpressionAmounts.Select(e => e.ColourValue);
-        if (colourTimeGuards.Count() != colourExpressionAmounts.Count() || 
-            !consProdExpressions.All(e => guardedExpressions.Contains(e)))
-            throw new ArgumentException("A consumption/production does not have a time guard!");
-
         this.TimeGuards = colourTimeGuards;
     }
 

@@ -8,7 +8,7 @@ namespace Tmpms.Common.Json;
 public class TmpmsJsonInputParser
 {
     private readonly JsonSerializerSettings ParseSettings = CreateJsonParserSettings();
-    private readonly ITmpmsSystemFactory<TimedMultiPartSystemJsonInput> _systemFactory = new FromJsonFactory();
+    private readonly ITmpmsSystemFactory<TimedMultiPartSystemJsonInput> _systemFactory = new TmpmsFromJsonFactory();
 
     private static JsonSerializerSettings CreateJsonParserSettings()
     {

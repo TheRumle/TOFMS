@@ -3,7 +3,7 @@ using Tmpms.Common.Json.Models;
 
 namespace Tmpms.Common.Json.Validators.ValidationFunctions;
 
-public static class JourneyValidation
+internal static class JourneyValidation
 {
     public static IEnumerable<InvalidJsonTofmException> MustBeProcessingLocations(Dictionary<string, IEnumerable<string>> journey,
         Dictionary<string, LocationDefinition> locationsByName )
