@@ -23,14 +23,14 @@ public class ParseAndValidateTofmSystem
     public TranslateToTacpn ParseAndValidateInputSystem()
     {
         TimedMultipartSystem system =  _parser.ParseTofmsSystemJsonString(System).Result;
-        return new (system, system.MoveActions, system.Journeys, this);
+        return new (system, system.Journeys, this);
     }
     
     public WriteToFile DirectTranslate()
     {
         TimedMultipartSystem system =  _parser.ParseTofmsSystemJsonString(System).Result;
-        TmpmsParser tmpmsParser = new TmpmsParser(system);
-        var a = tmpmsParser.Parse();
+        TmpmsDirectParser tmpmsDirectParser = new TmpmsDirectParser(system);
+        var a = tmpmsDirectParser.Parse();
         return new WriteToFile(a, OutputFile);
     }
 }

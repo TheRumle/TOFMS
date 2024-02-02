@@ -5,9 +5,9 @@ using Tmpms.Common.Move;
 namespace TmpmsPetriNetAdapter.TransitionAttachable;
 
 
-public class MoveActionToTransitionFactory : ITransitionAttachableFactory
+public class MoveActionToArcsFactory : ITransitionAttachableFactory
 {
-    public MoveActionToTransitionFactory(IndexedJourney indexedJourney)
+    public MoveActionToArcsFactory(IndexedJourney indexedJourney)
     {
         this.IndexedJourney = indexedJourney;
     }

@@ -1,6 +1,4 @@
-﻿using Tmpms.Common.Json.Models;
-
-namespace Tmpms.Common.Json;
+﻿namespace Tmpms.Common.Json.Models;
 
 public record TimedMultiPartSystemJsonInput(
     List<LocationDefinition> LocationDeclarations,

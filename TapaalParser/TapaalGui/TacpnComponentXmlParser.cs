@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using TACPN.Net;
+using TACPN;
 using TACPN.Places;
 using TACPN.Transitions;
 using TapaalParser.TapaalGui.Placable;
@@ -7,7 +7,7 @@ using TapaalParser.TapaalGui.XmlWriters;
 
 namespace TapaalParser.TapaalGui;
 
-public class TacpnComponentXmlParser
+public class TacpnComponentXmlParser : ITacpnTranslater<string>
 {
     private readonly IEnumerable<Placement<Transition>> _transitions;
     private readonly  IEnumerable<Placement<Place>> _places;
@@ -110,5 +110,14 @@ public class TacpnComponentXmlParser
         await Task.WhenAll(tasks);
         return await Task.FromResult(tasks.Select(e=>e.Result));
     }
-    
+
+    public Task<string> TranslateNet(PetriNetComponent netComponent)
+    {
+        return this.CreateXmlComponent();
+    }
+
+    public Task<string> TranslateNet(TimedArcColouredPetriNet netComponent)
+    {
+        return Task.FromResult("");
+    }
 }

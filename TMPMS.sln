@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E8FFD48F-D6F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetriNet", "PetriNet\PetriNet.csproj", "{A1F7CE7D-29DD-4704-A10E-C9DD22A0BCD3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TACPN.IntegrationTests", "TACPN.IntegrationTests\TACPN.IntegrationTests.csproj", "{335C54E9-1E48-4533-B97E-FA642AD7F295}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TmpmsPetriNetAdapter.IntegrationTests", "TmpmsPetriNetAdapter.IntegrationTests\TmpmsPetriNetAdapter.IntegrationTests.csproj", "{335C54E9-1E48-4533-B97E-FA642AD7F295}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fixtures", "Fixtures\Fixtures.csproj", "{34D95F3B-6A45-4819-A7A0-082773D0613A}"
 EndProject

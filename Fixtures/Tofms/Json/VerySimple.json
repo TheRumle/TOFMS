@@ -4,12 +4,10 @@
       {"Part": "P1","Min": 0, "Max":"infty"},
       {"Part": "P2","Min": 0, "Max":"10"}
     ]
-    
-    
     }
   ],
   "Actions": [{"Name":  "a1", "From":  "l1", "To": "l1", "EmptyAfter":[], "EmptyBefore": [], "Parts":  {"P1": 2}}],
-  "Journeys": [{"P1":  ["l1", "l1", "l1"]}],
-  "Parts": ["P1"]
+  "Parts": ["P1"],
+  "Journeys": {"P1":  ["l1", "l1", "l1"]}
   
 }

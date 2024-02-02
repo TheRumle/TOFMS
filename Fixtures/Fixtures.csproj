@@ -7,28 +7,7 @@
         <RootNamespace>JsonFixtures</RootNamespace>
     </PropertyGroup>
 
-    <ItemGroup>
-        <None Update="Json\Components\Centrifuge.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Tofms\Json\Systems\Valid\Components\Centrifuge.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Tofms\Json\Systems\Valid\CentrifugeSystem.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Tofms\Json\Systems\Valid\simple.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Tofms\Json\Systems\Valid\medium.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Tofms\Json\Systems\Valid\complex.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
-
-
+    
     <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
     </ItemGroup>
@@ -37,12 +16,10 @@
     <ItemGroup>
         <ProjectReference Include="..\MultiPartSystem\MultiPartSystem.csproj" />
         <ProjectReference Include="..\PetriNet\PetriNet.csproj" />
+        <ProjectReference Include="..\TapaalParser\TapaalParser.csproj" />
     </ItemGroup>
-
 
     <ItemGroup>
-      <Folder Include="Tapn\Fixtures\" />
-      <Folder Include="Tofms\" />
+        <None Include="$(SolutionDir)\Fixtures\Tofms\**" CopyToOutputDirectory="Always" />
     </ItemGroup>
-
 </Project>

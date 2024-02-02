@@ -1,6 +1,4 @@
-﻿
-using TACPN.Net;
-using TACPN.Places;
+﻿using TACPN.Places;
 using TACPN.Transitions;
 
 namespace TapaalParser.TapaalGui.Placable;

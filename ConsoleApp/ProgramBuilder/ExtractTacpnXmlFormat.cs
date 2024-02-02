@@ -2,7 +2,6 @@
 using Common;
 using TACPN;
 using TACPN.Colours.Type;
-using TACPN.Net;
 using TACPN.Places;
 using TapaalParser.TapaalGui;
 using TapaalParser.TapaalGui.XmlWriters.SymbolWriters;

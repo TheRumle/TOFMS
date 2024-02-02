@@ -1,5 +1,4 @@
 ﻿using TACPN;
-using TACPN.Net;
 using TACPN.Places;
 using TACPN.Transitions;
 
@@ -32,7 +31,7 @@ public class CircleAroundSingleTransitionStrategy : IPositionPlacementStrategy
         return new PlacableComponent(transitions, 
             placePositions.OfType<Placement<Place>>(),
             placePositions.OfType<Placement<CapacityPlace>>(),
-            component.Colors, component.Name);
+            component.ColourTypes.Select(e=>e.Name), component.Name);
     }
 
     private List<Placement<Transition>> GetTransitionsPlacements(PetriNetComponent component, Position[] coordinates)

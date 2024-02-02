@@ -10,8 +10,7 @@ public class IngoingArc : Arc<IPlace, Transition>
 {
     public ColourType ColourType { get; init; }
     public TimeGuardedArcExpression Expression { get; set;  }
-    public IEnumerable<IColourExpressionAmount> Consumptions => Expression.Amounts;
-    
+
     public IngoingArc(IPlace from, Transition to, IEnumerable<ColourTimeGuard> guards, IEnumerable<IColourExpressionAmount> expressions ) 
         : base(from, to)
     {

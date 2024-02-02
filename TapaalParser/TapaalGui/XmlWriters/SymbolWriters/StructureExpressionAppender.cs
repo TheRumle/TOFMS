@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using TACPN;
-using TACPN.Net;
 using TACPN.Places;
 
 namespace TapaalParser.TapaalGui.XmlWriters.SymbolWriters;

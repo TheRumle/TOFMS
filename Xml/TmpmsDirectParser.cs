@@ -4,7 +4,7 @@ using Tmpms.Common.Move;
 
 namespace Xml;
 
-public class TmpmsParser
+public class TmpmsDirectParser
 {
     private TimedMultipartSystem _system;
     private readonly List<string> _partnames;
@@ -15,7 +15,7 @@ public class TmpmsParser
     private readonly IEnumerable<MoveAction> _moveactions;
     private readonly HashSet<Invariant> _invariants;
 
-    public TmpmsParser(TimedMultipartSystem system)
+    public TmpmsDirectParser(TimedMultipartSystem system)
     {
         _system = system;
         this._partnames = system.Parts.ToList();

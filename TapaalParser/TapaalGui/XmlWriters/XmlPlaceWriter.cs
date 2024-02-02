@@ -2,7 +2,6 @@
 using System.Text.RegularExpressions;
 using TACPN.Colours;
 using TACPN.Colours.Type;
-using TACPN.Net;
 using TACPN.Places;
 using TapaalParser.TapaalGui.Placable;
 using TapaalParser.TapaalGui.XmlWriters.SymbolWriters;

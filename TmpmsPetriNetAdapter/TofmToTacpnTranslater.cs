@@ -1,6 +1,5 @@
 ﻿using TACPN;
 using TACPN.Colours.Type;
-using TACPN.Net;
 using TACPN.Places;
 using TACPN.Transitions;
 using TACPN.Transitions.Guard;
@@ -10,16 +9,14 @@ using Tmpms.Common.Translate;
 
 namespace TmpmsPetriNetAdapter;
 
-public class TofmToTacpnTranslater(ITransitionAttachableFactory transitionAttachableFactory,
+public class TofmToTacpnTranslater(ITransitionAttachableFactory transitionAttachableFactory, ITransitionFactory transitionFactory,
         IndexedJourney indexedJourneys)
     : IMoveActionTranslation<PetriNetComponent>
 {
-    private readonly Dictionary<string, IEnumerable<KeyValuePair<int, Location>>> _indexedJourneys = indexedJourneys;
 
     public PetriNetComponent Translate(MoveAction moveAction)
     {
-        //TODO transition factory
-        Transition transition = new Transition(moveAction.Name, ColourType.TokenAndDefaultColourType, TransitionGuard.Empty());
+        Transition transition = transitionFactory.CreateTransition(moveAction);
         transitionAttachableFactory.AdaptFrom(moveAction).AttachToTransition(transition);
         transitionAttachableFactory.AdaptEmptyAfter(moveAction).AttachToTransition(transition);
         transitionAttachableFactory.AdaptTo(moveAction).AttachToTransition(transition);
@@ -29,7 +26,7 @@ public class TofmToTacpnTranslater(ITransitionAttachableFactory transitionAttach
         IEnumerable<string> involvedParts = moveAction.PartsToMove.Select(e => e.Key);
         
         
-        foreach (var kv in _indexedJourneys)
+        foreach (var kv in indexedJourneys)
         {
             var part = kv.Key;
             var locations = kv.Value;
@@ -42,7 +39,7 @@ public class TofmToTacpnTranslater(ITransitionAttachableFactory transitionAttach
         var colourTypes = transition.InvolvedPlaces.Select(e => e.ColourType).DistinctBy(e=>e.Name);
         return new PetriNetComponent
         {
-            Colors = moveAction.PartsToMove.Select(e => e.Key),
+            InvolvedParts = moveAction.PartsToMove.Select(e => e.Key),
             Transitions = new List<Transition> { transition },
             Places = transition.InvolvedPlaces.OfType<Place>().ToList(),
             CapacityPlaces = transition.InvolvedPlaces.OfType<CapacityPlace>().ToList(),

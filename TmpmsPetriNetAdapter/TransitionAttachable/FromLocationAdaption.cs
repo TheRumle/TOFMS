@@ -2,7 +2,6 @@
 using TACPN.Colours.Expression;
 using TACPN.Colours.Type;
 using TACPN.Colours.Values;
-using TACPN.Net;
 using TACPN.Places;
 using TACPN.Transitions;
 using Tmpms.Common;

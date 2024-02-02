@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using TACPN.Arcs;
 using TACPN.Colours.Type;
-using TACPN.Net;
 using TapaalParser.TapaalGui.XmlWriters.Symbols;
 
 namespace TapaalParser.TapaalGui.XmlWriters.SymbolWriters;
