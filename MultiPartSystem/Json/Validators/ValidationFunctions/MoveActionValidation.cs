@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.Design.Serialization;
-using Tmpms.Common.Json.Errors;
+﻿using Tmpms.Common.Json.Errors;
 using Tmpms.Common.Json.Models;
 
 namespace Tmpms.Common.Json.Validators.ValidationFunctions;
@@ -15,7 +14,7 @@ internal static class MoveActionValidation
         {
             var errs = moveActionDefinition.Parts
                 .Where(value => string.IsNullOrWhiteSpace(value.Key) || !definedPartTypes.Contains(value.Key))
-                .Select(e => new PartTypeNameEmptyException<MoveActionDefinition>(moveActionDefinition));
+                .Select(e => new InvalidPartTypeException(e.Key, moveActionDefinition));
             errors.AddRange(errs);
         }
 

@@ -12,7 +12,7 @@ internal static class LocationValidation
             .Select(e => new InvalidCapacityException(e));
     }
     
-    public static IEnumerable<InvalidJsonTmpmsException> InvariantValidation(IEnumerable<LocationDefinition> locations)
+    public static IEnumerable<InvalidJsonTmpmsException> InvariantAreValidValidation(IEnumerable<LocationDefinition> locations)
     {
         var errs = new List<InvalidJsonTmpmsException>();
         foreach (var location in locations)
@@ -27,6 +27,17 @@ internal static class LocationValidation
             }
         }
 
+        return errs;
+    }
+    
+    public static IEnumerable<InvalidJsonTmpmsException> InvariantAreOverDefinedPartsLocationValidation(IEnumerable<LocationDefinition> locations, string[] parts)
+    {
+        var errs = new List<InvalidJsonTmpmsException>();
+        foreach (var loc in locations)
+        {
+            var invalidInvariants = loc.Invariants.Where(inv => !parts.Contains(inv.Part));
+            errs.AddRange(invalidInvariants.Select(invariant => new InvalidInvariantException(invariant, invariant.Part)));
+        }
         return errs;
     }
     public static IEnumerable<InvalidJsonTmpmsException> DuplicateLocationValidation(IEnumerable<LocationDefinition> locations)

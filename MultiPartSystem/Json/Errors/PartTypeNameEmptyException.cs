@@ -1,6 +1,6 @@
 ﻿namespace Tmpms.Common.Json.Errors;
 
-public class PartTypeNameEmptyException<T> : InvalidJsonTmpmsException
+public class PartTypeNameEmptyException<T> : InvalidJsonTmpmsException where T : class
 {
     public PartTypeNameEmptyException(T context)
     {
@@ -13,6 +13,6 @@ public class PartTypeNameEmptyException<T> : InvalidJsonTmpmsException
 
     public override string ToString()
     {
-        return $"\"{Context}\" did not specify a part type!";
+        return $"\"{Context.GetType().Name}\" did not specify a part type!";
     }
 }

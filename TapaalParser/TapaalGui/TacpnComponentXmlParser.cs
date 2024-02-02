@@ -2,8 +2,8 @@
 using TACPN;
 using TACPN.Places;
 using TACPN.Transitions;
-using TapaalParser.TapaalGui.Placable;
-using TapaalParser.TapaalGui.XmlWriters;
+using TapaalParser.TapaalGui.Old.Placable;
+using TapaalParser.TapaalGui.Old.XmlWriters;
 
 namespace TapaalParser.TapaalGui;
 
@@ -118,6 +118,6 @@ public class TacpnComponentXmlParser : ITacpnTranslater<string>
 
     public Task<string> TranslateNet(TimedArcColouredPetriNet netComponent)
     {
-        return Task.FromResult("");
+        return Task.FromResult("tsneiroatsneri");
     }
 }

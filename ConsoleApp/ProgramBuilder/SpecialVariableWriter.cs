@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using TACPN.Colours.Type;
-using TapaalParser.TapaalGui.XmlWriters.Symbols;
+using TapaalParser.TapaalGui.Old.XmlWriters.Symbols;
 using Tmpms.Common;
 using Tmpms.Common.Json.Models;
 

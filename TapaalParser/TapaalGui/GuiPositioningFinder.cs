@@ -1,6 +1,6 @@
 ﻿using TACPN;
-using TapaalParser.TapaalGui.Placable;
-using TapaalParser.TapaalGui.Placable.PlacementStrategies;
+using TapaalParser.TapaalGui.Old.Placable;
+using TapaalParser.TapaalGui.Old.Placable.PlacementStrategies;
 
 namespace TapaalParser.TapaalGui;
 

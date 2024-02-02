@@ -24,6 +24,13 @@ public class InvalidInvariantException : InvalidJsonTmpmsException
         _readableMessage =
             $"Invalid definition invariant for {_part}: {_min} to {_max}. Is {_min} > {_max} and did you use infty/inf wrong?";
     }
+    
+    public InvalidInvariantException(InvariantDefinition invariant, string partType) : this(invariant.Part, invariant.Min.ToString(),
+        invariant.Max.ToString())
+    {
+        _readableMessage =
+            $"Invalid definition invariant for {partType}: The part type was not defined";
+    }
 
     public override string ErrorCategory { get; } = "Invalid invariant";
 

@@ -1,8 +1,7 @@
 ﻿{
   "LocationDeclarations": [
     {"Name":  "l1", "Capacity":  10, "IsProcessing": true, "Invariants": [
-      {"Part": "P1","Min": 0, "Max":"infty"},
-      {"Part": "P2","Min": 0, "Max":"10"}
+      {"Part": "P1","Min": 0, "Max":"infty"}
     ]
     }
   ],

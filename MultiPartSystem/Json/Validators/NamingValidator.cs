@@ -117,4 +117,6 @@ internal class NamingValidator : JsonValidator<IEnumerable<LocationDefinition>, 
     {
         _errs.Add(new AlphaNumericViolation<TFirst>(value, violation));
     }
+    
+    
 }

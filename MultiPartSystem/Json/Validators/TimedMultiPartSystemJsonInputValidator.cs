@@ -10,7 +10,7 @@ public class TimedMultiPartSystemJsonInputValidator : JsonValidator<TimedMultiPa
         var moveActionValidator = new MoveActionValidator(inputs.LocationDeclarations, inputs.Parts)
             .ValidationTasksFor(inputs.Actions);
         
-        var locationsValidators = new LocationValidator()
+        var locationsValidators = new LocationDefinitionValidator(inputs.Parts.ToArray())
             .ValidationTasksFor(inputs.LocationDeclarations);
         
         var journeyValidator = new JourneyValidator(inputs.LocationDeclarations, inputs.Parts)

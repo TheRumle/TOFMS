@@ -1,8 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using ConsoleApp.ProgramBuilder;
 using FluentAssertions;
-using JsonFixtures.Tofms.Fixtures;
 using TapaalParser;
+using TapaalParser.TapaalGui;
 using Tmpms.Common;
 using TmpmsPetriNetAdapter;
 using TmpmsPetriNetAdapter.TransitionAttachable;
@@ -14,7 +13,8 @@ namespace TACPN.IntegrationTests.DirectCompliance;
 
 public abstract class GuiTranslationAdherenceTest
 {
-    protected ITacpnTranslater<string> GuiTranslater { get; } = null;
+    protected abstract string TestName { get; }
+    protected ITacpnTranslater<string> GuiTranslater { get; } = new TapaalTacpnGuiParser();
     protected abstract TimedMultipartSystem System { get; }
     
     public string DirectlyTranslatedText()
@@ -43,25 +43,10 @@ public abstract class GuiTranslationAdherenceTest
     }
 
     [Fact]
-    public void ShouldComplyWithOldTranslation()
+    public async Task ShouldComplyWithOldTranslation()
     {
-        NewTranslatedText().Should().Be(DirectlyTranslatedText());
+        (await NewTranslatedText()).Should().Be(DirectlyTranslatedText());
     }
     
-    [Fact] void ShouldLoadAndParseSystem(){}
-
-}
-
-
-public class VerySimpleTapaalGuiParseTest : GuiTranslationAdherenceTest, IClassFixture<VerySimpleFixture>
-{
-    
-
-    public VerySimpleTapaalGuiParseTest(VerySimpleFixture fixture)
-    {
-        System = fixture.System;
-    }
-    
-    
-    protected override TimedMultipartSystem System { get; }
+    [Fact] public void ShouldLoadAndParseSystem(){}
 }
