@@ -36,8 +36,6 @@ internal class EmptyAfterAdapter : ITransitionAttachable
             RestoreCapacity(transition);
             ModifyIngoing(transition);
         } 
-
-
     }
 
     private void DeleteIngoing(Transition transition)
