@@ -6,12 +6,12 @@ namespace Tmpms.Common.Json;
 public class ErrorFormatter
 {
 
-    public ErrorFormatter(InvalidJsonTofmException[] errors)
+    public ErrorFormatter(InvalidJsonTmpmsException[] errors)
     {
         Errors = errors;
     }
 
-    public IEnumerable<InvalidJsonTofmException> Errors { get; init; }
+    public IEnumerable<InvalidJsonTmpmsException> Errors { get; init; }
 
     public string ToErrorString()
     {

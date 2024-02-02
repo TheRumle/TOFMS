@@ -1,6 +1,6 @@
 ﻿namespace Tmpms.Common.Json.Errors;
 
-public class DuplicateNameException<TFirst, TSecond> : InvalidJsonTofmException
+public class DuplicateNameException<TFirst, TSecond> : InvalidJsonTmpmsException
 {
     private readonly TFirst _first;
     private readonly string _name;
@@ -22,7 +22,7 @@ public class DuplicateNameException<TFirst, TSecond> : InvalidJsonTofmException
     }
 }
 
-public class DuplicateNameException<TFirst, TSecond, TThird> : InvalidJsonTofmException
+public class DuplicateNameException<TFirst, TSecond, TThird> : InvalidJsonTmpmsException
 {
     private readonly TFirst _first;
     private readonly string _name;

@@ -1,6 +1,6 @@
 ﻿namespace Tmpms.Common.Json.Errors;
 
-public class DuplicateDefinitionError<T> : InvalidJsonTofmException
+public class DuplicateDefinitionError<T> : InvalidJsonTmpmsException
 {
     private readonly IEnumerable<T> _values;
 

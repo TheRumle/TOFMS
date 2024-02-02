@@ -5,9 +5,9 @@ namespace Tmpms.Common.Json.Validators;
 
 internal class NamingValidator : JsonValidator<IEnumerable<LocationDefinition>, IEnumerable<MoveActionDefinition>>
 {
-    readonly List<InvalidJsonTofmException> _errs = new();
+    readonly List<InvalidJsonTmpmsException> _errs = new();
 
-    public IEnumerable<InvalidJsonTofmException> PerformValidation(IEnumerable<LocationDefinition> locations,
+    public IEnumerable<InvalidJsonTmpmsException> PerformValidation(IEnumerable<LocationDefinition> locations,
         IEnumerable<MoveActionDefinition> moveActions)
     {
         var definitions = locations as LocationDefinition[] ?? locations.ToArray();
@@ -31,7 +31,7 @@ internal class NamingValidator : JsonValidator<IEnumerable<LocationDefinition>, 
         return _errs;
     }
 
-    public override Task<IEnumerable<InvalidJsonTofmException>>[] ValidationTasksFor(IEnumerable<LocationDefinition> inputs, IEnumerable<MoveActionDefinition> context)
+    public override Task<IEnumerable<InvalidJsonTmpmsException>>[] ValidationTasksFor(IEnumerable<LocationDefinition> inputs, IEnumerable<MoveActionDefinition> context)
     {
         return new[]
         {
@@ -53,7 +53,7 @@ internal class NamingValidator : JsonValidator<IEnumerable<LocationDefinition>, 
                 if (!action.Name.IsAlphaNumericOnly()) AddAlphaNumericViolation(action, action.Name);
 
                 foreach (var value in action.Parts)
-                    allThreeNamesAreSame = CompareNames(value, action, location, allThreeNamesAreSame);
+                    allThreeNamesAreSame = CompareNames(value.Key, action, location, allThreeNamesAreSame);
 
 
                 if (!allThreeNamesAreSame && location.Name == action.Name)
@@ -65,8 +65,8 @@ internal class NamingValidator : JsonValidator<IEnumerable<LocationDefinition>, 
     private void ValidatePartNames(MoveActionDefinition action)
     {
         foreach (var partConsumptionDefinition in action.Parts)
-            if (!partConsumptionDefinition.PartType.IsAlphaNumericOnly())
-                AddAlphaNumericViolation(action, partConsumptionDefinition.PartType);
+            if (!partConsumptionDefinition.Key.IsAlphaNumericOnly())
+                AddAlphaNumericViolation(action, partConsumptionDefinition.Key);
     }
 
     private void ValidateShouldBeEmptySets(MoveActionDefinition action)
@@ -80,25 +80,25 @@ internal class NamingValidator : JsonValidator<IEnumerable<LocationDefinition>, 
                 AddAlphaNumericViolation(action, s);
     }
 
-    private bool CompareNames(PartConsumptionDefinition value, MoveActionDefinition action,
+    private bool CompareNames(string partType, MoveActionDefinition action,
         LocationDefinition location, bool foundThree)
     {
 
-        if (value.PartType == action.Name && value.PartType == location.Name)
+        if (partType == action.Name && partType == location.Name)
         {
-            AddDuplicateNameError(location, action, value, location.Name);
+            AddDuplicateNameError(location, action, partType, location.Name);
             foundThree = true;
             return foundThree;
         }
 
-        if (value.PartType == action.Name)
+        if (partType == action.Name)
         {
-            AddDuplicateNameError(value, action, action.Name);
+            AddDuplicateNameError(partType, action, action.Name);
             return foundThree;
         }
 
-        if (value.PartType == location.Name)
-            AddDuplicateNameError(value, location, location.Name);
+        if (partType == location.Name)
+            AddDuplicateNameError(partType, location, location.Name);
         return foundThree;
     }
 

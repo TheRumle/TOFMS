@@ -1,8 +1,8 @@
 ﻿namespace Tmpms.Common.Json.Errors;
 
-public abstract class InvalidJsonTofmException : Exception
+public abstract class InvalidJsonTmpmsException : Exception
 {
-    public InvalidJsonTofmException()
+    public InvalidJsonTmpmsException()
     {
     }
     

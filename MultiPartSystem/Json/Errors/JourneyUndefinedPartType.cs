@@ -1,6 +1,6 @@
 ﻿namespace Tmpms.Common.Json.Errors;
 
-public class JourneyUndefinedPartType : InvalidJsonTofmException
+public class JourneyUndefinedPartType : InvalidJsonTmpmsException
 {
     private readonly string part;
 

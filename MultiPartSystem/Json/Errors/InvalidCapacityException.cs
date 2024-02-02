@@ -2,7 +2,7 @@
 
 namespace Tmpms.Common.Json.Errors;
 
-public class InvalidCapacityException : InvalidJsonTofmException
+public class InvalidCapacityException : InvalidJsonTmpmsException
 {
     private readonly LocationDefinition _def;
 

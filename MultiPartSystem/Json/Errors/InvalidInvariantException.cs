@@ -2,7 +2,7 @@
 
 namespace Tmpms.Common.Json.Errors;
 
-public class InvalidInvariantException : InvalidJsonTofmException
+public class InvalidInvariantException : InvalidJsonTmpmsException
 {
     private readonly string _max;
     private readonly string _min;

@@ -5,16 +5,16 @@ namespace Tmpms.Common.Json.Validators.ValidationFunctions;
 
 internal static class LocationValidation
 {
-    public static IEnumerable<InvalidJsonTofmException> CapacityValidation(IEnumerable<LocationDefinition> locations)
+    public static IEnumerable<InvalidJsonTmpmsException> CapacityValidation(IEnumerable<LocationDefinition> locations)
     {
         return locations
             .Where(e => e.Capacity < 1)
             .Select(e => new InvalidCapacityException(e));
     }
     
-    public static IEnumerable<InvalidJsonTofmException> InvariantValidation(IEnumerable<LocationDefinition> locations)
+    public static IEnumerable<InvalidJsonTmpmsException> InvariantValidation(IEnumerable<LocationDefinition> locations)
     {
-        var errs = new List<InvalidJsonTofmException>();
+        var errs = new List<InvalidJsonTmpmsException>();
         foreach (var location in locations)
         {
             foreach (var invariant in location.Invariants)
@@ -29,11 +29,11 @@ internal static class LocationValidation
 
         return errs;
     }
-    public static IEnumerable<InvalidJsonTofmException> DuplicateLocationValidation(IEnumerable<LocationDefinition> locations)
+    public static IEnumerable<InvalidJsonTmpmsException> DuplicateLocationValidation(IEnumerable<LocationDefinition> locations)
     {
         var duplicates = GetDuplicateLocationDefinitions(locations);
         
-        var errors = new List<InvalidJsonTofmException>();
+        var errors = new List<InvalidJsonTmpmsException>();
         foreach (var duplicate in duplicates)
             errors.Add(new DuplicateDefinitionError<LocationDefinition>(duplicate));
         

@@ -1,6 +1,6 @@
 ﻿namespace Tmpms.Common.Json.Errors;
 
-public class AlphaNumericViolation<TContext> : InvalidJsonTofmException
+public class AlphaNumericViolation<TContext> : InvalidJsonTmpmsException
 {
     private readonly TContext context;
     private readonly string violation;

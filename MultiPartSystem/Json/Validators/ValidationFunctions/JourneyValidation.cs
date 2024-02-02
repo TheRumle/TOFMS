@@ -5,10 +5,10 @@ namespace Tmpms.Common.Json.Validators.ValidationFunctions;
 
 internal static class JourneyValidation
 {
-    public static IEnumerable<InvalidJsonTofmException> MustBeProcessingLocations(Dictionary<string, IEnumerable<string>> journey,
+    public static IEnumerable<InvalidJsonTmpmsException> MustBeProcessingLocations(Dictionary<string, IEnumerable<string>> journey,
         Dictionary<string, LocationDefinition> locationsByName )
     {
-        var errors = new List<InvalidJsonTofmException>();
+        var errors = new List<InvalidJsonTmpmsException>();
         foreach (var kvp in journey)
         {
             var part = kvp.Key;
@@ -26,10 +26,10 @@ internal static class JourneyValidation
         return errors;
     }
     
-    public static IEnumerable<InvalidJsonTofmException> MustBeDefinedLocations(Dictionary<string, IEnumerable<string>> journey,
+    public static IEnumerable<InvalidJsonTmpmsException> MustBeDefinedLocations(Dictionary<string, IEnumerable<string>> journey,
         Dictionary<string, LocationDefinition> locationsByName )
     {
-        var errors = new List<InvalidJsonTofmException>();
+        var errors = new List<InvalidJsonTmpmsException>();
         foreach (var kvp in journey)
         {
             var part = kvp.Key;
@@ -43,10 +43,10 @@ internal static class JourneyValidation
         return errors;
     }
     
-    public static IEnumerable<InvalidJsonTofmException> MustBeDefinedPartType(Dictionary<string, IEnumerable<string>> journey,
+    public static IEnumerable<InvalidJsonTmpmsException> MustBeDefinedPartType(Dictionary<string, IEnumerable<string>> journey,
         IEnumerable<string> declaredParts)
     {
-        var errors = new List<InvalidJsonTofmException>();
+        var errors = new List<InvalidJsonTmpmsException>();
         foreach (var kvp in journey)
         {
             if (!declaredParts.Contains(kvp.Key))

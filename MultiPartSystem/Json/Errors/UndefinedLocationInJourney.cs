@@ -1,6 +1,6 @@
 ﻿namespace Tmpms.Common.Json.Errors;
 
-public class UndefinedLocationInJourney : InvalidJsonTofmException
+public class UndefinedLocationInJourney : InvalidJsonTmpmsException
 {
     private readonly string part;
     private readonly string location;

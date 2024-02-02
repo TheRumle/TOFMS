@@ -2,7 +2,7 @@
 
 namespace Tmpms.Common.Json.Errors;
 
-public class UndefinedLocationException : InvalidJsonTofmException
+public class UndefinedLocationException : InvalidJsonTmpmsException
 {
     private readonly string _locationName;
     private readonly MoveActionDefinition _moveActionDefinition;

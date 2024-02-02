@@ -15,7 +15,7 @@ internal sealed class JourneyValidator : JsonValidator<Dictionary<string, IEnume
         _partTypes = partTypes;
     }
     
-    public override Task<IEnumerable<InvalidJsonTofmException>>[] ValidationTasksFor(Dictionary<string, IEnumerable<string>> journey)
+    public override Task<IEnumerable<InvalidJsonTmpmsException>>[] ValidationTasksFor(Dictionary<string, IEnumerable<string>> journey)
     {
         var validateProcessingLocationOnly = (Dictionary<string, IEnumerable<string>> journey) =>
             JourneyValidation.MustBeProcessingLocations(journey, _locationByName);

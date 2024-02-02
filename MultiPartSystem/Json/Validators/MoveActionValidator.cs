@@ -16,7 +16,7 @@ internal class MoveActionValidator : JsonValidator<IEnumerable<MoveActionDefinit
     }
     
 
-    public override Task<IEnumerable<InvalidJsonTofmException>>[] ValidationTasksFor(IEnumerable<MoveActionDefinition> inputs)
+    public override Task<IEnumerable<InvalidJsonTmpmsException>>[] ValidationTasksFor(IEnumerable<MoveActionDefinition> inputs)
     {
         var validateLocationAreDefined = (IEnumerable<MoveActionDefinition> actions) =>
             MoveActionValidation.ValidateLocationsAreDefined(actions, _locations);

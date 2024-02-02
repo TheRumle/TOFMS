@@ -1,6 +1,6 @@
 ﻿namespace Tmpms.Common.Json.Errors;
 
-public class PartTypeNameEmptyException<T> : InvalidJsonTofmException
+public class PartTypeNameEmptyException<T> : InvalidJsonTmpmsException
 {
     public PartTypeNameEmptyException(T context)
     {

@@ -2,7 +2,7 @@
 
 namespace Tmpms.Common.Json.Errors;
 
-public abstract class LocationInconsistencyException : InvalidJsonTofmException
+public abstract class LocationInconsistencyException : InvalidJsonTmpmsException
 {
     public LocationInconsistencyException(LocationDefinition location)
     {

@@ -1,6 +1,6 @@
 ﻿namespace Tmpms.Common.Json.Errors;
 
-public class LocationNameEmptyException<T> : InvalidJsonTofmException
+public class LocationNameEmptyException<T> : InvalidJsonTmpmsException
 {
     public LocationNameEmptyException(T context)
     {

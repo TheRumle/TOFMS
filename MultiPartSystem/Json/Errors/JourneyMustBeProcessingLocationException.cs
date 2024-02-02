@@ -2,7 +2,7 @@
 
 namespace Tmpms.Common.Json.Errors;
 
-public class JourneyMustBeProcessingLocationException : InvalidJsonTofmException
+public class JourneyMustBeProcessingLocationException : InvalidJsonTmpmsException
 {
     private readonly string part;
     private readonly LocationDefinition location;

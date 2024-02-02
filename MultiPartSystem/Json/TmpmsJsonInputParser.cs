@@ -42,7 +42,7 @@ public class TmpmsJsonInputParser
         return Task.FromResult(_systemFactory.Create(jsonSystem));
     }
     
-    private static ArgumentException GetValidationErrorMessage(InvalidJsonTofmException[] invalidJsonTofmExceptions)
+    private static ArgumentException GetValidationErrorMessage(InvalidJsonTmpmsException[] invalidJsonTofmExceptions)
     {
         var message = new ErrorFormatter(invalidJsonTofmExceptions).ToErrorString();
         return new ArgumentException(message);

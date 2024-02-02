@@ -22,7 +22,7 @@ public static class JsonToDomain
             To = enumerable.First(e => e.Name == actionDefinition.To),
             EmptyAfter = enumerable.Where(e => actionDefinition.EmptyAfter.Contains(e.Name)).ToHashSet(),
             EmptyBefore = enumerable.Where(e => actionDefinition.EmptyBefore.Contains(e.Name)).ToHashSet(),
-            PartsToMove = actionDefinition.Parts.Select(e => KeyValuePair.Create(e.PartType, e.Amount)).ToHashSet(),
+            PartsToMove = actionDefinition.Parts.ToHashSet(),
         };
     }
 }
