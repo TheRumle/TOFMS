@@ -22,7 +22,7 @@ public class FromTransitionAttacherTest : TransitionAttacherTest
         using (new AssertionScope())
         {
             var ingoing = transition.InGoing.First(e => e.From.Name.Equals(location.Name));
-            ingoing.ArcExpression.ExpressionText.Should()
+            ingoing.Expression.ExpressionText.Should()
                 .Be($"4'({PartType}, {variableExpressionValue})");
 
             var outgoing = transition.OutGoing.First(e => e.To.Name.Contains(location.Name));
@@ -37,6 +37,6 @@ public class FromTransitionAttacherTest : TransitionAttacherTest
         return new FromLocationAdaption(location, new[]
         {
             new KeyValuePair<string, int>(PartType, 4)
-        }, getJourneys(location).ToIndexedJourney());
+        }, GetJourneys(location).ToIndexedJourney());
     }
 }

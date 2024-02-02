@@ -26,7 +26,7 @@ public class ToTransitionAttacherTest : TransitionAttacherTest
             outGoingArc.Expression.ExpressionText.Should().Be($"4'({PartType}, {variableExpressionValue})");
             
             var inGoingFromCapacityPlace = transition.InGoing.First(e => e.From.Name.Contains(location.Name));
-            inGoingFromCapacityPlace.ArcExpression.ExpressionText.Should().Be($"4'{ColourType.DefaultColorType.ColourValue}");
+            inGoingFromCapacityPlace.Expression.ExpressionText.Should().Be($"4'{ColourType.DefaultColorType.ColourValue}");
         }
     }
     
@@ -35,6 +35,6 @@ public class ToTransitionAttacherTest : TransitionAttacherTest
         return new ToTransitionAttacher(location, new[]
         {
             new KeyValuePair<string, int>(PartType, 4)
-        }, getJourneys(location).ToIndexedJourney());
+        }, GetJourneys(location).ToIndexedJourney());
     }
 }

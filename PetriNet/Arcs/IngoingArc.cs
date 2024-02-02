@@ -1,5 +1,6 @@
 ﻿using TACPN.Colours.Expression;
 using TACPN.Colours.Type;
+using TACPN.Exceptions;
 using TACPN.Places;
 using TACPN.Transitions;
 
@@ -8,8 +9,8 @@ namespace TACPN.Arcs;
 public class IngoingArc : Arc<IPlace, Transition>
 {
     public ColourType ColourType { get; init; }
-    public TimeGuardedArcExpression ArcExpression { get; }
-    public IEnumerable<IColourExpressionAmount> Consumptions => ArcExpression.Amounts;
+    public TimeGuardedArcExpression Expression { get; set;  }
+    public IEnumerable<IColourExpressionAmount> Consumptions => Expression.Amounts;
     
     public IngoingArc(IPlace from, Transition to, IEnumerable<ColourTimeGuard> guards, IEnumerable<IColourExpressionAmount> expressions ) 
         : base(from, to)
@@ -18,23 +19,23 @@ public class IngoingArc : Arc<IPlace, Transition>
         ArcGuards.InvalidArcColourAssignment(from, to);
         ArcGuards.InvalidGuardColourAssignment(from, to, colourTimeGuards);
         ColourType = from.ColourType;
-        ArcExpression = new TimeGuardedArcExpression(colourTimeGuards, expressions, from.ColourType);
+        Expression = new TimeGuardedArcExpression(colourTimeGuards, expressions, from.ColourType);
     }
 
-    public IList<ColourTimeGuard> Guards => ArcExpression.TimeGuards;
+    public IList<ColourTimeGuard> Guards => Expression.TimeGuards;
     public bool TrySetGuardAmount(ColourTimeGuard guard, int amount)
     {
         var timeGuard = GetGuard(guard);
         if (timeGuard is null) return false;
         
-        var consumption = ArcExpression.Amounts.First(e => e.ColourValue == timeGuard.ColourValue);
+        var consumption = Expression.Amounts.First(e => e.ColourValue == timeGuard.ColourValue);
         consumption.Amount = amount;
         return true;
     }
 
     private ColourTimeGuard? GetGuard(ColourTimeGuard guard)
     {
-        var timeGuard = ArcExpression
+        var timeGuard = Expression
             .TimeGuards
             .FirstOrDefault(e => e.ColourType == guard.ColourType);
         return timeGuard;
@@ -48,5 +49,12 @@ public class IngoingArc : Arc<IPlace, Transition>
         return true;
     }
     
+    public void SubstituteArcExpressionFor(TimeGuardedArcExpression colourExpression)
+    {
+        if (!colourExpression.ColourType.Equals(this.ColourType))
+            throw new ArgumentException(
+                $"Cannot substitute expression of colour {this.Expression.ColourType} with {colourExpression.ColourType}");
+            Expression = colourExpression;
+    }
     
 }

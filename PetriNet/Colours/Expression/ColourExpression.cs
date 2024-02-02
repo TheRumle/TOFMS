@@ -27,8 +27,10 @@ public class ColourExpression : IColourExpressionAmount
     
     public static ColourExpression CapacityExpression(int amount)
     {
-        return new ColourExpression(ColourType.DefaultColorType.Colours.First(), ColourType.DefaultColorType, amount);
+        return new ColourExpression(ColourType.DefaultColorType.ColourValue, ColourType.DefaultColorType, amount);
     }
 
+    
+    
     public string ExpressionText { get; }
 }

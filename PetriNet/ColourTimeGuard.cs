@@ -19,7 +19,7 @@ public class ColourTimeGuard
     
     public static ColourTimeGuard CapacityGuard()
     {
-        return new ColourTimeGuard(ColourType.DefaultColorType, ColourType.DefaultColorType.Colours.First(), Interval.ZeroToInfinity);
+        return new ColourTimeGuard(ColourType.DefaultColorType, ColourType.DefaultColorType.ColourValue, Interval.ZeroToInfinity);
     }
 
     public static ColourTimeGuard TokensGuard(int from, int to)

@@ -5,7 +5,7 @@ namespace TACPN.Colours.Type;
 
 public class ColourType
 {
-    public static readonly SingletonColourType DefaultColorType = SingletonColour(Colour.DefaultTokenColour, SingletonColourType.NamingConvention.CapitalizeFirstLetter);
+    public static readonly SingletonColourType DefaultColorType = SingletonColour(Colour.DefaultTokenColour, "Dot");
     public static readonly ColourType TokensColourType = new("Tokens", new []{Colour.PartsColour, Colour.JourneyColour});
     public static readonly ColourType PartsColourType = TokensColourType;
     public static readonly ColourType TokenAndDefaultColourType = ColourProduct("TokensDot", new []{DefaultColorType, TokensColourType});
@@ -25,14 +25,9 @@ public class ColourType
         this.Colours = colours.Select(colour=>colour).ToList();
     }
 
-    public static SingletonColourType SingletonColour(string colour, SingletonColourType.NamingConvention strategy)
+    public static SingletonColourType SingletonColour(Colour colour, string name)
     {
-        return strategy switch
-        {
-            SingletonColourType.NamingConvention.ExactSameAsValue => new SingletonColourType(colour, new Colour(colour)),
-            SingletonColourType.NamingConvention.CapitalizeFirstLetter => new SingletonColourType(colour, new Colour(char.ToUpper(colour[0]) + colour[1..] )),
-            _ => throw new ArgumentOutOfRangeException(nameof(strategy), strategy, "No such strategy")
-        };
+        return new SingletonColourType(name, colour);
     }
 
    

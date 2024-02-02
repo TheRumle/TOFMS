@@ -21,10 +21,7 @@ public class MoveActionToTransitionFactory : ITransitionAttachableFactory
 
     public ITransitionAttachable AdaptEmptyAfter(MoveAction moveAction)
     {
-        if (moveAction.EmptyAfter.Contains(moveAction.From))
-            return new FromLocationIsInEmptyAfterAdapter(moveAction.EmptyAfter, moveAction.From, moveAction.PartsToMove, IndexedJourney);
-
-        return new InhibitorFromEmptyAfterAdapter(moveAction.EmptyAfter, IndexedJourney);
+        return new EmptyAfterAdapter(moveAction.EmptyAfter, moveAction.From, moveAction.PartsToMove, IndexedJourney);
     }
 
     public ITransitionAttachable AdaptFrom(MoveAction moveAction)

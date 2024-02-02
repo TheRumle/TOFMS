@@ -26,11 +26,9 @@ public static class LocationTranslator
         return p;
     }
     
-    public static CapacityPlace CreateCapacityPlacePlace(Location location, IndexedJourney collection)
+    public static CapacityPlace CreateCapacityPlace(Location location)
     {
-        var place = CreatePlace(location, collection);
-        var placeHat = place.ToCapacityPlace(location.Capacity);
-        return placeHat;
+        return new CapacityPlace(location.CapacityName(), location.Capacity);
     }
 
     private static List<ColourInvariant<int, string>> CreateInvariants(ColourType colourType, Location location, IndexedJourney indexedJourney, Dictionary<string, int> maxAges)

@@ -20,14 +20,6 @@ public abstract class TransitionAttacherTest
             new Invariant(PartType, 0, Infteger.PositiveInfinity)
         }, isProcessingLocation);
     }
-    
-    protected static Location CreateLocation(string locationName, bool isProcessingLocation)
-    {
-        return new Location("TestToLocation", 4, new[]
-        {
-            new Invariant(PartType, 0, Infteger.PositiveInfinity)
-        }, isProcessingLocation);
-    }
 
 
     public Transition GetTransition()
@@ -35,12 +27,9 @@ public abstract class TransitionAttacherTest
         var t = new Transition("t", ColourType.TokenAndDefaultColourType, TransitionGuard.Empty());
         return t;
     }
-
-
-
-
     
-    protected static Dictionary<string, IEnumerable<Location>> getJourneys(Location toLocation)
+    
+    protected static Dictionary<string, IEnumerable<Location>> GetJourneys(Location toLocation)
     {
         var result = new Dictionary<string, IEnumerable<Location>>();
         result.Add(PartType, new List<Location>()
@@ -50,10 +39,17 @@ public abstract class TransitionAttacherTest
         return result;
     }
     
-    protected (Transition transition, Location location) CreateAndAttach(bool isProccesingLocation)
+    protected (Transition transition, Location origin) CreateAndAttach(bool isProccesingLocation)
     {
         var location = CreateLocation(isProccesingLocation);
         var attachable = CreateFromLocation(location);
+        var transition = GetTransition();
+        attachable.AttachToTransition(transition);
+        return (transition,location);
+    }
+    
+    protected (Transition transition, Location origin) CreateAndAttach(ITransitionAttachable attachable, Location location)
+    {
         var transition = GetTransition();
         attachable.AttachToTransition(transition);
         return (transition,location);
