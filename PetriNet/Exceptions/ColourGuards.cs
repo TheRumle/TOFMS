@@ -21,11 +21,4 @@ public static class ColourGuards
         if (!type.Colours.Contains(value)) 
             throw new InvalidColourAssignment(type, value);
     }
-    
-    public static void MustBeAssignableTo(this ColourVariable lhs, int rhs)
-    {
-        if (!lhs.VariableValues.AsInts.Contains(rhs))
-            throw new InvalidColourVariableComparison(lhs, rhs);
-    }
-
 }

@@ -7,20 +7,20 @@ namespace TmpmsPetriNetAdapter;
 
 public static class LocationTranslator
 {
-    public static (Place place, CapacityPlace placeHat) CreatePlaceAndCapacityPlacePair(Location location, IndexedJourney collection)
+    public static (Place place, CapacityPlace placeHat) CreatePlaceAndCapacityPlacePair(Location location, IndexedJourneyCollection collection)
     {
         var place = CreatePlace(location, collection);
         var placeHat = place.ToCapacityPlace(location.Capacity);
         return (place, placeHat);
     }
 
-    public static Place CreatePlace(Location location, IndexedJourney indexedJourney)
+    public static Place CreatePlace(Location location, IndexedJourneyCollection indexedJourneyCollection)
     {
         var colourType = ColourType.TokensColourType;
         var maxAges = location.Invariants.Select(e => new KeyValuePair<string, int>(e.PartType, e.Max));
 
         List<ColourInvariant<int, string>> invariants =
-            CreateInvariants(colourType, location, indexedJourney, new Dictionary<string, int>(maxAges));
+            CreateInvariants(colourType, location, indexedJourneyCollection, new Dictionary<string, int>(maxAges));
         
         Place p = new Place(location.IsProcessing, location.Name, invariants, colourType);
         return p;
@@ -31,10 +31,10 @@ public static class LocationTranslator
         return new CapacityPlace(location.CapacityName(), location.Capacity);
     }
 
-    private static List<ColourInvariant<int, string>> CreateInvariants(ColourType colourType, Location location, IndexedJourney indexedJourney, Dictionary<string, int> maxAges)
+    private static List<ColourInvariant<int, string>> CreateInvariants(ColourType colourType, Location location, IndexedJourneyCollection indexedJourneyCollection, Dictionary<string, int> maxAges)
     {
         List<ColourInvariant<int, string>> result = new List<ColourInvariant<int, string>>(); 
-        foreach (var l in indexedJourney)
+        foreach (var l in indexedJourneyCollection)
         {
             var partName = l.Key;
             var journey = l.Value;

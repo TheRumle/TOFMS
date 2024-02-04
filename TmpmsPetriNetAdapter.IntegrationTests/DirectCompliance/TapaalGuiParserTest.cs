@@ -1,8 +1,10 @@
 ﻿using System.Text.RegularExpressions;
 using FluentAssertions;
+using TACPN.Transitions;
 using TapaalParser;
 using TapaalParser.TapaalGui;
 using Tmpms.Common;
+using Tmpms.Common.Move;
 using TmpmsPetriNetAdapter;
 using TmpmsPetriNetAdapter.TransitionAttachable;
 using TmpmsPetriNetAdapter.TransitionFactory;
@@ -26,8 +28,9 @@ public abstract class GuiTranslationAdherenceTest
 
     public async Task<string> NewTranslatedText()
     {
-        var arcFactory = new MoveActionToArcsFactory(System.Journeys.ToIndexedJourney());
-        var transitionFactory = new MoveActionTransitionFactory();
+        var indexed = System.Journeys.ToIndexedJourney();
+        var arcFactory = new MoveActionToArcsFactory(indexed);
+        var transitionFactory = new MoveActionTransitionFactory(indexed, []); //TODO ad dcolour variables
         var translater =
             new TofmToTacpnTranslater(arcFactory, transitionFactory, System.Journeys.ToIndexedJourney());
 

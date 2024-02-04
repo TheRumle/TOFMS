@@ -37,10 +37,10 @@ public class PartColourTupleExpressionFactory
 internal class ToTransitionAttacher : ITransitionAttachable
 {
     public ToTransitionAttacher(Location toLocation,
-        IEnumerable<KeyValuePair<string, int>> partsItemMovedIntoPlace, IndexedJourney indexedJourney)
+        IEnumerable<KeyValuePair<string, int>> partsItemMovedIntoPlace, IndexedJourneyCollection indexedJourneyCollection)
     {
         _itemMovedIntoPlace = partsItemMovedIntoPlace;
-        (_place, _capacityPlace) = LocationTranslator.CreatePlaceAndCapacityPlacePair(toLocation, indexedJourney);
+        (_place, _capacityPlace) = LocationTranslator.CreatePlaceAndCapacityPlacePair(toLocation, indexedJourneyCollection);
     }
 
     private readonly CapacityPlace _capacityPlace;

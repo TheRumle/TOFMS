@@ -19,7 +19,7 @@ public class TransitionWriter
 
    
   
-    public void WriteTransition(IndexedJourney collection)
+    public void WriteTransition(IndexedJourneyCollection collection)
     {
         
         StringBuilder.Append($@"<transition angle=""0"" displayName=""true"" id=""{MoveAction.Name}"" infiniteServer=""false"" name=""{MoveAction.Name}"" nameOffsetX=""0"" nameOffsetY=""0"" player=""0"" positionX=""50"" positionY=""50"" priority=""0"" urgent=""false""> ");

@@ -7,16 +7,16 @@ namespace Xml;
 public class ArcWriter
 {
     private readonly string transition;
-    private readonly IndexedJourney _indexedJourneys;
+    private readonly IndexedJourneyCollection _indexedJourneysCollection;
     public StringBuilder StringBuilder { get; }
     private MoveAction _moveAction { get; }
 
-    public ArcWriter(StringBuilder stringBuilder, MoveAction moveAction, IndexedJourney collection)
+    public ArcWriter(StringBuilder stringBuilder, MoveAction moveAction, IndexedJourneyCollection collection)
     {
         StringBuilder = stringBuilder;
         _moveAction = moveAction;
         this.transition = moveAction.Name;
-        this._indexedJourneys = collection;
+        this._indexedJourneysCollection = collection;
     }
 
 
@@ -154,7 +154,7 @@ public class ArcWriter
 
     private void WriteTokenColourInterval(string partType)
     {
-      var journeyIndexes = _indexedJourneys[partType].Select(e=>e.Key);
+      var journeyIndexes = _indexedJourneysCollection[partType].Select(e=>e.Key);
       var guard = _moveAction.From.Invariants.First(e => e.PartType == partType);
       foreach (var index in journeyIndexes)
       {

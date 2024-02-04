@@ -8,7 +8,7 @@ namespace TACPN.Transitions.Guard;
 /// <summary>
 /// Represents a series of OR conditions over variables where one must be true.
 /// </summary>
-internal class TransitionGuardStatement : ITransitionGuardStatement
+public class TransitionGuardStatement : ITransitionGuardStatement
 {
     internal TransitionGuardStatement(ColourType colourType)
     {
@@ -17,7 +17,8 @@ internal class TransitionGuardStatement : ITransitionGuardStatement
 
     public ColourType ColourType { get; }
 
-    private List<IColourComparison<ColourVariable, int>> _conditions = new();
+    private ICollection<IColourComparison<ColourVariable, int>> _conditions = [];
+    public IEnumerable<IColourComparison<ColourVariable, int>> Conditions => _conditions;
 
     public void AddComparison(IColourComparison<ColourVariable, int> comparator)
     {
@@ -25,12 +26,21 @@ internal class TransitionGuardStatement : ITransitionGuardStatement
         ColourType.MustContain(lhs);
         _conditions.Add(comparator);
     }
-    
+
+    public string ToTapaalText()
+    {
+        //AddOnlyTheComparisson
+        //todo build a nice string expression (((x = 2 or .... s) and ((...))
+        throw new NotImplementedException();
+    }
+
     public static TransitionGuardStatement Empty(ColourType colourType) => new(colourType);
 
-    public override string ToString()
+    public static TransitionGuardStatement WithConditions(ICollection<IColourComparison<ColourVariable, int>> conditions)
     {
-        //todo build a nice string expression (((x = 2 or .... s) and ((...))
-        return base.ToString();
+        return new TransitionGuardStatement(ColourType.TokenAndDefaultColourType)
+        {
+            _conditions = conditions
+        };
     }
 }

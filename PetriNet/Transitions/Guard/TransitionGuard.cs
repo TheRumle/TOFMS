@@ -3,6 +3,7 @@
 public interface ITransitionGuard
 {
     public IReadOnlyList<ITransitionGuardStatement> Statements { get; }
+    public string ToTapaalText();
 
 }
 
@@ -21,4 +22,21 @@ public class TransitionGuard : ITransitionGuard
     }
     private TransitionGuard(){}
     public static ITransitionGuard Empty() => new TransitionGuard();
+    
+    public string ToTapaalText()
+    {
+        
+        //AddParanthesis
+        throw new NotImplementedException();
+    }
+
+
+    public static TransitionGuard FromStatement(IEnumerable<ITransitionGuardStatement> statements)
+    {
+        return new TransitionGuard()
+        {
+            _statements = statements.ToList()
+        };
+    }
+
 }

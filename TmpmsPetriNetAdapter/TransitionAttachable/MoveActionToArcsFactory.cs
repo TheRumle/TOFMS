@@ -7,30 +7,30 @@ namespace TmpmsPetriNetAdapter.TransitionAttachable;
 
 public class MoveActionToArcsFactory : ITransitionAttachableFactory
 {
-    public MoveActionToArcsFactory(IndexedJourney indexedJourney)
+    public MoveActionToArcsFactory(IndexedJourneyCollection indexedJourneyCollection)
     {
-        this.IndexedJourney = indexedJourney;
+        this.IndexedJourneyCollection = indexedJourneyCollection;
     }
 
-    public IndexedJourney IndexedJourney { get; set; }
+    public IndexedJourneyCollection IndexedJourneyCollection { get; set; }
 
     public ITransitionAttachable AdaptEmptyBefore(MoveAction moveAction)
     {
-        return new EmptyBeforeCapacitorInhibitorAdaption(moveAction.EmptyBefore, IndexedJourney);
+        return new EmptyBeforeCapacitorInhibitorAdaption(moveAction.EmptyBefore, IndexedJourneyCollection);
     }
 
     public ITransitionAttachable AdaptEmptyAfter(MoveAction moveAction)
     {
-        return new EmptyAfterAdapter(moveAction.EmptyAfter, moveAction.From, moveAction.PartsToMove, IndexedJourney);
+        return new EmptyAfterAdapter(moveAction.EmptyAfter, moveAction.From, moveAction.PartsToMove, IndexedJourneyCollection);
     }
 
     public ITransitionAttachable AdaptFrom(MoveAction moveAction)
     {
-        return new FromLocationAdaption(moveAction.From, moveAction.PartsToMove, IndexedJourney);
+        return new FromLocationAdaption(moveAction.From, moveAction.PartsToMove, IndexedJourneyCollection);
     }
 
     public ITransitionAttachable AdaptTo(MoveAction moveAction)
     {
-        return new ToTransitionAttacher(moveAction.To, moveAction.PartsToMove, IndexedJourney);
+        return new ToTransitionAttacher(moveAction.To, moveAction.PartsToMove, IndexedJourneyCollection);
     }
 }

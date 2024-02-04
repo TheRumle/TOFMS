@@ -10,13 +10,13 @@ namespace TmpmsPetriNetAdapter.TransitionAttachable;
 
 internal class FromLocationAdaption : ITransitionAttachable
 {
-    private readonly IndexedJourney collection;
+    private readonly IndexedJourneyCollection collection;
 
     /// <summary>
     /// </summary>
     /// <param name="fromLocation"> A place representing a location l.</param>
     /// <param name="partsToConsume">The parts that need to be consumed from l.</param>
-    public FromLocationAdaption(Location fromLocation, IEnumerable<KeyValuePair<string, int>> partsToConsume, IndexedJourney collection)
+    public FromLocationAdaption(Location fromLocation, IEnumerable<KeyValuePair<string, int>> partsToConsume, IndexedJourneyCollection collection)
     {
         FromLocation = fromLocation;
         ToConsume = partsToConsume;

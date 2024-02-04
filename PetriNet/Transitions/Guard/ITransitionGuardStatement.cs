@@ -9,4 +9,7 @@ public interface ITransitionGuardStatement
 {
     ColourType ColourType { get; }
     void AddComparison(IColourComparison<ColourVariable, int> comparator);
+    public IEnumerable<IColourComparison<ColourVariable, int>> Conditions { get; }
+
+    public string ToTapaalText();
 }

@@ -1,5 +1,9 @@
-﻿using JsonFixtures.Tofms.Fixtures;
+﻿using FluentAssertions;
+using FluentAssertions.Execution;
+using JsonFixtures.Tofms.Fixtures;
+using TACPN.Transitions;
 using Tmpms.Common;
+using TmpmsPetriNetAdapter.TransitionAttachable;
 using Xunit;
 
 namespace TACPN.IntegrationTests.DirectCompliance;

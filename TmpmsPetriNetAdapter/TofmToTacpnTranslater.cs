@@ -10,7 +10,7 @@ using Tmpms.Common.Translate;
 namespace TmpmsPetriNetAdapter;
 
 public class TofmToTacpnTranslater(ITransitionAttachableFactory transitionAttachableFactory, ITransitionFactory transitionFactory,
-        IndexedJourney indexedJourneys)
+        IndexedJourneyCollection indexedJourneysCollection)
     : IMoveActionTranslation<PetriNetComponent>
 {
 
@@ -26,7 +26,7 @@ public class TofmToTacpnTranslater(ITransitionAttachableFactory transitionAttach
         IEnumerable<string> involvedParts = moveAction.PartsToMove.Select(e => e.Key);
         
         
-        foreach (var kv in indexedJourneys)
+        foreach (var kv in indexedJourneysCollection)
         {
             var part = kv.Key;
             var locations = kv.Value;

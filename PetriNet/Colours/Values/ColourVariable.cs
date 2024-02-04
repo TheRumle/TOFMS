@@ -18,6 +18,11 @@ public record ColourVariable : IColourVariableExpression
     {
         return $"Var{part}";
     }
+
+    public bool IsVariableFor(string partType)
+    {
+        return ColourVariable.VariableNameFor(partType) == Name;
+    }
     
     public static IEnumerable<VariableDecrement> DecrementsFor(IEnumerable<string> parts)
     {

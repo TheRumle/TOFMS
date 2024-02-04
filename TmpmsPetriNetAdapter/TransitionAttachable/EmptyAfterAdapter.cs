@@ -8,22 +8,22 @@ namespace TmpmsPetriNetAdapter.TransitionAttachable;
 internal class EmptyAfterAdapter : ITransitionAttachable
 {
     private readonly IEnumerable<Location> _emptyAfterLocations;
-    private readonly IndexedJourney _indexedJourney;
+    private readonly IndexedJourneyCollection _indexedJourneyCollection;
     private readonly int _amountsToMove;
     private readonly Location _fromLocation;
 
     public EmptyAfterAdapter(IEnumerable<Location> emptyAfterLocations, Location fromLocation,
-        IEnumerable<KeyValuePair<string, int>> partsToConsume, IndexedJourney collection)
+        IEnumerable<KeyValuePair<string, int>> partsToConsume, IndexedJourneyCollection collection)
     {
         _emptyAfterLocations = emptyAfterLocations.ToList();
         _fromLocation = fromLocation;
         _amountsToMove = partsToConsume.Sum(e=>e.Value);
-        _indexedJourney = collection;
+        _indexedJourneyCollection = collection;
         
     }
     public void AttachToTransition(Transition transition)
     {
-        foreach (var place in _emptyAfterLocations.Where(e=>!e.Equals(_fromLocation)).Select(e => LocationTranslator.CreatePlace(e, _indexedJourney)))
+        foreach (var place in _emptyAfterLocations.Where(e=>!e.Equals(_fromLocation)).Select(e => LocationTranslator.CreatePlace(e, _indexedJourneyCollection)))
             transition.AddInhibitorFrom(place, 1);
 
         if (_emptyAfterLocations.Contains(_fromLocation) && _amountsToMove.Equals(_fromLocation.Capacity))

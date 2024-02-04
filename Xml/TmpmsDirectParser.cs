@@ -10,7 +10,7 @@ public class TmpmsDirectParser
     private readonly List<string> _partnames;
     private readonly IEnumerable<Location> _locations;
     private readonly StringBuilder _stringBuilder;
-    private readonly IndexedJourney _indexedJourneys;
+    private readonly IndexedJourneyCollection _indexedJourneysCollection;
     private readonly CapacityLocation[] _capacityLocations;
     private readonly IEnumerable<MoveAction> _moveactions;
     private readonly HashSet<Invariant> _invariants;
@@ -21,7 +21,7 @@ public class TmpmsDirectParser
         this._partnames = system.Parts.ToList();
         _locations = GetLocations();
         this._stringBuilder = new StringBuilder();
-        this._indexedJourneys = CreateJourneyCollection();
+        this._indexedJourneysCollection = CreateJourneyCollection();
         this._capacityLocations = _locations.Where(e=>e.Name != Location.EndLocationName).Select(e => e.ToCapacityLocation()).ToArray();
         this._moveactions = system.MoveActions;
         this._invariants = system.MoveActions.SelectMany(e => e.InvolvedLocations.SelectMany(e => e.Invariants)).ToHashSet();
@@ -33,7 +33,7 @@ public class TmpmsDirectParser
         return _system.MoveActions.SelectMany(e=>e.InvolvedLocations).DistinctBy(e => e.Name);
     }
 
-    private IndexedJourney CreateJourneyCollection()
+    private IndexedJourneyCollection CreateJourneyCollection()
     {
         var a = _system.Journeys;
         var dict = new Dictionary<string, IEnumerable<Location>>(_system.Journeys);
@@ -45,7 +45,7 @@ public class TmpmsDirectParser
                 values.Select((h, index) => KeyValuePair.Create(index, h));
             return KeyValuePair.Create(k, newValues);
         });
-        return new IndexedJourney(j);
+        return new IndexedJourneyCollection(j);
     }
 
 
@@ -76,12 +76,12 @@ public class TmpmsDirectParser
         {
             if (moveAction.To.Name != Location.EndLocationName)
             {
-                SubnetDeclarer subnetDeclarer = new SubnetDeclarer(_stringBuilder, _indexedJourneys);
+                SubnetDeclarer subnetDeclarer = new SubnetDeclarer(_stringBuilder, _indexedJourneysCollection);
                 subnetDeclarer.WriteComponent(moveAction, _capacityLocations);
             }   
             else
             {
-                EndSubnetWriter endWriter = new EndSubnetWriter(moveAction, _stringBuilder, _indexedJourneys, _partnames);
+                EndSubnetWriter endWriter = new EndSubnetWriter(moveAction, _stringBuilder, _indexedJourneysCollection, _partnames);
                 endWriter.WriteEndAction();
             }
             
@@ -94,14 +94,14 @@ public class TmpmsDirectParser
     {
         SharedPlaceDeclarationWriter declarationWriter = new SharedPlaceDeclarationWriter(this._stringBuilder);
     
-        declarationWriter.WritePlaces(_locations.Where(e=>e.Name!=Location.EndLocationName), _indexedJourneys);
-        declarationWriter.WriteCapacityPlaces(_capacityLocations, _indexedJourneys);
+        declarationWriter.WritePlaces(_locations.Where(e=>e.Name!=Location.EndLocationName), _indexedJourneysCollection);
+        declarationWriter.WriteCapacityPlaces(_capacityLocations, _indexedJourneysCollection);
     }
 
     private void DeclareVariables()
     {
         var variableDeclarationWriter = new VariableDeclarer(_stringBuilder);
-        variableDeclarationWriter.WriteVariables(this._indexedJourneys);
+        variableDeclarationWriter.WriteVariables(this._indexedJourneysCollection);
     }
 
     private void DeclareColours()
@@ -109,7 +109,7 @@ public class TmpmsDirectParser
         var declarer = new ColourDeclarer(_stringBuilder);
         declarer.WriteDot();
         declarer.WriteParts(_partnames);
-        declarer.WriteJourney(_stringBuilder, _indexedJourneys);
-        declarer.WriteTokenDeclaration(_indexedJourneys);
+        declarer.WriteJourney(_stringBuilder, _indexedJourneysCollection);
+        declarer.WriteTokenDeclaration(_indexedJourneysCollection);
     }
 }
