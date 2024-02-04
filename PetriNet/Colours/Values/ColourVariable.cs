@@ -51,7 +51,7 @@ public record ColourVariable : IColourVariableExpression
         return new ColourVariable(name, colourType);
     }
 
-    public static ColourVariable CreateFromPartName(string part, ColourType colourType)
+    public static ColourVariable CreateFromPartName(string part)
     {
         var name = VariableNameFor(part);
         return CreateIfValid(name, colourType);

@@ -29,7 +29,7 @@ public class MoveActionTransitionFactory : ITransitionFactory
         var a = TransitionGuardStatement.WithConditions(comparisons.ToList());
         var guard = TransitionGuard.FromStatement([a]);
         
-        var t = new Transition(moveAction.Name, ColourType.TokenAndDefaultColourType, TransitionGuard.Empty());
+        var t = new Transition(moveAction.Name, ColourType.TokenAndDefaultColourType, guard);
         return t;
     }
 

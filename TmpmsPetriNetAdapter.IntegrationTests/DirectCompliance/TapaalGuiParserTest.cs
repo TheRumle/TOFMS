@@ -30,7 +30,7 @@ public abstract class GuiTranslationAdherenceTest
     {
         var indexed = System.Journeys.ToIndexedJourney();
         var arcFactory = new MoveActionToArcsFactory(indexed);
-        var transitionFactory = new MoveActionTransitionFactory(indexed, []); //TODO ad dcolour variables
+        var transitionFactory = new MoveActionTransitionFactory(indexed, []); //TODO add colour variables
         var translater =
             new TofmToTacpnTranslater(arcFactory, transitionFactory, System.Journeys.ToIndexedJourney());
 

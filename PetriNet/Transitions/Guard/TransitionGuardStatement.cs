@@ -17,14 +17,14 @@ public class TransitionGuardStatement : ITransitionGuardStatement
 
     public ColourType ColourType { get; }
 
-    private ICollection<IColourComparison<ColourVariable, int>> _conditions = [];
-    public IEnumerable<IColourComparison<ColourVariable, int>> Conditions => _conditions;
+    private ICollection<IColourComparison<ColourVariable, int>> _comparisons = [];
+    public IEnumerable<IColourComparison<ColourVariable, int>> Comparisons => _comparisons;
 
     public void AddComparison(IColourComparison<ColourVariable, int> comparator)
     {
         var lhs = comparator.Lhs;
         ColourType.MustContain(lhs);
-        _conditions.Add(comparator);
+        _comparisons.Add(comparator);
     }
 
     public string ToTapaalText()
@@ -40,7 +40,7 @@ public class TransitionGuardStatement : ITransitionGuardStatement
     {
         return new TransitionGuardStatement(ColourType.TokenAndDefaultColourType)
         {
-            _conditions = conditions
+            _comparisons = conditions
         };
     }
 }

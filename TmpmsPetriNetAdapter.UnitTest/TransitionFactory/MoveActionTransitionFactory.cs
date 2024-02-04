@@ -45,17 +45,17 @@ public class MoveActionTransitionFactoryTest : IClassFixture<MoveActionFixture>
     }
     
 
-    [Fact]
-    public void When_IndexIsEqualToNextStep_ShouldHaveGuard()
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(3)]
+    public void When_IndexIsEqualToNextStep_ShouldHaveGuard(int numJourneyOccurances)
     {
         var moveAction = CreateMoveAction(ProcessingLocation, BufferLocation,Move((3, "P1")));
         var to = moveAction.To;
 
-        JourneyCollection journeys = JourneyCollection.ConstructJourneysFor(
-        [
-                ("P1", ListExtensions.Shuffle([.._otherLocations, ..Enumerable.Repeat(to,3)])), 
-                ("P2", ListExtensions.Shuffle([.._otherLocations, ..Enumerable.Repeat(to,2)])),
-                ("P3", ListExtensions.Shuffle([.._otherLocations, to]))
+        JourneyCollection journeys = JourneyCollection.ConstructJourneysFor([
+                ("P1", ListExtensions.Shuffle([.._otherLocations, ..Enumerable.Repeat(to,numJourneyOccurances)])), 
         ]);
         
         var transitionFactory = CreateTransitionFactoryForJourneys(journeys);
@@ -63,10 +63,8 @@ public class MoveActionTransitionFactoryTest : IClassFixture<MoveActionFixture>
         //Assert that transition has guards for all 3 times 
 
 
-        var variableOccurances = transition.Guard.Statements.SelectMany(e => e.Conditions.Select(comparison => comparison.Lhs));
-        variableOccurances.Where(e => e.IsVariableFor("P1")).Should().HaveCount(3);
-        variableOccurances.Where(e => e.IsVariableFor("P2")).Should().HaveCount(2);
-        variableOccurances.Where(e => e.IsVariableFor("P3")).Should().HaveCount(1);
+        var variableOccurances = transition.Guard.Statements.SelectMany(e => e.Comparisons.Select(comparison => comparison.Lhs));
+        variableOccurances.Where(e => e.IsVariableFor("P1")).Should().HaveCount(numJourneyOccurances);
     }
 
     private ITransitionFactory CreateTransitionFactoryForJourneys(JourneyCollection collection)
