@@ -7,7 +7,7 @@ using Tmpms.Common.Journey;
 
 namespace TmpmsPetriNetAdapter.TransitionAttachable;
 
-public class PartColourTupleExpressionFactory
+public class PartJourneyColourFactory
 {
     public static List<ColourExpression> CreatePartMoveTuple(IEnumerable<KeyValuePair<string, int>> partsItemMovedIntoPlace, IPlace place,
         IndexedJourneyCollection indexedJourney)

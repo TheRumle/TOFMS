@@ -9,7 +9,7 @@ namespace TACPN.Transitions.Guard;
 /// <summary>
 /// Represents a series of OR conditions over variables where one must be true.
 /// </summary>
-public class AndStatement : IAndStatement
+public class OrStatement : IOrStatement
 {
 
     public const string SEPARATOR = "OR";
@@ -18,7 +18,7 @@ public class AndStatement : IAndStatement
         return this.ToTapaalText();
     }
 
-    internal AndStatement(ColourType colourType)
+    internal OrStatement(ColourType colourType)
     {
         ColourType = colourType;
     }
@@ -52,11 +52,11 @@ public class AndStatement : IAndStatement
         return result;
     }
 
-    public static AndStatement Empty(ColourType colourType) => new(colourType);
+    public static OrStatement Empty(ColourType colourType) => new(colourType);
 
-    public static AndStatement WithConditions(ICollection<IColourComparison<ColourVariable, int>> conditions)
+    public static OrStatement WithConditions(ICollection<IColourComparison<ColourVariable, int>> conditions)
     {
-        return new AndStatement(ColourType.TokenAndDefaultColourType)
+        return new OrStatement(ColourType.TokenAndDefaultColourType)
         {
             _comparisons = conditions
         };

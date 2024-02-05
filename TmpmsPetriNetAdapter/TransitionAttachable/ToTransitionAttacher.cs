@@ -42,7 +42,7 @@ internal class ToTransitionAttacher : ITransitionAttachable
 
     private void AdaptPlace(Transition transition)
     {
-        var tuples = PartColourTupleExpressionFactory.CreatePartMoveTuple(this._itemMovedIntoPlace, this._place, this._collection );
+        var tuples = PartJourneyColourFactory.CreatePartMoveTuple(_itemMovedIntoPlace, this._place, this._collection );
         transition.AddOutGoingTo(_place, tuples);
     }
 

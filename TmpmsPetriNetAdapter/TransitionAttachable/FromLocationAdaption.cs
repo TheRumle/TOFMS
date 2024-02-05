@@ -54,7 +54,7 @@ internal class FromLocationAdaption : ITransitionAttachable
             return ColourTimeGuard.TokensGuard(first.Min, first.Max);
         });
         
-        var a = PartColourTupleExpressionFactory.CreatePartMoveTuple(ToConsume, FromPlace, this.collection);
+        var a = PartJourneyColourFactory.CreatePartMoveTuple(ToConsume, FromPlace, this.collection);
         transition.AddInGoingFrom(FromPlace, guards,a);
     }
 }

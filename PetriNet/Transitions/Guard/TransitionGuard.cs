@@ -3,7 +3,7 @@
 
 public interface ITransitionGuard
 {
-    public IReadOnlyList<IAndStatement> OrStatements { get; }
+    public IReadOnlyList<IOrStatement> OrStatements { get; }
     public string ToTapaalText();
 
 }
@@ -24,10 +24,10 @@ public class TransitionGuard : ITransitionGuard
         }
     }
     
-    private List<IAndStatement> _statements = new();
-    public IReadOnlyList<IAndStatement> OrStatements => _statements.AsReadOnly();
+    private List<IOrStatement> _statements = new();
+    public IReadOnlyList<IOrStatement> OrStatements => _statements.AsReadOnly();
     
-    public void AddCondition(IAndStatement statement)
+    public void AddCondition(IOrStatement statement)
     {
         _statements.Add(statement);
     }
@@ -42,10 +42,10 @@ public class TransitionGuard : ITransitionGuard
 
         var chunks = OrStatements.Chunk(2).ToArray();
         var last = chunks.Last();
-        var endText = $" {GUARDSEPARATOR} " + (last.Length == 1 ? last[0].ToTapaalText() : new And<IAndStatement>(last[0], last[1]).ToString());
+        var endText = $" {GUARDSEPARATOR} " + (last.Length == 1 ? last[0].ToTapaalText() : new And<IOrStatement>(last[0], last[1]).ToString());
 
 
-        var ands = chunks.SkipLast(1).Select(chunk => new And<IAndStatement>(chunk[0], chunk[1])).ToArray();
+        var ands = chunks.SkipLast(1).Select(chunk => new And<IOrStatement>(chunk[0], chunk[1])).ToArray();
         string result = string.Join($" {GUARDSEPARATOR} ", ands.Select(and => and.ToString()))
             + endText;
 
@@ -60,7 +60,7 @@ public class TransitionGuard : ITransitionGuard
     }
 
 
-    public static TransitionGuard FromAndedOrs(IEnumerable<IAndStatement> statements)
+    public static TransitionGuard FromAndedOrs(IEnumerable<IOrStatement> statements)
     {
         return new TransitionGuard()
         {

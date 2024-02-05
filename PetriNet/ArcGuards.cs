@@ -38,6 +38,9 @@ internal static class ArcGuards{
     {
         var typedElements = values.OfType<IColourTypedValue>();
         var rawColours = values.OfType<Colour>();
-        return typedElements.All(v => v.ColourType == colourType) && rawColours.All(e=>colourType.Colours.Contains(e));
+        return typedElements.All(v =>
+        {
+            return colourType.IsCompatibleWith(v);
+        }) && rawColours.All(e=>colourType.Colours.Contains(e));
     }
 }

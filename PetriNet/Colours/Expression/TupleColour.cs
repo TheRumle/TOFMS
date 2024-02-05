@@ -10,7 +10,7 @@ public class TupleColour : IColourTypedValue
     {
         IColourValue[] colourValues = colours as IColourValue[] ?? colours.ToArray();
         
-        ArcGuards.InvalidColourTypeAssignment(colourValues, colourType);
+        
         this.ColourComponents = colourValues;
         this.ColourType = colourType;
         var values = colours.Select(e => e.Value);
@@ -20,4 +20,5 @@ public class TupleColour : IColourTypedValue
 
     public ColourType ColourType { get; set; }
     public IColourValue[] ColourComponents { get; set; }
+    
 }
