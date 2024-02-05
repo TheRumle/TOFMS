@@ -6,6 +6,7 @@ using TACPN.Places;
 using TapaalParser.TapaalGui;
 using TapaalParser.TapaalGui.Old.XmlWriters.SymbolWriters;
 using Tmpms.Common;
+using Tmpms.Common.Journey;
 
 namespace ConsoleApp.ProgramBuilder;
 

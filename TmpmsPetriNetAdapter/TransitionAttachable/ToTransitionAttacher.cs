@@ -1,38 +1,10 @@
-﻿using TACPN.Colours.Expression;
-using TACPN.Colours.Type;
-using TACPN.Colours.Values;
+﻿using TACPN.Colours.Type;
 using TACPN.Places;
 using TACPN.Transitions;
 using Tmpms.Common;
+using Tmpms.Common.Journey;
 
 namespace TmpmsPetriNetAdapter.TransitionAttachable;
-
-public class PartColourTupleExpressionFactory
-{
-    public static List<ColourExpression> CreatePartMoveTuple(IEnumerable<KeyValuePair<string, int>> partsItemMovedIntoPlace, IPlace place )
-    {
-        var tuples = new List<ColourExpression>();
-        foreach (KeyValuePair<string, int> amountAndPart in partsItemMovedIntoPlace)
-        {
-            IColourTypedValue variableExpression = CreateVariableExpression(place, amountAndPart.Key);
-            IEnumerable<IColourValue> values = new[] { new PartColourValue(amountAndPart.Key), variableExpression };
-            var tuple = new TupleColour(values,ColourType.TokensColourType);
-            tuples.Add(new ColourExpression(tuple, tuple.ColourType, amountAndPart.Value));
-        }
-
-        return tuples;
-    }
-
-    private static IColourVariableExpression CreateVariableExpression(IPlace place, string part)
-    {
-        if (place.IsProcessingPlace)
-        {
-            return ColourVariable.DecrementFor(part);
-        }
-
-        return ColourVariable.CreateFromPartName(part, ColourType.PartsColourType);
-    }
-}
 
 internal class ToTransitionAttacher : ITransitionAttachable
 {
@@ -40,6 +12,7 @@ internal class ToTransitionAttacher : ITransitionAttachable
         IEnumerable<KeyValuePair<string, int>> partsItemMovedIntoPlace, IndexedJourneyCollection indexedJourneyCollection)
     {
         _itemMovedIntoPlace = partsItemMovedIntoPlace;
+        _collection = indexedJourneyCollection;
         (_place, _capacityPlace) = LocationTranslator.CreatePlaceAndCapacityPlacePair(toLocation, indexedJourneyCollection);
     }
 
@@ -48,6 +21,7 @@ internal class ToTransitionAttacher : ITransitionAttachable
     private readonly Place _place;
 
     private readonly IEnumerable<KeyValuePair<string, int>> _itemMovedIntoPlace;
+    private readonly IndexedJourneyCollection _collection;
 
 
     public void AttachToTransition(Transition transition)
@@ -68,7 +42,7 @@ internal class ToTransitionAttacher : ITransitionAttachable
 
     private void AdaptPlace(Transition transition)
     {
-        var tuples = PartColourTupleExpressionFactory.CreatePartMoveTuple(this._itemMovedIntoPlace, this._place);
+        var tuples = PartColourTupleExpressionFactory.CreatePartMoveTuple(this._itemMovedIntoPlace, this._place, this._collection );
         transition.AddOutGoingTo(_place, tuples);
     }
 

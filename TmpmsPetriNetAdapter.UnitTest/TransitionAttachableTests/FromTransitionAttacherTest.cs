@@ -3,6 +3,7 @@ using FluentAssertions.Execution;
 using TACPN.Colours.Values;
 using TACPN.Transitions;
 using Tmpms.Common;
+using Tmpms.Common.Journey;
 using TmpmsPetriNetAdapter.TransitionAttachable;
 
 namespace TmpmsPetriNetAdapter.UnitTest.TransitionAttachableTests;

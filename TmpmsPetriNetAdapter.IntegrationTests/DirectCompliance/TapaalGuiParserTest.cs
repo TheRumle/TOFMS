@@ -4,6 +4,7 @@ using TACPN.Transitions;
 using TapaalParser;
 using TapaalParser.TapaalGui;
 using Tmpms.Common;
+using Tmpms.Common.Journey;
 using Tmpms.Common.Move;
 using TmpmsPetriNetAdapter;
 using TmpmsPetriNetAdapter.TransitionAttachable;

@@ -1,5 +1,6 @@
 ﻿using TACPN.Transitions;
 using Tmpms.Common;
+using Tmpms.Common.Journey;
 using Tmpms.Common.Move;
 
 namespace TmpmsPetriNetAdapter.TransitionAttachable;

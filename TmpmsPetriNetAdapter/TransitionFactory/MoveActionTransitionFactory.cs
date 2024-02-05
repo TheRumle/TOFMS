@@ -4,6 +4,7 @@ using TACPN.Transitions;
 using TACPN.Transitions.Guard;
 using TACPN.Transitions.Guard.ColourComparison;
 using Tmpms.Common;
+using Tmpms.Common.Journey;
 using Tmpms.Common.Move;
 
 namespace TmpmsPetriNetAdapter.TransitionFactory;
@@ -26,8 +27,8 @@ public class MoveActionTransitionFactory : ITransitionFactory
         IEnumerable<IColourComparison<ColourVariable,int>> comparisons = relevantPartTypes
             .SelectMany(partTypes => CreateEqualityComparisons(moveAction.To, partTypes));
 
-        var a = TransitionGuardStatement.WithConditions(comparisons.ToList());
-        var guard = TransitionGuard.FromStatement([a]);
+        var a = OrStatement.WithConditions(comparisons.ToList());
+        var guard = TransitionGuard.FromAndedOrs([a]);
         
         var t = new Transition(moveAction.Name, ColourType.TokenAndDefaultColourType, guard);
         return t;
@@ -40,7 +41,7 @@ public class MoveActionTransitionFactory : ITransitionFactory
             .Select(e=>e.Key);
 
         ColourVariable variableForPart = _variables.First(e => ColourVariable.VariableNameFor(partType) == e.Name);
-        return indexesRepresentingTo.Select(index => VariableComparison.Equality(variableForPart, index));
+        return indexesRepresentingTo.Select(index => ComparisonFactory.Equality(variableForPart, index));
     }
 
 }

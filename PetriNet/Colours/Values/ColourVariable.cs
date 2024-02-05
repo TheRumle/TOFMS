@@ -1,4 +1,6 @@
-﻿using TACPN.Colours.Type;
+﻿using System.Runtime.CompilerServices;
+using TACPN.Colours.Type;
+using TACPN.Places;
 
 namespace TACPN.Colours.Values;
 
@@ -33,6 +35,11 @@ public record ColourVariable : IColourVariableExpression
     {
         return new VariableDecrement(new ColourVariable(VariableNameFor(part), ColourType.TokensColourType));
     }
+    
+    public static VariableDecrement DecrementForPartType(string part, int journeyLenght)
+    {
+        return new VariableDecrement(new ColourVariable(VariableNameFor(part), Type.ColourType.JourneyColourFor(part, journeyLenght)));
+    }
 
     public string Name { get; }
     public string Value { get; }
@@ -51,10 +58,10 @@ public record ColourVariable : IColourVariableExpression
         return new ColourVariable(name, colourType);
     }
 
-    public static ColourVariable CreateFromPartName(string part)
+    public static ColourVariable CreateFromPartName(string part, int journeyLength)
     {
-        var name = VariableNameFor(part);
-        return CreateIfValid(name, colourType);
+        var ct = Type.ColourType.JourneyColourFor(part, journeyLength+1);
+        return new ColourVariable(VariableNameFor(part), ct);
     }
 
     ColourVariable IColourVariableExpression.ColourVariable => this;

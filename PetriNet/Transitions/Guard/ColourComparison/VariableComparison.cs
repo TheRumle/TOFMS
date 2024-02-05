@@ -18,10 +18,22 @@ public sealed class VariableComparison : IColourComparison<ColourVariable, int>
     public ColourVariable Lhs { get; init; }
     public int Rhs { get; private set; }
 
-    public static VariableComparison Equality(ColourVariable lhs, int rhs)
+    public override string ToString()
     {
-        return new VariableComparison(ColourComparisonOperator.Eq, lhs,rhs);
+        return Operator switch
+        {
+            ColourComparisonOperator.Eq => WithOperatorString("EQ"),
+            ColourComparisonOperator.Gr => WithOperatorString("GR"),
+            ColourComparisonOperator.Geq => WithOperatorString("GEQ"),
+            ColourComparisonOperator.Le => WithOperatorString("LE"),
+            ColourComparisonOperator.Leq => WithOperatorString("LEQ"),
+            ColourComparisonOperator.Neq => WithOperatorString("NEQ"),
+            _ => throw new ArgumentException($"Unexpected {nameof(ColourComparisonOperator)}")
+        };
     }
-    
-    
+
+    private string WithOperatorString(string comparison)
+    {
+        return $"{Lhs.Name} {comparison} {Rhs}";
+    }
 }

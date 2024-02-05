@@ -4,6 +4,7 @@ using TACPN.Places;
 using TACPN.Transitions;
 using TACPN.Transitions.Guard;
 using Tmpms.Common;
+using Tmpms.Common.Journey;
 using Tmpms.Common.Move;
 using Tmpms.Common.Translate;
 

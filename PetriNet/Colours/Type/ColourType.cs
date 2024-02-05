@@ -10,6 +10,14 @@ public class ColourType
     public static readonly ColourType PartsColourType = TokensColourType;
     public static readonly ColourType TokenAndDefaultColourType = ColourProduct("TokensDot", new []{DefaultColorType, TokensColourType});
     public static readonly string JourneyColourName = "Journey";
+    public static string CreateJourneyNameFor(string partType)
+    {
+        return partType + JourneyColourName;
+    }
+    
+    
+    
+    
     public string Name { get; init; }
     public IReadOnlyCollection<Colour> Colours { get; init; }
     public IEnumerable<string> ColourNames => Colours.Select(e => e.Value);
@@ -29,6 +37,7 @@ public class ColourType
     {
         return new SingletonColourType(name, colour);
     }
+    
 
    
 
@@ -61,7 +70,12 @@ public class ColourType
     public static ColourExpression TokenColourExpression(int amount)
     {
         return new ColourExpression(TokensColourType.Colours.First(), TokensColourType, amount);
-
     }
+    
+    public static IntegerRangedColour JourneyColourFor(string part, int journeyLength)
+    {
+        return new IntegerRangedColour(CreateJourneyNameFor(part), journeyLength);
+    }
+    
     
 }

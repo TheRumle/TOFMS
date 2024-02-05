@@ -5,6 +5,7 @@ using TACPN.Colours.Values;
 using TACPN.Places;
 using TACPN.Transitions;
 using Tmpms.Common;
+using Tmpms.Common.Journey;
 
 namespace TmpmsPetriNetAdapter.TransitionAttachable;
 
@@ -53,7 +54,7 @@ internal class FromLocationAdaption : ITransitionAttachable
             return ColourTimeGuard.TokensGuard(first.Min, first.Max);
         });
         
-        var a = PartColourTupleExpressionFactory.CreatePartMoveTuple(ToConsume, FromPlace);
+        var a = PartColourTupleExpressionFactory.CreatePartMoveTuple(ToConsume, FromPlace, this.collection);
         transition.AddInGoingFrom(FromPlace, guards,a);
     }
 }

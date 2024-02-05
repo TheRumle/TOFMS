@@ -20,3 +20,13 @@ public class SingletonColourType : ColourType
         return ColourValue.Value;
     }
 }
+
+public class IntegerRangedColour : ColourType
+{
+    public IntegerRangedColour(string name, int maxValue) : base(name, Enumerable.Range(0,maxValue).Select(e=>e.ToString()))
+    {
+    }
+    public IntegerRangedColour(string name, IEnumerable<Colour> colours) : this(name, colours.Count())
+    {
+    }
+}
