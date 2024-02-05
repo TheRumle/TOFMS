@@ -27,7 +27,7 @@ public class MoveActionTransitionFactory : ITransitionFactory
         IEnumerable<IColourComparison<ColourVariable,int>> comparisons = relevantPartTypes
             .SelectMany(partTypes => CreateEqualityComparisons(moveAction.To, partTypes));
 
-        var a = OrStatement.WithConditions(comparisons.ToList());
+        var a = AndStatement.WithConditions(comparisons.ToList());
         var guard = TransitionGuard.FromAndedOrs([a]);
         
         var t = new Transition(moveAction.Name, ColourType.TokenAndDefaultColourType, guard);

@@ -9,14 +9,16 @@ namespace TACPN.Transitions.Guard;
 /// <summary>
 /// Represents a series of OR conditions over variables where one must be true.
 /// </summary>
-public class OrStatement : IOrStatement
+public class AndStatement : IAndStatement
 {
+
+    public const string SEPARATOR = "OR";
     public override string ToString()
     {
         return this.ToTapaalText();
     }
 
-    internal OrStatement(ColourType colourType)
+    internal AndStatement(ColourType colourType)
     {
         ColourType = colourType;
     }
@@ -38,11 +40,11 @@ public class OrStatement : IOrStatement
         if (Comparisons.Count() == 1) return $"{_comparisons.First()}";
         var result = String.Concat(Enumerable.Repeat('(', Comparisons.Count()-1));
 
-        var startBlock = Comparisons.First().ToString() + " OR ";
+        var startBlock = Comparisons.First().ToString() + $" {SEPARATOR} ";
         
         result += Comparisons.Skip(1).Take(Comparisons.Count()-2).Aggregate(startBlock, (previous, comparison) =>
         {
-            previous += comparison +")" + " OR ";
+            previous += comparison +")" + $" {SEPARATOR} ";
             return previous;
         });
         
@@ -50,11 +52,11 @@ public class OrStatement : IOrStatement
         return result;
     }
 
-    public static OrStatement Empty(ColourType colourType) => new(colourType);
+    public static AndStatement Empty(ColourType colourType) => new(colourType);
 
-    public static OrStatement WithConditions(ICollection<IColourComparison<ColourVariable, int>> conditions)
+    public static AndStatement WithConditions(ICollection<IColourComparison<ColourVariable, int>> conditions)
     {
-        return new OrStatement(ColourType.TokenAndDefaultColourType)
+        return new AndStatement(ColourType.TokenAndDefaultColourType)
         {
             _comparisons = conditions
         };

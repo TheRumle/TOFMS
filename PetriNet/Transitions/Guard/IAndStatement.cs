@@ -5,7 +5,7 @@ using TACPN.Transitions.Guard.ColourComparison;
 namespace TACPN.Transitions.Guard;
 
 
-public interface IOrStatement
+public interface IAndStatement
 {
     ColourType ColourType { get; }
     void AddComparison(IColourComparison<ColourVariable, int> comparator);

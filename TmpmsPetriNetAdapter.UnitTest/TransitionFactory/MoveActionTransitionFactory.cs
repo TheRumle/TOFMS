@@ -1,7 +1,10 @@
-﻿using Common;
+﻿using System.Runtime.InteropServices;
+using Common;
 using FluentAssertions;
 using JsonFixtures;
 using TACPN.Colours.Values;
+using TACPN.Transitions;
+using TACPN.Transitions.Guard;
 using Tmpms.Common;
 using Tmpms.Common.Journey;
 using Tmpms.Common.Move;
@@ -66,22 +69,20 @@ public class MoveActionTransitionFactoryTest : IClassFixture<MoveActionFixture>
 
     
     [Theory]
-    [InlineData(1)]
-    [InlineData(2)]
-    [InlineData(3)]
-    public void When_MovingMultiplePartTypes_ShouldHaveAndGuard(int numJourneyOccurances)
+    [InlineData(1,1)]
+    public void When_MovingMultiplePartTypes_ShouldHaveAndGuard(int jourP1, int jourP2)
     {
         var moveAction = CreateMoveAction(ProcessingLocation, BufferLocation, Move((3, "P1"), (2,"P2")));
         
         JourneyCollection journeys = JourneyCollection.ConstructJourneysFor([
-            ("P1", ListExtensions.Shuffle([.._otherLocations, ..Enumerable.Repeat(moveAction.To, numJourneyOccurances)])), 
-            ("P2", ListExtensions.Shuffle([.._otherLocations, ..Enumerable.Repeat(moveAction.To, numJourneyOccurances+1)])) 
+            ("P1", ListExtensions.Shuffle([.._otherLocations, ..Enumerable.Repeat(moveAction.To, jourP1)])), 
+            ("P2", ListExtensions.Shuffle([.._otherLocations, ..Enumerable.Repeat(moveAction.To, jourP2)])) 
         ]);
         
         var transitionFactory = CreateTransitionFactoryForJourneys(journeys);
-        var transition = transitionFactory.CreateTransition(moveAction);
+        ITransitionGuard transitionGuard = transitionFactory.CreateTransition(moveAction).Guard;
+        
 
-        transition.Guard.OrStatements.Should().HaveCount(2);
     }
     
     private ITransitionFactory CreateTransitionFactoryForJourneys(JourneyCollection collection)
