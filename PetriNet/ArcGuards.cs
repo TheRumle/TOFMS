@@ -24,6 +24,12 @@ internal static class ArcGuards{
 
     public static void InvalidExpressionAssignment(Transition t,IPlace place,  IColourExpression textConvertible)
     {
+        if (textConvertible.ColourType is ProductColourType productColourType)
+        {
+            if (productColourType.First == place.ColourType || productColourType.Second == place.ColourType)
+                return;
+        }
+        
         if (place.ColourType != textConvertible.ColourType)
             throw new ArgumentException($"Cannot create arc from {t.Name} ----> {place.Name} with arc expression {textConvertible.ExpressionText} because colour types does not match");
     }
