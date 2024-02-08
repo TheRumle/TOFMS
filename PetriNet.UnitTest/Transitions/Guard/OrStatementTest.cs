@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using JsonFixtures;
+using TACPN.Colours.Type;
 using TACPN.Transitions.Guard;
 using TACPN.Transitions.Guard.ColourComparison;
 
@@ -14,7 +15,7 @@ public class OrStatementTest : VariableDependentTest
         var variable = CreateVariable("P1", 1);
         
         VariableComparison comparison = new VariableComparison(ColourComparisonOperator.Eq, variable, 1);
-        var sut = OrStatement.WithConditions([comparison]);
+        var sut = OrStatement.FromPartComparisons([comparison], ColourType.PartsColourType(["P1"]));
 
         sut.ToTapaalText().Should().Be($"{variable.Name} EQ 1");
     }
@@ -27,7 +28,7 @@ public class OrStatementTest : VariableDependentTest
 
         VariableComparison comparison1 = new VariableComparison(ColourComparisonOperator.Eq, variable, 1);
         VariableComparison comparison2 = new VariableComparison(ColourComparisonOperator.Eq, variable, 2);
-        var sut = OrStatement.WithConditions([comparison1,comparison2]);
+        var sut = OrStatement.FromPartComparisons([comparison1,comparison2], ColourType.PartsColourType(["P1"]));
 
 
         sut.ToTapaalText().Should().Be($"({variable.Name} EQ 1 {OrStatement.SEPARATOR} {variable.Name} EQ 2)");
@@ -41,7 +42,7 @@ public class OrStatementTest : VariableDependentTest
         VariableComparison comparison1 = new VariableComparison(ColourComparisonOperator.Eq, variable, 1);
         VariableComparison comparison2 = new VariableComparison(ColourComparisonOperator.Eq, variable, 2);
         VariableComparison comparison3 = new VariableComparison(ColourComparisonOperator.Eq, variable, 3);
-        var sut = OrStatement.WithConditions([comparison1,comparison2, comparison3]);
+        var sut = OrStatement.FromPartComparisons([comparison1,comparison2, comparison3], ColourType.PartsColourType(["P1"]));
 
 
         sut.ToTapaalText().Should().Be($"(({variable.Name} EQ 1 {OrStatement.SEPARATOR} {variable.Name} EQ 2) {OrStatement.SEPARATOR} {variable.Name} EQ 3)");
@@ -57,7 +58,7 @@ public class OrStatementTest : VariableDependentTest
 
         VariableComparison comparison1 = new VariableComparison(ColourComparisonOperator.Eq, variableOne, 1);
         VariableComparison comparison2 = new VariableComparison(ColourComparisonOperator.Eq, variableTwo, 2);
-        var sut = OrStatement.WithConditions([comparison1,comparison2]);
+        var sut = OrStatement.FromPartComparisons([comparison1,comparison2], ColourType.PartsColourType(["P1", "P2"]));
 
 
         sut.ToTapaalText().Should().Be($"({variableOne.Name} EQ 1 {OrStatement.SEPARATOR} {variableTwo.Name} EQ 2)");
@@ -73,7 +74,7 @@ public class OrStatementTest : VariableDependentTest
         VariableComparison comparison1 = new VariableComparison(ColourComparisonOperator.Eq, variableOne, 1);
         VariableComparison comparison2 = new VariableComparison(ColourComparisonOperator.Eq, variableTwo, 2);
         VariableComparison comparison3 = new VariableComparison(ColourComparisonOperator.Eq, variableTwo, 3);
-        var sut = OrStatement.WithConditions([comparison1,comparison2, comparison3]);
+        var sut = OrStatement.FromPartComparisons([comparison1,comparison2, comparison3], ColourType.PartsColourType(["P1", "P2","P3"]));
 
 
         sut.ToTapaalText().Should().Be($"(({variableOne.Name} EQ 1 {OrStatement.SEPARATOR} {variableTwo.Name} EQ 2) {OrStatement.SEPARATOR} {variableTwo.Name} EQ 3)");

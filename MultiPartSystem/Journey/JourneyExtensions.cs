@@ -2,8 +2,9 @@
 
 public static class JourneyExtensions
 {
-    
-    public static IndexedJourneyCollection ToIndexedJourney(this IReadOnlyDictionary<string, IEnumerable<Location>> dict)
+
+    public static IndexedJourneyCollection ToIndexedJourney(
+        this IReadOnlyDictionary<string, IEnumerable<Location>> dict)
     {
         IEnumerable<KeyValuePair<string, IEnumerable<KeyValuePair<int, Location>>>> j = dict.Select(e =>
         {

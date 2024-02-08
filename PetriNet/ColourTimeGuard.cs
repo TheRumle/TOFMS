@@ -5,11 +5,10 @@ namespace TACPN;
 
 public class ColourTimeGuard
 {
-    private ColourTimeGuard(ColourType colourType, IColourValue colourValue, Interval interval)
+    private ColourTimeGuard(ColourType colourType, Interval interval)
     {
         ColourType = colourType;
         Interval = interval;
-        this.ColourValue = colourValue;
     }
     
     public IColourValue ColourValue { get; private set; }
@@ -19,12 +18,12 @@ public class ColourTimeGuard
     
     public static ColourTimeGuard CapacityGuard()
     {
-        return new ColourTimeGuard(ColourType.DefaultColorType, ColourType.DefaultColorType.ColourValue, Interval.ZeroToInfinity);
+        return new ColourTimeGuard(ColourType.DefaultColorType, Interval.ZeroToInfinity);
     }
 
-    public static ColourTimeGuard TokensGuard(int from, int to)
+    public static ColourTimeGuard TokensGuard(int from, int to, ColourType partsColourType)
     {
-        return new ColourTimeGuard(ColourType.TokensColourType, ColourType.TokensColourType.Colours.First(), new Interval(from, to));
+        return new ColourTimeGuard(partsColourType, new Interval(from,to));
     }
 
     public override string ToString()

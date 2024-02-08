@@ -6,6 +6,11 @@ public class JourneyCollection : Dictionary<string, IEnumerable<Location>>
     {
         
     }
+
+    public JourneyCollection()
+    {
+        
+    }
     
     
     public static JourneyCollection ConstructJourneysFor((string partType, IEnumerable<Location> locations)[] journeys)

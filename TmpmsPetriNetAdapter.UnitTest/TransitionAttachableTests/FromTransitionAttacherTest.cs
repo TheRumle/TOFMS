@@ -38,6 +38,6 @@ public class FromTransitionAttacherTest : TransitionAttacherTest
         return new FromLocationAdaption(location, new[]
         {
             new KeyValuePair<string, int>(PartType, 4)
-        }, GetJourneys(location).ToIndexedJourney());
+        }, GetJourneys(location).ToIndexedJourney(), PartColourType);
     }
 }

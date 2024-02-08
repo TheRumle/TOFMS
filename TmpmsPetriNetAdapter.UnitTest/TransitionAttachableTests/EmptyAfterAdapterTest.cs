@@ -49,24 +49,29 @@ public class EmptyAfterAdapterTest : TransitionAttacherTest
         }
     }
 
-    private static (Location location, EmptyAfterAdapter adapter) SetupWithConsumption(
+    private (Location location, EmptyAfterAdapter adapter) SetupWithConsumption(
         int amountToConsume)
     {
         Location location = CreateLocation(true);
         Location[] emptyAfterWithFrom = [location];
         var partsToConsume = new Dictionary<string, int>();
         partsToConsume.Add(PartType, amountToConsume);
-        var adapter = new EmptyAfterAdapter(emptyAfterWithFrom, location, partsToConsume, GetJourneys(location).ToIndexedJourney());
+        var adapter = CreateAdapter(emptyAfterWithFrom, location, partsToConsume);
         return (location, adapter);
     }
-    
-    private static (Location location, EmptyAfterAdapter adapter) SetupFullConsumption()
+
+    private EmptyAfterAdapter CreateAdapter(Location[] emptyAfterWithFrom, Location location, Dictionary<string, int> partsToConsume)
+    {
+        return new EmptyAfterAdapter(emptyAfterWithFrom, location, partsToConsume, GetJourneys(location).ToIndexedJourney(), PartColourType);
+    }
+
+    private (Location location, EmptyAfterAdapter adapter) SetupFullConsumption()
     {
         Location location = CreateLocation(true);
         Location[] emptyAfterWithFrom = [location];
         var partsToConsume = new Dictionary<string, int>();
         partsToConsume.Add(PartType, location.Capacity);
-        var adapter = new EmptyAfterAdapter(emptyAfterWithFrom, location, partsToConsume, GetJourneys(location).ToIndexedJourney());
+        var adapter = CreateAdapter(emptyAfterWithFrom, location, partsToConsume);
         return (location, adapter);
     }
 
@@ -84,7 +89,7 @@ public class EmptyAfterAdapterTest : TransitionAttacherTest
     {
         var partsToConsume = new Dictionary<string, int>();
         partsToConsume.Add(PartType, 3);
-        return new EmptyAfterAdapter(emptyAfter, location, partsToConsume, GetJourneys(location).ToIndexedJourney());
+        return new EmptyAfterAdapter(emptyAfter, location, partsToConsume, GetJourneys(location).ToIndexedJourney(), PartColourType);
     }
     
     [Fact]

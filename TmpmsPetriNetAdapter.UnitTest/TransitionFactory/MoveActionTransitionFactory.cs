@@ -1,9 +1,7 @@
-﻿using System.Runtime.InteropServices;
-using Common;
+﻿using Common;
 using FluentAssertions;
 using JsonFixtures;
-using TACPN.Transitions;
-using TACPN.Transitions.Guard;
+using TACPN.Colours.Type;
 using Tmpms.Common.Journey;
 
 namespace TmpmsPetriNetAdapter.UnitTest.TransitionFactory;
@@ -30,10 +28,7 @@ public class MoveActionTransitionFactoryTest : MoveActionDependentTest
         var transition = transitionFactory.CreateTransition(moveAction);
 
 
-        var variableOccurances = transition.Guard.OrStatements.SelectMany(e => e.Comparisons.Select(comparison => comparison.Lhs));
+        var variableOccurances = transition.Guard.Conditions.SelectMany(e => e.Comparisons.Select(comparison => comparison.Lhs));
         variableOccurances.Where(e => e.IsVariableFor("P1")).Should().HaveCount(numJourneyOccurances);
     }
-
-
-
 }

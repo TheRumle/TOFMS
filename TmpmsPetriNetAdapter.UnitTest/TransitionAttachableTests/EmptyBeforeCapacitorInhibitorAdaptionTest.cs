@@ -39,6 +39,6 @@ public class EmptyBeforeCapacitorInhibitorAdaptionTest : TransitionAttacherTest
     public override ITransitionAttachable CreateFromLocation(Location location)
     {
         var journeys = GetJourneys(location);
-        return new EmptyBeforeCapacitorInhibitorAdaption(EmptyBef, journeys.ToIndexedJourney());
+        return new EmptyBeforeCapacitorInhibitorAdaption(EmptyBef, journeys.ToIndexedJourney(), PartColourType);
     }
 }

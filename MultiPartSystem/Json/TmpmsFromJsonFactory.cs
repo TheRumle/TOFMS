@@ -1,4 +1,5 @@
-﻿using Tmpms.Common.Json.Convertion;
+﻿using Tmpms.Common.Journey;
+using Tmpms.Common.Json.Convertion;
 using Tmpms.Common.Json.Models;
 using Tmpms.Common.Move;
 
@@ -24,10 +25,9 @@ public class TmpmsFromJsonFactory : ITmpmsSystemFactory<TimedMultiPartSystemJson
         return structure.Actions.Select(e => e.ToDomain(locations));
     }
 
-    private Dictionary<string, IEnumerable<Location>> CreateJourneys(TimedMultiPartSystemJsonInput structure)
+    private JourneyCollection CreateJourneys(TimedMultiPartSystemJsonInput structure)
     {
-
-        Dictionary<string, IEnumerable<Location>> journey = new();
+        JourneyCollection journey = new();
         foreach (var kvp in structure.Journeys)
         {
             var partType = kvp.Key;

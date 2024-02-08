@@ -36,6 +36,6 @@ public class ToTransitionAttacherTest : TransitionAttacherTest
         return new ToTransitionAttacher(location, new[]
         {
             new KeyValuePair<string, int>(PartType, 4)
-        }, GetJourneys(location).ToIndexedJourney());
+        }, GetJourneys(location).ToIndexedJourney(), PartColourType);
     }
 }

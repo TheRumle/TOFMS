@@ -3,7 +3,7 @@
 
 public interface ITransitionGuard
 {
-    public IReadOnlyList<IOrStatement> OrStatements { get; }
+    public IReadOnlyList<IOrStatement> Conditions { get; }
     public string ToTapaalText();
 
 }
@@ -25,7 +25,7 @@ public class TransitionGuard : ITransitionGuard
     }
     
     private List<IOrStatement> _statements = new();
-    public IReadOnlyList<IOrStatement> OrStatements => _statements.AsReadOnly();
+    public IReadOnlyList<IOrStatement> Conditions => _statements.AsReadOnly();
     
     public void AddCondition(IOrStatement statement)
     {
@@ -36,11 +36,11 @@ public class TransitionGuard : ITransitionGuard
     
     public string ToTapaalText()
     {
-        if (OrStatements.Count == 1) return $"{OrStatements.First().ToTapaalText()}";
-        if (OrStatements.Count == 2) return  $"({OrStatements.First().ToTapaalText()} {GUARDSEPARATOR} {OrStatements.Skip(1).First().ToTapaalText()})";
-        if (OrStatements.Count == 3) return  $"({OrStatements.First().ToTapaalText()} {GUARDSEPARATOR} {OrStatements.Skip(1).First().ToTapaalText()}) {GUARDSEPARATOR} {OrStatements.Skip(2).First().ToTapaalText()})";
+        if (Conditions.Count == 1) return $"{Conditions.First().ToTapaalText()}";
+        if (Conditions.Count == 2) return  $"({Conditions.First().ToTapaalText()} {GUARDSEPARATOR} {Conditions.Skip(1).First().ToTapaalText()})";
+        if (Conditions.Count == 3) return  $"({Conditions.First().ToTapaalText()} {GUARDSEPARATOR} {Conditions.Skip(1).First().ToTapaalText()}) {GUARDSEPARATOR} {Conditions.Skip(2).First().ToTapaalText()})";
 
-        var chunks = OrStatements.Chunk(2).ToArray();
+        var chunks = Conditions.Chunk(2).ToArray();
         var last = chunks.Last();
         var endText = $" {GUARDSEPARATOR} " + (last.Length == 1 ? last[0].ToTapaalText() : new And<IOrStatement>(last[0], last[1]).ToString());
 

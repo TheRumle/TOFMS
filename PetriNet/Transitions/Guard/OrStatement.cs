@@ -54,11 +54,11 @@ public class OrStatement : IOrStatement
 
     public static OrStatement Empty(ColourType colourType) => new(colourType);
 
-    public static OrStatement WithConditions(ICollection<IColourComparison<ColourVariable, int>> conditions)
+    public static OrStatement FromPartComparisons(IEnumerable<IColourComparison<ColourVariable, int>> conditions, ColourType partColourType)
     {
-        return new OrStatement(ColourType.TokenAndDefaultColourType)
+        return new OrStatement(partColourType)
         {
-            _comparisons = conditions
+            _comparisons = conditions.ToList()
         };
     }
 }

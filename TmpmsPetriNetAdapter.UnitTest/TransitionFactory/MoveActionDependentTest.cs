@@ -1,4 +1,6 @@
-﻿using JsonFixtures;
+﻿using System.Runtime.CompilerServices;
+using JsonFixtures;
+using TACPN.Colours.Type;
 using TACPN.Colours.Values;
 using Tmpms.Common;
 using Tmpms.Common.Journey;
@@ -13,6 +15,17 @@ public abstract class MoveActionDependentTest : IClassFixture<MoveActionFixture>
     public readonly Location BufferLocation;
     public readonly Location ProcessingLocation;
     protected readonly IEnumerable<Location> _otherLocations;
+
+    public static IEnumerable<string> Parts = Enumerable.Range(1, 5).Select(e => "P" + e);
+    public string P1 = Parts.First();
+    public string P2 = Parts.Skip(1).First();
+    public string P3 = Parts.Skip(2).First();
+    public string P4 = Parts.Skip(3).First();
+    public string P5 = Parts.Skip(4).First();
+
+    public static ColourType PartsColourType = ColourType.PartsColourType(Parts);
+    
+
     
     public HashSet<KeyValuePair<string, int>> Move(params (int amount, string partType)[] parts)
     {
@@ -31,11 +44,10 @@ public abstract class MoveActionDependentTest : IClassFixture<MoveActionFixture>
             PartsToMove = partsToMove
         };
     }
-    
-        
+
     protected ITransitionFactory CreateTransitionFactoryForJourneys(JourneyCollection collection)
     {
-        return new MoveActionTransitionFactory(collection.ToIndexedJourney(), CreateVariables(collection.JourneyLengths()));
+        return new MoveActionTransitionFactory(collection, PartsColourType);
     }
 
     public MoveActionDependentTest(MoveActionFixture fixture)

@@ -9,7 +9,15 @@ namespace TmpmsPetriNetAdapter.TransitionAttachable;
 
 public class PartJourneyColourFactory
 {
-    public static List<ColourExpression> CreatePartMoveTuple(IEnumerable<KeyValuePair<string, int>> partsItemMovedIntoPlace, IPlace place,
+    private readonly ColourType _partsColourType;
+
+    public PartJourneyColourFactory(ColourType partsColourType)
+    {
+        this._partsColourType = partsColourType;
+    }
+    
+    
+    public List<ColourExpression> CreatePartMoveTuple(IEnumerable<KeyValuePair<string, int>> partsItemMovedIntoPlace, IPlace place,
         IndexedJourneyCollection indexedJourney)
     {
         Dictionary<string, int> journeyLengths = indexedJourney.Select(e =>
@@ -25,8 +33,8 @@ public class PartJourneyColourFactory
         foreach (KeyValuePair<string, int> amountAndPart in partsItemMovedIntoPlace)
         {
             IColourTypedValue variableExpression = CreateVariableExpression(place, amountAndPart.Key, journeyLengths[amountAndPart.Key]);
-            IEnumerable<IColourValue> values = [new PartColourValue(amountAndPart.Key), variableExpression];
-            TupleColour tuple = new TupleColour(values,ColourType.TokensColourType);
+            IEnumerable<IColourValue> values = [new PartColourValue(_partsColourType, amountAndPart.Key), variableExpression];
+            TupleColour tuple = new TupleColour(values,ColourType.TokensColourType(_partsColourType));
             tuples.Add(new ColourExpression(tuple, tuple.ColourType, amountAndPart.Value));
         }
 

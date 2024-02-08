@@ -3,13 +3,32 @@ using TACPN.Colours.Values;
 
 namespace TACPN.Colours.Type;
 
-public class ColourType
+public record ColourType
 {
-    public static readonly SingletonColourType DefaultColorType = SingletonColour(Colour.DefaultTokenColour, "Dot");
-    public static readonly ColourType TokensColourType = new("Tokens", new []{Colour.PartsColour, Colour.JourneyColour});
-    public static readonly ColourType PartsColourType = TokensColourType;
-    public static readonly ColourType TokenAndDefaultColourType = ColourProduct("TokensDot", new []{DefaultColorType, TokensColourType});
+    public static readonly SingletonColourType DefaultColorType = SingletonColour(Colour.DefaultTokenColour, "dot");
+
+    public static ProductColourType TokensColourType(IEnumerable<string> parts)
+    {
+        return new ProductColourType("Tokens", DefaultColorType, PartsColourType(parts));
+    }
+    
+    public static ProductColourType TokensColourType(ColourType partsColourType)
+    {
+        return new ProductColourType("Tokens", DefaultColorType, partsColourType);
+    }
+
+    public static ColourType PartsColourType(IEnumerable<string> parts)
+    {
+        return new ColourType("Parts", parts);
+    }
+    
+    public static ColourType PartsColourType(params string[] parts)
+    {
+        return new ColourType("Parts", parts);
+    }
     public static readonly string JourneyColourName = "Journey";
+    
+    
     public static string CreateJourneyNameFor(string partType)
     {
         return partType + JourneyColourName;
@@ -38,9 +57,7 @@ public class ColourType
         return new SingletonColourType(name, colour);
     }
     
-
-   
-
+    
     private static ColourType ColourProduct(string name, IEnumerable<ColourType> over)
     {
         var colours = over.SelectMany(e => e.Colours).DistinctBy(e => e.Value);
@@ -67,15 +84,32 @@ public class ColourType
         };
     }
 
-    public static ColourExpression TokenColourExpression(int amount)
-    {
-        return new ColourExpression(TokensColourType.Colours.First(), TokensColourType, amount);
-    }
-    
     public static IntegerRangedColour JourneyColourFor(string part, int journeyLength)
     {
         return new IntegerRangedColour(CreateJourneyNameFor(part), journeyLength);
     }
+}
+
+public record ProductColourType : ColourType
+{
+    private ProductColourType(string name, IEnumerable<Colour> colours) : base(name, colours)
+    {
+    }
+
+    public ProductColourType(ColourType first, ColourType second):this(first.Name+second.Name, [..first.Colours, ..second.Colours])
+    {
+        this.First = first;
+        this.Second = second;
+    }
+
     
-    
+    public ProductColourType(string name, ColourType first, ColourType second):this(first.Name+second.Name, [..first.Colours, ..second.Colours])
+    {
+        this.First = first;
+        this.Second = second;
+    }
+
+    public ColourType Second { get; set; }
+
+    public ColourType First { get; set; }
 }

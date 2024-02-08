@@ -1,4 +1,6 @@
-﻿using TACPN.Transitions.Guard;
+﻿using TACPN.Colours.Type;
+using TACPN.Colours.Values;
+using TACPN.Transitions.Guard;
 using TACPN.Transitions.Guard.ColourComparison;
 using Tmpms.Common;
 using Tmpms.Common.Journey;
@@ -8,54 +10,47 @@ namespace TmpmsPetriNetAdapter.ConditionGenerator;
 
 public class TransitionGuardFactory
 {
-    private readonly Dictionary<string, IEnumerable<int>> _journeys;
-    private readonly Location to;
+    private readonly IndexedJourneyCollection _journeys;
+    private readonly ColourType _partsColourType;
 
-    public TransitionGuardFactory(JourneyCollection collection, Location to )
+    public TransitionGuardFactory(JourneyCollection collection, ColourType partsColourType)
     {
-        this._journeys = collection.Select(e=>
-                KeyValuePair.Create(e.Key, 
-                    e.Value.Where(loc => loc.Equals(to)).Select((location, index) => index)))
-            .ToDictionary();
-
-        this.to = to;
+        this._journeys = collection.ToIndexedJourney();
+        this._partsColourType = partsColourType;
     }
 
     public TransitionGuard MoveActionGuard(MoveAction moveAction)
     {
         IEnumerable<string> parts = moveAction.PartsToMove.Select(e => e.Key);
-        parts.Select(e => CreateAllPossibleValues(e));
-        Dictionary<string, IEnumerable<int>> partIntegersDict = GetJourneys();
-        
-        
-        var indexes = this._journeys[parts.First()];
 
 
+        List<VariableComparison> comparisons = new List<VariableComparison>();
+        foreach (var part in parts)
+        {
+            IEnumerable<KeyValuePair<int, Location>> indexAndLocation = 
+                _journeys[part]
+                .Where(kvp=> kvp.Value == moveAction.To);
+            
+            var comparisonsForPart = CreateVariableComparisons(indexAndLocation, part, _journeys[part].Count());
+            comparisons.AddRange(comparisonsForPart);;
+        }
 
-
-
-
-
-
-
-
-
+        IEnumerable<IOrStatement> statements = CreateOrs(comparisons);
+        return TransitionGuard.FromAndedOrs(statements);
     }
 
-    private IEnumerable<VariableComparison> CreateAllPossibleValues(string s)
+    private IEnumerable<IOrStatement> CreateOrs(List<VariableComparison> comparisons)
     {
-        var indexes = _journeys[s];
-        indexes.Select(e=> VariableComparison)
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        throw new NotImplementedException();
+        var groupByPart = comparisons.GroupBy(e => e.Lhs.Name);
+        return groupByPart.Select(e =>
+            OrStatement.FromPartComparisons(e.Select(comparison => comparison), _partsColourType)
+        );
+    }
+
+    private IEnumerable<VariableComparison> CreateVariableComparisons(IEnumerable<KeyValuePair<int, Location>> indexAndLocation, string part, int journeyLenght)
+    {
+        return indexAndLocation.Select(indexedLocation => new VariableComparison(ColourComparisonOperator.Eq,
+            ColourVariable.CreateFromPartName(part,journeyLenght),
+            indexedLocation.Key));
     }
 }

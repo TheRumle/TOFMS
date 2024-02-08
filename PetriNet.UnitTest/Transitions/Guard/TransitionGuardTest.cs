@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using JsonFixtures;
+using TACPN.Colours.Type;
 using TACPN.Transitions.Guard;
 using TACPN.Transitions.Guard.ColourComparison;
 
@@ -18,9 +19,10 @@ public class TransitionGuardTest : VariableDependentTest
         VariableComparison comparison2 = new VariableComparison(ColourComparisonOperator.Eq, firstVar, 2);
         VariableComparison comparison3 = new VariableComparison(ColourComparisonOperator.Eq, secondVar, 10);
         VariableComparison comparison4 = new VariableComparison(ColourComparisonOperator.Eq, secondVar, 1);
-        
-        var firstOrs = OrStatement.WithConditions([comparison1,comparison2]);
-        var secondOrs = OrStatement.WithConditions([comparison3,comparison4]);
+
+        var ct = ColourType.PartsColourType(["P1", "P2"]);
+        var firstOrs = OrStatement.FromPartComparisons([comparison1,comparison2], ct);
+        var secondOrs = OrStatement.FromPartComparisons([comparison3,comparison4],ct);
 
         TransitionGuard guard = TransitionGuard.FromAndedOrs([firstOrs, secondOrs]);
         
@@ -39,9 +41,11 @@ public class TransitionGuardTest : VariableDependentTest
         VariableComparison comparison3 = new VariableComparison(ColourComparisonOperator.Eq, secondVar, 10);
         VariableComparison comparison4 = new VariableComparison(ColourComparisonOperator.Eq, thirdVar, 1);
         
-        var firstOrs = OrStatement.WithConditions([comparison1,comparison2]);
-        var secondOrs = OrStatement.WithConditions([comparison3]);
-        var thirdOrs = OrStatement.WithConditions([comparison4]);
+        var ct = ColourType.PartsColourType(["P1", "P2","P3"]);
+
+        var firstOrs = OrStatement.FromPartComparisons([comparison1,comparison2],ct);
+        var secondOrs = OrStatement.FromPartComparisons([comparison3],ct);
+        var thirdOrs = OrStatement.FromPartComparisons([comparison4],ct);
 
         TransitionGuard guard = TransitionGuard.FromAndedOrs([firstOrs, secondOrs,thirdOrs]);
         
@@ -60,11 +64,12 @@ public class TransitionGuardTest : VariableDependentTest
         VariableComparison comparison2 = new VariableComparison(ColourComparisonOperator.Eq, secondVar, 2);
         VariableComparison comparison3 = new VariableComparison(ColourComparisonOperator.Eq, thirdVar, 3);
         VariableComparison comparison4 = new VariableComparison(ColourComparisonOperator.Eq, fourVar, 4);
-        
-        var firstOrs = OrStatement.WithConditions([comparison1]);
-        var secondOrs = OrStatement.WithConditions([comparison2]);
-        var thirdOrs= OrStatement.WithConditions([comparison3]);
-        var fourthOrs = OrStatement.WithConditions([comparison4]);
+        var ct = ColourType.PartsColourType(["P1", "P2", "P4", "P5"]);
+
+        var firstOrs = OrStatement.FromPartComparisons([comparison1],ct);
+        var secondOrs = OrStatement.FromPartComparisons([comparison2],ct);
+        var thirdOrs= OrStatement.FromPartComparisons([comparison3],ct);
+        var fourthOrs = OrStatement.FromPartComparisons([comparison4],ct);
         TransitionGuard guard = TransitionGuard.FromAndedOrs([firstOrs, secondOrs,thirdOrs, fourthOrs]);
         
         guard.ToTapaalText().Should().Be($"({firstOrs.ToTapaalText()} {TransitionGuard.GUARDSEPARATOR} {secondOrs}) {TransitionGuard.GUARDSEPARATOR} ({thirdOrs} {TransitionGuard.GUARDSEPARATOR} {fourthOrs})");
@@ -84,12 +89,13 @@ public class TransitionGuardTest : VariableDependentTest
         VariableComparison comparison3 = new VariableComparison(ColourComparisonOperator.Eq, thirdVar, 3);
         VariableComparison comparison4 = new VariableComparison(ColourComparisonOperator.Eq, fourVar, 4);
         VariableComparison comparison5 = new VariableComparison(ColourComparisonOperator.Eq, fiveVar, 5);
-        
-        var firstOrs = OrStatement.WithConditions([comparison1]);
-        var secondOrs = OrStatement.WithConditions([comparison2]);
-        var thirdOrs= OrStatement.WithConditions([comparison3]);
-        var fourthOrs = OrStatement.WithConditions([comparison4]);
-        var fiveOrs = OrStatement.WithConditions([comparison5]);
+        var ct = ColourType.PartsColourType(["P1", "P2"]);
+
+        var firstOrs = OrStatement.FromPartComparisons([comparison1],ct);
+        var secondOrs = OrStatement.FromPartComparisons([comparison2],ct);
+        var thirdOrs= OrStatement.FromPartComparisons([comparison3],ct);
+        var fourthOrs = OrStatement.FromPartComparisons([comparison4],ct);
+        var fiveOrs = OrStatement.FromPartComparisons([comparison5],ct);
         TransitionGuard guard = TransitionGuard.FromAndedOrs([firstOrs, secondOrs,thirdOrs, fourthOrs, fiveOrs]);
 
         var a = guard.ToTapaalText();
@@ -105,8 +111,9 @@ public class TransitionGuardTest : VariableDependentTest
         var firstVar = CreateVariable("P1", 2);
 
         VariableComparison comparison1 = new VariableComparison(ColourComparisonOperator.Eq, firstVar, 1);
-        
-        var firstOrs = OrStatement.WithConditions([comparison1]);
+        var ct = ColourType.PartsColourType(["P1"]);
+
+        var firstOrs = OrStatement.FromPartComparisons([comparison1], ct);
 
         TransitionGuard guard = TransitionGuard.FromAndedOrs([firstOrs]);
         guard.ToTapaalText().Should().Be($"{firstOrs.ToTapaalText()}");

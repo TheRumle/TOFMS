@@ -9,20 +9,19 @@ using Tmpms.Common.Journey;
 
 namespace TmpmsPetriNetAdapter.TransitionAttachable;
 
-internal class FromLocationAdaption : ITransitionAttachable
+internal class FromLocationAdaption : Adapter
 {
-    private readonly IndexedJourneyCollection collection;
 
     /// <summary>
     /// </summary>
     /// <param name="fromLocation"> A place representing a location l.</param>
     /// <param name="partsToConsume">The parts that need to be consumed from l.</param>
-    public FromLocationAdaption(Location fromLocation, IEnumerable<KeyValuePair<string, int>> partsToConsume, IndexedJourneyCollection collection)
+    public FromLocationAdaption(Location fromLocation, IEnumerable<KeyValuePair<string, int>> partsToConsume,
+        IndexedJourneyCollection collection, ColourType ct):base(ct, collection)
     {
         FromLocation = fromLocation;
         ToConsume = partsToConsume;
-        (FromPlace, FromPlaceHat) = LocationTranslator.CreatePlaceAndCapacityPlacePair(fromLocation, collection);
-        this.collection = collection;
+        (FromPlace, FromPlaceHat) = LocationTranslator.CreatePlaceAndCapacityPlacePair(fromLocation, collection,ct);
     }
 
     private Location FromLocation { get; set; }
@@ -33,7 +32,7 @@ internal class FromLocationAdaption : ITransitionAttachable
 
     private Place FromPlace { get; set; }
 
-    public void AttachToTransition(Transition transition)
+    public override void AttachToTransition(Transition transition)
     {
         AdaptPlace(transition);
         AdaptCapacityPlace(transition);
@@ -51,10 +50,10 @@ internal class FromLocationAdaption : ITransitionAttachable
         var guards = ToConsume.Select(pair =>
         {
             var first = FromLocation.Invariants.First(e => e.PartType == pair.Key);
-            return ColourTimeGuard.TokensGuard(first.Min, first.Max);
+            return ColourTimeGuard.TokensGuard(first.Min, first.Max,this.PartColourType);
         });
         
-        var a = PartJourneyColourFactory.CreatePartMoveTuple(ToConsume, FromPlace, this.collection);
+        var a = journeyColourFactory.CreatePartMoveTuple(ToConsume, FromPlace, _collection);
         transition.AddInGoingFrom(FromPlace, guards,a);
     }
 }

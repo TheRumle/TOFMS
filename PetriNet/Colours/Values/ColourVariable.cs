@@ -28,12 +28,13 @@ public record ColourVariable : IColourVariableExpression
     
     public static IEnumerable<VariableDecrement> DecrementsFor(IEnumerable<string> parts)
     {
-        IEnumerable<VariableDecrement> a = parts.Select(e => new VariableDecrement(new ColourVariable(VariableNameFor(e),ColourType.TokensColourType)));
+        IEnumerable<VariableDecrement> a = parts.Select(e => new VariableDecrement(new ColourVariable(VariableNameFor(e),
+            ColourType.PartsColourType(parts))));
         return a;
     }
-    public static VariableDecrement DecrementFor(string part)
+    public static VariableDecrement DecrementFor(string part, ColourType partColourType)
     {
-        return new VariableDecrement(new ColourVariable(VariableNameFor(part), ColourType.TokensColourType));
+        return new VariableDecrement(new ColourVariable(VariableNameFor(part), partColourType));
     }
     
     public static VariableDecrement DecrementForPartType(string part, int journeyLenght)

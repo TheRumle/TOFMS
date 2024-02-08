@@ -1,21 +1,21 @@
-﻿using TACPN.Transitions;
+﻿using TACPN.Colours.Type;
+using TACPN.Transitions;
 using Tmpms.Common;
 using Tmpms.Common.Journey;
 
 namespace TmpmsPetriNetAdapter.TransitionAttachable;
 
-internal class EmptyBeforeCapacitorInhibitorAdaption : ITransitionAttachable
+internal class EmptyBeforeCapacitorInhibitorAdaption : Adapter
 {
-    public EmptyBeforeCapacitorInhibitorAdaption(ISet<Location> locations, IndexedJourneyCollection collection)
+    public EmptyBeforeCapacitorInhibitorAdaption(ISet<Location> locations, IndexedJourneyCollection collection, 
+        ColourType partColourType) : base(partColourType, collection)
     {
         _locations = locations;
-        _collection = collection;
     }
 
     private readonly IEnumerable<Location> _locations;
-    private readonly IndexedJourneyCollection _collection;
 
-    public void AttachToTransition(Transition transition)
+    public override void AttachToTransition(Transition transition)
     {
         foreach (var location in _locations)
         {
@@ -24,7 +24,7 @@ internal class EmptyBeforeCapacitorInhibitorAdaption : ITransitionAttachable
                 transition.AddInhibitorFrom(matchingPlace, 1);
             else
             {
-                transition.AddInhibitorFrom(LocationTranslator.CreatePlace(location, _collection), 1);
+                transition.AddInhibitorFrom(PlaceFactory.CreatePlace(location), 1);
             }
         }
     }

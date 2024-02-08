@@ -24,7 +24,7 @@ public abstract class TransitionAttacherTest
 
     public Transition GetTransition()
     {
-        var t = new Transition("t", ColourType.TokenAndDefaultColourType, TransitionGuard.Empty());
+        var t = new Transition("t", TokenColourType, TransitionGuard.Empty());
         return t;
     }
     
@@ -58,8 +58,17 @@ public abstract class TransitionAttacherTest
     protected string GetExpectedVariableExpressionValue(bool isProcessingLocation)
     {
         var variableExpressionValue = isProcessingLocation
-            ? ColourVariable.DecrementFor(PartType).Value
+            ? ColourVariable.DecrementFor(PartType, PartColourType).Value
             : ColourVariable.VariableNameFor(PartType);
         return variableExpressionValue;
     }
+
+    public TransitionAttacherTest()
+    {
+        PartColourType  = ColourType.PartsColourType([PartType]);
+        TokenColourType = ColourType.TokensColourType(PartColourType);
+    }
+
+    protected ColourType TokenColourType;
+    protected ColourType PartColourType;
 }

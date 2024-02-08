@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using FluentAssertions;
+using TACPN.Colours.Type;
 using TapaalParser;
 using TapaalParser.TapaalGui;
 using Tmpms.Common;
@@ -17,6 +18,8 @@ public abstract class GuiTranslationAdherenceTest
     protected abstract string TestName { get; }
     protected ITacpnTranslater<string> GuiTranslater { get; } = new TapaalTacpnGuiParser();
     protected abstract TimedMultipartSystem System { get; }
+
+    protected ColourType PartColourType => ColourType.PartsColourType(System.Parts);
     
     public string DirectlyTranslatedText()
     {
@@ -28,8 +31,8 @@ public abstract class GuiTranslationAdherenceTest
     public async Task<string> NewTranslatedText()
     {
         var indexed = System.Journeys.ToIndexedJourney();
-        var arcFactory = new MoveActionToArcsFactory(indexed);
-        var transitionFactory = new MoveActionTransitionFactory(indexed, []); //TODO add colour variables
+        var arcFactory = new MoveActionToArcsFactory(indexed, PartColourType);
+        var transitionFactory = new MoveActionTransitionFactory(System.Journeys, PartColourType);
         var translater =
             new TofmToTacpnTranslater(arcFactory, transitionFactory, System.Journeys.ToIndexedJourney());
 

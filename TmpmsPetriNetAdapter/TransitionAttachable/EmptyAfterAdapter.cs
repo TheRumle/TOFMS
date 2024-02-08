@@ -1,31 +1,32 @@
 ﻿using TACPN.Arcs;
 using TACPN.Colours.Expression;
+using TACPN.Colours.Type;
 using TACPN.Transitions;
 using Tmpms.Common;
 using Tmpms.Common.Journey;
 
 namespace TmpmsPetriNetAdapter.TransitionAttachable;
 
-internal class EmptyAfterAdapter : ITransitionAttachable
+internal class EmptyAfterAdapter :Adapter
 {
     private readonly IEnumerable<Location> _emptyAfterLocations;
-    private readonly IndexedJourneyCollection _indexedJourneyCollection;
     private readonly int _amountsToMove;
     private readonly Location _fromLocation;
 
     public EmptyAfterAdapter(IEnumerable<Location> emptyAfterLocations, Location fromLocation,
-        IEnumerable<KeyValuePair<string, int>> partsToConsume, IndexedJourneyCollection collection)
+        IEnumerable<KeyValuePair<string, int>> partsToConsume, IndexedJourneyCollection collection, ColourType partColourType) : base(partColourType,collection)
     {
         _emptyAfterLocations = emptyAfterLocations.ToList();
         _fromLocation = fromLocation;
         _amountsToMove = partsToConsume.Sum(e=>e.Value);
-        _indexedJourneyCollection = collection;
-        
     }
-    public void AttachToTransition(Transition transition)
+    public override void AttachToTransition(Transition transition)
     {
-        foreach (var place in _emptyAfterLocations.Where(e=>!e.Equals(_fromLocation)).Select(e => LocationTranslator.CreatePlace(e, _indexedJourneyCollection)))
+        foreach (var place in _emptyAfterLocations.Where(e => !e.Equals(_fromLocation))
+                     .Select(PlaceFactory.CreatePlace))
+        {
             transition.AddInhibitorFrom(place, 1);
+        }
 
         if (_emptyAfterLocations.Contains(_fromLocation) && _amountsToMove.Equals(_fromLocation.Capacity))
         {

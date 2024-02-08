@@ -1,18 +1,16 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System.Runtime.CompilerServices;
 using TACPN;
 
 namespace TapaalParser.TapaalGui;
 
 public class TapaalTacpnGuiParser : ITacpnTranslater<string>
 {
-    public Task<string> TranslateNet(TimedArcColouredPetriNet petriNet)
+    
+    public async Task<string> TranslateNet(TimedArcColouredPetriNet petriNet)
     {
-        //TODO WRITE THE TOP LEVEL SHIZZLE
-        
-        
-        
+        var writeAllTask = new WriteAllTask(petriNet)
+            .WriteAll();
 
-        return Task.FromResult("HELO");
-        throw new NotImplementedException();
+        return await writeAllTask;
     }
 }
