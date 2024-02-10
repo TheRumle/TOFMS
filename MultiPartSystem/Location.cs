@@ -7,7 +7,7 @@ public interface ILocation
     int Capacity { get; init; }
 }
 
-public class Location : ILocation
+public record Location : ILocation
 {
     public static string EndLocationName = "End";
     public bool IsProcessing { get; set; }

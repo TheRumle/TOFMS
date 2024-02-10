@@ -1,6 +1,6 @@
 ﻿using Common;
+using JsonFixtures;
 using TACPN.Colours.Type;
-using TACPN.Colours.Values;
 using TACPN.Transitions;
 using TACPN.Transitions.Guard;
 using Tmpms.Common;
@@ -10,11 +10,15 @@ using TmpmsPetriNetAdapter.Colours;
 
 namespace TmpmsPetriNetAdapter.UnitTest.TransitionAttachableTests;
 
-public abstract class TransitionAttacherTest
+public abstract class TransitionAttacherTest : IClassFixture<MoveActionFixture>
 {
     protected const string PartType = "P1";
-
-    public abstract ITransitionAttachable CreateFromLocation(Location from, Location to);
+    protected ColourType PartColourType;
+    public readonly Transition Transition;
+    public HashSet<KeyValuePair<string, int>> PartsToMove = new()
+    {
+        new(PartType, 4)
+    };
 
     protected static Location CreateLocation(bool isProcessingLocation)
     {
@@ -24,62 +28,46 @@ public abstract class TransitionAttacherTest
         }, isProcessingLocation);
     }
 
-
-    public Transition GetTransition()
+    public TransitionAttacherTest(MoveActionFixture moveActionFixture)
     {
-        var t = new Transition("t", TokenColourType, TransitionGuard.Empty());
-        return t;
+        this.Transition = new Transition("Test", PartColourType, TransitionGuard.Empty());
+        this.PartColourType = moveActionFixture.PartColourType;
     }
+
     
-    
-    protected static JourneyCollection GetJourneys(Location toLocation)
+    protected ColourTypeFactory CreateColourTypeFactory(JourneyCollection journey)
     {
-        var result = new JourneyCollection();
-        result.Add(PartType, new List<Location>()
+        return new ColourTypeFactory([PartType], journey);
+    }
+
+    protected JourneyCollection SingletonJourney(Location nextStep)
+    {
+        return JourneyCollection.ConstructJourneysFor([(PartType, [nextStep])]);
+    }
+
+    protected MoveAction CreateMoveAction(Location from, Location to, HashSet<Location> emptyBefore, HashSet<Location> emptyAfter)
+    {
+        return new MoveAction()
         {
-            toLocation
-        });
-        return result;
+            Name = "Test",
+            EmptyAfter = emptyBefore,
+            EmptyBefore = emptyAfter,
+            From = from,
+            To = to,
+            PartsToMove = PartsToMove
+        };
     }
     
-    protected (Transition transition, Location from) CreateAndAttach(bool isFromProcessing, bool isToProcessing = false)
+    protected MoveAction CreateMoveAction(Location from, Location to)
     {
-        var from = CreateLocation(isFromProcessing);
-        var to = CreateLocation(isToProcessing);
-        var attachable = CreateFromLocation(from, to);
-        var transition = GetTransition();
-        attachable.AttachToTransition(transition);
-        return (transition,from);
+        return new MoveAction()
+        {
+            Name = "Test",
+            From = from,
+            To = to,
+            PartsToMove = PartsToMove
+        };
     }
     
-    protected (Transition transition, Location origin) CreateAndAttach(ITransitionAttachable attachable, Location location)
-    {
-        var transition = GetTransition();
-        attachable.AttachToTransition(transition);
-        return (transition,location);
-    }
-
-    protected string GetExpectedVariableExpressionValue(bool isProcessingLocation)
-    {
-        var variableExpressionValue = isProcessingLocation
-            ? VariableFactory.DecrementForPart(PartType).Value
-            : ColourVariable.VariableNameFor(PartType);
-        return variableExpressionValue;
-    }
-
-    public TransitionAttacherTest()
-    {
-        this.ColourTypeFactory = new ColourTypeFactory([PartType], new ());
-        this.VariableFactory = new ColourVariableFactory(ColourTypeFactory);
-        
-        PartColourType  = ColourTypeFactory.Parts;
-        TokenColourType = ColourTypeFactory.Tokens;
-    }
-
-    public ColourVariableFactory VariableFactory { get; set; }
-
-    public ColourTypeFactory ColourTypeFactory { get; }
-
-    protected ColourType TokenColourType;
-    protected ColourType PartColourType;
+    
 }

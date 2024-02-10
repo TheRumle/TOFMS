@@ -3,6 +3,7 @@ using TACPN.Colours.Values;
 using TACPN.Places;
 using TestDataGenerator;
 using Tmpms.Common;
+using Tmpms.Common.Journey;
 
 namespace JsonFixtures;
 
@@ -29,22 +30,8 @@ public class MoveActionFixture
     public static ColourVariable VariableForPart(string part, int maxValue)
     {
         return CreateFromPartName(part, maxValue);
-    } 
+    }
 
-    
-    public static Dictionary<string, ColourVariable> VariablesForPartsDict(IDictionary<string, int> journeys)
-    {
-        return journeys.Select(e => KeyValuePair.Create(e.Key, CreateFromPartName(e.Key, e.Value)))
-            .ToDictionary();
-    } 
-    
-    public static Dictionary<string, int> CreateJourneyLength(string partType, IEnumerable<object> journeys)
-    {
-        return new Dictionary<string, int>()
-        {
-            { partType, journeys.Count() }
-        };
-    } 
 
     public readonly LocationGenerator LocationGenerator;
 
@@ -58,5 +45,14 @@ public class MoveActionFixture
     {
         return new ColourVariable(partName+"Var", new ColourType("Parts",
             Enumerable.Range(0,numberOfPossibleValues).Select(e=>e.ToString())));
+    }
+
+    public IEnumerable<Location> CreateLocations(int n, bool isProcessing = false)
+    {
+        var locations = this.LocationGenerator.GenerateLocations(n);
+        return locations.Select(e =>
+        {
+            return e with { IsProcessing = isProcessing };
+        });
     }
 }

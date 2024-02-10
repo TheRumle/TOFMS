@@ -9,7 +9,7 @@ using TmpmsPetriNetAdapter.TransitionAttachable;
 
 namespace TmpmsPetriNetAdapter.UnitTest.TransitionAttachableTests;
 
-public class EmptyBeforeCapacitorInhibitorAdaptionTest : TransitionAttacherTest
+public class EmptyBeforeCapacitorInhibitorAdaptionTest
 {
     protected HashSet<Location> EmptyBef =
     [
@@ -39,7 +39,7 @@ public class EmptyBeforeCapacitorInhibitorAdaptionTest : TransitionAttacherTest
   
     public override ITransitionAttachable CreateFromLocation(Location from, Location to)
     {
-        var journeys = GetJourneys(from);
+        var journeys = GetJourneyWithNextTarget(from);
         MoveAction move = new MoveAction()
         {
             Name = "Test",

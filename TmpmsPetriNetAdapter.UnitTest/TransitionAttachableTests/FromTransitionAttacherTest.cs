@@ -9,7 +9,7 @@ using TmpmsPetriNetAdapter.TransitionAttachable;
 
 namespace TmpmsPetriNetAdapter.UnitTest.TransitionAttachableTests;
 
-public class FromTransitionAttacherTest : TransitionAttacherTest
+public class FromTransitionAttacherTest
 {
     
     [Theory]
@@ -36,7 +36,7 @@ public class FromTransitionAttacherTest : TransitionAttacherTest
     
     public override ITransitionAttachable CreateFromLocation(Location from, Location to)
     {
-        var journeys = GetJourneys(from).ToIndexedJourney();
+        var journeys = GetJourneyWithNextTarget(from).ToIndexedJourney();
         MoveAction move = new MoveAction()
         {
             Name = "Test",

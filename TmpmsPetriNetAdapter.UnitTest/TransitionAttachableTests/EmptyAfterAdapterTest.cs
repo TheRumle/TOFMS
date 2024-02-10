@@ -10,7 +10,7 @@ using TmpmsPetriNetAdapter.TransitionAttachable;
 
 namespace TmpmsPetriNetAdapter.UnitTest.TransitionAttachableTests;
 
-public class EmptyAfterAdapterTest : TransitionAttacherTest
+public class EmptyAfterAdapterTest
 {
     
     [Theory]
@@ -73,7 +73,7 @@ public class EmptyAfterAdapterTest : TransitionAttacherTest
             EmptyBefore = new HashSet<Location>(),
             PartsToMove = partsToConsume.ToHashSet()
         };
-        return new EmptyAfterAdapter(move, this.ColourTypeFactory, GetJourneys(from).ToIndexedJourney());
+        return new EmptyAfterAdapter(move, this.ColourTypeFactory, GetJourneyWithNextTarget(from).ToIndexedJourney());
     }
 
     private (Location location, EmptyAfterAdapter adapter) SetupFullConsumption()
@@ -108,7 +108,7 @@ public class EmptyAfterAdapterTest : TransitionAttacherTest
             To = to
         };
         
-        return new EmptyAfterAdapter(move, ColourTypeFactory, GetJourneys(from).ToIndexedJourney());
+        return new EmptyAfterAdapter(move, ColourTypeFactory, GetJourneyWithNextTarget(from).ToIndexedJourney());
     }
     
     [Fact]
