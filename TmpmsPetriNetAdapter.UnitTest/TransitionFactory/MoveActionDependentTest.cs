@@ -51,11 +51,7 @@ public abstract class MoveActionDependentTest : IClassFixture<MoveActionFixture>
     {
         return new ColourTypeFactory(Parts, collection);
     }
-    protected static ColourVariableFactory CreateColourVariableFactory(JourneyCollection collection)
-    {
-        return new ColourVariableFactory(CreateColourTypeFactory(collection));
-    }
-    
+
 
     public MoveActionDependentTest(MoveActionFixture fixture)
     {

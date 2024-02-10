@@ -70,6 +70,6 @@ public class TransitionGuardFactoryTest : MoveActionDependentTest
     
     private TransitionGuardFactory CreateTransitionGuardFactory(JourneyCollection journeys)
     {
-        return new TransitionGuardFactory(journeys.ToIndexedJourney(), PartsColourType, CreateColourVariableFactory(journeys));
+        return new TransitionGuardFactory(journeys.ToIndexedJourney(),  CreateColourTypeFactory(journeys));
     }
 }

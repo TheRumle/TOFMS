@@ -15,11 +15,11 @@ public class TransitionGuardFactory
     private readonly ColourType _partsColourType;
     private readonly ColourVariableFactory _variableFactory;
 
-    public TransitionGuardFactory(IndexedJourneyCollection collection, ColourType partsColourType, ColourVariableFactory variableFactory)
+    public TransitionGuardFactory(IndexedJourneyCollection collection, ColourTypeFactory ctFactory)
     {
-        this._journeys = collection;
-        this._partsColourType = partsColourType;
-        _variableFactory = variableFactory;
+        _journeys = collection;
+        _partsColourType = ctFactory.Parts;
+        _variableFactory = new ColourVariableFactory(ctFactory);
     }
 
     public TransitionGuard MoveActionGuard(MoveAction moveAction)
