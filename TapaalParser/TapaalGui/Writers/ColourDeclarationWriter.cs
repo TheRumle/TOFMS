@@ -3,13 +3,17 @@ using TACPN.Colours.Values;
 
 namespace TapaalParser.TapaalGui.Writers;
 
-internal class DeclarationsWriter : TacpnUiXmlWriter<(IEnumerable<ColourType> colourTypes, IEnumerable<ColourVariable> variables)>
+
+/// <summary>
+/// Writes all declarations for colour types and colour variables, but not locations, transitions, etc.
+/// </summary>
+internal class ColourDeclarationWriter : TacpnUiXmlWriter<(IEnumerable<ColourType> colourTypes, IEnumerable<ColourVariable> variables)>
 {
-    public DeclarationsWriter((IEnumerable<ColourType> colourTypes, IEnumerable<ColourVariable> variables) value) : base(value)
+    public ColourDeclarationWriter((IEnumerable<ColourType> colourTypes, IEnumerable<ColourVariable> variables) value) : base(value)
     {
     }
 
-    public override void AppendToStringBuilder()
+    public override void AppendAllText()
     {
         Append($"  <declaration>\n    <structure>\n      <declarations>");
         AppendColourTypes();
@@ -52,31 +56,31 @@ internal class DeclarationsWriter : TacpnUiXmlWriter<(IEnumerable<ColourType> co
 
     private void WriteProductColour(ProductColourType productColourType)
     {
-        stringBuilder.Append($@"<namedsort id=""{productColourType.Name}"" name=""{productColourType.Name}""> <productsort>");
-        stringBuilder.Append($@"<usersort declaration=""{productColourType.First.Name}""/>");
-        stringBuilder.Append($@"<usersort declaration=""{productColourType.Second.Name}""/>");
-        stringBuilder.Append("</productsort></namedsort>");
+        Append($@"<namedsort id=""{productColourType.Name}"" name=""{productColourType.Name}""> <productsort>");
+        Append($@"<usersort declaration=""{productColourType.First.Name}""/>");
+        Append($@"<usersort declaration=""{productColourType.Second.Name}""/>");
+        Append("</productsort></namedsort>");
     }
 
     private void WriteColourRange(IntegerRangedColour rangedColour)
     {
-        stringBuilder.Append($@" <namedsort id=""{rangedColour.Name}"" name=""{rangedColour.Name}"">
+        Append($@" <namedsort id=""{rangedColour.Name}"" name=""{rangedColour.Name}"">
                             <finiteintrange end=""{rangedColour.MaxValue}"" start=""0""/>
                            </namedsort>");
     }
 
     private void WriteMultipleValues(ColourType ct)
     {
-        stringBuilder.Append($@" <namedsort id=""{ct.Name}"" name=""{ct.Name}""> <cyclicenumeration>");
+        Append($@" <namedsort id=""{ct.Name}"" name=""{ct.Name}""> <cyclicenumeration>");
         foreach (var part in ct.Colours)
         {
-            stringBuilder.Append($@"<feconstant id=""{part}"" name=""{ct.Name}""/>");
+            Append($@"<feconstant id=""{part}"" name=""{ct.Name}""/>");
         }
-        stringBuilder.Append(" </cyclicenumeration> </namedsort>");  
+        Append(" </cyclicenumeration> </namedsort>");  
     }
 
     private void WriteSingle(ColourType ct)
     {
-        stringBuilder.Append($@" <namedsort id=""{ct.Name}"" name=""{ct.Name}""><{ct.Name}/></namedsort>");
+        Append($@" <namedsort id=""{ct.Name}"" name=""{ct.Name}""><{ct.Name}/></namedsort>");
     }
 }

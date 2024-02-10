@@ -94,7 +94,6 @@ public class TmpmsDirectParser
     private void DeclareLocations()
     {
         SharedPlaceDeclarationWriter declarationWriter = new SharedPlaceDeclarationWriter(this._stringBuilder);
-    
         declarationWriter.WritePlaces(_locations.Where(e=>e.Name!=Location.EndLocationName), _indexedJourneysCollection);
         declarationWriter.WriteCapacityPlaces(_capacityLocations, _indexedJourneysCollection);
     }

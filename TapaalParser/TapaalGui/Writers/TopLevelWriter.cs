@@ -8,9 +8,9 @@ internal class TopLevelWriter : TacpnUiXmlWriter<TimedArcColouredPetriNet>, ITac
     {
     }
 
-    public override void AppendToStringBuilder()
+    public override void AppendAllText()
     {
-        stringBuilder.Append($@"<?xml version=""1.0"" encoding=""UTF-8"" standalone=""no""?> <pnml xmlns=""http://www.informatik.hu-berlin.de/top/pnml/ptNetb"">");
-        stringBuilder.Append($"  <declaration>\n    <structure>\n      <declarations>");
+        Append($@"<?xml version=""1.0"" encoding=""UTF-8"" standalone=""no""?> <pnml xmlns=""http://www.informatik.hu-berlin.de/top/pnml/ptNetb"">");
+        Append($"  <declaration>\n    <structure>\n      <declarations>");
     }
 }

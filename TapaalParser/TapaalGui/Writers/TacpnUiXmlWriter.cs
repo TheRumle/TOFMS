@@ -2,11 +2,11 @@
 
 namespace TapaalParser.TapaalGui.Writers;
 
-internal abstract class TacpnUiXmlWriter<T> : ITacpnUiWriter
+public abstract class TacpnUiXmlWriter<T> : ITacpnUiWriter
 {
-    protected readonly StringBuilder stringBuilder;
+    private readonly StringBuilder stringBuilder;
     protected T Parseable { get; set; }
-    public abstract void AppendToStringBuilder();
+    public abstract void AppendAllText();
 
     public TacpnUiXmlWriter(T value)
     {

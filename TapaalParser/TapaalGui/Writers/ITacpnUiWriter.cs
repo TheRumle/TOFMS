@@ -3,5 +3,5 @@
 internal interface ITacpnUiWriter
 {
 
-    public void AppendToStringBuilder();
+    public void AppendAllText();
 }

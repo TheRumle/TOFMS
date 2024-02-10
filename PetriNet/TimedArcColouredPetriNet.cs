@@ -19,7 +19,6 @@ public class TimedArcColouredPetriNet
         this.Transitions = components.SelectMany(e => e.Transitions);
         this.CapacityPlaces = components.SelectMany(e => e.CapacityPlaces);
         this.Places = components.SelectMany(e => e.Places);
-        this.CapacityPlaces = components.SelectMany(e => e.CapacityPlaces);
         ColourTypes = components.SelectMany(e => e.ColourTypes).ToHashSet();
 
         this.Variables = components.SelectMany(e => e.Transitions.SelectMany(transition =>

@@ -17,6 +17,7 @@ internal class MovingProductsIntoLocationAdapter : Adapter
     public MovingProductsIntoLocationAdapter(MoveAction moveAction, ColourTypeFactory ctFactory, IndexedJourneyCollection collection) 
         : base(ctFactory, collection)
     {
+        var placeFactory = new PlaceFactory(ctFactory, collection);
         _itemMovedIntoPlace = moveAction.PartsToMove;
         (_place, _capacityPlace) = LocationTranslator.CreatePlaceAndCapacityPlacePair(moveAction.To, collection, ctFactory.Parts);
     }

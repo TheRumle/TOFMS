@@ -37,8 +37,8 @@ public class Transition
         InGoing.Add(arc);
         return arc;
     }
-
-    public IngoingArc AddInGoingFrom(CapacityPlace from, int amount)
+    
+    public IngoingArc AddInGoingFrom(IPlace from, int amount)
     {
         var expression = ColourExpression.DefaultTokenExpression(amount);
         return AddInGoingFrom(from, new[] { ColourTimeGuard.CapacityGuard()}, expression);

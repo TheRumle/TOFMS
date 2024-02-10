@@ -9,12 +9,12 @@ using Xml;
 
 namespace TaapalParser.UnitTests.DeclarationWriters;
 
-public class DeclarationsWriterTest(MoveActionFixture fixture) : WriterTest(fixture)
+public class ColourDeclarationWriterTest(MoveActionFixture fixture) : WriterTest(fixture)
 {
-    private string NewString(DeclarationsWriter declarationsWriter)
+    private string NewString(ColourDeclarationWriter colourDeclarationWriter)
     {
-        declarationsWriter.AppendToStringBuilder();
-        return RemoveWhiteSpace(declarationsWriter.ToString());
+        colourDeclarationWriter.AppendAllText();
+        return RemoveWhiteSpace(colourDeclarationWriter.ToString());
     }
     private string Write(Action<StringBuilder> write)
     {
@@ -45,13 +45,13 @@ public class DeclarationsWriterTest(MoveActionFixture fixture) : WriterTest(fixt
         return RemoveWhiteSpace(builder.ToString());
     }
 
-    private DeclarationsWriter CreateSut(IEnumerable<ColourType> types, ColourVariable[] variables)
+    private ColourDeclarationWriter CreateSut(IEnumerable<ColourType> types, ColourVariable[] variables)
     {
-        return new DeclarationsWriter((types,variables));
+        return new ColourDeclarationWriter((types,variables));
     }
-    private DeclarationsWriter CreateSut(IEnumerable<ColourType> types)
+    private ColourDeclarationWriter CreateSut(IEnumerable<ColourType> types)
     {
-        return new DeclarationsWriter((types,[]));
+        return new ColourDeclarationWriter((types,[]));
     }
 
     private string OriginalTokenValue()
@@ -86,21 +86,21 @@ public class DeclarationsWriterTest(MoveActionFixture fixture) : WriterTest(fixt
     [Fact]
     public void WhenGivenDotColourType_GivesCorrectValue()
     {
-        DeclarationsWriter sut = CreateSut([Dot]);
+        ColourDeclarationWriter sut = CreateSut([Dot]);
         NewString(sut).Should().Be(OriginalDotComparison());
     }
     
     [Fact]
     public void Can_WriteJourney()
     {
-        DeclarationsWriter sut = CreateSut([JourneyColour]);
+        ColourDeclarationWriter sut = CreateSut([JourneyColour]);
         NewString(sut).Should().Be(GetJourneyColourValueOriginal());
     }
 
     [Fact]
     public void CanWriteTokenColour()
     {
-        DeclarationsWriter sut = CreateSut([TokensColourType]);
+        ColourDeclarationWriter sut = CreateSut([TokensColourType]);
         NewString(sut).Should().Be(OriginalTokenValue());
     }
 
@@ -109,7 +109,7 @@ public class DeclarationsWriterTest(MoveActionFixture fixture) : WriterTest(fixt
     [Fact]
     public void WhenGivenDotAndParrtColourType_GivesCorrectValue()
     {
-        DeclarationsWriter sut = CreateSut(new []{PartsColourType, Dot});
+        ColourDeclarationWriter sut = CreateSut(new []{PartsColourType, Dot});
         var compare = Write(builder =>
         {
             var declarer = new ColourDeclarer(builder);
@@ -123,7 +123,7 @@ public class DeclarationsWriterTest(MoveActionFixture fixture) : WriterTest(fixt
     [Fact]
     public void WhenGivenPartColourType_GivesCorrectValue()
     {
-        DeclarationsWriter sut = CreateSut([PartsColourType]);
+        ColourDeclarationWriter sut = CreateSut([PartsColourType]);
         NewString(sut).Should().Be(GetPartsComparison(Parts));
     }
     

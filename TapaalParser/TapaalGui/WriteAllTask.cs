@@ -12,13 +12,13 @@ internal class WriteAllTask
         Writers =
         [
             new TopLevelWriter(net),
-            new DeclarationsWriter((net.ColourTypes, net.Variables))
+            new ColourDeclarationWriter((net.ColourTypes, net.Variables))
         ];
     }
 
     public async Task<string> WriteAll()
     {
-        var actions = Writers.Select(writer => (Action)writer.AppendToStringBuilder)
+        var actions = Writers.Select(writer => (Action)writer.AppendAllText)
             .Select(e => Task.Run(e.Invoke)).ToArray();
 
         await Task.WhenAll(actions);
