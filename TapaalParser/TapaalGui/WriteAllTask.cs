@@ -12,7 +12,7 @@ internal class WriteAllTask
         Writers =
         [
             new TopLevelWriter(net),
-            new ColourTypeDeclarationWriter(net.ColourTypes)
+            new DeclarationsWriter((net.ColourTypes, net.Variables))
         ];
     }
 

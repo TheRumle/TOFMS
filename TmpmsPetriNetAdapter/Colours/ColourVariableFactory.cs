@@ -6,14 +6,17 @@ namespace TmpmsPetriNetAdapter.Colours;
 
 public class ColourVariableFactory
 {
+    private Dictionary<string, ColourVariable> _variables; 
     private readonly ColourTypeFactory _colourTypeFactory;
-    private readonly ColourType partColourType;
     private const string PREFIX = "Var";
+    public IEnumerable<ColourVariable> CreatedVariables =>_variables.Values;
 
     public ColourVariableFactory(ColourTypeFactory ctFactory)
     {
         this._colourTypeFactory = ctFactory;
-        this.partColourType = ctFactory.Parts;
+        this._variables = new Dictionary<string, ColourVariable>();
+        foreach (var partColour in ctFactory.Parts.Colours)
+            VariableForPart(partColour);
     }
 
     public static string VariableNameFor(string part)
@@ -23,19 +26,17 @@ public class ColourVariableFactory
     
     public VariableDecrement DecrementForPart(string part)
     {
-        return new VariableDecrement(new ColourVariable(VariableNameFor(part), _colourTypeFactory.Journey));
-    }
-
-    private static ColourVariable CreateIfValid(string name, ColourType colourType)
-    {
-        if (colourType.Colours.Any(e=>e.Value == name)) 
-            throw new ArgumentException($"Cannot create variable with same name as assigned colour type: {string.Join(" ", colourType.Colours.Select(e=>e.Value))}");
-
-        return new ColourVariable(name, colourType);
+        return new VariableDecrement(VariableForPart(part));
     }
 
     public ColourVariable VariableForPart(string part)
     {
-        return new ColourVariable(VariableNameFor(part), _colourTypeFactory.Journey);
+        if (_variables.TryGetValue(part, out var existingVariable))
+            return existingVariable;
+        
+        
+        var newVariable = new ColourVariable(VariableNameFor(part), _colourTypeFactory.Journey);
+        _variables.Add(part,newVariable);
+        return newVariable;
     }
 }

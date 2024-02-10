@@ -5,6 +5,8 @@ namespace TapaalParser.TapaalGui.Writers;
 internal abstract class TacpnUiXmlWriter<T> : ITacpnUiWriter
 {
     protected readonly StringBuilder stringBuilder;
+    protected T Parseable { get; set; }
+    public abstract void AppendToStringBuilder();
 
     public TacpnUiXmlWriter(T value)
     {
@@ -12,8 +14,8 @@ internal abstract class TacpnUiXmlWriter<T> : ITacpnUiWriter
         this.stringBuilder = new StringBuilder();
     }
 
-    protected T Parseable { get; set; }
-    public abstract void AppendToStringBuilder();
+    public void Append(string text) => stringBuilder.Append(text);
+
 
     public override string ToString()
     {

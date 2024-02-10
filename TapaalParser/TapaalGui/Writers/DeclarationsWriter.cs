@@ -1,24 +1,31 @@
 ﻿using TACPN.Colours.Type;
+using TACPN.Colours.Values;
 
 namespace TapaalParser.TapaalGui.Writers;
 
-internal class ColourTypeDeclarationWriter : TacpnUiXmlWriter<IEnumerable<ColourType>>
+internal class DeclarationsWriter : TacpnUiXmlWriter<(IEnumerable<ColourType> colourTypes, IEnumerable<ColourVariable> variables)>
 {
-    public ColourTypeDeclarationWriter(IEnumerable<ColourType> value) : base(value.DistinctBy(e=>e.Name))
+    public DeclarationsWriter((IEnumerable<ColourType> colourTypes, IEnumerable<ColourVariable> variables) value) : base(value)
     {
-        
     }
 
     public override void AppendToStringBuilder()
     {
-        foreach (var ct in Parseable)
+        Append($"  <declaration>\n    <structure>\n      <declarations>");
+        AppendColourTypes();
+        AppendVariables();
+        Append($"      </declarations>\n    </structure>\n  </declaration>");
+    }
+
+    private void AppendColourTypes()
+    {
+        foreach (var ct in Parseable.colourTypes)
         {
             if (ct is ProductColourType productColourType)
             {
                 WriteProductColour(productColourType);
-
-
-            }else if (ct is IntegerRangedColour rangedColour)
+            }
+            else if (ct is IntegerRangedColour rangedColour)
             {
                 WriteColourRange(rangedColour);
             }
@@ -30,7 +37,16 @@ internal class ColourTypeDeclarationWriter : TacpnUiXmlWriter<IEnumerable<Colour
             {
                 WriteMultipleValues(ct);
             }
+        }
+    }
 
+    public void AppendVariables()
+    {
+        foreach (var colourVariable in this.Parseable.variables)
+        {
+            Append($@"<variabledecl id= ""{colourVariable.Name}"" name= ""{colourVariable.Name}"">
+          <usersort declaration=""{colourVariable.ColourType.Name}""/>
+            </variabledecl>");
         }
     }
 
