@@ -29,6 +29,6 @@ public class MoveActionTransitionFactoryTest : MoveActionDependentTest
 
 
         var variableOccurances = transition.Guard.Conditions.SelectMany(e => e.Comparisons.Select(comparison => comparison.Lhs));
-        variableOccurances.Where(e => e.IsVariableFor("P1")).Should().HaveCount(numJourneyOccurances);
+        variableOccurances.Where(e => e.Name == "VarP1").Should().HaveCount(numJourneyOccurances);
     }
 }

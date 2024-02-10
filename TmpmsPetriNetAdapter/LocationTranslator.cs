@@ -3,6 +3,7 @@ using TACPN.Colours.Type;
 using TACPN.Places;
 using Tmpms.Common;
 using Tmpms.Common.Journey;
+using TmpmsPetriNetAdapter.Colours;
 
 namespace TmpmsPetriNetAdapter;
 
@@ -10,41 +11,15 @@ namespace TmpmsPetriNetAdapter;
 
 public class PlaceFactory
 {
-    public PlaceFactory(string[] parts, JourneyCollection journeyCollection)
+    public PlaceFactory(ColourTypeFactory factory, IndexedJourneyCollection journeyCollection)
     {
-        Parts = parts;
-        PartsColour = ColourType.PartsColourType(parts);
-        this.IndexedJourneyCollection = journeyCollection.ToIndexedJourney();
-    }
-    
-    public PlaceFactory(ColourType ct, JourneyCollection journeyCollection)
-    {
-        Parts = ct.Colours.Select(e=>e.Value).ToArray();
-        PartsColour = ct;
-        this.IndexedJourneyCollection = journeyCollection.ToIndexedJourney();
-    }
-
-    public PlaceFactory(ColourType ct, IndexedJourneyCollection journeyCollection)
-    {
-        Parts = ct.Colours.Select(e=>e.Value).ToArray();
-        PartsColour = ct;
+        PartsColour = factory.Parts;
         this.IndexedJourneyCollection = journeyCollection;
     }
 
     public readonly ColourType PartsColour;
-
-    public readonly string[] Parts;
     public readonly IndexedJourneyCollection IndexedJourneyCollection;
-    public Place CreatePlace(Location location)
-    {
-        return LocationTranslator.CreatePlace(location, this.IndexedJourneyCollection, PartsColour);
-    }
-    
-    public CapacityPlace CreateCapacityPlace(Location location)
-    {
-        return new CapacityPlace(location.CapacityName(), location.Capacity);
-    }
-    
+    public Place CreatePlace(Location location) => LocationTranslator.CreatePlace(location, IndexedJourneyCollection, PartsColour);
 }
 
 public static class LocationTranslator

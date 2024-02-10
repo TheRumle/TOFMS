@@ -4,6 +4,8 @@ using TACPN.Colours.Type;
 using TACPN.Transitions;
 using Tmpms.Common;
 using Tmpms.Common.Journey;
+using Tmpms.Common.Move;
+using TmpmsPetriNetAdapter.Colours;
 
 namespace TmpmsPetriNetAdapter.TransitionAttachable;
 
@@ -12,13 +14,12 @@ internal class EmptyAfterAdapter :Adapter
     private readonly IEnumerable<Location> _emptyAfterLocations;
     private readonly int _amountsToMove;
     private readonly Location _fromLocation;
-
-    public EmptyAfterAdapter(IEnumerable<Location> emptyAfterLocations, Location fromLocation,
-        IEnumerable<KeyValuePair<string, int>> partsToConsume, IndexedJourneyCollection collection, ColourType partColourType) : base(partColourType,collection)
+    
+    public EmptyAfterAdapter(MoveAction moveAction, ColourTypeFactory ctFactory, IndexedJourneyCollection collection) : base(ctFactory, collection)
     {
-        _emptyAfterLocations = emptyAfterLocations.ToList();
-        _fromLocation = fromLocation;
-        _amountsToMove = partsToConsume.Sum(e=>e.Value);
+        _emptyAfterLocations = moveAction.EmptyAfter;
+        _fromLocation = moveAction.From;
+        _amountsToMove = moveAction.PartsToMove.Sum(e=>e.Value);
     }
     public override void AttachToTransition(Transition transition)
     {

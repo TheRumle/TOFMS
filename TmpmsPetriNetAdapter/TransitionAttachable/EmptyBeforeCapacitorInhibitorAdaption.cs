@@ -2,15 +2,18 @@
 using TACPN.Transitions;
 using Tmpms.Common;
 using Tmpms.Common.Journey;
+using Tmpms.Common.Move;
+using TmpmsPetriNetAdapter.Colours;
 
 namespace TmpmsPetriNetAdapter.TransitionAttachable;
 
 internal class EmptyBeforeCapacitorInhibitorAdaption : Adapter
 {
-    public EmptyBeforeCapacitorInhibitorAdaption(ISet<Location> locations, IndexedJourneyCollection collection, 
-        ColourType partColourType) : base(partColourType, collection)
+
+    public EmptyBeforeCapacitorInhibitorAdaption(MoveAction moveAction, ColourTypeFactory ctFactory, IndexedJourneyCollection collection) 
+        : base(ctFactory, collection)
     {
-        _locations = locations;
+        _locations = moveAction.EmptyBefore;
     }
 
     private readonly IEnumerable<Location> _locations;

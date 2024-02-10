@@ -13,7 +13,7 @@ public class ColourExpressionsTest
     private static readonly Colour P1 = new("P1");
     private static readonly Colour P2 = new("P2");
     private static readonly ColourType TestColour = new ColourType("Test", new[] { P1 });
-    private static readonly ColourVariable ColourVariable = ColourVariable.Create("VarP1", TestColour);
+    private static readonly ColourVariable ColourVariable = new("VarP1", TestColour);
 
 
 

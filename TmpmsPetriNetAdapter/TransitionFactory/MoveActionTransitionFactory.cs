@@ -1,10 +1,8 @@
 ﻿using TACPN.Colours.Type;
 using TACPN.Transitions;
-using TACPN.Transitions.Guard;
-using TACPN.Transitions.Guard.ColourComparison;
-using Tmpms.Common;
 using Tmpms.Common.Journey;
 using Tmpms.Common.Move;
+using TmpmsPetriNetAdapter.Colours;
 using TmpmsPetriNetAdapter.ConditionGenerator;
 
 namespace TmpmsPetriNetAdapter.TransitionFactory;
@@ -12,17 +10,18 @@ namespace TmpmsPetriNetAdapter.TransitionFactory;
 public class MoveActionTransitionFactory : ITransitionFactory
 {
     private readonly TransitionGuardFactory _guardFactory;
-    private readonly ColourType _partsColourType;
+    private readonly ColourType _tokensColourType;
 
-    public MoveActionTransitionFactory(JourneyCollection journeysForParts, ColourType partsColourType)
+    public MoveActionTransitionFactory(IndexedJourneyCollection journeysForParts, ColourTypeFactory colourTypeFactory)
     {
-        this._guardFactory = new TransitionGuardFactory(journeysForParts, partsColourType);
-        this._partsColourType = partsColourType;
+        
+        this._guardFactory = new TransitionGuardFactory(journeysForParts, colourTypeFactory.Parts, new ColourVariableFactory(colourTypeFactory));
+        this._tokensColourType = colourTypeFactory.Tokens;
     }
     
     public Transition CreateTransition(MoveAction moveAction)
     {
         var guard = _guardFactory.MoveActionGuard(moveAction);
-        return new Transition(moveAction.Name, ColourType.TokensColourType(_partsColourType), guard);
+        return new Transition(moveAction.Name, this._tokensColourType, guard);
     }
 }

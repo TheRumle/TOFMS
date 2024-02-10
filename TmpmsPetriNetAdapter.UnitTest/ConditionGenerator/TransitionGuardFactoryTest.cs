@@ -19,12 +19,14 @@ public class TransitionGuardFactoryTest : MoveActionDependentTest
             ("P1", ListExtensions.Shuffle([.._otherLocations, ..Enumerable.Repeat(moveAction.To, 5)]))
         ]);
         
-        var generator = new TransitionGuardFactory(journeys, PartsColourType);
+        var generator = CreateTransitionGuardFactory(journeys);
         TransitionGuard a = generator.MoveActionGuard(moveAction);
 
         a.Conditions.Should().HaveCount(1);
     }
-    
+
+
+
     [Theory]
     [InlineData(1)]
     [InlineData(2)]
@@ -35,8 +37,8 @@ public class TransitionGuardFactoryTest : MoveActionDependentTest
         JourneyCollection journeys = JourneyCollection.ConstructJourneysFor([
             ("P1", ListExtensions.Shuffle([.._otherLocations, ..Enumerable.Repeat(moveAction.To, journeyLength)]))
         ]);
-        
-        var generator = new TransitionGuardFactory(journeys, PartsColourType);
+
+        var generator = CreateTransitionGuardFactory(journeys);
         TransitionGuard a = generator.MoveActionGuard(moveAction);
 
         a.Conditions.First().Comparisons.Should().HaveCount(journeyLength);
@@ -53,15 +55,21 @@ public class TransitionGuardFactoryTest : MoveActionDependentTest
             ("P2", ListExtensions.Shuffle([.._otherLocations, ..Enumerable.Repeat(moveAction.To, 5)]))
         ]);
         
-        var generator = new TransitionGuardFactory(journeys, PartsColourType);
+        var generator = CreateTransitionGuardFactory(journeys);
         TransitionGuard a = generator.MoveActionGuard(moveAction);
-
         a.Conditions.Should().HaveCount(2);
     }
 
 
     public TransitionGuardFactoryTest(MoveActionFixture fixture) : base(fixture)
     {
+        this.PartsColourType = new ColourType("Parts", ["P1", "P2"]);
     }
+
+    public ColourType PartsColourType { get; set; }
     
+    private TransitionGuardFactory CreateTransitionGuardFactory(JourneyCollection journeys)
+    {
+        return new TransitionGuardFactory(journeys.ToIndexedJourney(), PartsColourType, CreateColourVariableFactory(journeys));
+    }
 }

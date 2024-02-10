@@ -7,6 +7,7 @@ using TACPN.Colours.Values;
 using TapaalParser.TapaalGui.Writers;
 using Tmpms.Common.Journey;
 using TmpmsPetriNetAdapter;
+using TmpmsPetriNetAdapter.Colours;
 using Xml;
 
 namespace TaapalParser.UnitTests;
@@ -104,18 +105,19 @@ public class ColourTypeDeclarationWriterTest : NoWhitespaceWriterTest, IClassFix
     public ColourTypeDeclarationWriterTest(MoveActionFixture fixture)
     {
         Parts = ["P1", "P2", "P3"];
-        this.PartsColourType = new ColourType(Colour.PartsColour.Value, Parts);
-        this.Dot = ColourType.DefaultColorType;
-        this._journeys = JourneyCollection.ConstructJourneysFor(
+        PartsColourType = new ColourType(Colour.PartsColour.Value, Parts);
+        Dot = ColourType.DefaultColorType;
+        _journeys = JourneyCollection.ConstructJourneysFor(
         [
             ("P1", [..fixture.LocationGenerator.GenerateLocations(3), ..fixture.LocationGenerator.GenerateLocations(1)]),
             ("P2", [..fixture.LocationGenerator.GenerateLocations(1), ..fixture.LocationGenerator.GenerateLocations(3)])
         ]);
-        
-        this.JourneyColour = JourneyColourFactory.CreateJourneyColour(_journeys);
-
-        this.TokensColourType = new ProductColourType(PartsColourType, Dot);
+        ColourFactory = new ColourTypeFactory(Parts, _journeys);
+        JourneyColour = ColourFactory.Journey;
+        TokensColourType = ColourFactory.Tokens;
     }
+
+    public ColourTypeFactory ColourFactory { get; set; }
 
     public ProductColourType TokensColourType { get; set; }
 
@@ -125,5 +127,5 @@ public class ColourTypeDeclarationWriterTest : NoWhitespaceWriterTest, IClassFix
 
     public ColourType PartsColourType { get; set; }
 
-    public IEnumerable<string> Parts { get; set; }
+    public string[] Parts { get; set; }
 }

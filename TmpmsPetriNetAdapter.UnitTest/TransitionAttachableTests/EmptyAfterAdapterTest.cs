@@ -5,6 +5,7 @@ using TACPN.Colours.Values;
 using TACPN.Transitions;
 using Tmpms.Common;
 using Tmpms.Common.Journey;
+using Tmpms.Common.Move;
 using TmpmsPetriNetAdapter.TransitionAttachable;
 
 namespace TmpmsPetriNetAdapter.UnitTest.TransitionAttachableTests;
@@ -52,29 +53,39 @@ public class EmptyAfterAdapterTest : TransitionAttacherTest
     private (Location location, EmptyAfterAdapter adapter) SetupWithConsumption(
         int amountToConsume)
     {
-        Location location = CreateLocation(true);
-        Location[] emptyAfterWithFrom = [location];
+        Location from = CreateLocation(true);
+        Location to = CreateLocation(false);
+        Location[] emptyAfterWithFrom = [from];
         var partsToConsume = new Dictionary<string, int>();
         partsToConsume.Add(PartType, amountToConsume);
-        var adapter = CreateAdapter(emptyAfterWithFrom, location, partsToConsume);
-        return (location, adapter);
+        var adapter = CreateAdapter(emptyAfterWithFrom, from,to, partsToConsume);
+        return (from, adapter);
     }
 
-    private EmptyAfterAdapter CreateAdapter(Location[] emptyAfterWithFrom, Location location, Dictionary<string, int> partsToConsume)
+    private EmptyAfterAdapter CreateAdapter(Location[] emptyAfterWithFrom, Location from, Location to, Dictionary<string, int> partsToConsume)
     {
-        return new EmptyAfterAdapter(emptyAfterWithFrom, location, partsToConsume, GetJourneys(location).ToIndexedJourney(), PartColourType);
+        var move = new MoveAction()
+        {
+            Name = "Test",
+            EmptyAfter = emptyAfterWithFrom.ToHashSet(),
+            From = from,
+            To = to,
+            EmptyBefore = new HashSet<Location>(),
+            PartsToMove = partsToConsume.ToHashSet()
+        };
+        return new EmptyAfterAdapter(move, this.ColourTypeFactory, GetJourneys(from).ToIndexedJourney());
     }
 
     private (Location location, EmptyAfterAdapter adapter) SetupFullConsumption()
     {
-        Location location = CreateLocation(true);
-        Location[] emptyAfterWithFrom = [location];
+        Location from = CreateLocation(true);
+        Location to = CreateLocation(false);
+        Location[] emptyAfterWithFrom = [from];
         var partsToConsume = new Dictionary<string, int>();
-        partsToConsume.Add(PartType, location.Capacity);
-        var adapter = CreateAdapter(emptyAfterWithFrom, location, partsToConsume);
-        return (location, adapter);
+        partsToConsume.Add(PartType, from.Capacity);
+        var adapter = CreateAdapter(emptyAfterWithFrom, from,to, partsToConsume);
+        return (from, adapter);
     }
-
     protected HashSet<Location> emptyAfter =
     [
         new("MustBeEmpty", 10, new List<Invariant>
@@ -85,11 +96,19 @@ public class EmptyAfterAdapterTest : TransitionAttacherTest
         new("MustBeEmptyToo", 10, new List<Invariant>(), true)
     ];
     
-    public override ITransitionAttachable CreateFromLocation(Location location)
+    public override ITransitionAttachable CreateFromLocation(Location from, Location to)
     {
-        var partsToConsume = new Dictionary<string, int>();
-        partsToConsume.Add(PartType, 3);
-        return new EmptyAfterAdapter(emptyAfter, location, partsToConsume, GetJourneys(location).ToIndexedJourney(), PartColourType);
+        MoveAction move = new MoveAction()
+        {
+            Name = "Test",
+            EmptyAfter = emptyAfter,
+            PartsToMove = [new KeyValuePair<string, int>(PartType, 4)],
+            EmptyBefore = { },
+            From = from,
+            To = to
+        };
+        
+        return new EmptyAfterAdapter(move, ColourTypeFactory, GetJourneys(from).ToIndexedJourney());
     }
     
     [Fact]

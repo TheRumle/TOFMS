@@ -1,10 +1,9 @@
-﻿using System.Runtime.CompilerServices;
-using JsonFixtures;
-using TACPN.Colours.Type;
+﻿using JsonFixtures;
 using TACPN.Colours.Values;
 using Tmpms.Common;
 using Tmpms.Common.Journey;
 using Tmpms.Common.Move;
+using TmpmsPetriNetAdapter.Colours;
 using TmpmsPetriNetAdapter.TransitionFactory;
 
 namespace TmpmsPetriNetAdapter.UnitTest.TransitionFactory;
@@ -22,8 +21,6 @@ public abstract class MoveActionDependentTest : IClassFixture<MoveActionFixture>
     public string P3 = Parts.Skip(2).First();
     public string P4 = Parts.Skip(3).First();
     public string P5 = Parts.Skip(4).First();
-
-    public static ColourType PartsColourType = ColourType.PartsColourType(Parts);
     
 
     
@@ -47,8 +44,18 @@ public abstract class MoveActionDependentTest : IClassFixture<MoveActionFixture>
 
     protected ITransitionFactory CreateTransitionFactoryForJourneys(JourneyCollection collection)
     {
-        return new MoveActionTransitionFactory(collection, PartsColourType);
+        return new MoveActionTransitionFactory(collection.ToIndexedJourney(), CreateColourTypeFactory(collection));
     }
+
+    protected static ColourTypeFactory CreateColourTypeFactory(JourneyCollection collection)
+    {
+        return new ColourTypeFactory(Parts, collection);
+    }
+    protected static ColourVariableFactory CreateColourVariableFactory(JourneyCollection collection)
+    {
+        return new ColourVariableFactory(CreateColourTypeFactory(collection));
+    }
+    
 
     public MoveActionDependentTest(MoveActionFixture fixture)
     {

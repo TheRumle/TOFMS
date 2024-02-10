@@ -4,6 +4,7 @@ using FluentAssertions.Execution;
 using TACPN.Transitions;
 using Tmpms.Common;
 using Tmpms.Common.Journey;
+using Tmpms.Common.Move;
 using TmpmsPetriNetAdapter.TransitionAttachable;
 
 namespace TmpmsPetriNetAdapter.UnitTest.TransitionAttachableTests;
@@ -36,9 +37,19 @@ public class EmptyBeforeCapacitorInhibitorAdaptionTest : TransitionAttacherTest
         }
     }
   
-    public override ITransitionAttachable CreateFromLocation(Location location)
+    public override ITransitionAttachable CreateFromLocation(Location from, Location to)
     {
-        var journeys = GetJourneys(location);
-        return new EmptyBeforeCapacitorInhibitorAdaption(EmptyBef, journeys.ToIndexedJourney(), PartColourType);
+        var journeys = GetJourneys(from);
+        MoveAction move = new MoveAction()
+        {
+            Name = "Test",
+            EmptyAfter = { },
+            PartsToMove = [new KeyValuePair<string, int>(PartType, 4)],
+            EmptyBefore = EmptyBef,
+            From = from,
+            To = to
+        };
+
+        return new EmptyBeforeCapacitorInhibitorAdaption(move, this.ColourTypeFactory, journeys.ToIndexedJourney());
     }
 }

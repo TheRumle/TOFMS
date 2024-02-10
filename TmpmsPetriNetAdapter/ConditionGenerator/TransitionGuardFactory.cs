@@ -5,6 +5,7 @@ using TACPN.Transitions.Guard.ColourComparison;
 using Tmpms.Common;
 using Tmpms.Common.Journey;
 using Tmpms.Common.Move;
+using TmpmsPetriNetAdapter.Colours;
 
 namespace TmpmsPetriNetAdapter.ConditionGenerator;
 
@@ -12,11 +13,13 @@ public class TransitionGuardFactory
 {
     private readonly IndexedJourneyCollection _journeys;
     private readonly ColourType _partsColourType;
+    private readonly ColourVariableFactory _variableFactory;
 
-    public TransitionGuardFactory(JourneyCollection collection, ColourType partsColourType)
+    public TransitionGuardFactory(IndexedJourneyCollection collection, ColourType partsColourType, ColourVariableFactory variableFactory)
     {
-        this._journeys = collection.ToIndexedJourney();
+        this._journeys = collection;
         this._partsColourType = partsColourType;
+        _variableFactory = variableFactory;
     }
 
     public TransitionGuard MoveActionGuard(MoveAction moveAction)
@@ -31,7 +34,7 @@ public class TransitionGuardFactory
                 _journeys[part]
                 .Where(kvp=> kvp.Value == moveAction.To);
             
-            var comparisonsForPart = CreateVariableComparisons(indexAndLocation, part, _journeys[part].Count());
+            var comparisonsForPart = CreateVariableComparisons(indexAndLocation, part);
             comparisons.AddRange(comparisonsForPart);;
         }
 
@@ -47,10 +50,10 @@ public class TransitionGuardFactory
         );
     }
 
-    private IEnumerable<VariableComparison> CreateVariableComparisons(IEnumerable<KeyValuePair<int, Location>> indexAndLocation, string part, int journeyLenght)
+    private IEnumerable<VariableComparison> CreateVariableComparisons(IEnumerable<KeyValuePair<int, Location>> indexAndLocation, string part)
     {
         return indexAndLocation.Select(indexedLocation => new VariableComparison(ColourComparisonOperator.Eq,
-            ColourVariable.CreateFromPartName(part,journeyLenght),
+            _variableFactory.VariableForPart(part),
             indexedLocation.Key));
     }
 }

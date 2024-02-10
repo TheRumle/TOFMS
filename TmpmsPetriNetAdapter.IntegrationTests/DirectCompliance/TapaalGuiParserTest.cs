@@ -1,11 +1,11 @@
 ﻿using System.Text.RegularExpressions;
 using FluentAssertions;
-using TACPN.Colours.Type;
 using TapaalParser;
 using TapaalParser.TapaalGui;
 using Tmpms.Common;
 using Tmpms.Common.Journey;
 using TmpmsPetriNetAdapter;
+using TmpmsPetriNetAdapter.Colours;
 using TmpmsPetriNetAdapter.TransitionAttachable;
 using TmpmsPetriNetAdapter.TransitionFactory;
 using Xml;
@@ -18,8 +18,6 @@ public abstract class GuiTranslationAdherenceTest
     protected abstract string TestName { get; }
     protected ITacpnTranslater<string> GuiTranslater { get; } = new TapaalTacpnGuiParser();
     protected abstract TimedMultipartSystem System { get; }
-
-    protected ColourType PartColourType => ColourType.PartsColourType(System.Parts);
     
     public string DirectlyTranslatedText()
     {
@@ -31,11 +29,12 @@ public abstract class GuiTranslationAdherenceTest
     public async Task<string> NewTranslatedText()
     {
         var indexed = System.Journeys.ToIndexedJourney();
-        var arcFactory = new MoveActionToArcsFactory(indexed, PartColourType);
-        var transitionFactory = new MoveActionTransitionFactory(System.Journeys, PartColourType);
-        var translater =
-            new TofmToTacpnTranslater(arcFactory, transitionFactory, System.Journeys.ToIndexedJourney());
-
+        
+        
+        var colourFactory = new ColourTypeFactory(System.Parts, System.Journeys);
+        var arcFactory = new MoveActionToArcsFactory(indexed, colourFactory);
+        var transitionFactory = new MoveActionTransitionFactory(indexed, colourFactory);
+        var translater = new TofmToTacpnTranslater(arcFactory, transitionFactory, indexed);
         IEnumerable<PetriNetComponent> petriNetComponents = System.MoveActions.Select(e => translater.Translate(e));
         TimedArcColouredPetriNet a = new TimedArcColouredPetriNet(petriNetComponents.ToArray())
         {

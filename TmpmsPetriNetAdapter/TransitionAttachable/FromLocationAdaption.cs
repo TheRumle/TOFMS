@@ -6,22 +6,20 @@ using TACPN.Places;
 using TACPN.Transitions;
 using Tmpms.Common;
 using Tmpms.Common.Journey;
+using Tmpms.Common.Move;
+using TmpmsPetriNetAdapter.Colours;
 
 namespace TmpmsPetriNetAdapter.TransitionAttachable;
 
 internal class FromLocationAdaption : Adapter
 {
 
-    /// <summary>
-    /// </summary>
-    /// <param name="fromLocation"> A place representing a location l.</param>
-    /// <param name="partsToConsume">The parts that need to be consumed from l.</param>
-    public FromLocationAdaption(Location fromLocation, IEnumerable<KeyValuePair<string, int>> partsToConsume,
-        IndexedJourneyCollection collection, ColourType ct):base(ct, collection)
+    public FromLocationAdaption(MoveAction moveAction, ColourTypeFactory ctFactory, IndexedJourneyCollection collection) 
+        : base(ctFactory, collection)
     {
-        FromLocation = fromLocation;
-        ToConsume = partsToConsume;
-        (FromPlace, FromPlaceHat) = LocationTranslator.CreatePlaceAndCapacityPlacePair(fromLocation, collection,ct);
+        FromLocation = moveAction.From;
+        ToConsume = moveAction.PartsToMove;
+        (FromPlace, FromPlaceHat) = LocationTranslator.CreatePlaceAndCapacityPlacePair(moveAction.From, collection, PartColourType);
     }
 
     private Location FromLocation { get; set; }
@@ -53,7 +51,7 @@ internal class FromLocationAdaption : Adapter
             return ColourTimeGuard.TokensGuard(first.Min, first.Max,this.PartColourType);
         });
         
-        var a = journeyColourFactory.CreatePartMoveTuple(ToConsume, FromPlace, _collection);
+        var a = JourneyColourExpressionFactory.CreatePartMoveTuple(ToConsume, FromPlace, Collection);
         transition.AddInGoingFrom(FromPlace, guards,a);
     }
 }

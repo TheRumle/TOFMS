@@ -3,6 +3,8 @@ using TACPN.Places;
 using TACPN.Transitions;
 using Tmpms.Common;
 using Tmpms.Common.Journey;
+using Tmpms.Common.Move;
+using TmpmsPetriNetAdapter.Colours;
 
 namespace TmpmsPetriNetAdapter.TransitionAttachable;
 
@@ -11,15 +13,14 @@ internal class ToTransitionAttacher : Adapter
     private readonly CapacityPlace _capacityPlace;
     private readonly Place _place;
     private readonly IEnumerable<KeyValuePair<string, int>> _itemMovedIntoPlace;
-
     
-    public ToTransitionAttacher(Location toLocation,
-        IEnumerable<KeyValuePair<string, int>> partsItemMovedIntoPlace, IndexedJourneyCollection indexedJourneyCollection, ColourType partsColourType) : base(partsColourType, indexedJourneyCollection)
+    public ToTransitionAttacher(MoveAction moveAction, ColourTypeFactory ctFactory, IndexedJourneyCollection collection) 
+        : base(ctFactory, collection)
     {
-        _itemMovedIntoPlace = partsItemMovedIntoPlace;
-        (_place, _capacityPlace) = LocationTranslator.CreatePlaceAndCapacityPlacePair(toLocation, indexedJourneyCollection, partsColourType);
+        _itemMovedIntoPlace = moveAction.PartsToMove;
+        (_place, _capacityPlace) = LocationTranslator.CreatePlaceAndCapacityPlacePair(moveAction.To, collection, ctFactory.Parts);
     }
-    
+
     
     public override void AttachToTransition(Transition transition)
     {
@@ -39,7 +40,7 @@ internal class ToTransitionAttacher : Adapter
 
     private void AdaptPlace(Transition transition)
     {
-        var tuples = this.journeyColourFactory.CreatePartMoveTuple(_itemMovedIntoPlace, this._place, this._collection);
+        var tuples = this.JourneyColourExpressionFactory.CreatePartMoveTuple(_itemMovedIntoPlace, this._place, this.Collection);
         transition.AddOutGoingTo(_place, tuples);
     }
 

@@ -1,19 +1,20 @@
 ﻿using TACPN.Colours.Expression;
-using TACPN.Colours.Type;
 using TACPN.Colours.Values;
 using TACPN.Places;
-using Tmpms.Common;
 using Tmpms.Common.Journey;
+using TmpmsPetriNetAdapter.Colours;
 
 namespace TmpmsPetriNetAdapter.TransitionAttachable;
 
-public class PartJourneyColourFactory
+public class ColourExpressionFactory
 {
-    private readonly ColourType _partsColourType;
+    private readonly ColourTypeFactory _colourTypeFactory;
+    private readonly ColourVariableFactory _variableFactory;
 
-    public PartJourneyColourFactory(ColourType partsColourType)
+    public ColourExpressionFactory( ColourTypeFactory ctFactory)
     {
-        this._partsColourType = partsColourType;
+        this._colourTypeFactory = ctFactory;
+        _variableFactory = new ColourVariableFactory(ctFactory);
     }
     
     
@@ -32,20 +33,19 @@ public class PartJourneyColourFactory
         var tuples = new List<ColourExpression>();
         foreach (KeyValuePair<string, int> amountAndPart in partsItemMovedIntoPlace)
         {
-            IColourTypedValue variableExpression = CreateVariableExpression(place, amountAndPart.Key, journeyLengths[amountAndPart.Key]);
-            IEnumerable<IColourValue> values = [new PartColourValue(_partsColourType, amountAndPart.Key), variableExpression];
-            TupleColour tuple = new TupleColour(values,ColourType.TokensColourType(_partsColourType));
+            IColourTypedValue variableExpression = CreateVariableExpression(place, amountAndPart.Key);
+            IEnumerable<IColourValue> values = [new PartColourValue(_colourTypeFactory.Parts, amountAndPart.Key), variableExpression];
+            TupleColour tuple = new TupleColour(values,_colourTypeFactory.Tokens);
             tuples.Add(new ColourExpression(tuple, tuple.ColourType, amountAndPart.Value));
         }
 
         return tuples;
     }
 
-    private static IColourVariableExpression CreateVariableExpression(IPlace place, string part, int journeyLength)
+    private IColourVariableExpression CreateVariableExpression(IPlace place, string part)
     {
         if (place.IsProcessingPlace)
-            return ColourVariable.DecrementForPartType(part,journeyLength);
-
-        return ColourVariable.CreateFromPartName(part, journeyLength);
+            return _variableFactory.DecrementForPart(part);
+        return _variableFactory.VariableForPart(part); 
     }
 }

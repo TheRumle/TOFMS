@@ -4,6 +4,7 @@ using TACPN.Colours.Values;
 using TACPN.Transitions;
 using Tmpms.Common;
 using Tmpms.Common.Journey;
+using Tmpms.Common.Move;
 using TmpmsPetriNetAdapter.TransitionAttachable;
 
 namespace TmpmsPetriNetAdapter.UnitTest.TransitionAttachableTests;
@@ -33,11 +34,19 @@ public class FromTransitionAttacherTest : TransitionAttacherTest
     
     
     
-    public override ITransitionAttachable CreateFromLocation(Location location)
+    public override ITransitionAttachable CreateFromLocation(Location from, Location to)
     {
-        return new FromLocationAdaption(location, new[]
+        var journeys = GetJourneys(from).ToIndexedJourney();
+        MoveAction move = new MoveAction()
         {
-            new KeyValuePair<string, int>(PartType, 4)
-        }, GetJourneys(location).ToIndexedJourney(), PartColourType);
+            Name = "Test",
+            EmptyAfter = { },
+            PartsToMove = [new KeyValuePair<string, int>(PartType, 4)],
+            EmptyBefore = { },
+            From = from,
+            To = to
+        };
+        
+        return new FromLocationAdaption(move, this.ColourTypeFactory, journeys);
     }
 }

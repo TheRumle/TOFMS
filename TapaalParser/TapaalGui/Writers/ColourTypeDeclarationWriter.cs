@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using TACPN.Colours.Type;
+﻿using TACPN.Colours.Type;
 
 namespace TapaalParser.TapaalGui.Writers;
 
@@ -37,7 +36,7 @@ internal class ColourTypeDeclarationWriter : TacpnUiXmlWriter<IEnumerable<Colour
 
     private void WriteProductColour(ProductColourType productColourType)
     {
-        stringBuilder.Append($@"<namedsort id=""{productColourType}"" name=""{productColourType}""> <productsort>");
+        stringBuilder.Append($@"<namedsort id=""{productColourType.Name}"" name=""{productColourType.Name}""> <productsort>");
         stringBuilder.Append($@"<usersort declaration=""{productColourType.First.Name}""/>");
         stringBuilder.Append($@"<usersort declaration=""{productColourType.Second.Name}""/>");
         stringBuilder.Append("</productsort></namedsort>");

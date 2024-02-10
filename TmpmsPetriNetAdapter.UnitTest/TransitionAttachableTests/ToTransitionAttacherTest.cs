@@ -4,22 +4,20 @@ using TACPN.Colours.Type;
 using TACPN.Transitions;
 using Tmpms.Common;
 using Tmpms.Common.Journey;
+using Tmpms.Common.Move;
 using TmpmsPetriNetAdapter.TransitionAttachable;
 
 namespace TmpmsPetriNetAdapter.UnitTest.TransitionAttachableTests;
 
 public class ToTransitionAttacherTest : TransitionAttacherTest
 {
-
-
-
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void ShouldHaveCorrectArcExpressions(bool isProcessingLocation)
+    public void ShouldHaveCorrectArcExpressions(bool isFromProcessing)
     {
-        var variableExpressionValue = GetExpectedVariableExpressionValue(isProcessingLocation);
-        (Transition transition, Location location) = CreateAndAttach(isProcessingLocation);
+        var variableExpressionValue = GetExpectedVariableExpressionValue(isFromProcessing);
+        (Transition transition, Location location) = CreateAndAttach(isFromProcessing);
 
         using (new AssertionScope())
         {
@@ -31,11 +29,20 @@ public class ToTransitionAttacherTest : TransitionAttacherTest
         }
     }
     
-    public override ITransitionAttachable CreateFromLocation(Location location)
+    public override ITransitionAttachable CreateFromLocation(Location from, Location to)
     {
-        return new ToTransitionAttacher(location, new[]
+        MoveAction move = new MoveAction()
         {
-            new KeyValuePair<string, int>(PartType, 4)
-        }, GetJourneys(location).ToIndexedJourney(), PartColourType);
+            Name = "Test",
+            EmptyAfter = { },
+            PartsToMove = [new KeyValuePair<string, int>(PartType, 4)],
+            EmptyBefore = { },
+            From = from,
+            To = to
+        };
+        
+        
+        
+        return new ToTransitionAttacher(move, this.ColourTypeFactory, GetJourneys(from).ToIndexedJourney());
     }
 }
