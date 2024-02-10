@@ -69,11 +69,11 @@ internal class EmptyAfterAdapter :Adapter
         var outgoing = transition.OutGoing.FirstOrDefault(e => e.To.IsCapacityLocation && e.To.Equals(fromsCapacityPlace));
         if (outgoing is null)
         {
-            transition.AddOutGoingTo(fromsCapacityPlace, ColourExpression.CapacityExpression(_fromLocation.Capacity));
+            transition.AddOutGoingTo(fromsCapacityPlace, ColourExpression.DefaultTokenExpression(_fromLocation.Capacity));
         }
         else
         {
-            outgoing.SubstituteArcExpressionFor(ColourExpression.CapacityExpression(_fromLocation.Capacity));
+            outgoing.SubstituteArcExpressionFor(ColourExpression.DefaultTokenExpression(_fromLocation.Capacity));
         }
     }
 }

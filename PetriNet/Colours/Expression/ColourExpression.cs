@@ -25,7 +25,7 @@ public class ColourExpression : IColourExpressionAmount
     }
     
     
-    public static ColourExpression CapacityExpression(int amount)
+    public static ColourExpression DefaultTokenExpression(int amount)
     {
         return new ColourExpression(ColourType.DefaultColorType.ColourValue, ColourType.DefaultColorType, amount);
     }

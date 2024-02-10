@@ -31,11 +31,11 @@ public class MoveActionToArcsFactory : ITransitionAttachableFactory
 
     public ITransitionAttachable AdaptFrom(MoveAction moveAction)
     {
-        return new FromLocationAdaption(moveAction, _ctFactory, IndexedJourneyCollection);
+        return new MovingProductsOutOfLocationAttacherTest(moveAction, _ctFactory, IndexedJourneyCollection);
     }
 
     public ITransitionAttachable AdaptTo(MoveAction moveAction)
     {
-        return new ToTransitionAttacher(moveAction, _ctFactory, IndexedJourneyCollection);;
+        return new MovingProductsIntoLocationAdapter(moveAction, _ctFactory, IndexedJourneyCollection);;
     }
 }

@@ -40,7 +40,7 @@ public class Transition
 
     public IngoingArc AddInGoingFrom(CapacityPlace from, int amount)
     {
-        var expression = ColourExpression.CapacityExpression(amount);
+        var expression = ColourExpression.DefaultTokenExpression(amount);
         return AddInGoingFrom(from, new[] { ColourTimeGuard.CapacityGuard()}, expression);
     }
 
@@ -88,7 +88,9 @@ public class Transition
     }
     public bool IsCompatibleWith(IPlace other)
     {
-        return other.ColourType.Colours.All(e => this.ColourType.Colours.Contains(e));
+        return other.ColourType
+            .Colours
+            .All(e => this.ColourType.Colours.Contains(e));
     }
 
 }

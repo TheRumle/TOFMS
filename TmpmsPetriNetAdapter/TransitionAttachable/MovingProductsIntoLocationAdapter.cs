@@ -8,13 +8,13 @@ using TmpmsPetriNetAdapter.Colours;
 
 namespace TmpmsPetriNetAdapter.TransitionAttachable;
 
-internal class ToTransitionAttacher : Adapter
+internal class MovingProductsIntoLocationAdapter : Adapter
 {
     private readonly CapacityPlace _capacityPlace;
     private readonly Place _place;
     private readonly IEnumerable<KeyValuePair<string, int>> _itemMovedIntoPlace;
     
-    public ToTransitionAttacher(MoveAction moveAction, ColourTypeFactory ctFactory, IndexedJourneyCollection collection) 
+    public MovingProductsIntoLocationAdapter(MoveAction moveAction, ColourTypeFactory ctFactory, IndexedJourneyCollection collection) 
         : base(ctFactory, collection)
     {
         _itemMovedIntoPlace = moveAction.PartsToMove;

@@ -12,6 +12,7 @@ public class MoveActionFixture
 {
     public readonly static IEnumerable<string> Parts = ["P1", "P2", "P3"];
     public ColourType PartColourType = new("Parts", Parts);
+    public ColourType TokenColourType = new("Parts", Parts);
     public Location ProcessingLocation { get; set; } = new("From", 3, new[]
     {
         new Invariant("P1", 0, 3),

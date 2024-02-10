@@ -11,10 +11,10 @@ using TmpmsPetriNetAdapter.Colours;
 
 namespace TmpmsPetriNetAdapter.TransitionAttachable;
 
-internal class FromLocationAdaption : Adapter
+internal class MovingProductsOutOfLocationAttacherTest : Adapter
 {
 
-    public FromLocationAdaption(MoveAction moveAction, ColourTypeFactory ctFactory, IndexedJourneyCollection collection) 
+    public MovingProductsOutOfLocationAttacherTest(MoveAction moveAction, ColourTypeFactory ctFactory, IndexedJourneyCollection collection) 
         : base(ctFactory, collection)
     {
         FromLocation = moveAction.From;
@@ -40,6 +40,7 @@ internal class FromLocationAdaption : Adapter
     {
         var consProdAmount = ToConsume.Sum(e => e.Value);
         var expression = new ColourExpression(Colour.DefaultTokenColour, ColourType.DefaultColorType, consProdAmount);
+        //restore capacity by producing more capacity
         transition.AddOutGoingTo(FromPlaceHat, expression );
     }
 

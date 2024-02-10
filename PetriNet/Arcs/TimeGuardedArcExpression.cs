@@ -19,7 +19,7 @@ public class TimeGuardedArcExpression : ArcExpression
     public static TimeGuardedArcExpression CapacityExpression(int amount)
     {
         return new TimeGuardedArcExpression(new[] { ColourTimeGuard.CapacityGuard() },
-            new[] { ColourExpression.CapacityExpression(amount) }, ColourType.DefaultColorType);
+            new[] { ColourExpression.DefaultTokenExpression(amount) }, ColourType.DefaultColorType);
     }
 
 
