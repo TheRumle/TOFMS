@@ -12,13 +12,13 @@ namespace TmpmsPetriNetAdapter.ConditionGenerator;
 public class TransitionGuardFactory
 {
     private readonly IndexedJourneyCollection _journeys;
-    private readonly ColourType _partsColourType;
+    private readonly ColourType _transitionColourType;
     private readonly ColourVariableFactory _variableFactory;
 
     public TransitionGuardFactory(IndexedJourneyCollection collection, ColourTypeFactory ctFactory)
     {
         _journeys = collection;
-        _partsColourType = ctFactory.Parts;
+        _transitionColourType = ctFactory.Transitions;
         _variableFactory = new ColourVariableFactory(ctFactory);
     }
 
@@ -46,7 +46,7 @@ public class TransitionGuardFactory
     {
         var groupByPart = comparisons.GroupBy(e => e.Lhs.Name);
         return groupByPart.Select(e =>
-            OrStatement.FromPartComparisons(e.Select(comparison => comparison), _partsColourType)
+            OrStatement.FromPartComparisons(e.Select(comparison => comparison), _transitionColourType)
         );
     }
 

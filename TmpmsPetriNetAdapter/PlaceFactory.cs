@@ -27,7 +27,7 @@ public class PlaceFactory
         this._indexedJourneyCollection = journeyCollection;
     }
 
-    public Place CreatePlace(Location location) => CreatePlace(location, _indexedJourneyCollection, _partsColour);
+    public Place CreatePlace(Location location) => CreatePlace(location, _indexedJourneyCollection, _colourTypeFactory.Tokens);
     
     public Place CreatePlace(Location location, IndexedJourneyCollection indexedJourneyCollection, ColourType colourType)
     {

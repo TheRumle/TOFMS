@@ -1,5 +1,4 @@
-﻿using TACPN.Colours.Type;
-using TACPN.Transitions;
+﻿using TACPN.Transitions;
 using Tmpms.Common.Journey;
 using Tmpms.Common.Move;
 using TmpmsPetriNetAdapter.Colours;

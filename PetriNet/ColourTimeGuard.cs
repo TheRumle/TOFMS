@@ -5,7 +5,7 @@ namespace TACPN;
 
 public class ColourTimeGuard
 {
-    private ColourTimeGuard(ColourType colourType, Interval interval)
+    public ColourTimeGuard(ColourType colourType, Interval interval)
     {
         ColourType = colourType;
         Interval = interval;
@@ -16,15 +16,13 @@ public class ColourTimeGuard
 
     public Interval Interval { get; internal set; }
     
-    public static ColourTimeGuard CapacityGuard()
+        
+    public static ColourTimeGuard Default()
     {
         return new ColourTimeGuard(ColourType.DefaultColorType, Interval.ZeroToInfinity);
     }
-
-    public static ColourTimeGuard TokensGuard(int from, int to, ColourType partsColourType)
-    {
-        return new ColourTimeGuard(partsColourType, new Interval(from,to));
-    }
+    
+  
 
     public override string ToString()
     {

@@ -7,16 +7,7 @@ namespace TmpmsPetriNetAdapter.TransitionAttachable;
 
 internal abstract class Adapter : ITransitionAttachable
 {
-    public abstract void AttachToTransition(Transition transition);
-
-    public Adapter(ColourTypeFactory ctFactory,  IndexedJourneyCollection collection)
-    {
-        this.ColourFactory = ctFactory;
-        this.PartColourType = ctFactory.Parts;
-        PlaceFactory = new PlaceFactory(ctFactory, collection);
-        Collection = collection;
-        JourneyColourExpressionFactory = new ColourExpressionFactory(ctFactory);
-    }
+    public ColourTimeGuardFactory TimeGuardFactory { get; set; }
 
     public ColourTypeFactory ColourFactory { get; set; }
 
@@ -24,4 +15,15 @@ internal abstract class Adapter : ITransitionAttachable
     protected ColourType PartColourType { get; }
     protected readonly IndexedJourneyCollection Collection;
     protected readonly ColourExpressionFactory JourneyColourExpressionFactory;
+    public Adapter(ColourTypeFactory ctFactory,  IndexedJourneyCollection collection)
+    {
+        this.ColourFactory = ctFactory;
+        this.PartColourType = ctFactory.Parts;
+        PlaceFactory = new PlaceFactory(ctFactory, collection);
+        Collection = collection;
+        JourneyColourExpressionFactory = new ColourExpressionFactory(ctFactory);
+        this.TimeGuardFactory = new ColourTimeGuardFactory(ctFactory);
+    }
+    public abstract void AttachToTransition(Transition transition);
+
 }

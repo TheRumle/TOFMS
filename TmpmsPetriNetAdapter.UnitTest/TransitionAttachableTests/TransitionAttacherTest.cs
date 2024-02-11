@@ -1,6 +1,5 @@
 ﻿using Common;
 using JsonFixtures;
-using TACPN.Colours.Type;
 using TACPN.Transitions;
 using TACPN.Transitions.Guard;
 using TestDataGenerator;
@@ -16,7 +15,6 @@ public abstract class TransitionAttacherTest : IClassFixture<MoveActionFixture>
     
     protected LocationGenerator LocationGenerator { get; set; }
     protected const string PartType = "P1";
-    protected ColourType PartColourType;
     private int LocationId = 0;
     
     public HashSet<KeyValuePair<string, int>> PartsToMove = new()
@@ -26,7 +24,6 @@ public abstract class TransitionAttacherTest : IClassFixture<MoveActionFixture>
     
     public TransitionAttacherTest(MoveActionFixture moveActionFixture)
     {
-        this.PartColourType = moveActionFixture.PartColourType;
         this.LocationGenerator = moveActionFixture.LocationGenerator;
     }
 

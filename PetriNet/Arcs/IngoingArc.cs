@@ -22,15 +22,6 @@ public class IngoingArc : Arc<IPlace, Transition>
     }
 
     public IList<ColourTimeGuard> Guards => Expression.TimeGuards;
-    public bool TrySetGuardAmount(ColourTimeGuard guard, int amount)
-    {
-        var timeGuard = GetGuard(guard);
-        if (timeGuard is null) return false;
-        
-        var consumption = Expression.Amounts.First(e => e.ColourValue == timeGuard.ColourValue);
-        consumption.Amount = amount;
-        return true;
-    }
 
     private ColourTimeGuard? GetGuard(ColourTimeGuard guard)
     {
@@ -40,14 +31,6 @@ public class IngoingArc : Arc<IPlace, Transition>
         return timeGuard;
     }
 
-    public bool TryAdjustGuardTime(ColourTimeGuard guard, Interval interval)
-    {
-        var timeGuard = GetGuard(guard);
-        if (timeGuard is null) return false;
-        timeGuard.Interval = interval;
-        return true;
-    }
-    
     public void SubstituteArcExpressionFor(TimeGuardedArcExpression colourExpression)
     {
         if (!colourExpression.ColourType.Equals(this.ColourType))

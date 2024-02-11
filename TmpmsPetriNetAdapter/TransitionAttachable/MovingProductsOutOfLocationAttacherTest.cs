@@ -46,8 +46,8 @@ internal class MovingProductsOutOfLocationAttacherTest : Adapter
     {
         var guards = ToConsume.Select(pair =>
         {
-            var first = FromLocation.Invariants.First(e => e.PartType == pair.Key);
-            return ColourTimeGuard.TokensGuard(first.Min, first.Max,this.PartColourType);
+            var invariant = FromLocation.Invariants.First(e => e.PartType == pair.Key);
+            return TimeGuardFactory.TokensGuard(invariant.Min, invariant.Max);
         });
 
         if (FromLocation.IsProcessing)
