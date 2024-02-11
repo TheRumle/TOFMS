@@ -89,7 +89,7 @@ internal class SharedPlaceDeclarationWriter
                                   </structure>
                                 </type>
                                 <hlinitialMarking>
-                                  <text>(4'dot)</text>
+                                  <text>({capPlace.Capacity}'dot)</text>
                                   <structure>
                                     <add>
                                       <subterm>
