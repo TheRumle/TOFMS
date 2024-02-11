@@ -32,7 +32,7 @@ public abstract class GuiTranslationAdherenceTest
         
         
         var colourFactory = new ColourTypeFactory(System.Parts, System.Journeys);
-        var arcFactory = new MoveActionToArcsFactory(indexed, colourFactory);
+        var arcFactory = new MoveActionToArcsFactory(System.Journeys, colourFactory);
         var transitionFactory = new MoveActionTransitionFactory(indexed, colourFactory);
         var translater = new TofmToTacpnTranslater(arcFactory, transitionFactory, indexed);
         IEnumerable<PetriNetComponent> petriNetComponents = System.MoveActions.Select(e => translater.Translate(e));

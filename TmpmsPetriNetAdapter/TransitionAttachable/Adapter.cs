@@ -13,14 +13,12 @@ internal abstract class Adapter : ITransitionAttachable
 
     protected readonly PlaceFactory PlaceFactory;
     protected ColourType PartColourType { get; }
-    protected readonly IndexedJourneyCollection Collection;
     protected readonly ColourExpressionFactory JourneyColourExpressionFactory;
-    public Adapter(ColourTypeFactory ctFactory,  IndexedJourneyCollection collection)
+    public Adapter(ColourTypeFactory ctFactory,  JourneyCollection collection)
     {
         this.ColourFactory = ctFactory;
         this.PartColourType = ctFactory.Parts;
-        PlaceFactory = new PlaceFactory(ctFactory);
-        Collection = collection;
+        PlaceFactory = new PlaceFactory(ColourFactory, collection);
         JourneyColourExpressionFactory = new ColourExpressionFactory(ctFactory);
         this.TimeGuardFactory = new ColourTimeGuardFactory(ctFactory);
     }

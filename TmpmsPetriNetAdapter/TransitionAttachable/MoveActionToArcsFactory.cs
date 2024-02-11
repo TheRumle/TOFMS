@@ -9,14 +9,14 @@ namespace TmpmsPetriNetAdapter.TransitionAttachable;
 public class MoveActionToArcsFactory : ITransitionAttachableFactory
 {
     private readonly ColourTypeFactory _ctFactory;
+    public JourneyCollection IndexedJourneyCollection { get; set; }
 
-    public MoveActionToArcsFactory(IndexedJourneyCollection indexedJourneyCollection, ColourTypeFactory colourTypeFactory)
+    public MoveActionToArcsFactory(JourneyCollection indexedJourneyCollection, ColourTypeFactory colourTypeFactory)
     {
         this.IndexedJourneyCollection = indexedJourneyCollection;
         this._ctFactory = colourTypeFactory;
     }
 
-    public IndexedJourneyCollection IndexedJourneyCollection { get; set; }
 
     public ITransitionAttachable AdaptEmptyBefore(MoveAction moveAction)
     {

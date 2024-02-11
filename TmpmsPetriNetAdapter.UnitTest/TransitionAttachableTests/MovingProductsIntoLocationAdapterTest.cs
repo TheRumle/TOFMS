@@ -18,7 +18,7 @@ public class MovingProductsIntoLocationAdapterTest : TransitionAttacherTest
         var journey = SingletonJourney(from);
         var transition = CreateTransition(journey);
         MoveAction action = CreateMoveAction(from,to);
-        MovingProductsIntoLocationAdapter attacher = new MovingProductsIntoLocationAdapter(action, CreateColourTypeFactory(journey), journey.ToIndexedJourney());
+        MovingProductsIntoLocationAdapter attacher = new MovingProductsIntoLocationAdapter(action, CreateColourTypeFactory(journey), journey);
         attacher.AttachToTransition(transition);
         return transition;
     }

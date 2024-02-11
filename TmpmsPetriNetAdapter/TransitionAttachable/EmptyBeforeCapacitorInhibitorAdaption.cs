@@ -10,7 +10,7 @@ namespace TmpmsPetriNetAdapter.TransitionAttachable;
 internal class EmptyBeforeCapacitorInhibitorAdaption : Adapter
 {
 
-    public EmptyBeforeCapacitorInhibitorAdaption(MoveAction moveAction, ColourTypeFactory ctFactory, IndexedJourneyCollection collection) 
+    public EmptyBeforeCapacitorInhibitorAdaption(MoveAction moveAction, ColourTypeFactory ctFactory, JourneyCollection collection) 
         : base(ctFactory, collection)
     {
         _locations = moveAction.EmptyBefore;

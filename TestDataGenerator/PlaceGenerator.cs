@@ -13,12 +13,11 @@ public class PlaceGenerator : Generator<Place>
     private readonly LocationGenerator _locationGenerator;
     private readonly PlaceFactory _placeFactory;
 
-    public PlaceGenerator(ColourTypeFactory ctFactory, IndexedJourneyCollection collection, Faker<Place> faker) : base(faker)
+    public PlaceGenerator(ColourTypeFactory ctFactory, JourneyCollection collection, Faker<Place> faker) : base(faker)
     {
-        _collection = collection;
         _ctFactory = ctFactory;
         _locationGenerator = new LocationGenerator(ctFactory.Parts.Colours.Select(e => e.Value));
-        this._placeFactory = new PlaceFactory(_ctFactory);
+        this._placeFactory = new PlaceFactory(_ctFactory, collection);
     }
 
     public override Place GenerateSingle()

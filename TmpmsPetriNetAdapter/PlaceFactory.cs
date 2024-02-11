@@ -18,10 +18,10 @@ public class PlaceFactory
     private readonly ColourTypeFactory _colourTypeFactory;
 
     
-    public PlaceFactory(ColourTypeFactory factory)
+    public PlaceFactory(ColourTypeFactory factory, JourneyCollection collection)
     {
         this._colourTypeFactory = factory;
-        this._journeys = _colourTypeFactory.JourneyCollection;
+        this._journeys = collection;
     }
 
     public Place CreatePlace(Location location) => CreatePlace(location, _journeys, _colourTypeFactory.Tokens);

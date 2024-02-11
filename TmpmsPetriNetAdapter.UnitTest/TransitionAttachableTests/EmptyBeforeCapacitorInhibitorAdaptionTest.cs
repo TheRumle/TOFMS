@@ -40,7 +40,7 @@ public class EmptyBeforeCapacitorInhibitorAdaptionTest : TransitionAttacherTest
         MoveAction action =
             CreateMoveAction(CreateLocation(true), CreateLocation(true), emptyBef, new HashSet<Location>());
         
-        EmptyBeforeCapacitorInhibitorAdaption attacher = new EmptyBeforeCapacitorInhibitorAdaption(action, CreateColourTypeFactory(journey), journey.ToIndexedJourney());
+        EmptyBeforeCapacitorInhibitorAdaption attacher = new EmptyBeforeCapacitorInhibitorAdaption(action, CreateColourTypeFactory(journey), journey);
         attacher.AttachToTransition(transition);
         return transition;
     }

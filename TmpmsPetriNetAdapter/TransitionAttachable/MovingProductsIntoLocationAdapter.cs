@@ -14,7 +14,7 @@ internal class MovingProductsIntoLocationAdapter : Adapter
     private readonly IEnumerable<KeyValuePair<string, int>> _itemMovedIntoPlace;
     private readonly Location to;
 
-    public MovingProductsIntoLocationAdapter(MoveAction moveAction, ColourTypeFactory ctFactory, IndexedJourneyCollection collection) 
+    public MovingProductsIntoLocationAdapter(MoveAction moveAction, ColourTypeFactory ctFactory, JourneyCollection collection) 
         : base(ctFactory, collection)
     {
         _itemMovedIntoPlace = moveAction.PartsToMove;

@@ -43,11 +43,7 @@ public abstract class WriterTest : NoWhitespaceWriterTest, IClassFixture<MoveAct
         ];
     }
 
-    public JourneyCollection CreateJourney(LocationGenerator generator)
-    {
-        var journeys = Parts.Select(e => (e, generator.Generate(new Random().Next(2,6))));
-        return JourneyCollection.ConstructJourneysFor(journeys.ToArray());
-    }
+
 
 
 }

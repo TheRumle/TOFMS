@@ -23,7 +23,7 @@ public class EmptyAfterAdapterTest : TransitionAttacherTest
         var journey = SingletonJourney(to);
         var transition = CreateTransition(journey);
         MoveAction action = CreateMoveAction(from, to, new HashSet<Location>(), [from,..otherEmptyAfter], amountToConsume);
-        EmptyAfterAdapter attacher = new EmptyAfterAdapter(action, CreateColourTypeFactory(journey), journey.ToIndexedJourney());
+        EmptyAfterAdapter attacher = new EmptyAfterAdapter(action, CreateColourTypeFactory(journey), journey);
         attacher.AttachToTransition(transition);
         return transition;
     }

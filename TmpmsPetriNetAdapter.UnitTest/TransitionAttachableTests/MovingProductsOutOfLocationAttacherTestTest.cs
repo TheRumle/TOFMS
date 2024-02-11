@@ -15,6 +15,19 @@ namespace TmpmsPetriNetAdapter.UnitTest.TransitionAttachableTests;
 public class MovingProductsOutOfLocationAttacherTestTest : TransitionAttacherTest
 {
     
+    public MovingProductsOutOfLocationAttacherTestTest(MoveActionFixture moveActionFixture) : base(moveActionFixture)
+    {
+    }
+    protected Transition CreateAndAttachToTransition(Location from, Location to)
+    {
+        var journey = SingletonJourney(from);
+        var transition = CreateTransition(journey);
+        MoveAction action = CreateMoveAction(from,to);
+        MovingProductsOutOfLocationAttacherTest attacher = new MovingProductsOutOfLocationAttacherTest(action, CreateColourTypeFactory(journey), journey);
+        attacher.AttachToTransition(transition);
+        return transition;
+    }
+    
     [Fact]
     public void ShouldHaveCorrectArcExpressions_WhenFrom_IsNotProcessing()
     {
@@ -56,18 +69,7 @@ public class MovingProductsOutOfLocationAttacherTestTest : TransitionAttacherTes
         }
     }
     
-    protected Transition CreateAndAttachToTransition(Location from, Location to)
-    {
-        var journey = SingletonJourney(from);
-        var transition = CreateTransition(journey);
-        MoveAction action = CreateMoveAction(from,to);
-        MovingProductsOutOfLocationAttacherTest attacher = new MovingProductsOutOfLocationAttacherTest(action, CreateColourTypeFactory(journey), journey.ToIndexedJourney());
-        attacher.AttachToTransition(transition);
-        return transition;
-    }
 
 
-    public MovingProductsOutOfLocationAttacherTestTest(MoveActionFixture moveActionFixture) : base(moveActionFixture)
-    {
-    }
+
 }
