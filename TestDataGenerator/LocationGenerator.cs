@@ -1,42 +1,31 @@
-﻿using System.Collections;
-using Bogus;
-using TACPN.Colours;
+﻿using Bogus;
 using Tmpms.Common;
 
 namespace TestDataGenerator;
-
-public interface IGenerator<T> where T : class
+public enum ProcessingLocationStrategy
 {
-    IEnumerable<T> Generate(int n);
-    T GenerateSingle();
+    OnlyProcessingLocations,
+    OnlyRegularLocations,
+    Both
 }
-
-public abstract class Generator<T> : IGenerator<T> where T : class
+    
+public enum MarkingStrategy
 {
-    protected readonly Faker<T> Faker;
-    protected readonly Faker ValueSelection = new();
-    protected Random Random = new();
-
-    protected Generator(Faker<T> faker)
-    {
-        Faker = faker;
-    }
-
-    public IEnumerable<T> Generate(int n)
-    {
-        for (int i = 0; i < n; i++)
-            yield return GenerateSingle();
-    }
-    public abstract T GenerateSingle();
+    None,
 }
-
 public class LocationGenerator :  Generator<Location>
 {
     private readonly IEnumerable<string> _partTypes;
+    private readonly ProcessingLocationStrategy strategy;
+    private readonly MarkingStrategy markingGenerationStrategy;
 
-    public LocationGenerator(IEnumerable<string> partTypes):base(new Faker<Location>())
+
+
+    public LocationGenerator(IEnumerable<string> partTypes, ProcessingLocationStrategy processingLocationStrategy = ProcessingLocationStrategy.Both, MarkingStrategy markingStrategy = MarkingStrategy.None ):base(new Faker<Location>())
     {
         _partTypes = partTypes;
+        this.strategy = processingLocationStrategy;
+        this.markingGenerationStrategy = markingStrategy;
     }
 
     public override Location GenerateSingle()
@@ -48,6 +37,16 @@ public class LocationGenerator :  Generator<Location>
             var max = r.Next(min + 1, 10);
             return new Invariant(e, min, max);
         });
-        return new Location(ValueSelection.Name.FirstName(), new Random().Next(1, 10), intervals, ValueSelection.Random.Bool());
+
+        var isProc = ValueSelection.Random.Bool();
+        if (strategy == ProcessingLocationStrategy.OnlyProcessingLocations)
+            isProc = true;
+        if (strategy == ProcessingLocationStrategy.OnlyRegularLocations)
+            isProc = false;
+        
+        
+        return new Location(ValueSelection.Name.FirstName(), new Random().Next(1, 10), intervals, isProc);
     }
+    
+    
 }

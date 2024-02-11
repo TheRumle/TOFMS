@@ -17,15 +17,15 @@ public class PlaceFactory
     public const string CAPACITY_PLACE_POSTFIX = "_capacity";
     private readonly ColourType _partsColour;
     private readonly IndexedJourneyCollection _indexedJourneyCollection;
+    private readonly ColourTypeFactory _colourTypeFactory;
+
     
     public PlaceFactory(ColourTypeFactory factory, IndexedJourneyCollection journeyCollection)
     {
         _partsColour = factory.Parts;
-        this.ColourTypeFactory = factory;
+        this._colourTypeFactory = factory;
         this._indexedJourneyCollection = journeyCollection;
     }
-
-    public ColourTypeFactory ColourTypeFactory { get; set; }
 
     public Place CreatePlace(Location location) => CreatePlace(location, _indexedJourneyCollection, _partsColour);
     
@@ -39,7 +39,7 @@ public class PlaceFactory
     private List<ColourInvariant> CreateInvariants(ColourType colourType, Location location, IndexedJourneyCollection indexedJourneyCollection, Dictionary<string, int> maxAges)
     {
         var createInvariant = (string partName, int index) => new ColourInvariant(colourType, new TupleColour([new Colour(partName), new ColourIntValue(index)],
-            ColourTypeFactory.Tokens), maxAges[partName]);
+            _colourTypeFactory.Tokens), maxAges[partName]);
         
         List<ColourInvariant> result = new List<ColourInvariant>(); 
         foreach (var (partName, journey) in indexedJourneyCollection)

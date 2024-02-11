@@ -6,7 +6,7 @@ namespace TACPN.Places;
 
 public class Place : IPlace
 {
-    private Marking Marking = new();
+    public readonly Marking Marking = new();
     public string Name { get; set; }
     public bool IsCapacityLocation { get; set; }
     public ColourType ColourType { get; init; }

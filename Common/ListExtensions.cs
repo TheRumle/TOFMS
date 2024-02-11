@@ -6,5 +6,10 @@ public static class ListExtensions
     {
         return list.OrderBy(_ => Random.Shared.Next());
     }
+    
+    public static IEnumerable<T> Shuffle<T>(this T[] list)
+    {
+        return list.OrderBy(_ => Random.Shared.Next());
+    }
 
 }
