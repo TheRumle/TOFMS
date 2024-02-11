@@ -19,8 +19,6 @@ public class LocationGenerator :  Generator<Location>
     private readonly ProcessingLocationStrategy strategy;
     private readonly MarkingStrategy markingGenerationStrategy;
 
-
-
     public LocationGenerator(IEnumerable<string> partTypes, ProcessingLocationStrategy processingLocationStrategy = ProcessingLocationStrategy.Both, MarkingStrategy markingStrategy = MarkingStrategy.None ):base(new Faker<Location>())
     {
         _partTypes = partTypes;

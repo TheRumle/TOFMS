@@ -17,23 +17,38 @@ public class LocationWriterTest : WriterTest
 {
     public readonly PlaceFactory PlaceFactory;
 
+
     public LocationWriterTest(MoveActionFixture fixture) : base(fixture)
     {
         this.PlaceFactory = new PlaceFactory(ColourFactory, Journeys.ToIndexedJourney());
-        this.LocationGenerator = new LocationGenerator(Parts, markingStrategy: MarkingStrategy.None);
     }
 
-    public LocationGenerator LocationGenerator { get; set; }
 
     [Fact]
     public void WhenWritingCapacityLocations_ShouldWriteEquivalentPlaces()
     {
-        var locations = LocationGenerator.Generate(10).ToArray();
+        var locations = Journeys.Locations.ToArray();
         var capacityLocations = locations.Select(e => e.ToCapacityLocation());
         var capacityPlaces = locations.Select(loc => PlaceFactory.CreateInitializedCapacityPlaceFor(loc));
 
         var oldText = OldText([], capacityLocations);        
         var newText = NewText(capacityPlaces);
+        newText.Should().Be(oldText);
+    }
+    
+    [Theory]
+    [InlineData(ProcessingLocationStrategy.OnlyProcessingLocations)]
+    [InlineData(ProcessingLocationStrategy.OnlyRegularLocations)]
+    public void WhenWritingNonCapacityLocations_ShouldWriteEquivalentPlaces(ProcessingLocationStrategy strategy)
+    {
+        var journey = CreateJourney(new LocationGenerator(Parts, processingLocationStrategy: strategy));
+        
+        var locations = journey.SelectMany(e=>e.Value).ToArray();
+        var places = locations.Select(loc => PlaceFactory.CreatePlace(loc));
+
+        var oldText = OldText(locations, []);        
+        var newText = NewText(places);
+        
         newText.Should().Be(oldText);
     }
 

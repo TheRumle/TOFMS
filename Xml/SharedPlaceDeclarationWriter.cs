@@ -83,10 +83,10 @@ internal class SharedPlaceDeclarationWriter
       foreach (var capPlace in capacityLocations)
         StringBuilder.Append($@"<shared-place initialMarking=""{capPlace.Capacity}"" invariant=""&lt; inf"" name=""{capPlace.Name}"">
                                 <type>
-                                  <text>{Colours.DefaultCapacityColor}</text>
-                                  <structure>
-                                    <usersort declaration=""{Colours.DefaultCapacityColor}""/>
-                                  </structure>
+                                    <text>{Colours.DefaultCapacityColor}</text>
+                                    <structure>
+                                      <usersort declaration=""{Colours.DefaultCapacityColor}""/>
+                                    </structure>
                                 </type>
                                 <hlinitialMarking>
                                   <text>({capPlace.Capacity}'dot)</text>

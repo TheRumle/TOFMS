@@ -41,12 +41,12 @@ public class PlaceFactory
         var createInvariant = (string partName, int index) => new ColourInvariant(colourType, new TupleColour([new Colour(partName), new ColourIntValue(index)],
             _colourTypeFactory.Tokens), maxAges[partName]);
         
-        List<ColourInvariant> result = new List<ColourInvariant>(); 
+        List<ColourInvariant> result = []; 
         foreach (var (partName, journey) in indexedJourneyCollection)
         {
-            result.AddRange(journey.Where(e => e.Value.Name == location.Name)
-                .Select(e => e.Key)
-                .Select(index => createInvariant.Invoke(partName, index)));
+            var jour = journey.Where(e => e.Value.Name == location.Name);
+            result.AddRange(jour
+                .Select(kvp => createInvariant.Invoke(partName, kvp.Key)));
         }
 
         return result;

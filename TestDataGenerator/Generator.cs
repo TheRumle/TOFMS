@@ -19,4 +19,9 @@ public abstract class Generator<T> : IGenerator<T> where T : class
             yield return GenerateSingle();
     }
     public abstract T GenerateSingle();
+
+    public void UseSeed(int seed)
+    {
+        this.Faker.UseSeed(seed);
+    }
 }

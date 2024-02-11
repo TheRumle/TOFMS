@@ -1,10 +1,19 @@
 ﻿using Common;
+using TACPN.Colours;
 using TACPN.Colours.Expression;
 using TACPN.Colours.Type;
 using TACPN.Colours.Values;
 using TACPN.Places;
 
 namespace TapaalParser.TapaalGui.Writers;
+
+public static class XmlUtils
+{
+    public static string GetInvariantTagText(ColourInvariant inv)
+    {
+        return inv.MaxAge == Infteger.PositiveInfinity ? "&lt; inf" : $"&lt;= {inv.MaxAge}";
+    }
+}
 
 public class LocationWriter : TacpnUiXmlWriter<IEnumerable<Place>>
 {
@@ -24,30 +33,44 @@ public class LocationWriter : TacpnUiXmlWriter<IEnumerable<Place>>
             }
             
             Append($@"<shared-place initialMarking=""{place.Marking.Size}"" invariant=""&lt; inf"" name=""{place.Name}"">");
-            WriteInvariants(place);
-            Append($@"<type> <text>{place.ColourType.Name}</text> <structure><usersort declaration=""{place.ColourType.Name}""/> </structure> </type> </shared-place>");
+            WriteInvariants(place); 
+            Append("</shared-place>");
         }
+    }
+
+    private void WritePlaceColors(Place place)
+    {
+        Append(@$"<type>");
+        Append($@"<text>{place.ColourType.Name}</text>
+                      <structure>
+                        <usersort declaration=""{place.ColourType.Name}""/>
+                      </structure>");
+        Append(@$"</type>");
+        
     }
 
     private void WriteInvariants(Place place)
     {
-        foreach (var inv in place.ColourInvariants)
+        WriteAllInvariants(place);
+    }
+
+    private void WriteAllInvariants(Place place)
+    {
+        foreach (var invariant in place.ColourInvariants)//TODO No colour invariant is assigned so this does not work. It migth be a test setup thing.
         {
-            var invMaxText = inv.MaxAge == Infteger.PositiveInfinity ? "&lt; inf" : $"&lt;= {inv.MaxAge}";
-            Append($@"<colorinvariant> <inscription inscription=""{invMaxText}""/><colortype name=""{inv.ColourType.Name}"">");
-            switch (inv.Colour)
+            Append($@"<colorinvariant> <inscription inscription=""{XmlUtils.GetInvariantTagText(invariant)}""/><colortype name=""{invariant.ColourType.Name}"">");
+            switch (invariant.Colour)
             {
                 case TupleColour t:
                     WriteTupleInvariant(t);
                     break;
                 default:
-                    WriteColourValue(inv.Colour);
+                    WriteColourValue(invariant.Colour);
                     break;
             }
             
-            Append($@"</colortype> </colorinvariant>"")");
+            Append($@"</colortype> </colorinvariant>");
         }
-        
     }
 
     private void WriteNonColouredPlace(Place place)

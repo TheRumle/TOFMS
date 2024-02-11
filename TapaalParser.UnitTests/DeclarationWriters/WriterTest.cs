@@ -1,6 +1,8 @@
 ﻿using JsonFixtures;
 using TACPN.Colours.Type;
 using TACPN.Colours.Values;
+using TestDataGenerator;
+using Tmpms.Common;
 using Tmpms.Common.Journey;
 using TmpmsPetriNetAdapter.Colours;
 
@@ -22,12 +24,8 @@ public abstract class WriterTest : NoWhitespaceWriterTest, IClassFixture<MoveAct
         Parts = ["P1", "P2", "P3"];
         PartsColourType = new ColourType(Colour.PartsColour.Value, Parts);
         Dot = ColourType.DefaultColorType;
-        Journeys = JourneyCollection.ConstructJourneysFor(
-        [
-            ("P1", [..fixture.LocationGenerator.Generate(8)]),
-            ("P2", [..fixture.LocationGenerator.Generate(3)]),
-            ("P3", [..fixture.LocationGenerator.Generate(4)])
-        ]);
+        
+        Journeys = JourneyCollection.ConstructJourneysFor(CreateJourneyComponents(fixture));
         ColourFactory = new ColourTypeFactory(Parts, Journeys);
         VariableFactory = new ColourVariableFactory(ColourFactory);
         
@@ -35,5 +33,21 @@ public abstract class WriterTest : NoWhitespaceWriterTest, IClassFixture<MoveAct
         JourneyColour = ColourFactory.Journey;
         TokensColourType = ColourFactory.Tokens;
     }
+
+    private static (string partType, IEnumerable<Location> locations)[] CreateJourneyComponents(MoveActionFixture fixture)
+    {
+        return [
+            ("P1", [..fixture.LocationGenerator.Generate(8)]),
+            ("P2", [..fixture.LocationGenerator.Generate(3)]),
+            ("P3", [..fixture.LocationGenerator.Generate(4)])
+        ];
+    }
+
+    public JourneyCollection CreateJourney(LocationGenerator generator)
+    {
+        var journeys = Parts.Select(e => (e, generator.Generate(new Random().Next(2,6))));
+        return JourneyCollection.ConstructJourneysFor(journeys.ToArray());
+    }
+
 
 }
