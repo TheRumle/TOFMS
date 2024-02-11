@@ -1,7 +1,4 @@
 ﻿using TACPN.Colours.Expression;
-using TACPN.Colours.Values;
-using TACPN.Places;
-using Tmpms.Common.Journey;
 using TmpmsPetriNetAdapter.Colours;
 
 namespace TmpmsPetriNetAdapter.TransitionAttachable;
@@ -18,34 +15,24 @@ public class ColourExpressionFactory
     }
     
     
-    public List<ColourExpression> CreatePartMoveTuple(IEnumerable<KeyValuePair<string, int>> partsItemMovedIntoPlace, IPlace place,
-        IndexedJourneyCollection indexedJourney)
+    public IEnumerable<ColourExpression> CreatePartMoveTuple(IEnumerable<KeyValuePair<string, int>> partsItemMovedIntoPlace)
     {
-        Dictionary<string, int> journeyLengths = indexedJourney.Select(e =>
-        {
-            return KeyValuePair.Create(
-                e.Key,
-                e.Value.Count()
-            );
-        }).ToDictionary();
-        
-        
-        var tuples = new List<ColourExpression>();
         foreach (KeyValuePair<string, int> amountAndPart in partsItemMovedIntoPlace)
-        {
-            IColourTypedValue variableExpression = CreateVariableExpression(place, amountAndPart.Key);
-            IEnumerable<IColourValue> values = [new PartColourValue(_colourTypeFactory.Parts, amountAndPart.Key), variableExpression];
-            TupleColour tuple = new TupleColour(values,_colourTypeFactory.Tokens);
-            tuples.Add(new ColourExpression(tuple, tuple.ColourType, amountAndPart.Value));
-        }
+            yield return CreateExpressionWith(amountAndPart, partType => _variableFactory.VariableForPart(partType));
+    }
+    
+    public IEnumerable<ColourExpression> CreatePartJourneyUpdate(IEnumerable<KeyValuePair<string, int>> partsItemMovedIntoPlace)
+    {
+        foreach (KeyValuePair<string, int> amountAndPart in partsItemMovedIntoPlace)
+            yield return CreateExpressionWith(amountAndPart, partType => _variableFactory.DecrementForPart(partType));
 
-        return tuples;
     }
 
-    private IColourVariableExpression CreateVariableExpression(IPlace place, string part)
+    private ColourExpression CreateExpressionWith(KeyValuePair<string, int> amountAndPart, Func<string, IColourTypedValue> factory)
     {
-        if (place.IsProcessingPlace)
-            return _variableFactory.DecrementForPart(part);
-        return _variableFactory.VariableForPart(part); 
+        IColourTypedValue variableExpression = factory.Invoke(amountAndPart.Key);
+        IEnumerable<IColourValue> values = [new PartColourValue(_colourTypeFactory.Parts, amountAndPart.Key), variableExpression];
+        TupleColour tuple = new TupleColour(values,_colourTypeFactory.Tokens);
+        return new ColourExpression(tuple, tuple.ColourType, amountAndPart.Value);
     }
 }

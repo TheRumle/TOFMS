@@ -1,5 +1,4 @@
-﻿using TACPN.Colours.Type;
-using TACPN.Places;
+﻿using TACPN.Places;
 using TACPN.Transitions;
 using Tmpms.Common;
 using Tmpms.Common.Journey;
@@ -10,16 +9,17 @@ namespace TmpmsPetriNetAdapter.TransitionAttachable;
 
 internal class MovingProductsIntoLocationAdapter : Adapter
 {
-    private readonly CapacityPlace _capacityPlace;
-    private readonly Place _place;
+    private readonly Place _capacityPlace;
+    private readonly Place _productionPlace;
     private readonly IEnumerable<KeyValuePair<string, int>> _itemMovedIntoPlace;
-    
+    private readonly Location to;
+
     public MovingProductsIntoLocationAdapter(MoveAction moveAction, ColourTypeFactory ctFactory, IndexedJourneyCollection collection) 
         : base(ctFactory, collection)
     {
-        var placeFactory = new PlaceFactory(ctFactory, collection);
         _itemMovedIntoPlace = moveAction.PartsToMove;
-        (_place, _capacityPlace) = LocationTranslator.CreatePlaceAndCapacityPlacePair(moveAction.To, collection, ctFactory.Parts);
+        (_productionPlace, _capacityPlace) = PlaceFactory.CreatePlaceAndCapacityPlacePair(moveAction.To);
+        this.to = moveAction.To;
     }
 
     
@@ -41,8 +41,16 @@ internal class MovingProductsIntoLocationAdapter : Adapter
 
     private void AdaptPlace(Transition transition)
     {
-        var tuples = this.JourneyColourExpressionFactory.CreatePartMoveTuple(_itemMovedIntoPlace, this._place, this.Collection);
-        transition.AddOutGoingTo(_place, tuples);
+        if (to.IsProcessing)
+        {
+            var tuples = JourneyColourExpressionFactory.CreatePartJourneyUpdate(_itemMovedIntoPlace);
+            transition.AddOutGoingTo(_productionPlace, tuples);
+        }
+        else
+        {
+            var tuples = JourneyColourExpressionFactory.CreatePartMoveTuple(_itemMovedIntoPlace);
+            transition.AddOutGoingTo(_productionPlace, tuples);
+        }
     }
 
     

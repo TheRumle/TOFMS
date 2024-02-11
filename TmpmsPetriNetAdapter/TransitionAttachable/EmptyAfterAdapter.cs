@@ -1,6 +1,5 @@
 ﻿using TACPN.Arcs;
 using TACPN.Colours.Expression;
-using TACPN.Colours.Type;
 using TACPN.Transitions;
 using Tmpms.Common;
 using Tmpms.Common.Journey;
@@ -43,7 +42,7 @@ internal class EmptyAfterAdapter :Adapter
 
     private void DeleteIngoing(Transition transition)
     {
-        var fromsCapacityPlace = LocationTranslator.CreateCapacityPlace(_fromLocation);
+        var fromsCapacityPlace = PlaceFactory.CreateCapacityPlaceFor(_fromLocation);
         var ingoing = transition.InGoing.FirstOrDefault(e => e.From.IsCapacityLocation && e.From.Equals(fromsCapacityPlace));
         if (ingoing is not null)
             transition.InGoing.Remove(ingoing);
@@ -51,7 +50,7 @@ internal class EmptyAfterAdapter :Adapter
 
     private void ModifyIngoing(Transition transition)   
     {
-        var fromsCapacityPlace = LocationTranslator.CreateCapacityPlace(_fromLocation);
+        var fromsCapacityPlace = PlaceFactory.CreateCapacityPlaceFor(_fromLocation);
         var ingoing = transition.InGoing.FirstOrDefault(e => e.From.IsCapacityLocation && e.From.Equals(fromsCapacityPlace));
         
         if (ingoing is not null) 
@@ -65,7 +64,7 @@ internal class EmptyAfterAdapter :Adapter
 
     private void RestoreCapacity(Transition transition)
     {
-        var fromsCapacityPlace = LocationTranslator.CreateCapacityPlace(_fromLocation);
+        var fromsCapacityPlace = PlaceFactory.CreateCapacityPlaceFor(_fromLocation);
         var outgoing = transition.OutGoing.FirstOrDefault(e => e.To.IsCapacityLocation && e.To.Equals(fromsCapacityPlace));
         if (outgoing is null)
         {

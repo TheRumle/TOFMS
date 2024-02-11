@@ -27,9 +27,9 @@ public class LocationWriterTest : WriterTest
     }
 
 
-    public CreateWriter()
+    public void CreateWriter()
     {
-        TacpnUiXmlWriter<(IEnumerable<Place>, IEnumerable<CapacityPlace>)> writer = new LocationWriter();
+        TacpnUiXmlWriter<(IEnumerable<Place>, IEnumerable<CapacityPlace>)> writer =null!;
     }
 
 

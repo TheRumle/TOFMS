@@ -13,22 +13,20 @@ namespace TmpmsPetriNetAdapter.TransitionAttachable;
 
 internal class MovingProductsOutOfLocationAttacherTest : Adapter
 {
-
+    private Location FromLocation { get; set; }
+    private IEnumerable<KeyValuePair<string, int>> ToConsume { get; set; }
+    private Place FromPlaceHat { get; set; }
+    private Place FromPlace { get; set; }
+    
     public MovingProductsOutOfLocationAttacherTest(MoveAction moveAction, ColourTypeFactory ctFactory, IndexedJourneyCollection collection) 
         : base(ctFactory, collection)
     {
         FromLocation = moveAction.From;
         ToConsume = moveAction.PartsToMove;
-        (FromPlace, FromPlaceHat) = LocationTranslator.CreatePlaceAndCapacityPlacePair(moveAction.From, collection, PartColourType);
+        (FromPlace, FromPlaceHat) = PlaceFactory.CreatePlaceAndCapacityPlacePair(moveAction.From);
     }
 
-    private Location FromLocation { get; set; }
 
-    private IEnumerable<KeyValuePair<string, int>> ToConsume { get; set; }
-
-    private CapacityPlace FromPlaceHat { get; set; }
-
-    private Place FromPlace { get; set; }
 
     public override void AttachToTransition(Transition transition)
     {
@@ -51,8 +49,19 @@ internal class MovingProductsOutOfLocationAttacherTest : Adapter
             var first = FromLocation.Invariants.First(e => e.PartType == pair.Key);
             return ColourTimeGuard.TokensGuard(first.Min, first.Max,this.PartColourType);
         });
+
+        if (FromLocation.IsProcessing)
+        {
+            var expression = JourneyColourExpressionFactory.CreatePartJourneyUpdate(ToConsume);
+            transition.AddInGoingFrom(FromPlace, guards,expression);
+        }
+        else
+        {
+            var expression = JourneyColourExpressionFactory.CreatePartMoveTuple(ToConsume);
+            transition.AddInGoingFrom(FromPlace, guards,expression);
+        }
         
-        var a = JourneyColourExpressionFactory.CreatePartMoveTuple(ToConsume, FromPlace, Collection);
-        transition.AddInGoingFrom(FromPlace, guards,a);
+        
+
     }
 }

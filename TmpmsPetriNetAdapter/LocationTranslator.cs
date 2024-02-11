@@ -1,5 +1,7 @@
 ﻿using TACPN.Colours;
+using TACPN.Colours.Expression;
 using TACPN.Colours.Type;
+using TACPN.Colours.Values;
 using TACPN.Places;
 using Tmpms.Common;
 using Tmpms.Common.Journey;
@@ -26,7 +28,7 @@ public class PlaceFactory
 
     public Place CreatePlace(Location location) => CreatePlace(location, IndexedJourneyCollection, PartsColour);
     
-    public static Place CreatePlace(Location location, IndexedJourneyCollection indexedJourneyCollection, ColourType colourType)
+    public Place CreatePlace(Location location, IndexedJourneyCollection indexedJourneyCollection, ColourType colourType)
     {
         var maxAges = location.Invariants.Select(e => new KeyValuePair<string, int>(e.PartType, e.Max));
         var invariants = 
@@ -34,9 +36,9 @@ public class PlaceFactory
         
         return new Place(location.Name, invariants, colourType);
     }
-    private static List<ColourInvariant<string>> CreateInvariants(ColourType colourType, Location location, IndexedJourneyCollection indexedJourneyCollection, Dictionary<string, int> maxAges)
+    private List<ColourInvariant> CreateInvariants(ColourType colourType, Location location, IndexedJourneyCollection indexedJourneyCollection, Dictionary<string, int> maxAges)
     {
-        List<ColourInvariant<string>> result = new List<ColourInvariant<string>>(); 
+        List<ColourInvariant> result = new List<ColourInvariant>(); 
         foreach (var l in indexedJourneyCollection)
         {
             var partName = l.Key;
@@ -46,7 +48,7 @@ public class PlaceFactory
             {
                 int index = kvp.Key;
                 var maxAge = maxAges[partName];
-                ColourInvariant<string> inv = new ColourInvariant<string>(colourType, index.ToString(), maxAge);
+                ColourInvariant inv = new ColourInvariant(colourType, new TupleColour([new Colour(partName) , new ColourIntValue(index)], ColourTypeFactory.Tokens), maxAge);
                 result.Add(inv);
             }
 
@@ -68,44 +70,5 @@ public class PlaceFactory
         {
             IsCapacityLocation = true
         };
-    }
-}
-
-public static class LocationTranslator
-{
-    public static (Place place, CapacityPlace placeHat) CreatePlaceAndCapacityPlacePair(Location location, IndexedJourneyCollection collection, ColourType ct)
-    {
-        var place = CreatePlace(location, collection, ct);
-        var placeHat = place.ToCapacityPlace(location.Capacity);
-        return (place, placeHat);
-    }
-
-    public static Place CreatePlace(Location location, IndexedJourneyCollection indexedJourneyCollection, ColourType colourType)
-    {
-        var maxAges = location.Invariants.Select(e => new KeyValuePair<string, int>(e.PartType, e.Max));
-
-        var invariants =
-            CreateInvariants(colourType, location, indexedJourneyCollection, new Dictionary<string, int>(maxAges));
-        
-        return new Place(location.Name, invariants, colourType);
-    }
-    
-    public static CapacityPlace CreateCapacityPlace(Location location)
-    {
-        return new CapacityPlace(location.CapacityName(),location.Capacity);
-    }
-
-    private static IEnumerable<ColourInvariant<string>> CreateInvariants(ColourType colourType, Location location, IndexedJourneyCollection indexedJourneyCollection, Dictionary<string, int> maxAges)
-    {
-        foreach (var l in indexedJourneyCollection)
-        {
-            var partIndexPair = l.Value.Where(e => e.Value.Name == location.Name);
-            foreach (var kvp in partIndexPair)
-            {
-                int index = kvp.Key;
-                var maxAge = maxAges[l.Key];
-                yield return new ColourInvariant<string>(colourType, index.ToString(), maxAge);
-            }
-        }
     }
 }

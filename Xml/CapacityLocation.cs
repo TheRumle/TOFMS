@@ -4,8 +4,6 @@ namespace Xml;
 
 public record CapacityLocation : ILocation
 {
-
-
     public CapacityLocation(string name, int capacity)
     {
         Name = name + "_capacity";

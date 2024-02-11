@@ -3,7 +3,7 @@ using TACPN.Colours.Type;
 
 namespace TACPN.Places;
 
-public class CapacityPlace : IPlace<string>
+public class CapacityPlace : IPlace
 {
     public bool Equals(CapacityPlace other)
     {
@@ -28,13 +28,13 @@ public class CapacityPlace : IPlace<string>
     public bool IsCapacityLocation { get; init; }
     public ColourType ColourType { get; }
     public bool IsProcessingPlace { get; init; }
-    public IEnumerable<ColourInvariant<string>> ColourInvariants { get; init; }
+    public IEnumerable<ColourInvariant> ColourInvariants { get; init; }
 
     public CapacityPlace(string name, int capacity)
     {
         IsCapacityLocation = true;
         IsProcessingPlace = false;
-        ColourInvariants = new List<ColourInvariant<string>> {ColourInvariant.DotDefault};
+        ColourInvariants = new List<ColourInvariant> {ColourInvariant.DotDefault};
         ColourType = ColourType.DefaultColorType;
         Name = name;
         Tokens = TokenCollection.DotColorTokenCollection(capacity);
