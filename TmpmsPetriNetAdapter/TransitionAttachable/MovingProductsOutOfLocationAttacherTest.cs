@@ -60,8 +60,5 @@ internal class MovingProductsOutOfLocationAttacherTest : Adapter
             var expression = JourneyColourExpressionFactory.CreatePartMoveTuple(ToConsume);
             transition.AddInGoingFrom(FromPlace, guards,expression);
         }
-        
-        
-
     }
 }
