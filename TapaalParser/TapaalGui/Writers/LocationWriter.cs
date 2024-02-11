@@ -15,7 +15,7 @@ public class LocationWriter : TacpnUiXmlWriter<IEnumerable<Place>>
     {
         foreach (var place in Parseable)
         {
-            Append($@"<shared-place initialMarking=""0"" invariant=""&lt; inf"" name=""{place.Name}"">");
+            Append($@"<shared-place initialMarking=""{place.Marking.Size}"" invariant=""&lt; inf"" name=""{place.Name}"">");
             WriteInvariants(place);
             Append($@"<type> <text>{place.ColourType.Name}</text> <structure><usersort declaration=""{place.ColourType.Name}""/> </structure> </type> </shared-place>");
         }

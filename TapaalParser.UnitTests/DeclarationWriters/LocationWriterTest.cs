@@ -5,6 +5,7 @@ using FluentAssertions;
 using JsonFixtures;
 using TACPN.Places;
 using TapaalParser.TapaalGui.Writers;
+using TestDataGenerator;
 using Tmpms.Common;
 using Tmpms.Common.Journey;
 using TmpmsPetriNetAdapter;
@@ -19,34 +20,20 @@ public class LocationWriterTest : WriterTest
     public LocationWriterTest(MoveActionFixture fixture) : base(fixture)
     {
         this.PlaceFactory = new PlaceFactory(ColourFactory, Journeys.ToIndexedJourney());
+        this.LocationGenerator = new LocationGenerator(Parts, markingStrategy: MarkingStrategy.None);
     }
 
+    public LocationGenerator LocationGenerator { get; set; }
+
     [Fact]
-    public void ShouldWriteSame()
+    public void WhenWritingCapacityLocations_ShouldWriteEquivalentPlaces()
     {
+        var locations = LocationGenerator.Generate(10).ToArray();
+        var capacityLocations = locations.Select(e => e.ToCapacityLocation());
+        var capacityPlaces = locations.Select(loc => PlaceFactory.CreateInitializedCapacityPlaceFor(loc));
 
-        var allLocations = Journeys.SelectMany(e => e.Value).ToArray();
-
-
-        var movinglocations = allLocations.Where(e => e.IsProcessing).ToArray();
-        var processingLocations = allLocations.Where(e => !e.IsProcessing).ToArray();
-        
-        
-        
-        
-        
-        
-        
-        var capacityPlaces = movinglocations.Select(e => PlaceFactory.CreateInitializedCapacityPlaceFor(e));
-        var places = movinglocations.Select(e => PlaceFactory.CreatePlace(e));
-
-        var oldText = OldText(movinglocations, processingLocations.Select(e=>e.ToCapacityLocation()));
-        
-        
-        
-        
-        var newText = NewText([..places, ..capacityPlaces]);
-
+        var oldText = OldText([], capacityLocations);        
+        var newText = NewText(capacityPlaces);
         newText.Should().Be(oldText);
     }
 

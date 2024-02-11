@@ -15,7 +15,7 @@ public abstract class WriterTest : NoWhitespaceWriterTest, IClassFixture<MoveAct
     public SingletonColourType Dot { get; set; }
     public ColourType PartsColourType { get; set; }
     public string[] Parts { get; set; }
-    public readonly ColourVariableFactory VariableFactory;
+    public readonly ColourVariableFactory VariableFactory;  
 
     public WriterTest(MoveActionFixture fixture)
     {
