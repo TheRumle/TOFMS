@@ -34,4 +34,9 @@ public class JourneyCollection : Dictionary<string, IEnumerable<Location>>
             e.Value.Count()
         )).ToDictionary();
     }
+
+    public IEnumerable<int> GetOccurrencesFor(string part, Location location)
+    {
+        return this[part].Where(e => e == location).Select((loc, index) => index);
+    }
 }

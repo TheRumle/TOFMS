@@ -1,4 +1,6 @@
-﻿using TACPN.Colours.Type;
+﻿using System.Collections.ObjectModel;
+using TACPN.Colours.Type;
+using Tmpms.Common;
 using Tmpms.Common.Journey;
 
 namespace TmpmsPetriNetAdapter.Colours;
@@ -22,6 +24,8 @@ public class ColourTypeFactory
         Journey = new IntegerRangedColour(JourneyName, journeyCollection.JourneyLengths().MaxBy(e=>e.Value).Value);
         Tokens = new ProductColourType(TokenName, Parts, Journey);
         Transitions = new ProductColourType(TransitionsColourName, Tokens, DotColour);
+        this.JourneyCollection = journeyCollection;
     }
-    
+
+    public readonly JourneyCollection JourneyCollection;
 }

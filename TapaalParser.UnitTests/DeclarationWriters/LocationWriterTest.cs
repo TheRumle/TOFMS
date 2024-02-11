@@ -20,7 +20,7 @@ public class LocationWriterTest : WriterTest
 
     public LocationWriterTest(MoveActionFixture fixture) : base(fixture)
     {
-        this.PlaceFactory = new PlaceFactory(ColourFactory, Journeys.ToIndexedJourney());
+        this.PlaceFactory = new PlaceFactory(ColourFactory);
     }
 
 

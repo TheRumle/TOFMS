@@ -32,7 +32,7 @@ public class PlaceFactoryTest {
 
     private PlaceFactory CreateFactory(JourneyCollection journeyCollection)
     {
-        return new PlaceFactory(new ColourTypeFactory(Parts, journeyCollection), journeyCollection.ToIndexedJourney());
+        return new PlaceFactory(new ColourTypeFactory(Parts, journeyCollection));
     }
 
     [Theory]
