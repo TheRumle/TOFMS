@@ -33,6 +33,7 @@ public class LocationWriter : TacpnUiXmlWriter<IEnumerable<Place>>
             }
             
             Append($@"<shared-place initialMarking=""{place.Marking.Size}"" invariant=""&lt; inf"" name=""{place.Name}"">");
+            WritePlaceColors(place);
             WriteInvariants(place); 
             Append("</shared-place>");
         }
