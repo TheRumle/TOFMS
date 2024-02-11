@@ -3,39 +3,20 @@ using TACPN.Colours.Type;
 
 namespace TACPN.Places;
 
-public class CapacityPlace : IPlace
+public class CapacityPlace : Place
 {
     public bool Equals(CapacityPlace other)
     {
         return Name == other.Name && IsCapacityLocation == other.IsCapacityLocation && ColourType.Equals(other.ColourType) && IsProcessingPlace == other.IsProcessingPlace;
     }
 
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != this.GetType()) return false;
-        return Equals((CapacityPlace)obj);
-    }
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(Name, IsCapacityLocation, ColourType, IsProcessingPlace);
-    }
 
     public TokenCollection Tokens { get; }
-    public string Name { get; init; }
-    public bool IsCapacityLocation { get; init; }
-    public ColourType ColourType { get; }
-    public bool IsProcessingPlace { get; init; }
-    public IEnumerable<ColourInvariant> ColourInvariants { get; init; }
 
-    public CapacityPlace(string name, int capacity)
+    public CapacityPlace(string name, int capacity) : base(name, [ColourInvariant.DotDefault], ColourType.DefaultColorType )
     {
         IsCapacityLocation = true;
         IsProcessingPlace = false;
-        ColourInvariants = new List<ColourInvariant> {ColourInvariant.DotDefault};
-        ColourType = ColourType.DefaultColorType;
         Name = name;
         Tokens = TokenCollection.DotColorTokenCollection(capacity);
     }

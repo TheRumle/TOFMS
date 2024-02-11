@@ -5,7 +5,7 @@ namespace TACPN.Colours.Type;
 
 public record ColourType
 {
-    public static readonly SingletonColourType DefaultColorType = new(Colour.DefaultTokenColour, new ("dot"));
+    public static readonly SingletonColourType DefaultColorType = new(Colour.DefaultTokenColour.Value, new ("dot"));
     
     public string Name { get; init; }
     public IReadOnlyCollection<Colour> Colours { get; init; }

@@ -31,7 +31,7 @@ public class ColourExpressionFactory
     private ColourExpression CreateExpressionWith(KeyValuePair<string, int> amountAndPart, Func<string, IColourTypedValue> factory)
     {
         IColourTypedValue variableExpression = factory.Invoke(amountAndPart.Key);
-        IEnumerable<IColourValue> values = [new PartColourValue(_colourTypeFactory.Parts, amountAndPart.Key), variableExpression];
+        IEnumerable<IColourValue> values = [new ColourTypedValue(_colourTypeFactory.Parts, amountAndPart.Key), variableExpression];
         TupleColour tuple = new TupleColour(values,_colourTypeFactory.Tokens);
         return new ColourExpression(tuple, tuple.ColourType, amountAndPart.Value);
     }

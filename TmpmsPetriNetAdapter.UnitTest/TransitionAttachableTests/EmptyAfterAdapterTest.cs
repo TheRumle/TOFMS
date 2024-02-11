@@ -77,7 +77,7 @@ public class EmptyAfterAdapterTest : TransitionAttacherTest
     {
         var from = CreateLocation(false);
         var to = CreateLocation(false);
-        IEnumerable<Location> otherLocations = LocationGenerator.GenerateLocations(10).ToArray();
+        IEnumerable<Location> otherLocations = LocationGenerator.Generate(10).ToArray();
         var transition = CreateAndAttachToTransition(from, to, 10, otherLocations);
         
         var emptyBeforeNames = otherLocations.Select(l => l.Name);

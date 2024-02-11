@@ -2,11 +2,11 @@
 
 namespace TACPN.Colours.Expression;
 
-public record PartColourValue : IColourTypedValue
+public record ColourTypedValue : IColourTypedValue
 {
     public string Value { get; }
 
-    public PartColourValue(ColourType ct, string part)
+    public ColourTypedValue(ColourType ct, string part)
     {
         ColourType = ct;
         this.Value = part;

@@ -12,6 +12,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\MultiPartSystem\MultiPartSystem.csproj" />
+      <ProjectReference Include="..\PetriNet\PetriNet.csproj" />
+      <ProjectReference Include="..\TmpmsPetriNetAdapter\TmpmsPetriNetAdapter.csproj" />
     </ItemGroup>
 
 </Project>

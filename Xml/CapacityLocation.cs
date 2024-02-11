@@ -6,7 +6,7 @@ public record CapacityLocation : ILocation
 {
     public CapacityLocation(string name, int capacity)
     {
-        Name = name + "_capacity";
+        Name = name + "_buffer";
         Capacity = capacity;
         IsProcessing = false;
         this.Invariant = LocationExtensions.Infinity;

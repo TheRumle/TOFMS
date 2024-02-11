@@ -3,6 +3,7 @@ using TACPN.Colours.Values;
 using TACPN.Places;
 using TestDataGenerator;
 using Tmpms.Common;
+using TmpmsPetriNetAdapter.Colours;
 
 namespace JsonFixtures;
 

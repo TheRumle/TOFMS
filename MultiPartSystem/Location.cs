@@ -1,4 +1,6 @@
-﻿namespace Tmpms.Common;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Tmpms.Common;
 
 public interface ILocation
 {
@@ -9,6 +11,9 @@ public interface ILocation
 
 public record Location : ILocation
 {
+    //TODO require explicit mapping at some point
+    [NotMapped] public LocationConfiguration Configuration = new LocationConfiguration();
+    
     public static string EndLocationName = "End";
     public bool IsProcessing { get; set; }
     

@@ -11,17 +11,17 @@ public class TimedArcColouredPetriNet
     public IEnumerable<CapacityPlace> CapacityPlaces { get; init; }
     public IEnumerable<Place> Places { get; init; }
     public IEnumerable<ColourVariable> Variables { get; init; }
-    public required IEnumerable<ColourType> ColourTypes { get; init; }
+    public IEnumerable<ColourType> ColourTypes { get; init; }
     public required string Name { get; init; }
 
     public TimedArcColouredPetriNet(PetriNetComponent[] components)
     {
-        this.Transitions = components.SelectMany(e => e.Transitions);
-        this.CapacityPlaces = components.SelectMany(e => e.CapacityPlaces);
-        this.Places = components.SelectMany(e => e.Places);
+        Transitions = components.SelectMany(e => e.Transitions);
+        CapacityPlaces = components.SelectMany(e => e.CapacityPlaces);
+        Places = components.SelectMany(e => e.Places);
         ColourTypes = components.SelectMany(e => e.ColourTypes).ToHashSet();
 
-        this.Variables = components.SelectMany(e => e.Transitions.SelectMany(transition =>
+        Variables = components.SelectMany(e => e.Transitions.SelectMany(transition =>
         {
             var ingoingVariables = transition.InGoing.Select(e => e.Expression.ColourValue)
                 .OfType<IColourVariableExpression>()

@@ -16,7 +16,7 @@ public class ColourVariableFactory
         this._colourTypeFactory = ctFactory;
         this._variables = new Dictionary<string, ColourVariable>();
         foreach (var partColour in ctFactory.Parts.Colours)
-            VariableForPart(partColour);
+            VariableForPart(partColour.Value);
     }
 
     public static string VariableNameFor(string part)

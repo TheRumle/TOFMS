@@ -1,4 +1,6 @@
-﻿using TACPN.Colours;
+﻿using Common;
+using TACPN.Colours;
+using TACPN.Colours.Expression;
 using TACPN.Places;
 
 namespace TapaalParser.TapaalGui.Writers;
@@ -13,26 +15,45 @@ public class LocationWriter : TacpnUiXmlWriter<IEnumerable<Place>>
     {
         foreach (var place in Parseable)
         {
-            //Append($@"<shared-place initialMarking=""0"" invariant=""&lt; inf"" name=""{place.Name}"">");
-            //WriteInvariants(place);
-            //Append($@"<type> <text>{Colours.TokenColour}</text> <structure><usersort declaration=""{Colours.TokenColour}""/> </structure> </type> </shared-place>");
+            Append($@"<shared-place initialMarking=""0"" invariant=""&lt; inf"" name=""{place.Name}"">");
+            WriteInvariants(place);
+            Append($@"<type> <text>{place.ColourType.Name}</text> <structure><usersort declaration=""{place.ColourType.Name}""/> </structure> </type> </shared-place>");
         }
     }
 
     private void WriteInvariants(Place place)
     {
-        /*
+        
         foreach (var inv in place.ColourInvariants)
         {
-            var part = inv.Colour;
-            var v = collection[inv.PartType];
-            foreach (var jourIndex in v)
+            var invMaxText = inv.MaxAge == Infteger.PositiveInfinity ? "&lt; inf" : $"&lt;= {inv.MaxAge}";
+            Append(
+                $@"<colorinvariant> <inscription inscription=""{invMaxText}""/><colortype name=""{inv.ColourType.Name}"">");
+            switch (inv.Colour)
             {
-                int jourNumber = jourIndex.Key;
-
-                WriteInvariant(inv, part, jourNumber);
+                case TupleColour t:
+                    WriteTupleInvariant(t);
+                    break;
+                default:
+                    WriteColourValue(inv.Colour);
+                    break;
             }
+            
+            Append($@"</colortype> </colorinvariant>"")");
         }
-        */
+        
+    }
+
+    private void WriteColourValue(IColourValue invColour)
+    {
+        Append($@"<color value=""{invColour.Value}""/>");
+    }
+
+    private void WriteTupleInvariant(TupleColour tupleColour)
+    {
+        var text = tupleColour.ColourComponents.Select(e => $@"<color value=""{e.Value}""/>")
+            .Aggregate("",(s,e)=>s+e);
+
+        Append(text);
     }
 }

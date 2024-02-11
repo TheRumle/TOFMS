@@ -4,7 +4,7 @@ using TACPN.Colours.Expression;
 using TACPN.Colours.Type;
 using TACPN.Colours.Values;
 
-namespace TACPN.UnitTest.Net.Colours.Expression;
+namespace TACPN.UnitTest.Colours.Expression;
 
 public class ColourExpressionsTest
 {
@@ -22,7 +22,7 @@ public class ColourExpressionsTest
     {
         var colour = CreateTupleColour();
         var expression = new ColourExpression(colour, N);
-        var varName = ColourVariable.VariableNameFor(P1);
+        var varName = ColourVariable.VariableNameFor(P1.Value);
         expression.ExpressionText.Should().Be($"{N}'({varName}--, P1)");
     }
 

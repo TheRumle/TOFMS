@@ -58,6 +58,6 @@ public abstract class MoveActionDependentTest : IClassFixture<MoveActionFixture>
         this.ProcessingLocation = fixture.ProcessingLocation;
         this.BufferLocation = fixture.BufferLocation;
         this.CreateVariables = MoveActionFixture.VariablesForParts;
-        this._otherLocations = fixture.LocationGenerator.GenerateLocations(10);
+        this._otherLocations = fixture.LocationGenerator.Generate(10);
     }
 }

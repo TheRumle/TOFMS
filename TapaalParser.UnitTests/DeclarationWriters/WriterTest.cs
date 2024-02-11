@@ -24,9 +24,9 @@ public abstract class WriterTest : NoWhitespaceWriterTest, IClassFixture<MoveAct
         Dot = ColourType.DefaultColorType;
         Journeys = JourneyCollection.ConstructJourneysFor(
         [
-            ("P1", [..fixture.LocationGenerator.GenerateLocations(8)]),
-            ("P2", [..fixture.LocationGenerator.GenerateLocations(3)]),
-            ("P3", [..fixture.LocationGenerator.GenerateLocations(4)])
+            ("P1", [..fixture.LocationGenerator.Generate(8)]),
+            ("P2", [..fixture.LocationGenerator.Generate(3)]),
+            ("P3", [..fixture.LocationGenerator.Generate(4)])
         ]);
         ColourFactory = new ColourTypeFactory(Parts, Journeys);
         VariableFactory = new ColourVariableFactory(ColourFactory);

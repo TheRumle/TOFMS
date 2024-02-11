@@ -20,7 +20,7 @@ public class EmptyBeforeCapacitorInhibitorAdaptionTest : TransitionAttacherTest
     public void ShouldHaveCorrectWeightFromCorrectArcs()
     {
         var emptyBef = new LocationGenerator([PartType])
-            .GenerateLocations(50)
+            .Generate(50)
             .ToHashSet();
         var transition = CreateAndAttachToTransition(emptyBef);
         

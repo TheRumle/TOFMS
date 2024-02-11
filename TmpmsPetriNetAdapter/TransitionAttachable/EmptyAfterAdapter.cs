@@ -42,7 +42,7 @@ internal class EmptyAfterAdapter :Adapter
 
     private void DeleteIngoing(Transition transition)
     {
-        var fromsCapacityPlace = PlaceFactory.CreateCapacityPlaceFor(_fromLocation);
+        var fromsCapacityPlace = PlaceFactory.CreateInitializedCapacityPlaceFor(_fromLocation);
         var ingoing = transition.InGoing.FirstOrDefault(e => e.From.IsCapacityLocation && e.From.Equals(fromsCapacityPlace));
         if (ingoing is not null)
             transition.InGoing.Remove(ingoing);
@@ -50,7 +50,7 @@ internal class EmptyAfterAdapter :Adapter
 
     private void ModifyIngoing(Transition transition)   
     {
-        var fromsCapacityPlace = PlaceFactory.CreateCapacityPlaceFor(_fromLocation);
+        var fromsCapacityPlace = PlaceFactory.CreateInitializedCapacityPlaceFor(_fromLocation);
         var ingoing = transition.InGoing.FirstOrDefault(e => e.From.IsCapacityLocation && e.From.Equals(fromsCapacityPlace));
         
         if (ingoing is not null) 
@@ -64,7 +64,7 @@ internal class EmptyAfterAdapter :Adapter
 
     private void RestoreCapacity(Transition transition)
     {
-        var fromsCapacityPlace = PlaceFactory.CreateCapacityPlaceFor(_fromLocation);
+        var fromsCapacityPlace = PlaceFactory.CreateInitializedCapacityPlaceFor(_fromLocation);
         var outgoing = transition.OutGoing.FirstOrDefault(e => e.To.IsCapacityLocation && e.To.Equals(fromsCapacityPlace));
         if (outgoing is null)
         {

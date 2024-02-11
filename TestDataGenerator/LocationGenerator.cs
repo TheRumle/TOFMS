@@ -1,35 +1,53 @@
-﻿using Bogus;
+﻿using System.Collections;
+using Bogus;
+using TACPN.Colours;
 using Tmpms.Common;
 
 namespace TestDataGenerator;
 
-public class LocationGenerator
+public interface IGenerator<T> where T : class
 {
-    private readonly Faker<Location> _faker;
+    IEnumerable<T> Generate(int n);
+    T GenerateSingle();
+}
+
+public abstract class Generator<T> : IGenerator<T> where T : class
+{
+    protected readonly Faker<T> Faker;
+    protected readonly Faker ValueSelection = new();
+    protected Random Random = new();
+
+    protected Generator(Faker<T> faker)
+    {
+        Faker = faker;
+    }
+
+    public IEnumerable<T> Generate(int n)
+    {
+        for (int i = 0; i < n; i++)
+            yield return GenerateSingle();
+    }
+    public abstract T GenerateSingle();
+}
+
+public class LocationGenerator :  Generator<Location>
+{
     private readonly IEnumerable<string> _partTypes;
 
-    public LocationGenerator(IEnumerable<string> partTypes)
+    public LocationGenerator(IEnumerable<string> partTypes):base(new Faker<Location>())
     {
-        _faker = new Faker<Location>();
         _partTypes = partTypes;
     }
 
-    public IEnumerable<Location> GenerateLocations(int n)
+    public override Location GenerateSingle()
     {
-
-        Faker f = new Faker();
-        for (int i = 0; i < n; i++)
+        var intervals = _partTypes.Select(e =>
         {
-            var intervals = _partTypes.Select(e =>
-            {
-                var r = new Random();
-                var min = r.Next(0, 7);
-                var max = r.Next(min + 1, 10);
-                return new Invariant(e, min, max);
-            });
-            var location = new Location(f.Name.FirstName(), new Random().Next(1, 10), intervals, f.Random.Bool());
-            yield return location;
-        }
+            var r = new Random();
+            var min = r.Next(0, 7);
+            var max = r.Next(min + 1, 10);
+            return new Invariant(e, min, max);
+        });
+        return new Location(ValueSelection.Name.FirstName(), new Random().Next(1, 10), intervals, ValueSelection.Random.Bool());
     }
-    
 }

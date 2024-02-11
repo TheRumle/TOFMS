@@ -13,14 +13,14 @@ public class TokenCollection : List<Token>
         return new TokenCollection()
         {
             ColourType = ColourType.DefaultColorType,
-            Colours = tokens.Select(e=>e.Invoke()).Select(e=>e.Colour)
+            Colours = tokens.Select(e=>e.Invoke()).Select(e=>e.Colour.Value)
         };
 
     }
 
     public new void Add(Token item)
     {
-        if (!Colours.Contains(item.Colour))
+        if (!Colours.Contains(item.Colour.Value))
             throw new ArgumentException($"Token colour is {item.Colour} but the collection is of colours [{Colours.Aggregate((prev, curr)=>$@"{prev}, + {curr}")}]" );
         base.Add(item);
     }
@@ -29,7 +29,7 @@ public class TokenCollection : List<Token>
     public int AmountOfColour(string colour)
     {
         if (!Colours.Contains(colour)) return 0;
-        return FindAll(e => e.Colour == colour).Count;
+        return FindAll(e => e.Colour.Value == colour).Count;
     }
 
     public string ToColourExpression()
@@ -37,10 +37,10 @@ public class TokenCollection : List<Token>
         var numCol = new Dictionary<string, int>();
         foreach (var a in this)
         {
-            if (numCol.ContainsKey(a.Colour))
-                numCol[a.Colour] += 1;
+            if (numCol.ContainsKey(a.Colour.Value))
+                numCol[a.Colour.Value] += 1;
             else
-                numCol[a.Colour] = 1;
+                numCol[a.Colour.Value] = 1;
 
         }
 

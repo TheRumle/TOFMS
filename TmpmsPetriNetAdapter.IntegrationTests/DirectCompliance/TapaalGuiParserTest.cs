@@ -36,10 +36,10 @@ public abstract class GuiTranslationAdherenceTest
         var transitionFactory = new MoveActionTransitionFactory(indexed, colourFactory);
         var translater = new TofmToTacpnTranslater(arcFactory, transitionFactory, indexed);
         IEnumerable<PetriNetComponent> petriNetComponents = System.MoveActions.Select(e => translater.Translate(e));
+        
         TimedArcColouredPetriNet a = new TimedArcColouredPetriNet(petriNetComponents.ToArray())
         {
             Name = "Net",
-            ColourTypes = [],
         };
         
         var netText = await GuiTranslater.TranslateNet(a);
@@ -49,7 +49,9 @@ public abstract class GuiTranslationAdherenceTest
     [Fact]
     public async Task ShouldComplyWithOldTranslation()
     {
-        (await NewTranslatedText()).Should().Be(DirectlyTranslatedText());
+        var oldText = DirectlyTranslatedText();
+        var newText = await NewTranslatedText();
+        newText.Should().Be(oldText);
     }
     
     [Fact] public void ShouldLoadAndParseSystem(){}
