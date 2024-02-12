@@ -26,16 +26,17 @@ public class PlaceFactory
 
     public Place CreatePlace(Location location) {
         var maxAges = location.Invariants.Select(e =>(e.PartType, e.Max));
-        var invariants = CreateInvariants(location, _journeys, maxAges);
+        var invariants = CreateInvariants(maxAges);
         return new Place(location.Name, invariants, this._colourTypeFactory.Tokens);
     }
 
-    private IEnumerable<ColourInvariant> CreateInvariants(Location location, JourneyCollection journeys, IEnumerable<(string partType, int maxAge)> maxAges)
+    private IEnumerable<ColourInvariant> CreateInvariants(IEnumerable<(string partType, int maxAge)> maxAges)
     {
         List<ColourInvariant> invs = [];
         foreach (var (partType, maxAge) in maxAges)
         {
-            var indexes = journeys.GetIndexOccurrencesFor(partType, location);
+            var longestJourney = _journeys.Values.MaxBy(e=>e.Count())!.Count();
+            var indexes = Enumerable.Range(0, longestJourney);
             invs.AddRange(indexes.Select(index => CreateTokenIndexTuple(partType, index))
                 .Select(colour => new ColourInvariant(_colourTypeFactory.Tokens, colour, maxAge)));
         }

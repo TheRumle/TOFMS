@@ -1,16 +1,15 @@
-﻿using System.Collections;
-
-namespace Tmpms.Common.Journey;
+﻿namespace Tmpms.Common.Journey;
 
 public class JourneyCollection : Dictionary<string, IEnumerable<Location>>
 {
     public IEnumerable<Location> Locations => Values.SelectMany(e => e);
+    public IEnumerable<string> Parts => Keys;
     public JourneyCollection(IEnumerable<KeyValuePair<string, IEnumerable<Location>>> journey):base(journey)
     {
         
     }
 
-    public JourneyCollection()
+    public JourneyCollection(): base(new List<KeyValuePair<string, IEnumerable<Location>>>())
     {
         
     }

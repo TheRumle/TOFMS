@@ -20,8 +20,16 @@ public class ColourTypeFactory
     
     public ColourTypeFactory(IEnumerable<string> parts, JourneyCollection journeyCollection)
     {
+        if (journeyCollection.JourneyLengths().Count( ) == 0)
+        {
+            Journey = new IntegerRangedColour(JourneyName, 0);
+        }
+        else
+        {
+            Journey = new IntegerRangedColour(JourneyName, journeyCollection.JourneyLengths().MaxBy(e => e.Value).Value);
+        }
+        
         Parts =  new ColourType(PartsName, parts);
-        Journey = new IntegerRangedColour(JourneyName, journeyCollection.JourneyLengths().MaxBy(e=>e.Value).Value);
         Tokens = new ProductColourType(TokenName, Parts, Journey);
         Transitions = new ProductColourType(TransitionsColourName, Tokens, DotColour);
         this.JourneyCollection = journeyCollection;

@@ -11,24 +11,22 @@ namespace TmpmsPetriNetAdapter.UnitTest;
 
 public class PlaceFactoryTest {
     private readonly LocationGenerator Generator;
-    private readonly Location LocationToTranslate;
-    public readonly string[] Parts;
-    public JourneyCollection JourneyCollection { get; set; }
+    public readonly string[] Parts = Enumerable.Range(1, 10).Select(e => "P" + e).ToArray();
 
     public PlaceFactoryTest()
     {
-
-        this.Parts = Enumerable.Range(1,10).Select(e=>"P"+e).ToArray();
         this.Generator = new LocationGenerator(Parts, markingStrategy: MarkingStrategy.None, processingLocationStrategy: ProcessingLocationStrategy.Both);
-        this.LocationToTranslate = Generator.GenerateSingle();
-        this.JourneyCollection = CreateJourney(LocationToTranslate);
     }
 
     private JourneyCollection CreateJourney(Location target)
     {
-        return JourneyCollection.ConstructJourneysFor(Parts.Select(e => (e, ListExtensions.Shuffle([target, ..Generator.Generate(10)]))).ToArray());
+        return JourneyCollection.ConstructJourneysFor(Parts.Select(e => (e, ListExtensions.Shuffle([target, ..Generator.Generate(10, ProcessingLocationStrategy.OnlyProcessingLocations)]))).ToArray());
     }
 
+    private PlaceFactory CreateFactory(IEnumerable<string> parts, JourneyCollection journeyCollection)
+    {
+        return new PlaceFactory(new ColourTypeFactory(parts, journeyCollection));
+    }
 
     private PlaceFactory CreateFactory(JourneyCollection journeyCollection)
     {
@@ -59,12 +57,34 @@ public class PlaceFactoryTest {
     }
 
 
+    
+    [Theory]
+    [InlineData(10,10)]
+    [InlineData(1,1)]
+    [InlineData(2,2)]
+    [InlineData(3,1)]
+    public void When_HavingNInvariants_AndIJourneyLenght_Creates_NTimesI_Invariants(int journeyLength, int numberParts)
+    {
+        var parts = Enumerable.Range(1,numberParts).Select(e=>"P"+e).ToArray();
+        var target = new LocationGenerator(parts).GenerateSingle(ProcessingLocationStrategy.OnlyProcessingLocations);
+        target.Invariants.Should().HaveCount(parts.Length);
+        
+        var journeys = parts.Select(p => (p, Enumerable.Repeat(target, journeyLength)));
+
+        var factory = CreateFactory(parts, JourneyCollection.ConstructJourneysFor(journeys.ToArray()));
+        Place place = factory.CreatePlace(target);
+
+        place.ColourInvariants.Should().HaveCount(journeyLength*numberParts);
+    }
+
+
     [Fact]
     public void InitializesCapacityLocationsWithAgeZero()
     {
-        var factory = CreateFactory(JourneyCollection);
+        var target = Generator.GenerateSingle(ProcessingLocationStrategy.OnlyProcessingLocations);
+        var factory = CreateFactory(CreateJourney(target));
 
-        Place place = factory.CreateInitializedCapacityPlaceFor(LocationToTranslate);
+        Place place = factory.CreateInitializedCapacityPlaceFor(target);
 
         place.Marking.Tokens.Should().AllSatisfy(e => e.Age.Should().Be(0));
     } 

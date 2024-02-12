@@ -61,9 +61,6 @@ public class LocationGenerator :  Generator<Location>
         }
 
         return l;
-
-
-
     }
     
     

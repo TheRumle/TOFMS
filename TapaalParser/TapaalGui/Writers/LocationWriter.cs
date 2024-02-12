@@ -33,7 +33,6 @@ public class LocationWriter : TacpnUiXmlWriter<IEnumerable<Place>>
             }
             
             Append($@"<shared-place initialMarking=""{place.Marking.Size}"" invariant=""&lt; inf"" name=""{place.Name}"">");
-            WritePlaceColors(place);
             WriteInvariants(place); 
             Append("</shared-place>");
         }
@@ -60,16 +59,12 @@ public class LocationWriter : TacpnUiXmlWriter<IEnumerable<Place>>
         foreach (var invariant in place.ColourInvariants)//TODO No colour invariant is assigned so this does not work. It migth be a test setup thing.
         {
             Append($@"<colorinvariant> <inscription inscription=""{XmlUtils.GetInvariantTagText(invariant)}""/><colortype name=""{invariant.ColourType.Name}"">");
-            switch (invariant.Colour)
-            {
-                case TupleColour t:
-                    WriteTupleInvariant(t);
-                    break;
-                default:
-                    WriteColourValue(invariant.Colour);
-                    break;
-            }
             
+            if (invariant.Colour is TupleColour t)
+                WriteTupleInvariant(t);
+            else
+                WriteColourValue(invariant.Colour);
+
             Append($@"</colortype> </colorinvariant>");
         }
     }

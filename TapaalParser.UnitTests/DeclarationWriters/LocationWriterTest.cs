@@ -13,57 +13,49 @@ namespace TaapalParser.UnitTests.DeclarationWriters;
 
 public class LocationWriterTest : NoWhitespaceWriterTest
 {
-    private IEnumerable<string> Parts = ["P1", "P2", "P3"];
+    private static IEnumerable<string> Parts = ["P1", "P2", "P3"];
+    private LocationGenerator _generator = new(Parts);
 
     public PlaceFactory CreatePlaceFactory(JourneyCollection collection)
     {
         return new PlaceFactory(new ColourTypeFactory(Parts,collection));
     }
     
-    public JourneyCollection CreateJourney(LocationGenerator generator)
+    public (Location[] nonProcessing, JourneyCollection journey, Location[] allLocations) CreateJourneyAndLocations()
     {
-        var journeys = Parts.Select(e => (e, generator.Generate(new Random().Next(2,6))));
-        return JourneyCollection.ConstructJourneysFor(journeys.ToArray());
-    }
+        var otherLocations = _generator.Generate(new Random().Next(2, 6), ProcessingLocationStrategy.OnlyRegularLocations).ToArray();
+        var journeySequence = Parts.Select(e => (e, _generator.Generate(new Random().Next(2, 6), ProcessingLocationStrategy.OnlyProcessingLocations)));
+        var journey = JourneyCollection.ConstructJourneysFor(journeySequence.ToArray());
 
-    [Fact]
-    public void WhenWritingCapacityLocations_ShouldWriteEquivalentPlaces()
-    {
-        var journeys = CreateJourney(new LocationGenerator(Parts));
-        var placeFactory = CreatePlaceFactory(journeys);
-        var locations = journeys.Locations.ToArray();
+        var allLocations = journey.SelectMany(e => e.Value)
+            .Union(otherLocations).ToArray();
         
-        var capacityLocations = locations.Select(e => e.ToCapacityLocation());
-        var capacityPlaces = locations.Select(loc => placeFactory.CreateInitializedCapacityPlaceFor(loc));
-
-        var oldText = OldText(journeys,[], capacityLocations);        
-        var newText = NewText(capacityPlaces);
-        newText.Should().Be(oldText);
+        return (otherLocations, journey, allLocations);
     }
     
-    [Theory]
-    [InlineData(ProcessingLocationStrategy.OnlyProcessingLocations)]
-    [InlineData(ProcessingLocationStrategy.OnlyRegularLocations)]
-    public void Locations_ShouldWriteEquivalentPlaces(ProcessingLocationStrategy strategy)
+    
+    private string OldCapacityPlaceText(JourneyCollection journeyCollection, IEnumerable<CapacityLocation> capacityLocations)
     {
-        var journey = CreateJourney(new LocationGenerator(Parts, processingLocationStrategy: strategy));
-        var placeFactory = CreatePlaceFactory(journey);
-        
-        var locations = journey.SelectMany(e=>e.Value).ToArray();
-        var places = locations.Select(loc => placeFactory.CreatePlace(loc));
-
-        var oldText = OldText(journey, locations, []);        
-        var newText = NewText(places);
-        
-        newText.Should().Be(oldText);
+        var indexed = journeyCollection.ToIndexedJourney();
+        SharedPlaceDeclarationWriter declarationWriter = new SharedPlaceDeclarationWriter(new StringBuilder());
+        declarationWriter.WriteCapacityPlaces( capacityLocations, indexed);
+        return RemoveWhiteSpace(declarationWriter.StringBuilder.ToString());
     }
-
-    private string OldText(JourneyCollection journeyCollection, IEnumerable<Location> locations, IEnumerable<CapacityLocation> capacityLocations)
+    
+    private string OldTranslationText(JourneyCollection journeyCollection, IEnumerable<Location> locations, IEnumerable<CapacityLocation> capacityLocations)
+    {
+        var indexed = journeyCollection.ToIndexedJourney();
+        SharedPlaceDeclarationWriter declarationWriter = new SharedPlaceDeclarationWriter(new StringBuilder());
+        declarationWriter.WriteCapacityPlaces( capacityLocations, indexed);
+        declarationWriter.WritePlaces(locations, indexed);
+        return RemoveWhiteSpace(declarationWriter.StringBuilder.ToString());
+    }
+    
+    private string OldPlaceText(JourneyCollection journeyCollection, IEnumerable<Location> locations)
     {
         var indexed = journeyCollection.ToIndexedJourney();
         SharedPlaceDeclarationWriter declarationWriter = new SharedPlaceDeclarationWriter(new StringBuilder());
         declarationWriter.WritePlaces(locations, indexed);
-        declarationWriter.WriteCapacityPlaces( capacityLocations, indexed);
         return RemoveWhiteSpace(declarationWriter.StringBuilder.ToString());
     }
 
@@ -73,4 +65,101 @@ public class LocationWriterTest : NoWhitespaceWriterTest
         writer.AppendAllText();
         return RemoveWhiteSpace(writer.ToString());
     }
+    
+
+    [Fact]
+    public void WhenWritingCapacityLocations_ShouldWriteEquivalentPlaceText()
+    {
+        var (_,journeys,all) = CreateJourneyAndLocations();
+        var placeFactory = CreatePlaceFactory(journeys);
+        
+        var capacityLocations = all.Select(e => e.ToCapacityLocation());
+        var capacityPlaces = all.Select(loc => placeFactory.CreateInitializedCapacityPlaceFor(loc));
+
+        var oldText = OldCapacityPlaceText(journeys, capacityLocations);        
+        var newText = NewText(capacityPlaces);
+        newText.Should().Be(oldText);
+    }
+    
+    [Fact]
+    public void WhenWritingNonProcessingLocationsShould_WriteEquivalent()
+    {
+        var (locations, journey, _) = CreateJourneyAndLocations();
+        var placeFactory = CreatePlaceFactory(journey);
+        
+        
+        var places = locations.Select(loc => placeFactory.CreatePlace(loc));
+
+        var oldText = OldPlaceText(journey, locations);        
+        var newText = NewText(places);
+        
+        newText.Should().Be(oldText);
+    }
+    
+    [Fact]
+    public void WhenWritingProcessingLocationsShould_WriteEquivalent()
+    {
+        var (_, journey, allLocations) = CreateJourneyAndLocations();
+        var placeFactory = CreatePlaceFactory(journey);
+        var processingLocations = allLocations
+            .Where(e => e.IsProcessing).ToArray();
+
+        
+        var places = processingLocations
+            .Select(loc => placeFactory.CreatePlace(loc));
+
+        var oldText = OldPlaceText(journey, processingLocations);        
+        var newText = NewText(places);
+        
+        newText.Should().Be(oldText);
+    }
+    
+    [Fact]
+    public void WhenWritingSingleLocationsShould_WriteEquivalent()
+    {
+        var generator =  new LocationGenerator(["P1"]);
+        var target = generator.GenerateSingle(ProcessingLocationStrategy.OnlyRegularLocations);
+        var journey = JourneyCollection.ConstructJourneysFor([("P1", [generator.GenerateSingle(ProcessingLocationStrategy.OnlyProcessingLocations)])]);
+        var placeFactory = new PlaceFactory(new ColourTypeFactory(target.Invariants.Select(e=>e.PartType), journey));
+
+        var place = placeFactory.CreatePlace(target);
+        var oldText = OldPlaceText(journey, [target]);        
+        var newText = NewText([place]);
+        newText.Should().Be(oldText);
+    }
+    
+    [Fact]
+    public void WhenWritingSingleProcessingLocationsShould_WriteEquivalent()
+    {
+        var generator =  new LocationGenerator(["P1"]);
+        var target = generator.GenerateSingle(ProcessingLocationStrategy.OnlyProcessingLocations);
+        var journey = JourneyCollection.ConstructJourneysFor([("P1", [generator.GenerateSingle(ProcessingLocationStrategy.OnlyProcessingLocations)])]);
+        var placeFactory = new PlaceFactory(new ColourTypeFactory(target.Invariants.Select(e=>e.PartType), journey));
+
+        var place = placeFactory.CreatePlace(target);
+        var oldText = OldPlaceText(journey, [target]);        
+        var newText = NewText([place]);
+        newText.Should().Be(oldText);
+    }
+ 
+    
+    
+    [Fact]
+    public void WhenWritingBothTypesOfLocations_ShouldWriteEquivalent()
+    {
+        var (_, journey, allLocations) = CreateJourneyAndLocations();
+        var placeFactory = CreatePlaceFactory(journey);
+
+        var placeCapPlacePair = allLocations.Select(loc => placeFactory.CreatePlaceAndCapacityPlacePair(loc)).ToArray();
+        var capacityPlaces = placeCapPlacePair.Select(e => e.capacityPlace);
+        var nonCapacity = placeCapPlacePair.Select(e => e.place);
+        var capacityLocations = allLocations.Select(e => e.ToCapacityLocation());
+        
+        var oldText = OldTranslationText(journey, allLocations, capacityLocations);        
+        var newText = NewText([..capacityPlaces, ..nonCapacity]);
+        
+        newText.Should().Be(oldText);
+    }
+
+
 }
