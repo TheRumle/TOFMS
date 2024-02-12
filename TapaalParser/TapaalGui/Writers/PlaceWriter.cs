@@ -1,19 +1,10 @@
 ﻿using Common;
-using TACPN.Colours;
 using TACPN.Colours.Expression;
 using TACPN.Colours.Type;
 using TACPN.Colours.Values;
 using TACPN.Places;
 
 namespace TapaalParser.TapaalGui.Writers;
-
-public static class XmlUtils
-{
-    public static string GetInvariantTagText(ColourInvariant inv)
-    {
-        return inv.MaxAge == Infteger.PositiveInfinity ? "&lt; inf" : $"&lt;= {inv.MaxAge}";
-    }
-}
 
 public class PlaceWriter : TacpnUiXmlWriter<IEnumerable<Place>>
 {
