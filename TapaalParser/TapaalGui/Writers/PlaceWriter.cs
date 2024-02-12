@@ -1,5 +1,4 @@
 ﻿using Common;
-using TACPN.Colours.Expression;
 using TACPN.Colours.Type;
 using TACPN.Colours.Values;
 using TACPN.Places;
@@ -26,7 +25,7 @@ public class PlaceWriter : TacpnUiXmlWriter<IEnumerable<Place>>
             Append($@"<shared-place initialMarking=""{place.Marking.Size}"" invariant=""&lt; inf"" name=""{place.Name}"">");
             
             if (place.ColourInvariants.Any(inv => inv.MaxAge != Infteger.PositiveInfinity))
-                WriteInvariants(place);
+                WriteAllInvariants(place);
             
             
             WritePlaceColors(place);
@@ -45,24 +44,13 @@ public class PlaceWriter : TacpnUiXmlWriter<IEnumerable<Place>>
         
     }
 
-    private void WriteInvariants(Place place)
-    {
-        WriteAllInvariants(place);
-    }
+
 
     private void WriteAllInvariants(Place place)
     {
-        foreach (var invariant in place.ColourInvariants)//TODO No colour invariant is assigned so this does not work. It migth be a test setup thing.
-        {
-            Append($@"<colorinvariant> <inscription inscription=""{XmlUtils.GetInvariantTagText(invariant)}""/><colortype name=""{invariant.ColourType.Name}"">");
-            
-            if (invariant.Colour is TupleColour t)
-                WriteTupleInvariant(t);
-            else
-                WriteColourValue(invariant.Colour);
-
-            Append($@"</colortype> </colorinvariant>");
-        }
+        InvariantWriter writer = new InvariantWriter(place.ColourInvariants);
+        writer.AppendAllText();
+        Append(writer.ToString());
     }
 
     private void WriteNonColouredPlace(Place place)
@@ -103,16 +91,5 @@ public class PlaceWriter : TacpnUiXmlWriter<IEnumerable<Place>>
                               </shared-place>");
     }
 
-    private void WriteColourValue(IColourValue invColour)
-    {
-        Append($@"<color value=""{invColour.Value}""/>");
-    }
 
-    private void WriteTupleInvariant(TupleColour tupleColour)
-    {
-        var text = tupleColour.ColourComponents.Select(e => $@"<color value=""{e.Value}""/>")
-            .Aggregate("",(s,e)=>s+e);
-
-        Append(text);
-    }
 }

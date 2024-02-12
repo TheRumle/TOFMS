@@ -8,13 +8,13 @@ using TACPN.Transitions;
 namespace TACPN;
 
 internal static class ArcGuards{
-    public static void InvalidArcColourAssignment(IPlace from, Transition to)
+    public static void InvalidArcColourAssignment(Place from, Transition to)
     {
         if (!to.IsCompatibleWith(from)) 
             throw new ArgumentException($"Cannot create arc from {from.Name} ----> {to.Name} because their colours do not match");
     }
     
-    public static void InvalidGuardColourAssignment(IPlace place, Transition t, IEnumerable<ColourTimeGuard> guards)
+    public static void InvalidGuardColourAssignment(Place place, Transition t, IEnumerable<ColourTimeGuard> guards)
     {
         var coloredGuards = guards as ColourTimeGuard[] ?? guards.ToArray();
         if (coloredGuards.Any(e=>e.ColourType != place.ColourType))
@@ -22,7 +22,7 @@ internal static class ArcGuards{
     }
     
 
-    public static void InvalidExpressionAssignment(Transition t,IPlace place,  IColourExpression textConvertible)
+    public static void InvalidExpressionAssignment(Transition t,Place place,  IColourExpression textConvertible)
     {
         if (textConvertible.ColourType is ProductColourType productColourType)
         {

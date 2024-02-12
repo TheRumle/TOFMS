@@ -24,34 +24,34 @@ public class Transition
     public ICollection<OutGoingArc> OutGoing { get; } = new List<OutGoingArc>();
     public ICollection<InhibitorArc> InhibitorArcs { get; } = new List<InhibitorArc>();
 
-    public IngoingArc AddInGoingFrom(IPlace from, IEnumerable<ColourTimeGuard> guards, IColourExpressionAmount expression)
+    public IngoingArc AddInGoingFrom(Place from, IEnumerable<ColourTimeGuard> guards, IColourExpressionAmount expression)
     {
         var arc = new IngoingArc(from, this, guards, Enumerable.Repeat(expression,1));
         InGoing.Add(arc);
         return arc;
     }
     
-    public IngoingArc AddInGoingFrom(IPlace from, IEnumerable<ColourTimeGuard> guards, IEnumerable<IColourExpressionAmount> expressions)
+    public IngoingArc AddInGoingFrom(Place from, IEnumerable<ColourTimeGuard> guards, IEnumerable<IColourExpressionAmount> expressions)
     {
         var arc = new IngoingArc(from, this, guards, expressions);
         InGoing.Add(arc);
         return arc;
     }
     
-    public IngoingArc AddInGoingFrom(IPlace from, int amount)
+    public IngoingArc AddInGoingFrom(Place from, int amount)
     {
         var expression = ColourExpression.DefaultTokenExpression(amount);
         return AddInGoingFrom(from, new[] { ColourTimeGuard.Default()}, expression);
     }
 
     
-    public OutGoingArc AddOutGoingTo(IPlace to, IColourExpressionAmount expression)
+    public OutGoingArc AddOutGoingTo(Place to, IColourExpressionAmount expression)
     {
         var arc = new OutGoingArc(this, to, expression);
         OutGoing.Add(arc);
         return arc;
     }
-    public OutGoingArc AddOutGoingTo(IPlace to, IEnumerable<IColourExpressionAmount> expression)
+    public OutGoingArc AddOutGoingTo(Place to, IEnumerable<IColourExpressionAmount> expression)
     {
         var arc = new OutGoingArc(this, to, expression);
         OutGoing.Add(arc);
@@ -59,18 +59,18 @@ public class Transition
     }
     
 
-    public InhibitorArc AddInhibitorFrom(IPlace from, int weight)
+    public InhibitorArc AddInhibitorFrom(Place from, int weight)
     {
         var arc = new InhibitorArc(from, this, weight);
         InhibitorArcs.Add(arc);
         return arc;
     }
 
-    public IEnumerable<IPlace> InvolvedPlaces => GetAllPlaces();
+    public IEnumerable<Place> InvolvedPlaces => GetAllPlaces();
 
-    private IEnumerable<IPlace> GetAllPlaces()
+    private IEnumerable<Place> GetAllPlaces()
     {
-        var places = new HashSet<IPlace>();
+        var places = new HashSet<Place>();
         places.UnionWith(this.InhibitorArcs.Select(e=>e.From));
         places.UnionWith(this.InGoing.Select(e=>e.From));
         places.UnionWith(this.OutGoing.Select(e=>e.To));
@@ -86,7 +86,7 @@ public class Transition
     {
         return InvolvedPlaces.OfType<CapacityPlace>();
     }
-    public bool IsCompatibleWith(IPlace other)
+    public bool IsCompatibleWith(Place other)
     {
         return other.ColourType
             .Colours

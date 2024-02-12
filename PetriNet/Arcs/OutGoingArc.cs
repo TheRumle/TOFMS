@@ -5,18 +5,18 @@ using TACPN.Transitions;
 
 namespace TACPN.Arcs;
 
-public class OutGoingArc : Arc<Transition, IPlace>
+public class OutGoingArc : Arc<Transition, Place>
 {
     public ArcExpression Expression { get; private set; }
     public IEnumerable<IColourExpressionAmount> Productions => Expression.Amounts;
 
-    public OutGoingArc(Transition from, IPlace to, IColourExpressionAmount colourExpression) : base(from, to)
+    public OutGoingArc(Transition from, Place to, IColourExpressionAmount colourExpression) : base(from, to)
     {
         ArcGuards.InvalidExpressionAssignment(from, to, colourExpression);
         Expression = new ArcExpression(colourExpression, to.ColourType);
     }
     
-    public OutGoingArc(Transition from, IPlace to, IEnumerable<IColourExpressionAmount> colourExpression) : base(from, to)
+    public OutGoingArc(Transition from, Place to, IEnumerable<IColourExpressionAmount> colourExpression) : base(from, to)
     {
         foreach (var expression in colourExpression)
             ArcGuards.InvalidExpressionAssignment(from, to, expression);

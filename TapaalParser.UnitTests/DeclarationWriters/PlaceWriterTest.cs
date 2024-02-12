@@ -119,7 +119,7 @@ public class PlaceWriterTest : NoWhitespaceWriterTest
     {
         var generator =  new LocationGenerator(["P1"]);
         var target = generator.GenerateSingle(ProcessingLocationStrategy.OnlyRegularLocations) 
-            with {Invariants = new HashSet<Invariant>()
+            with {Invariants = new HashSet<Invariant>
             {
                 Invariant.InfinityInvariantFor("P1")
             }};

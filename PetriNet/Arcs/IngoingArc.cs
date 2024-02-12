@@ -6,12 +6,12 @@ using TACPN.Transitions;
 
 namespace TACPN.Arcs;
 
-public class IngoingArc : Arc<IPlace, Transition>
+public class IngoingArc : Arc<Place, Transition>
 {
     public ColourType ColourType { get; init; }
     public TimeGuardedArcExpression Expression { get; set;  }
 
-    public IngoingArc(IPlace from, Transition to, IEnumerable<ColourTimeGuard> guards, IEnumerable<IColourExpressionAmount> expressions ) 
+    public IngoingArc(Place from, Transition to, IEnumerable<ColourTimeGuard> guards, IEnumerable<IColourExpressionAmount> expressions ) 
         : base(from, to)
     {
         ColourTimeGuard[] colourTimeGuards = guards as ColourTimeGuard[] ?? guards.ToArray();

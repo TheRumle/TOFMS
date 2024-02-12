@@ -55,6 +55,7 @@ public class SubnetDeclarer
         writer.WriteInvariants(location, IndexedJourneysCollection);
         
         
+        
         _stringBuilder.Append("</place>");
     }
 
