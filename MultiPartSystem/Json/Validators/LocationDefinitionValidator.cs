@@ -20,6 +20,7 @@ internal class LocationDefinitionValidator : JsonValidator<IEnumerable<LocationD
             LocationValidation.DuplicateLocationValidation,
             LocationValidation.InvariantAreValidValidation,
             LocationValidation.CapacityValidation,
+            LocationValidation.NoInfiniteVariantForProcessingLocations,
             e=>LocationValidation.InvariantAreOverDefinedPartsLocationValidation(e, _partTypes)
         }.BeginValidationsOver(inputs);
     }

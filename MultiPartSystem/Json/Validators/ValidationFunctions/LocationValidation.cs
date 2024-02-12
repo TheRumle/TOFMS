@@ -1,4 +1,5 @@
-﻿using Tmpms.Common.Json.Errors;
+﻿using Common;
+using Tmpms.Common.Json.Errors;
 using Tmpms.Common.Json.Models;
 
 namespace Tmpms.Common.Json.Validators.ValidationFunctions;
@@ -56,5 +57,19 @@ internal static class LocationValidation
         var a = locations.GroupBy(e => e.Name)
             .Where(gr => gr.Count() > 1).ToArray();
         return a;
+    }
+
+    public static IEnumerable<InvalidJsonTmpmsException> NoInfiniteVariantForProcessingLocations(IEnumerable<LocationDefinition> locations)
+    {
+        var invalidLocations =
+            locations.Where(e => e.IsProcessing
+                                 && e.Invariants
+                                     .Any(inv => inv.Max == Infteger.PositiveInfinity));
+
+        foreach (var invalid in invalidLocations)
+        {
+            yield return InvalidInvariantException.InfiniteProcessing(invalid,
+                invalid.Invariants.Where(e => e.Max == Infteger.PositiveInfinity));
+        }
     }
 }

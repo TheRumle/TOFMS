@@ -21,13 +21,17 @@ public class PlaceWriter : TacpnUiXmlWriter<IEnumerable<Place>>
                 WriteNonColouredPlace(place);
                 continue;
             }
-            
+            if (place.ColourInvariants.Count() == 1 && place.ColourInvariants.First().MaxAge == Infteger.PositiveInfinity)
+            {
+                Append($@"<shared-place initialMarking=""{place.Marking.Size}"" invariant=""&lt; inf"" name=""{place.Name}"">");
+                WritePlaceColors(place);
+                Append("</shared-place>");
+                continue;
+            }
+
             Append($@"<shared-place initialMarking=""{place.Marking.Size}"" invariant=""&lt; inf"" name=""{place.Name}"">");
-            
             if (place.ColourInvariants.Count()>1 || place.ColourInvariants.First().ColourType != ColourType.DefaultColorType)
                 WriteAllInvariants(place);
-            
-            
             WritePlaceColors(place);
             Append("</shared-place>");
         }

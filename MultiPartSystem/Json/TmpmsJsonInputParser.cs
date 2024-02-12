@@ -30,9 +30,6 @@ public class TmpmsJsonInputParser
         var jsonSystem = JsonConvert.DeserializeObject<TimedMultiPartSystemJsonInput>(jsonString, ParseSettings);
         if (jsonSystem is null)
             throw new ApplicationException("There is something entirely wrong with the format of the inputted TMPMS:\n " + jsonString);
-        
-        if (jsonSystem.LocationDeclarations.All(e => e.Name.ToLower() != "END"))
-            jsonSystem.LocationDeclarations.Add(LocationDefinition.EndLocation(jsonSystem.Parts));
             
         var errs = _validator.Validate(jsonSystem).ToArray();
         
