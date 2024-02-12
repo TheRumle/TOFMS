@@ -18,7 +18,7 @@ internal abstract class Adapter : ITransitionAttachable
     {
         this.ColourFactory = ctFactory;
         this.PartColourType = ctFactory.Parts;
-        PlaceFactory = new PlaceFactory(ColourFactory, collection);
+        PlaceFactory = new PlaceFactory(ColourFactory);
         JourneyColourExpressionFactory = new ColourExpressionFactory(ctFactory);
         this.TimeGuardFactory = new ColourTimeGuardFactory(ctFactory);
     }

@@ -17,7 +17,7 @@ public class LocationWriterTest : NoWhitespaceWriterTest
 
     public PlaceFactory CreatePlaceFactory(JourneyCollection collection)
     {
-        return new PlaceFactory(new ColourTypeFactory(Parts,collection), collection);
+        return new PlaceFactory(new ColourTypeFactory(Parts,collection));
     }
     
     public JourneyCollection CreateJourney(LocationGenerator generator)
@@ -44,7 +44,7 @@ public class LocationWriterTest : NoWhitespaceWriterTest
     [Theory]
     [InlineData(ProcessingLocationStrategy.OnlyProcessingLocations)]
     [InlineData(ProcessingLocationStrategy.OnlyRegularLocations)]
-    public void WhenWritingNonCapacityLocations_ShouldWriteEquivalentPlaces(ProcessingLocationStrategy strategy)
+    public void Locations_ShouldWriteEquivalentPlaces(ProcessingLocationStrategy strategy)
     {
         var journey = CreateJourney(new LocationGenerator(Parts, processingLocationStrategy: strategy));
         var placeFactory = CreatePlaceFactory(journey);

@@ -34,12 +34,13 @@ public abstract class WriterTest : NoWhitespaceWriterTest, IClassFixture<MoveAct
         TokensColourType = ColourFactory.Tokens;
     }
 
-    private static (string partType, IEnumerable<Location> locations)[] CreateJourneyComponents(MoveActionFixture fixture)
+    private (string partType, IEnumerable<Location> locations)[] CreateJourneyComponents(MoveActionFixture fixture)
     {
+        LocationGenerator LocationGenerator = fixture.CreateLocationGenerator(Parts);
         return [
-            ("P1", [..fixture.LocationGenerator.Generate(8)]),
-            ("P2", [..fixture.LocationGenerator.Generate(3)]),
-            ("P3", [..fixture.LocationGenerator.Generate(4)])
+            ("P1", LocationGenerator.Generate(8)),
+            ("P2", LocationGenerator.Generate(3)),
+            ("P3", LocationGenerator.Generate(4))
         ];
     }
 

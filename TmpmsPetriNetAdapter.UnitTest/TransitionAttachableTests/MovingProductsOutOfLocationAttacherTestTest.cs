@@ -15,7 +15,7 @@ namespace TmpmsPetriNetAdapter.UnitTest.TransitionAttachableTests;
 public class MovingProductsOutOfLocationAttacherTestTest : TransitionAttacherTest
 {
     
-    public MovingProductsOutOfLocationAttacherTestTest(MoveActionFixture moveActionFixture) : base(moveActionFixture)
+    public MovingProductsOutOfLocationAttacherTestTest(MoveActionFixture moveActionFixture) : base()
     {
     }
     protected Transition CreateAndAttachToTransition(Location from, Location to)

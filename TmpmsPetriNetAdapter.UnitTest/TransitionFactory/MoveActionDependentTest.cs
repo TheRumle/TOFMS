@@ -1,5 +1,6 @@
 ﻿using JsonFixtures;
 using TACPN.Colours.Values;
+using TestDataGenerator;
 using Tmpms.Common;
 using Tmpms.Common.Journey;
 using Tmpms.Common.Move;
@@ -55,9 +56,10 @@ public abstract class MoveActionDependentTest : IClassFixture<MoveActionFixture>
 
     public MoveActionDependentTest(MoveActionFixture fixture)
     {
-        this.ProcessingLocation = fixture.ProcessingLocation;
-        this.BufferLocation = fixture.BufferLocation;
+        var LocationGenerator = fixture.CreateLocationGenerator(Parts);
+        this.ProcessingLocation = LocationGenerator.GenerateSingle(ProcessingLocationStrategy.OnlyProcessingLocations);
+        this.BufferLocation = LocationGenerator.GenerateSingle(ProcessingLocationStrategy.OnlyRegularLocations);
         this.CreateVariables = MoveActionFixture.VariablesForParts;
-        this._otherLocations = fixture.LocationGenerator.Generate(10);
+        this._otherLocations = LocationGenerator.Generate(10);
     }
 }

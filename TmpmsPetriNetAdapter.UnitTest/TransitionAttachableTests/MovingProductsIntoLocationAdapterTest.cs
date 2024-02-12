@@ -23,7 +23,7 @@ public class MovingProductsIntoLocationAdapterTest : TransitionAttacherTest
         return transition;
     }
 
-    public MovingProductsIntoLocationAdapterTest(MoveActionFixture moveActionFixture) : base(moveActionFixture)
+    public MovingProductsIntoLocationAdapterTest(MoveActionFixture moveActionFixture) : base()
     {   
     }
     

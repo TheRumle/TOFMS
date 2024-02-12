@@ -1,4 +1,5 @@
-﻿using Bogus;
+﻿using System.CodeDom.Compiler;
+using Bogus;
 using Tmpms.Common;
 
 namespace TestDataGenerator;
@@ -28,6 +29,11 @@ public class LocationGenerator :  Generator<Location>
 
     public override Location GenerateSingle()
     {
+        return GenerateSingle(strategy);
+    }
+    
+    public Location GenerateSingle(ProcessingLocationStrategy localStrategy)
+    {
         var intervals = _partTypes.Select(e =>
         {
             var r = new Random();
@@ -37,13 +43,27 @@ public class LocationGenerator :  Generator<Location>
         });
 
         var isProc = ValueSelection.Random.Bool();
-        if (strategy == ProcessingLocationStrategy.OnlyProcessingLocations)
+        if (localStrategy == ProcessingLocationStrategy.OnlyProcessingLocations)
             isProc = true;
-        if (strategy == ProcessingLocationStrategy.OnlyRegularLocations)
+        if (localStrategy == ProcessingLocationStrategy.OnlyRegularLocations)
             isProc = false;
         
         
         return new Location(ValueSelection.Name.FirstName(), new Random().Next(1, 10), intervals, isProc);
+    }
+
+    public IEnumerable<Location> Generate(int n,ProcessingLocationStrategy strategy)
+    {
+        List<Location> l = [];
+        for (int i = 0; i < n; i++)
+        {
+            l.Add(GenerateSingle(strategy));
+        }
+
+        return l;
+
+
+
     }
     
     

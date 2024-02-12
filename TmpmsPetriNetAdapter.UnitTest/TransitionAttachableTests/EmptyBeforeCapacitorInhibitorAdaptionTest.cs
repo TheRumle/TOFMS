@@ -12,7 +12,7 @@ namespace TmpmsPetriNetAdapter.UnitTest.TransitionAttachableTests;
 
 public class EmptyBeforeCapacitorInhibitorAdaptionTest : TransitionAttacherTest
 {
-    public EmptyBeforeCapacitorInhibitorAdaptionTest(MoveActionFixture moveActionFixture) : base(moveActionFixture)
+    public EmptyBeforeCapacitorInhibitorAdaptionTest(MoveActionFixture moveActionFixture) : base()
     {
     }
     

@@ -17,7 +17,7 @@ public class PlaceGenerator : Generator<Place>
     {
         _ctFactory = ctFactory;
         _locationGenerator = new LocationGenerator(ctFactory.Parts.Colours.Select(e => e.Value));
-        this._placeFactory = new PlaceFactory(_ctFactory, collection);
+        this._placeFactory = new PlaceFactory(_ctFactory);
     }
 
     public override Place GenerateSingle()

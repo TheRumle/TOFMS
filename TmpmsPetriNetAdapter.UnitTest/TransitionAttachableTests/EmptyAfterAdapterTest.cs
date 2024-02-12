@@ -1,12 +1,8 @@
-﻿using Common;
-using FluentAssertions;
+﻿using FluentAssertions;
 using FluentAssertions.Execution;
-using JsonFixtures;
-using TACPN.Colours.Type;
 using TACPN.Colours.Values;
 using TACPN.Transitions;
 using Tmpms.Common;
-using Tmpms.Common.Journey;
 using Tmpms.Common.Move;
 using TmpmsPetriNetAdapter.TransitionAttachable;
 
@@ -14,10 +10,6 @@ namespace TmpmsPetriNetAdapter.UnitTest.TransitionAttachableTests;
 
 public class EmptyAfterAdapterTest : TransitionAttacherTest
 {
-    public EmptyAfterAdapterTest(MoveActionFixture moveActionFixture) : base(moveActionFixture)
-    {
-    }
-
     protected Transition CreateAndAttachToTransition(Location from, Location to, int amountToConsume, IEnumerable<Location> otherEmptyAfter)
     {
         var journey = SingletonJourney(to);
@@ -77,7 +69,8 @@ public class EmptyAfterAdapterTest : TransitionAttacherTest
     {
         var from = CreateLocation(false);
         var to = CreateLocation(false);
-        IEnumerable<Location> otherLocations = LocationGenerator.Generate(10).ToArray();
+        IEnumerable<Location> otherLocations = CreateLocationGenerator([PartType]).Generate(10).ToArray();
+        
         var transition = CreateAndAttachToTransition(from, to, 10, otherLocations);
         
         var emptyBeforeNames = otherLocations.Select(l => l.Name);

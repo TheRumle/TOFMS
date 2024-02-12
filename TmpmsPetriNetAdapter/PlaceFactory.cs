@@ -18,32 +18,34 @@ public class PlaceFactory
     private readonly ColourTypeFactory _colourTypeFactory;
 
     
-    public PlaceFactory(ColourTypeFactory factory, JourneyCollection collection)
+    public PlaceFactory(ColourTypeFactory factory)
     {
         this._colourTypeFactory = factory;
-        this._journeys = collection;
+        this._journeys = factory.JourneyCollection;
     }
 
-    public Place CreatePlace(Location location) => CreatePlace(location, _journeys, _colourTypeFactory.Tokens);
-    
-    public Place CreatePlace(Location location, JourneyCollection journeys, ColourType colourType)
-    {
+    public Place CreatePlace(Location location) {
         var maxAges = location.Invariants.Select(e =>(e.PartType, e.Max));
-        var invariants = CreateInvariants(location, journeys, maxAges);
-        return new Place(location.Name, invariants, colourType);
+        var invariants = CreateInvariants(location, _journeys, maxAges);
+        return new Place(location.Name, invariants, this._colourTypeFactory.Tokens);
     }
 
     private IEnumerable<ColourInvariant> CreateInvariants(Location location, JourneyCollection journeys, IEnumerable<(string partType, int maxAge)> maxAges)
     {
+        List<ColourInvariant> invs = [];
         foreach (var (partType, maxAge) in maxAges)
         {
-            var indexes = journeys.GetOccurrencesFor(partType, location);
-            foreach (var index in indexes)
-            {
-                var colour = new TupleColour([new Colour(partType), new ColourIntValue(index)], _colourTypeFactory.Tokens);
-                yield return new ColourInvariant(_colourTypeFactory.Tokens, colour, maxAge);
-            }
+            var indexes = journeys.GetIndexOccurrencesFor(partType, location);
+            invs.AddRange(indexes.Select(index => CreateTokenIndexTuple(partType, index))
+                .Select(colour => new ColourInvariant(_colourTypeFactory.Tokens, colour, maxAge)));
         }
+
+        return invs;
+    }
+
+    private TupleColour CreateTokenIndexTuple(string partType, int index)
+    {
+        return new TupleColour([new Colour(partType), new ColourIntValue(index)], _colourTypeFactory.Tokens);
     }
 
     public (Place place, Place capacityPlace) CreatePlaceAndCapacityPlacePair(Location location)

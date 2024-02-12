@@ -19,10 +19,7 @@ public class JourneyCollection : Dictionary<string, IEnumerable<Location>>
     public static JourneyCollection ConstructJourneysFor((string partType, IEnumerable<Location> locations)[] journeys)
     {
         var journeyCollection = journeys
-            .Select(e =>
-            {
-                return KeyValuePair.Create(e.partType, e.locations);
-            })
+            .Select(e => (e.partType, e.locations))
             .ToDictionary();
         return new JourneyCollection(journeyCollection);
     }
@@ -35,7 +32,7 @@ public class JourneyCollection : Dictionary<string, IEnumerable<Location>>
         )).ToDictionary();
     }
 
-    public IEnumerable<int> GetOccurrencesFor(string part, Location location)
+    public IEnumerable<int> GetIndexOccurrencesFor(string part, Location location)
     {
         return this[part].Where(e => e == location).Select((loc, index) => index);
     }

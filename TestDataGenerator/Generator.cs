@@ -15,8 +15,13 @@ public abstract class Generator<T> : IGenerator<T> where T : class
 
     public IEnumerable<T> Generate(int n)
     {
+        List<T> result = [];
         for (int i = 0; i < n; i++)
-            yield return GenerateSingle();
+        {
+            result.Add(GenerateSingle());
+        }
+
+        return result;
     }
     public abstract T GenerateSingle();
 

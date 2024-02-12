@@ -13,7 +13,6 @@ namespace TmpmsPetriNetAdapter.UnitTest.TransitionAttachableTests;
 public abstract class TransitionAttacherTest : IClassFixture<MoveActionFixture>
 {
     
-    protected LocationGenerator LocationGenerator { get; set; }
     protected const string PartType = "P1";
     private int LocationId = 0;
     
@@ -22,9 +21,14 @@ public abstract class TransitionAttacherTest : IClassFixture<MoveActionFixture>
         new(PartType, 4)
     };
     
-    public TransitionAttacherTest(MoveActionFixture moveActionFixture)
+    public TransitionAttacherTest()
     {
-        this.LocationGenerator = moveActionFixture.LocationGenerator;
+        
+    }
+
+    public LocationGenerator CreateLocationGenerator(IEnumerable<string> partTypes)
+    {
+        return new LocationGenerator(partTypes);
     }
 
 
