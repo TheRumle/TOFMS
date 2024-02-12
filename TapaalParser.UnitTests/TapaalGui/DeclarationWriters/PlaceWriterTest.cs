@@ -133,7 +133,7 @@ public class PlaceWriterTest : NoWhitespaceWriterTest
         newText.Should().Be(oldText);
     }
     
-    [Fact (Skip = "We do not have the necessary information to write a 'default' value when parsing 'capacity places'.")]
+    [Fact]
     public void WhenWritingSingleProcessingLocationsShould_WriteEquivalent()
     {
         var generator =  new LocationGenerator(["P1"]);
