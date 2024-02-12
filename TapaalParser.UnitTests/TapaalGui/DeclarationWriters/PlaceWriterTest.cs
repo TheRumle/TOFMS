@@ -9,7 +9,7 @@ using TmpmsPetriNetAdapter;
 using TmpmsPetriNetAdapter.Colours;
 using Xml;
 
-namespace TaapalParser.UnitTests.DeclarationWriters;
+namespace TaapalParser.UnitTests.TapaalGui.DeclarationWriters;
 
 public class PlaceWriterTest : NoWhitespaceWriterTest
 {

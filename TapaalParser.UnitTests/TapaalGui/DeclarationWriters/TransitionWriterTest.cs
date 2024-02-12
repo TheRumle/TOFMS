@@ -1,6 +1,6 @@
 ﻿using TapaalParser.TapaalGui.Writers;
 
-namespace TaapalParser.UnitTests.DeclarationWriters;
+namespace TaapalParser.UnitTests.TapaalGui.DeclarationWriters;
 
 public class TransitionWriterTest : NoWhitespaceWriterTest
 {

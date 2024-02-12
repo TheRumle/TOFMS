@@ -6,7 +6,7 @@ using Tmpms.Common;
 using Tmpms.Common.Journey;
 using TmpmsPetriNetAdapter.Colours;
 
-namespace TaapalParser.UnitTests.DeclarationWriters;
+namespace TaapalParser.UnitTests;
 
 public abstract class WriterTest : NoWhitespaceWriterTest, IClassFixture<MoveActionFixture>
 {

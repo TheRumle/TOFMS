@@ -7,6 +7,6 @@ public static class XmlUtils
 {
     public static string GetInvariantTagText(ColourInvariant inv)
     {
-        return inv.MaxAge == Infteger.PositiveInfinity ? "&lt; inf" : $"&le;= {inv.MaxAge}";
+        return inv.MaxAge == Infteger.PositiveInfinity ? "&lt; inf" : $"&lt;= {inv.MaxAge}";
     }
 }

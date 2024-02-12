@@ -28,7 +28,7 @@ public class TransitionWriter
         {
             StringBuilder.Append("</transition>");
             return;
-        }
+        }   
 
         KeyValuePair<string, IEnumerable<KeyValuePair<int, Location>>>[] indexesForThisLocation = collection
             .MatchingJourneysFor(MoveAction).ToArray();
@@ -44,7 +44,8 @@ public class TransitionWriter
         else
         {
             var part = indexesForThisLocation.First().Key;
-            var longest = collection.MaxBy(e => e.Value.Count()).Value.Count();            List<Eq> ors = AppendOrText(indexesForThisLocation.First().Value, part, longest);
+            var longest = collection.MaxBy(e => e.Value.Count()).Value.Count();
+            List<Eq> ors = AppendOrText(indexesForThisLocation.First().Value, part, longest);
             AppendOrStructures(ors);
         }
         

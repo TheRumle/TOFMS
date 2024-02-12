@@ -7,7 +7,7 @@ using TapaalParser.TapaalGui.Writers;
 using Tmpms.Common.Journey;
 using Xml;
 
-namespace TaapalParser.UnitTests.DeclarationWriters;
+namespace TaapalParser.UnitTests.TapaalGui.DeclarationWriters;
 
 public class ColourDeclarationWriterTest(MoveActionFixture fixture) : WriterTest(fixture)
 {

@@ -95,7 +95,7 @@ public abstract class TransitionAttacherTest : IClassFixture<MoveActionFixture>
     protected Transition CreateTransition(JourneyCollection collection)
     {
         ColourTypeFactory factory = new ColourTypeFactory([PartType], collection);
-        return new Transition("Test", factory.Transitions, TransitionGuard.Empty());
+        return new Transition("Test", factory.Transitions, TransitionGuard.Empty);
     }
 
     

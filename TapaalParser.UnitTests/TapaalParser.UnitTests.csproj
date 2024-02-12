@@ -31,4 +31,8 @@
         <ProjectReference Include="..\Xml\Xml.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="TapaalGui\" />
+    </ItemGroup>
+
 </Project>

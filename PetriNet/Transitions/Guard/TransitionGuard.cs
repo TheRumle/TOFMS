@@ -32,7 +32,7 @@ public class TransitionGuard : ITransitionGuard
         _statements.Add(statement);
     }
     private TransitionGuard(){}
-    public static ITransitionGuard Empty() => new TransitionGuard();
+    public static ITransitionGuard Empty = new TransitionGuard();
     
     public string ToTapaalText()
     {
