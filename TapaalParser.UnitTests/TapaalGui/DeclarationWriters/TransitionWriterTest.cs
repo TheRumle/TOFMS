@@ -23,7 +23,8 @@ public class TransitionWriterTest : NoWhitespaceWriterTest, IClassFixture<MoveAc
     
     MoveActionTransitionFactory CreateTransitionFactory(JourneyCollection journeyCollection)
     {
-        return new MoveActionTransitionFactory(new ColourTypeFactory(PartTypes, journeyCollection));
+        var ctf = new ColourTypeFactory(PartTypes, journeyCollection);
+        return new MoveActionTransitionFactory(ctf, new ColourVariableFactory(ctf));    
     }
 
     public TransitionWriterTest(MoveActionFactoryFixture fixture)
