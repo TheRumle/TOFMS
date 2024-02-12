@@ -33,7 +33,11 @@ public class PlaceWriter : TacpnUiXmlWriter<IEnumerable<Place>>
             }
             
             Append($@"<shared-place initialMarking=""{place.Marking.Size}"" invariant=""&lt; inf"" name=""{place.Name}"">");
-            WriteInvariants(place);
+            
+            if (place.ColourInvariants.Any(inv => inv.MaxAge != Infteger.PositiveInfinity))
+                WriteInvariants(place);
+            
+            
             WritePlaceColors(place);
             Append("</shared-place>");
         }

@@ -1,5 +1,4 @@
-﻿using System.CodeDom.Compiler;
-using Bogus;
+﻿using Bogus;
 using Tmpms.Common;
 
 namespace TestDataGenerator;
@@ -14,24 +13,32 @@ public enum MarkingStrategy
 {
     None,
 }
-public class LocationGenerator :  Generator<Location>
+public class LocationGenerator :  IGenerator<Location>
 {
     private readonly IEnumerable<string> _partTypes;
     private readonly ProcessingLocationStrategy strategy;
     private readonly MarkingStrategy markingGenerationStrategy;
+    private readonly List<Location> _generated;
 
-    public LocationGenerator(IEnumerable<string> partTypes, ProcessingLocationStrategy processingLocationStrategy = ProcessingLocationStrategy.Both, MarkingStrategy markingStrategy = MarkingStrategy.None ):base(new Faker<Location>())
+    public LocationGenerator(IEnumerable<string> partTypes, ProcessingLocationStrategy processingLocationStrategy = ProcessingLocationStrategy.Both, MarkingStrategy markingStrategy = MarkingStrategy.None )
     {
         _partTypes = partTypes;
         this.strategy = processingLocationStrategy;
         this.markingGenerationStrategy = markingStrategy;
+        this._generated = new List<Location>();
     }
 
-    public override Location GenerateSingle()
+    public IEnumerable<Location> GeneratedEntities => _generated;
+
+    public Location GenerateSingle()
     {
         return GenerateSingle(strategy);
     }
-    
+
+    public Faker<Location> Faker { get; } = new();
+    public Faker ValueSelection { get; } = new();
+    public Random Random { get; } = new();
+
     public Location GenerateSingle(ProcessingLocationStrategy localStrategy)
     {
         var intervals = _partTypes.Select(e =>
@@ -49,10 +56,17 @@ public class LocationGenerator :  Generator<Location>
             isProc = false;
         
         
-        return new Location(ValueSelection.Name.FirstName(), new Random().Next(1, 10), intervals, isProc);
+        return GetValue(intervals, isProc);
     }
 
-    public IEnumerable<Location> Generate(int n,ProcessingLocationStrategy strategy)
+    private Location GetValue(IEnumerable<Invariant> intervals, bool isProc)
+    {
+        var value = new Location(ValueSelection.Name.FirstName(), new Random().Next(1, 10), intervals, isProc);
+        _generated.Add(value);
+        return value;
+    }
+
+    public IEnumerable<Location> Generate(int n, ProcessingLocationStrategy strategy)
     {
         List<Location> l = [];
         for (int i = 0; i < n; i++)
@@ -63,5 +77,14 @@ public class LocationGenerator :  Generator<Location>
         return l;
     }
     
-    
+    public IEnumerable<Location> Generate(int n)
+    {
+        List<Location> l = [];
+        for (int i = 0; i < n; i++)
+        {
+            l.Add(GenerateSingle(strategy));
+        }
+
+        return l;
+    }
 }

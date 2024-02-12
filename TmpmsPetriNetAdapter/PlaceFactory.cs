@@ -35,7 +35,7 @@ public class PlaceFactory
         List<ColourInvariant> invs = [];
         foreach (var (partType, maxAge) in maxAges)
         {
-            var longestJourney = _journeys.Values.MaxBy(e=>e.Count())!.Count();
+            var longestJourney = _journeys[partType].Count();
             var indexes = Enumerable.Range(0, longestJourney);
             invs.AddRange(indexes.Select(index => CreateTokenIndexTuple(partType, index))
                 .Select(colour => new ColourInvariant(_colourTypeFactory.Tokens, colour, maxAge)));

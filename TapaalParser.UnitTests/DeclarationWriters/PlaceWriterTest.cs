@@ -118,7 +118,12 @@ public class PlaceWriterTest : NoWhitespaceWriterTest
     public void WhenWritingSingleLocationsShould_WriteEquivalent()
     {
         var generator =  new LocationGenerator(["P1"]);
-        var target = generator.GenerateSingle(ProcessingLocationStrategy.OnlyRegularLocations);
+        var target = generator.GenerateSingle(ProcessingLocationStrategy.OnlyRegularLocations) 
+            with {Invariants = new HashSet<Invariant>()
+            {
+                Invariant.InfinityInvariantFor("P1")
+            }};
+        
         var journey = JourneyCollection.ConstructJourneysFor([("P1", [generator.GenerateSingle(ProcessingLocationStrategy.OnlyProcessingLocations)])]);
         var placeFactory = new PlaceFactory(new ColourTypeFactory(target.Invariants.Select(e=>e.PartType), journey));
 
@@ -147,6 +152,7 @@ public class PlaceWriterTest : NoWhitespaceWriterTest
     [Fact]
     public void WhenWritingBothTypesOfLocations_ShouldWriteEquivalent()
     {
+        
         var (_, journey, allLocations) = CreateJourneyAndLocations();
         var placeFactory = CreatePlaceFactory(journey);
 
