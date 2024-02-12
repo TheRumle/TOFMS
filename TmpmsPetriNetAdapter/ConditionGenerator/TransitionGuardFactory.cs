@@ -15,9 +15,9 @@ public class TransitionGuardFactory
     private readonly ColourType _transitionColourType;
     private readonly ColourVariableFactory _variableFactory;
 
-    public TransitionGuardFactory(IndexedJourneyCollection collection, ColourTypeFactory ctFactory)
+    public TransitionGuardFactory(ColourTypeFactory ctFactory)
     {
-        _journeys = collection;
+        _journeys = ctFactory.JourneyCollection.ToIndexedJourney();
         _transitionColourType = ctFactory.Transitions;
         _variableFactory = new ColourVariableFactory(ctFactory);
     }

@@ -26,7 +26,7 @@ public class TransitionGuardTest : VariableDependentTest
 
         TransitionGuard guard = TransitionGuard.FromAndedOrs([firstOrs, secondOrs]);
         
-        guard.ToTapaalText().Should().Be($"({firstOrs.ToTapaalText()} {TransitionGuard.GUARDSEPARATOR} {secondOrs})");
+        guard.ToTapaalText().Should().Be($"({firstOrs.ToTapaalText()} {TransitionGuard.GUARDSEPARATOR} {secondOrs.ToTapaalText()})");
     }
     
     [Fact]

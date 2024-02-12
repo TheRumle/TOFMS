@@ -45,7 +45,7 @@ public abstract class MoveActionDependentTest : IClassFixture<MoveActionFixture>
 
     protected ITransitionFactory CreateTransitionFactoryForJourneys(JourneyCollection collection)
     {
-        return new MoveActionTransitionFactory(collection.ToIndexedJourney(), CreateColourTypeFactory(collection));
+        return new MoveActionTransitionFactory(CreateColourTypeFactory(collection));
     }
 
     protected static ColourTypeFactory CreateColourTypeFactory(JourneyCollection collection)

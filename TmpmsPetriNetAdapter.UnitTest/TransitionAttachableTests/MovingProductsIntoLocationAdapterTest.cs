@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Execution;
-using JsonFixtures;
 using TACPN.Colours.Type;
 using TACPN.Transitions;
 using Tmpms.Common;
@@ -23,10 +22,6 @@ public class MovingProductsIntoLocationAdapterTest : TransitionAttacherTest
         return transition;
     }
 
-    public MovingProductsIntoLocationAdapterTest(MoveActionFixture moveActionFixture) : base()
-    {   
-    }
-    
     [Fact]
     public void ShouldHaveCorrectArcExpressions_WhenTo_IsNotProcessing()
     {
