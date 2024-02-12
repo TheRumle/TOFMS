@@ -15,9 +15,9 @@ public static class XmlUtils
     }
 }
 
-public class LocationWriter : TacpnUiXmlWriter<IEnumerable<Place>>
+public class PlaceWriter : TacpnUiXmlWriter<IEnumerable<Place>>
 {
-    public LocationWriter(IEnumerable<Place> value) : base(value)
+    public PlaceWriter(IEnumerable<Place> value) : base(value)
     {
     }
 
@@ -33,7 +33,8 @@ public class LocationWriter : TacpnUiXmlWriter<IEnumerable<Place>>
             }
             
             Append($@"<shared-place initialMarking=""{place.Marking.Size}"" invariant=""&lt; inf"" name=""{place.Name}"">");
-            WriteInvariants(place); 
+            WriteInvariants(place);
+            WritePlaceColors(place);
             Append("</shared-place>");
         }
     }

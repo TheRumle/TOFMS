@@ -11,7 +11,7 @@ using Xml;
 
 namespace TaapalParser.UnitTests.DeclarationWriters;
 
-public class LocationWriterTest : NoWhitespaceWriterTest
+public class PlaceWriterTest : NoWhitespaceWriterTest
 {
     private static IEnumerable<string> Parts = ["P1", "P2", "P3"];
     private LocationGenerator _generator = new(Parts);
@@ -61,7 +61,7 @@ public class LocationWriterTest : NoWhitespaceWriterTest
 
     private string NewText(IEnumerable<Place> locations)
     {
-        var writer = new LocationWriter(locations);
+        var writer = new PlaceWriter(locations);
         writer.AppendAllText();
         return RemoveWhiteSpace(writer.ToString());
     }

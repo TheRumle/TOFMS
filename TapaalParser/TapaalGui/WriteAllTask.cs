@@ -13,7 +13,7 @@ internal class WriteAllTask
         [
             new TopLevelWriter(net),
             new ColourDeclarationWriter((net.ColourTypes, net.Variables)),
-            new LocationWriter(net.Places)
+            new PlaceWriter(net.Places)
         ];
     }
 
