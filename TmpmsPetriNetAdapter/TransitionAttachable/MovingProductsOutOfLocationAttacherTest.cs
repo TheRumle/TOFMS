@@ -19,7 +19,7 @@ internal class MovingProductsOutOfLocationAttacherTest : Adapter
     private Place FromPlace { get; set; }
     
     public MovingProductsOutOfLocationAttacherTest(MoveAction moveAction, ColourTypeFactory ctFactory, JourneyCollection collection) 
-        : base(ctFactory, collection)
+        : base(ctFactory)
     {
         FromLocation = moveAction.From;
         ToConsume = moveAction.PartsToMove;

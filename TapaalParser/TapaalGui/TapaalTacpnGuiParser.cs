@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using TACPN;
+﻿using TACPN;
 
 namespace TapaalParser.TapaalGui;
 

@@ -14,7 +14,7 @@ internal class EmptyAfterAdapter :Adapter
     private readonly int _amountsToMove;
     private readonly Location _fromLocation;
     
-    public EmptyAfterAdapter(MoveAction moveAction, ColourTypeFactory ctFactory, JourneyCollection collection) : base(ctFactory, collection)
+    public EmptyAfterAdapter(MoveAction moveAction, ColourTypeFactory ctFactory, JourneyCollection collection) : base(ctFactory)
     {
         _emptyAfterLocations = moveAction.EmptyAfter;
         _fromLocation = moveAction.From;

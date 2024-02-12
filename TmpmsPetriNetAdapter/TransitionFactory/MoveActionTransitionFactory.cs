@@ -11,9 +11,9 @@ public class MoveActionTransitionFactory : ITransitionFactory
     private readonly TransitionGuardFactory _guardFactory;
     private readonly ColourType TransitionColourType;
 
-    public MoveActionTransitionFactory(ColourTypeFactory colourTypeFactory)
+    public MoveActionTransitionFactory(ColourTypeFactory colourTypeFactory, ColourVariableFactory variableFactory)
     {
-        this._guardFactory = new TransitionGuardFactory(colourTypeFactory);
+        this._guardFactory = new TransitionGuardFactory(colourTypeFactory,variableFactory);
         this.TransitionColourType = colourTypeFactory.Transitions;
     }
     

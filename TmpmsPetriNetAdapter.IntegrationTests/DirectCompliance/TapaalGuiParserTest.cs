@@ -32,14 +32,18 @@ public abstract class GuiTranslationAdherenceTest
         
         
         var colourFactory = new ColourTypeFactory(System.Parts, System.Journeys);
+        var variableFactory = new ColourVariableFactory(colourFactory);
+        
         var arcFactory = new MoveActionToArcsFactory(System.Journeys, colourFactory);
-        var transitionFactory = new MoveActionTransitionFactory(colourFactory);
+        var transitionFactory = new MoveActionTransitionFactory(colourFactory, variableFactory);
         var translater = new TofmToTacpnTranslater(arcFactory, transitionFactory, indexed);
         IEnumerable<PetriNetComponent> petriNetComponents = System.MoveActions.Select(e => translater.Translate(e));
         
         TimedArcColouredPetriNet a = new TimedArcColouredPetriNet(petriNetComponents.ToArray())
         {
             Name = "Net",
+            ColourTypes = [colourFactory.DotColour, colourFactory.Parts,colourFactory.Journey, colourFactory.Tokens],
+            Variables = variableFactory.CreatedVariables
         };
         
         var netText = await GuiTranslater.TranslateNet(a);

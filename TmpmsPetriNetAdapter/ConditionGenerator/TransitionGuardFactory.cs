@@ -15,11 +15,11 @@ public class TransitionGuardFactory
     private readonly ColourType _transitionColourType;
     private readonly ColourVariableFactory _variableFactory;
 
-    public TransitionGuardFactory(ColourTypeFactory ctFactory)
+    public TransitionGuardFactory(ColourTypeFactory ctFactory, ColourVariableFactory variableFactory)
     {
         _journeys = ctFactory.JourneyCollection.ToIndexedJourney();
         _transitionColourType = ctFactory.Transitions;
-        _variableFactory = new ColourVariableFactory(ctFactory);
+        _variableFactory =variableFactory;
     }
 
     public TransitionGuard MoveActionGuard(MoveAction moveAction)

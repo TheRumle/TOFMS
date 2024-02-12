@@ -34,6 +34,6 @@ public sealed class VariableComparison : IColourComparison<ColourVariable, int>
 
     private string WithOperatorString(string comparison)
     {
-        return $"{Lhs.Name} {comparison} {Rhs}";
+        return $"{Rhs} {comparison.ToLower()} {Lhs.Name}";
     }
 }

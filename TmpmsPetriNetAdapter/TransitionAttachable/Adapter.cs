@@ -1,6 +1,5 @@
 ﻿using TACPN.Colours.Type;
 using TACPN.Transitions;
-using Tmpms.Common.Journey;
 using TmpmsPetriNetAdapter.Colours;
 
 namespace TmpmsPetriNetAdapter.TransitionAttachable;
@@ -14,7 +13,7 @@ internal abstract class Adapter : ITransitionAttachable
     protected readonly PlaceFactory PlaceFactory;
     protected ColourType PartColourType { get; }
     protected readonly ColourExpressionFactory JourneyColourExpressionFactory;
-    public Adapter(ColourTypeFactory ctFactory,  JourneyCollection collection)
+    public Adapter(ColourTypeFactory ctFactory)
     {
         this.ColourFactory = ctFactory;
         this.PartColourType = ctFactory.Parts;

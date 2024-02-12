@@ -15,7 +15,7 @@ internal class MovingProductsIntoLocationAdapter : Adapter
     private readonly Location to;
 
     public MovingProductsIntoLocationAdapter(MoveAction moveAction, ColourTypeFactory ctFactory, JourneyCollection collection) 
-        : base(ctFactory, collection)
+        : base(ctFactory)
     {
         _itemMovedIntoPlace = moveAction.PartsToMove;
         (_productionPlace, _capacityPlace) = PlaceFactory.CreatePlaceAndCapacityPlacePair(moveAction.To);

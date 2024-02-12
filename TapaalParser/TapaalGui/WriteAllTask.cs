@@ -13,7 +13,8 @@ internal class WriteAllTask
         [
             new TopLevelWriter(net),
             new ColourDeclarationWriter((net.ColourTypes, net.Variables)),
-            new PlaceWriter(net.Places)
+            new PlaceWriter(net.Places),
+            new PetriNetComponentWriter(net.Transitions)
         ];
     }
 

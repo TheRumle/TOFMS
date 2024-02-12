@@ -11,7 +11,7 @@ internal class EmptyBeforeCapacitorInhibitorAdaption : Adapter
 {
 
     public EmptyBeforeCapacitorInhibitorAdaption(MoveAction moveAction, ColourTypeFactory ctFactory, JourneyCollection collection) 
-        : base(ctFactory, collection)
+        : base(ctFactory)
     {
         _locations = moveAction.EmptyBefore;
     }

@@ -8,7 +8,7 @@ namespace TmpmsPetriNetAdapter.Colours;
 public class ColourTypeFactory
 {
     public readonly IntegerRangedColour Journey;
-    public static readonly SingletonColourType DotColour = ColourType.DefaultColorType;
+    public readonly SingletonColourType DotColour = ColourType.DefaultColorType;
     public readonly ColourType Parts;
     public readonly ProductColourType Tokens;
     public readonly ProductColourType Transitions;

@@ -4,6 +4,7 @@ using JsonFixtures;
 using TACPN.Colours.Type;
 using TACPN.Transitions.Guard;
 using Tmpms.Common.Journey;
+using TmpmsPetriNetAdapter.Colours;
 using TmpmsPetriNetAdapter.ConditionGenerator;
 using TmpmsPetriNetAdapter.UnitTest.TransitionFactory;
 
@@ -70,6 +71,7 @@ public class TransitionGuardFactoryTest : MoveActionDependentTest
     
     private TransitionGuardFactory CreateTransitionGuardFactory(JourneyCollection journeys)
     {
-        return new TransitionGuardFactory(CreateColourTypeFactory(journeys));
+        var ctFactory = CreateColourTypeFactory(journeys);
+        return new TransitionGuardFactory(ctFactory, new ColourVariableFactory(ctFactory));
     }
 }

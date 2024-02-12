@@ -33,9 +33,9 @@ internal class ColourDeclarationWriter : TacpnUiXmlWriter<(IEnumerable<ColourTyp
             {
                 WriteColourRange(rangedColour);
             }
-            else if (ct.Colours.Count == 1)
+            else if (ct is SingletonColourType singletonColourType)
             {
-                WriteSingle(ct);
+                WriteSingle(singletonColourType);
             }
             else
             {
@@ -79,7 +79,7 @@ internal class ColourDeclarationWriter : TacpnUiXmlWriter<(IEnumerable<ColourTyp
         Append(" </cyclicenumeration> </namedsort>");  
     }
 
-    private void WriteSingle(ColourType ct)
+    private void WriteSingle(SingletonColourType ct)
     {
         Append($@" <namedsort id=""{ct.Name}"" name=""{ct.Name}""><{ct.Name}/></namedsort>");
     }

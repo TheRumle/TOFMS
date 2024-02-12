@@ -65,7 +65,7 @@ public class PlaceFactory
     
     public Place CreateInitializedCapacityPlaceFor(Location location)
     {
-        var capacityPlace =  new Place(location.Name + CAPACITY_PLACE_POSTFIX, [ColourInvariant.DotDefault], ColourTypeFactory.DotColour)
+        var capacityPlace =  new Place(location.Name + CAPACITY_PLACE_POSTFIX, [ColourInvariant.DotDefault], _colourTypeFactory.DotColour)
         {
             IsCapacityLocation = true
         };

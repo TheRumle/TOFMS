@@ -12,7 +12,7 @@ namespace TACPN.Transitions.Guard;
 public class OrStatement : IOrStatement
 {
 
-    public const string SEPARATOR = "OR";
+    public const string SEPARATOR = "or";
     public override string ToString()
     {
         return this.ToTapaalText();

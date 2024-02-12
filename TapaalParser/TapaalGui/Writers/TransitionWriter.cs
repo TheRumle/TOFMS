@@ -15,7 +15,6 @@ public class TransitionWriter : TacpnUiXmlWriter<Transition>
 
     public override void AppendAllText()
     {
-        Append($@"<net active=""true"" id=""{Parseable.Name}"" type=""P/T net"">");
         foreach (var place in Parseable.InvolvedPlaces)
             WritePlaces(place);
 
@@ -58,22 +57,24 @@ public class TransitionWriter : TacpnUiXmlWriter<Transition>
 
     private void CreateComparisonTagsString(IEnumerable<IColourComparison<ColourVariable, int>> orStatementComparisons)
     {
-        
+        if (orStatementComparisons.Count() > 1)
+            Append("<or>");
         foreach (var comparison in orStatementComparisons)
         {
             var variableText = $@"<subterm> <variableref variable=""{comparison.Lhs.Name}""/> </subterm>";
             var (startTag, endTag) = GetTagFor(comparison.Operator);
             var colorValue = CreateColorValue(comparison);
 
-            if (orStatementComparisons.Count() > 1)
-                Append("<or>");
+
+            Append("<subterm>");
             Append(startTag);
             Append(variableText);
             Append(colorValue);
             Append(endTag);
-            if (orStatementComparisons.Count() > 1)
-                Append("</or>");
+            Append("</subterm>");
         }
+        if (orStatementComparisons.Count() > 1)
+            Append("</or>");
         
         
     }
@@ -83,7 +84,7 @@ public class TransitionWriter : TacpnUiXmlWriter<Transition>
         if (comparison.Lhs.ColourType is IntegerRangedColour intRange)
         {
             return
-                $@"<subterm> <finiteintrangeconstant=""{comparison.Rhs}""> <finiteintrange end=""{intRange.MaxValue}""start=""0""/></finiteintrangeconstant></subterm>";
+                $@"<subterm> <finiteintrangeconstant value=""{comparison.Rhs}""> <finiteintrange end=""{intRange.MaxValue}""start=""0""/></finiteintrangeconstant></subterm>";
         }
 
         throw new NotImplementedException("Can only support color variables with color comparrison of Integer Colors.");
