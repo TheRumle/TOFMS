@@ -1,7 +1,7 @@
 ﻿using Tmpms;
 using Tmpms.Move;
 
-namespace TMPMSChecker.Algorithm;
+namespace TmpmsChecker.Algorithm;
 
 public class ReachedState
 {
@@ -26,7 +26,7 @@ public class ReachedState
     }
 
 
-    public int ToValue()
+    public int ToInt()
     {
         return _hasDelay ? _delay : 0;
     }

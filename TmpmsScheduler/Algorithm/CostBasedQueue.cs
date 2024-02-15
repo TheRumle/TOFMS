@@ -1,4 +1,4 @@
-﻿namespace TMPMSChecker.Algorithm;
+﻿namespace TmpmsChecker.Algorithm;
 
 /// <summary>
 /// A priority queue over the elements.

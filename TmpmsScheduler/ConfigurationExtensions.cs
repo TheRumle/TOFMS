@@ -1,6 +1,6 @@
 ﻿using Tmpms;
 
-namespace TMPMSChecker;
+namespace TmpmsChecker;
 
 public static class ConfigurationExtensions
 {

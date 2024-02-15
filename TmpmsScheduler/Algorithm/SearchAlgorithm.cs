@@ -1,13 +1,7 @@
 ﻿using Common.Results;
 using Tmpms;
-using TmpmsChecker.Algorithm;
 
-namespace TMPMSChecker.Algorithm;
-
-public interface IActionExecutor
-{
-    public IEnumerable<Configuration> ExecuteActions(Configuration configuration);
-}
+namespace TmpmsChecker.Algorithm;
 
 internal abstract class SearchAlgorithm
 { 
