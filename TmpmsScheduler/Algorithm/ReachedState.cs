@@ -25,13 +25,8 @@ public class ReachedState
         ReachedConfiguration = configuration;
     }
 
-    
-    public static int operator +(ReachedState lhs, ReachedState rhs)
-    {
-        return lhs.ToValue() + rhs.ToValue();
-    }
 
-    private int ToValue()
+    public int ToValue()
     {
         return _hasDelay ? _delay : 0;
     }

@@ -1,6 +1,6 @@
-﻿using Common.Errors;
-using Common.Results;
+﻿using Common.Results;
 using Tmpms;
+using TmpmsChecker.Algorithm;
 
 namespace TMPMSChecker.Algorithm;
 
@@ -9,16 +9,18 @@ public interface IActionExecutor
     public IEnumerable<Configuration> ExecuteActions(Configuration configuration);
 }
 
-public abstract class SearchAlgorithm
+internal abstract class SearchAlgorithm
 { 
     public abstract string AlgorithmName { get; }
     protected readonly Location Goal;
     protected readonly CostBasedQueue<Configuration> Open;
     protected readonly List<ReachedState> CameFrom;
     protected readonly Dictionary<Configuration, float> CostSoFar = new();
-    public readonly IActionExecutor ConfigurationGenerator;
-
+    
+    
     protected readonly ISearchHeuristic Heuristic;
+
+    private readonly IActionExecutor _configurationGenerator;
     
     public SearchAlgorithm(TimedManufacturingProblem problem, ISearchHeuristic heuristic, IActionExecutor actionExecutor)
     {
@@ -27,7 +29,7 @@ public abstract class SearchAlgorithm
         Goal = problem.GoalLocation;
         Heuristic = heuristic;
         CameFrom = [];
-        this.ConfigurationGenerator = actionExecutor;
+        this._configurationGenerator = actionExecutor;
     }
 
 
@@ -43,9 +45,6 @@ public abstract class SearchAlgorithm
 
     private Schedule ConstructSchedule()
     {
-           
-        
-        
         //TODO reconstruct the schedule
         throw new NotImplementedException();
     }
@@ -61,7 +60,7 @@ public abstract class SearchAlgorithm
                 break;
 
             //GENERATE
-            var neighbors = ConfigurationGenerator.ExecuteActions(current);
+            var neighbors = _configurationGenerator.ExecuteActions(current);
             foreach (var next in neighbors)
             {
                 var newCost = CostSoFar[current] + ActualCost(current,next);

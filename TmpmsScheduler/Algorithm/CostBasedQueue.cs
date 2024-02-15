@@ -4,7 +4,7 @@
 /// A priority queue over the elements.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class CostBasedQueue<T>
+internal class CostBasedQueue<T>
 {
     public CostBasedQueue()
     {

@@ -13,7 +13,7 @@ public class ValidationErrorCollection<T>
         this.Value = value;
     }
 
-    private readonly List<ValidationViolation> _violations = new List<ValidationViolation>();
+    private readonly List<ValidationViolation> _violations = new();
     public IReadOnlyList<ValidationViolation> Violations => _violations.AsReadOnly(); 
 
     public T Value { get; set; }

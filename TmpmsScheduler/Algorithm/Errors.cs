@@ -1,5 +1,6 @@
-﻿namespace Common.Errors;
+﻿using Common.Errors;
 
+namespace TmpmsChecker.Algorithm;
 
 public static class Errors
 {

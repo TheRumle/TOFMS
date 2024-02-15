@@ -1,17 +1,24 @@
-﻿using Tmpms.Move;
+﻿namespace TMPMSChecker.Algorithm;
 
-namespace TMPMSChecker.Algorithm;
+public interface ISystemAction;
+
+public class MachineAction : ISystemAction
+{
+    
+}
+
+public class Delay : ISystemAction
+{
+    
+}
 
 public class Schedule
 {
-    private Dictionary<int, List<MoveAction>> MovesAtTimeT { get; } = new();
-
-    public IEnumerable<Event> ActionsAtTime(int n)
+    public readonly int TotalMakespan;
+    
+    public Schedule(IEnumerable<ReachedState> reachedStates)
     {
-        if (MovesAtTimeT.TryGetValue(n, out var values))
-        {
-            return values.Select(e=>new Event(e.Name));
-        }
-        return [];
+        
+        TotalMakespan = reachedStates.Aggregate(0, (length, e) => length + e.ToValue());
     }
 }
