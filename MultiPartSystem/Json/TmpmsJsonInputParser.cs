@@ -1,14 +1,13 @@
 ﻿using Newtonsoft.Json;
-using Tmpms.Common.Json.Errors;
-using Tmpms.Common.Json.Models;
-using Tmpms.Common.Json.Validators;
+using Tmpms.Json.Errors;
+using Tmpms.Json.Models;
+using Tmpms.Json.Validators;
 
-namespace Tmpms.Common.Json;
+namespace Tmpms.Json;
 
 public class TmpmsJsonInputParser
 {
     private readonly JsonSerializerSettings ParseSettings = CreateJsonParserSettings();
-    private readonly ITmpmsSystemFactory<TimedMultiPartSystemJsonInput> _systemFactory = new TmpmsFromJsonFactory();
 
     private static JsonSerializerSettings CreateJsonParserSettings()
     {
@@ -36,7 +35,8 @@ public class TmpmsJsonInputParser
         if (errs.Any())
             return Task.FromException<TimedMultipartSystem>(GetValidationErrorMessage(errs));
 
-        return Task.FromResult(_systemFactory.Create(jsonSystem));
+
+        return Task.FromResult(new TmpmsFromJsonFactory(jsonSystem.Parts).Create(jsonSystem));
     }
     
     private static ArgumentException GetValidationErrorMessage(InvalidJsonTmpmsException[] invalidJsonTofmExceptions)

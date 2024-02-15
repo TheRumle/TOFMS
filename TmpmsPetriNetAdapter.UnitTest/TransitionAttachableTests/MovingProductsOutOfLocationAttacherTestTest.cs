@@ -4,9 +4,8 @@ using JsonFixtures;
 using TACPN.Colours.Type;
 using TACPN.Colours.Values;
 using TACPN.Transitions;
-using Tmpms.Common;
-using Tmpms.Common.Journey;
-using Tmpms.Common.Move;
+using Tmpms;
+using Tmpms.Move;
 using TmpmsPetriNetAdapter.Colours;
 using TmpmsPetriNetAdapter.TransitionAttachable;
 

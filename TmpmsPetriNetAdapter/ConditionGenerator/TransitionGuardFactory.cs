@@ -2,9 +2,9 @@
 using TACPN.Colours.Values;
 using TACPN.Transitions.Guard;
 using TACPN.Transitions.Guard.ColourComparison;
-using Tmpms.Common;
-using Tmpms.Common.Journey;
-using Tmpms.Common.Move;
+using Tmpms;
+using Tmpms.Journey;
+using Tmpms.Move;
 using TmpmsPetriNetAdapter.Colours;
 
 namespace TmpmsPetriNetAdapter.ConditionGenerator;

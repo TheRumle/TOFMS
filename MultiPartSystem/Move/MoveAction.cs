@@ -1,4 +1,4 @@
-﻿namespace Tmpms.Common.Move;
+﻿namespace Tmpms.Move;
 
 public record MoveAction
 {

@@ -2,8 +2,8 @@
 using TACPN.Colours.Type;
 using TACPN.Colours.Values;
 using TestDataGenerator;
-using Tmpms.Common;
-using Tmpms.Common.Journey;
+using Tmpms;
+using Tmpms.Journey;
 using TmpmsPetriNetAdapter.Colours;
 
 namespace TaapalParser.UnitTests;

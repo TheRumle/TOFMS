@@ -3,9 +3,9 @@ using JsonFixtures;
 using TACPN.Transitions;
 using TACPN.Transitions.Guard;
 using TestDataGenerator;
-using Tmpms.Common;
-using Tmpms.Common.Journey;
-using Tmpms.Common.Move;
+using Tmpms;
+using Tmpms.Journey;
+using Tmpms.Move;
 using TmpmsPetriNetAdapter.Colours;
 
 namespace TmpmsPetriNetAdapter.UnitTest.TransitionAttachableTests;
@@ -39,7 +39,7 @@ public abstract class TransitionAttacherTest : IClassFixture<MoveActionFixture>
         return new Location("Test location " + LocationId, 4, new[]
         {
             new Invariant(PartType, 0, Infteger.PositiveInfinity)
-        }, isProcessingLocation);
+        }, isProcessingLocation, [PartType]);
     }
     
     protected ColourTypeFactory CreateColourTypeFactory(JourneyCollection journey)

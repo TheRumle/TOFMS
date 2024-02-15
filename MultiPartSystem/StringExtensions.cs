@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Tmpms.Common;
+namespace Tmpms;
 
 internal static class StringExtensions
 {

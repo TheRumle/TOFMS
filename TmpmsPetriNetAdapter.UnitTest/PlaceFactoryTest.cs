@@ -3,8 +3,8 @@ using FluentAssertions;
 using JsonFixtures;
 using TACPN.Places;
 using TestDataGenerator;
-using Tmpms.Common;
-using Tmpms.Common.Journey;
+using Tmpms;
+using Tmpms.Journey;
 using TmpmsPetriNetAdapter.Colours;
 
 namespace TmpmsPetriNetAdapter.UnitTest;
@@ -42,10 +42,8 @@ public class PlaceFactoryTest {
     public void InitializesCapacityLocationsWith_AmountOfTokens_AsTheCapacityMinusConfiguration(int capacity, int numParts)
     {
         List<Part> parts = [..Enumerable.Repeat(new Part(Parts.First(), new Random().Next()), numParts)];
-        var configuration = new LocationConfiguration
-        {
-            { Parts.First(), parts }
-        };
+        var configuration = new LocationConfiguration(Parts);
+        configuration.Add(parts);
 
         var target = Generator.GenerateSingle() with { Configuration = configuration, Capacity = capacity};
         var journeyCollection = CreateJourney(target);

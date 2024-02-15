@@ -1,5 +1,5 @@
 ﻿using TACPN.Transitions;
-using Tmpms.Common.Move;
+using Tmpms.Move;
 
 namespace TmpmsPetriNetAdapter;
 

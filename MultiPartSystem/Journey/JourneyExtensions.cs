@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace Tmpms.Common.Journey;
+﻿namespace Tmpms.Journey;
 
 public static class JourneyExtensions
 {

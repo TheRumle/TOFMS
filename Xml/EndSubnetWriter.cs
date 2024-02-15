@@ -1,8 +1,8 @@
 ﻿using System.Text;
 using Common;
-using Tmpms.Common;
-using Tmpms.Common.Journey;
-using Tmpms.Common.Move;
+using Tmpms;
+using Tmpms.Journey;
+using Tmpms.Move;
 
 namespace Xml;
 
@@ -16,9 +16,8 @@ internal class EndSubnetWriter : SubnetDeclarer
     public EndSubnetWriter(MoveAction moveAction, StringBuilder stringBuilder, IndexedJourneyCollection indexedJourneysCollection, IEnumerable<string> parts) : base(stringBuilder, indexedJourneysCollection)
     {
         this._locations = moveAction.InvolvedLocations.Where(e=>e.Name!= Location.EndLocationName);
-        
         var endLocInvariants = parts.Select(e => new Invariant(e, 0, Infteger.PositiveInfinity));
-        this._endLocation = new Location(Location.EndLocationName, Infteger.PositiveInfinity, endLocInvariants, true);
+        this._endLocation = new Location(Location.EndLocationName, Infteger.PositiveInfinity, endLocInvariants, true, parts);
         this._moveAction = moveAction;
 
         

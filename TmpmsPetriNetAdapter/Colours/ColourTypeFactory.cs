@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using TACPN.Colours.Type;
-using Tmpms.Common;
-using Tmpms.Common.Journey;
+using Tmpms.Journey;
 
 namespace TmpmsPetriNetAdapter.Colours;
 

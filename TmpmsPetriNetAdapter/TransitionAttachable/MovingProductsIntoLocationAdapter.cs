@@ -1,8 +1,8 @@
 ﻿using TACPN.Places;
 using TACPN.Transitions;
-using Tmpms.Common;
-using Tmpms.Common.Journey;
-using Tmpms.Common.Move;
+using Tmpms;
+using Tmpms.Journey;
+using Tmpms.Move;
 using TmpmsPetriNetAdapter.Colours;
 
 namespace TmpmsPetriNetAdapter.TransitionAttachable;

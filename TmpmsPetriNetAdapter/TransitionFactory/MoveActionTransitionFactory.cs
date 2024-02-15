@@ -1,6 +1,6 @@
 ﻿using TACPN.Colours.Type;
 using TACPN.Transitions;
-using Tmpms.Common.Move;
+using Tmpms.Move;
 using TmpmsPetriNetAdapter.Colours;
 using TmpmsPetriNetAdapter.ConditionGenerator;
 

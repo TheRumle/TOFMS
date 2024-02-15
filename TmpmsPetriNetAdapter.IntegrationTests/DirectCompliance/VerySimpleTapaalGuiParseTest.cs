@@ -1,5 +1,5 @@
 ﻿using JsonFixtures.Tofms.Fixtures;
-using Tmpms.Common;
+using Tmpms;
 using Xunit;
 
 namespace TACPN.IntegrationTests.DirectCompliance;

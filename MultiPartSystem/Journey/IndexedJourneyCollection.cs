@@ -1,4 +1,4 @@
-﻿namespace Tmpms.Common.Journey;
+﻿namespace Tmpms.Journey;
 
 public class IndexedJourneyCollection : Dictionary<string, IEnumerable<KeyValuePair<int, Location>>>
 {

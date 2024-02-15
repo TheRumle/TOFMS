@@ -2,8 +2,8 @@
 using FluentAssertions.Execution;
 using TACPN.Colours.Values;
 using TACPN.Transitions;
-using Tmpms.Common;
-using Tmpms.Common.Move;
+using Tmpms;
+using Tmpms.Move;
 using TmpmsPetriNetAdapter.TransitionAttachable;
 
 namespace TmpmsPetriNetAdapter.UnitTest.TransitionAttachableTests;

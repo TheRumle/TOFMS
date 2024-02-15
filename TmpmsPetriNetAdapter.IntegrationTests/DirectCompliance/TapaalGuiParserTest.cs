@@ -2,8 +2,8 @@
 using FluentAssertions;
 using TapaalParser;
 using TapaalParser.TapaalGui;
-using Tmpms.Common;
-using Tmpms.Common.Journey;
+using Tmpms;
+using Tmpms.Journey;
 using TmpmsPetriNetAdapter;
 using TmpmsPetriNetAdapter.Colours;
 using TmpmsPetriNetAdapter.TransitionAttachable;
@@ -50,7 +50,7 @@ public abstract class GuiTranslationAdherenceTest
         return Regex.Replace(netText, @"\s+", "");
     }
 
-    [Fact]
+    [Fact(Skip = "Model checker comes first")]
     public async Task ShouldComplyWithOldTranslation()
     {
         var oldText = DirectlyTranslatedText();

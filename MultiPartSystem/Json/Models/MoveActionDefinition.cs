@@ -1,4 +1,4 @@
-﻿namespace Tmpms.Common.Json.Models;
+﻿namespace Tmpms.Json.Models;
 
 public record MoveActionDefinition(string Name, Dictionary<string, int> Parts, string From, string To,
     List<string> EmptyBefore, List<string> EmptyAfter)

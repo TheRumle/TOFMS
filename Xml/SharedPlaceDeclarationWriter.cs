@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using Common;
-using Tmpms.Common;
-using Tmpms.Common.Journey;
+using Tmpms;
+using Tmpms.Journey;
 
 namespace Xml;
 

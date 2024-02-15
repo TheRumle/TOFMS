@@ -1,15 +1,15 @@
-﻿using Tmpms.Common.Json.Models;
-using Tmpms.Common.Move;
+﻿using Tmpms.Json.Models;
+using Tmpms.Move;
 
-namespace Tmpms.Common.Json.Convertion;
+namespace Tmpms.Json.Convertion;
 
 public static class JsonToDomain
 {
-    public static Location ToDomain(this LocationDefinition locationDefinition)
+    public static Location ToDomain(this LocationDefinition locationDefinition, IEnumerable<string> partTypes)
     {
         var invariants = locationDefinition.Invariants.Select(e => new Invariant(e.Part, e.Min, e.Max));
         return new Location(locationDefinition.Name, locationDefinition.Capacity, invariants,
-            locationDefinition.IsProcessing);
+            locationDefinition.IsProcessing, partTypes);
     }
 
     public static MoveAction ToDomain(this MoveActionDefinition actionDefinition, IEnumerable<Location> locations)

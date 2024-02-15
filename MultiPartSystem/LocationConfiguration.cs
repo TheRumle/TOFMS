@@ -1,15 +1,42 @@
 ﻿using System.Text;
 
-namespace Tmpms.Common;
+namespace Tmpms;
 
-public class LocationConfiguration() : Dictionary<string, List<Part>>(new List<KeyValuePair<string, List<Part>>>())
+public class LocationConfiguration
 {
-    public int Size => Values.SelectMany(e => e).Count();
-    public IEnumerable<Part> Tokens => Values.SelectMany(e=>e); 
+    public int Size { get; private set; }
+    private Dictionary<string, List<Part>> _parts = new(new List<KeyValuePair<string, List<Part>>>());
+    public IEnumerable<Part> Parts => _parts.Values.SelectMany(e=>e);
+    
+    public void Add(Part part)
+    {
+        Size += 1;
+        _parts[part.PartType].Add(part);
+    }
+    
+    public void Add(Part[] parts)
+    {
+        foreach (var partsPerType in parts.GroupBy(e => e.PartType))
+            _parts[partsPerType.Key].AddRange(partsPerType);
+
+        Size += parts.Length;
+    }
+    
+    public void Add(IEnumerable<Part> parts)
+    {
+       Add(parts.ToArray());
+    }
+    
+    public LocationConfiguration(IEnumerable<string> partTypes)
+    {
+        foreach (var part in partTypes) _parts[part] = [];
+    }
+    
+    
     public override string ToString()
     {
         StringBuilder b = new StringBuilder();
-        foreach (var (color, parts) in this)
+        foreach (var (color, parts) in _parts)
         {
             b.Append($"{color}: [");
             b.Append(string.Join(", ", parts));
@@ -17,25 +44,5 @@ public class LocationConfiguration() : Dictionary<string, List<Part>>(new List<K
         }
 
         return b.ToString();
-    }
-
-    public void AddToken(Part part)
-    {
-        if (TryGetValue(part.PartType, out var parts))
-        {
-            parts.Add(part);
-            return;
-        }
-
-        this[part.PartType] = [part];
-    }
-    
-    public void AddToken(string value, int age)
-    {
-        AddToken(new Part(value,age));
-    }
-    public void AddToken((string value, int age) part)
-    {
-        AddToken(new Part(part.value,part.age));
     }
 }

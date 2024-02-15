@@ -3,8 +3,8 @@ using TACPN.Colours.Expression;
 using TACPN.Colours.Type;
 using TACPN.Colours.Values;
 using TACPN.Places;
-using Tmpms.Common;
-using Tmpms.Common.Journey;
+using Tmpms;
+using Tmpms.Journey;
 using TmpmsPetriNetAdapter.Colours;
 
 namespace TmpmsPetriNetAdapter;

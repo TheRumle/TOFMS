@@ -1,6 +1,6 @@
-﻿using Tmpms.Common.Json.Models;
+﻿using Tmpms.Json.Models;
 
-namespace Tmpms.Common.Json.Errors;
+namespace Tmpms.Json.Errors;
 
 public class JourneyMustBeProcessingLocationException : InvalidJsonTmpmsException
 {

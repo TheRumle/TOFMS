@@ -1,6 +1,6 @@
-﻿using Tmpms.Common;
-using Tmpms.Common.Json;
-using Tmpms.Common.Json.Validators;
+﻿using Tmpms;
+using Tmpms.Json;
+using Tmpms.Json.Validators;
 using Xml;
 
 namespace ConsoleApp.ProgramBuilder;

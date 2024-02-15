@@ -4,7 +4,7 @@ using JsonFixtures;
 using TACPN.Colours.Type;
 using TACPN.Colours.Values;
 using TapaalParser.TapaalGui.Writers;
-using Tmpms.Common.Journey;
+using Tmpms.Journey;
 using Xml;
 
 namespace TaapalParser.UnitTests.TapaalGui.DeclarationWriters;

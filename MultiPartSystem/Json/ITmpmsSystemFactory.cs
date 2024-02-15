@@ -1,4 +1,4 @@
-﻿namespace Tmpms.Common.Json;
+﻿namespace Tmpms.Json;
 
 internal interface ITmpmsSystemFactory<T>
 {

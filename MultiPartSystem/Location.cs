@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Tmpms.Common;
+namespace Tmpms;
 
 public interface ILocation
 {
@@ -11,18 +11,18 @@ public interface ILocation
 
 public record Location : ILocation
 {
-    //TODO require explicit mapping at some point
-    [NotMapped] public LocationConfiguration Configuration = new LocationConfiguration();
+    public LocationConfiguration Configuration;
     
     public static string EndLocationName = "End";
     public bool IsProcessing { get; set; }
     
-    public Location(string name, int capacity, IEnumerable<Invariant> invariants, bool isProc)
+    public Location(string name, int capacity, IEnumerable<Invariant> invariants, bool isProc, IEnumerable<string> parts)
     {
         Invariants = new HashSet<Invariant>(invariants);
         Capacity = capacity;
         Name = name;
         this.IsProcessing = isProc;
+        this.Configuration = new LocationConfiguration(parts);
     }
 
     public string Name { get; init; }

@@ -1,9 +1,9 @@
 ﻿using JsonFixtures;
 using TACPN.Colours.Values;
 using TestDataGenerator;
-using Tmpms.Common;
-using Tmpms.Common.Journey;
-using Tmpms.Common.Move;
+using Tmpms;
+using Tmpms.Journey;
+using Tmpms.Move;
 using TmpmsPetriNetAdapter.Colours;
 using TmpmsPetriNetAdapter.TransitionFactory;
 

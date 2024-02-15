@@ -1,6 +1,6 @@
 ﻿using Common;
 
-namespace Tmpms.Common.Json.Models;
+namespace Tmpms.Json.Models;
 
 public record LocationDefinition(string Name, int Capacity, List<InvariantDefinition> Invariants, bool IsProcessing)
 {

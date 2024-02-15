@@ -3,9 +3,9 @@ using FluentAssertions.Execution;
 using JsonFixtures;
 using TACPN.Transitions;
 using TestDataGenerator;
-using Tmpms.Common;
-using Tmpms.Common.Journey;
-using Tmpms.Common.Move;
+using Tmpms;
+using Tmpms.Journey;
+using Tmpms.Move;
 using TmpmsPetriNetAdapter.TransitionAttachable;
 
 namespace TmpmsPetriNetAdapter.UnitTest.TransitionAttachableTests;

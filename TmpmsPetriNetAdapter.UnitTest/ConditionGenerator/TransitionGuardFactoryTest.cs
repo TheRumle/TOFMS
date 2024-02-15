@@ -3,7 +3,7 @@ using FluentAssertions;
 using JsonFixtures;
 using TACPN.Colours.Type;
 using TACPN.Transitions.Guard;
-using Tmpms.Common.Journey;
+using Tmpms.Journey;
 using TmpmsPetriNetAdapter.Colours;
 using TmpmsPetriNetAdapter.ConditionGenerator;
 using TmpmsPetriNetAdapter.UnitTest.TransitionFactory;

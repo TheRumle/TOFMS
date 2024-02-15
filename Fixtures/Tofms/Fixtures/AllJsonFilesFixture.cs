@@ -1,4 +1,4 @@
-﻿using Tmpms.Common;
+﻿using Tmpms;
 
 namespace JsonFixtures.Tofms.Fixtures;
 

@@ -1,7 +1,7 @@
-﻿using Tmpms.Common.Journey;
-using Tmpms.Common.Move;
+﻿using Tmpms.Journey;
+using Tmpms.Move;
 
-namespace Tmpms.Common;
+namespace Tmpms;
 
 public class TimedMultipartSystem
 {

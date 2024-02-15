@@ -1,6 +1,6 @@
-﻿using Tmpms.Common.Json.Errors;
+﻿using Tmpms.Json.Errors;
 
-namespace Tmpms.Common.Json.Validators;
+namespace Tmpms.Json.Validators;
 
 public static class FuncEnumerableExtensions
 {

@@ -1,5 +1,5 @@
-﻿using Tmpms.Common;
-using Tmpms.Common.Move;
+﻿using Tmpms;
+using Tmpms.Move;
 
 namespace JsonFixtures;
 

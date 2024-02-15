@@ -1,5 +1,5 @@
 ﻿using Bogus;
-using Tmpms.Common;
+using Tmpms;
 
 namespace TestDataGenerator;
 public enum ProcessingLocationStrategy
@@ -61,7 +61,7 @@ public class LocationGenerator :  IGenerator<Location>
 
     private Location GetValue(IEnumerable<Invariant> intervals, bool isProc)
     {
-        var value = new Location(ValueSelection.Name.FirstName(), new Random().Next(1, 10), intervals, isProc);
+        var value = new Location(ValueSelection.Name.FirstName(), new Random().Next(1, 10), intervals, isProc, _partTypes);
         _generated.Add(value);
         return value;
     }

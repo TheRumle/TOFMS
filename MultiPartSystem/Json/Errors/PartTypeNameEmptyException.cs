@@ -1,4 +1,4 @@
-﻿namespace Tmpms.Common.Json.Errors;
+﻿namespace Tmpms.Json.Errors;
 
 public class PartTypeNameEmptyException<T> : InvalidJsonTmpmsException where T : class
 {

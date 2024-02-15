@@ -1,6 +1,6 @@
-﻿using Tmpms.Common.Move;
+﻿using Tmpms.Move;
 
-namespace Tmpms.Common.Translate;
+namespace Tmpms.Translate;
 
 public interface IMoveActionTranslation<Target>
 {

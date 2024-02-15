@@ -1,7 +1,7 @@
-﻿using Tmpms.Common.Json.Errors;
-using Tmpms.Common.Json.Models;
+﻿using Tmpms.Json.Errors;
+using Tmpms.Json.Models;
 
-namespace Tmpms.Common.Json.Validators;
+namespace Tmpms.Json.Validators;
 
 internal class NamingValidator : JsonValidator<IEnumerable<LocationDefinition>, IEnumerable<MoveActionDefinition>>
 {

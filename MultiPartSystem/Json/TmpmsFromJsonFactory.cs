@@ -1,12 +1,19 @@
-﻿using Tmpms.Common.Journey;
-using Tmpms.Common.Json.Convertion;
-using Tmpms.Common.Json.Models;
-using Tmpms.Common.Move;
+﻿using Tmpms.Journey;
+using Tmpms.Json.Convertion;
+using Tmpms.Json.Models;
+using Tmpms.Move;
 
-namespace Tmpms.Common.Json;
+namespace Tmpms.Json;
 
 public class TmpmsFromJsonFactory : ITmpmsSystemFactory<TimedMultiPartSystemJsonInput>
 {
+    public TmpmsFromJsonFactory(IEnumerable<string> parts)
+    {
+        this._partTypes = parts;
+    }
+
+    private readonly IEnumerable<string> _partTypes;
+
     public TimedMultipartSystem Create(TimedMultiPartSystemJsonInput structure)
     {
         var moveActions = CreateMoveActions(structure).ToArray();
@@ -21,7 +28,7 @@ public class TmpmsFromJsonFactory : ITmpmsSystemFactory<TimedMultiPartSystemJson
 
     private IEnumerable<MoveAction> CreateMoveActions(TimedMultiPartSystemJsonInput structure)
     {
-        var locations = structure.LocationDeclarations.Select(e => e.ToDomain());
+        var locations = structure.LocationDeclarations.Select(e => e.ToDomain(_partTypes));
         return structure.Actions.Select(e => e.ToDomain(locations));
     }
 
@@ -36,7 +43,7 @@ public class TmpmsFromJsonFactory : ITmpmsSystemFactory<TimedMultiPartSystemJson
             var locations = structure
                 .LocationDeclarations
                 .Where(e => locationNames.Contains(e.Name))
-                .Select(jsonDefinition => jsonDefinition.ToDomain())
+                .Select(jsonDefinition => jsonDefinition.ToDomain(_partTypes))
                 .ToList();
             journey.Add(partType, locations);
         }

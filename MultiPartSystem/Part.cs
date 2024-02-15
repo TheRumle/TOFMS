@@ -1,3 +1,3 @@
-﻿namespace Tmpms.Common;
+﻿namespace Tmpms;
 
-public record struct Part(string PartType, int Age);
+public record Part(string PartType, int Age);

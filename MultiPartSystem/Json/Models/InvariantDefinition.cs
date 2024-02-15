@@ -1,7 +1,7 @@
 ﻿using Common;
 using Newtonsoft.Json;
 
-namespace Tmpms.Common.Json.Models;
+namespace Tmpms.Json.Models;
 
 public record InvariantDefinition(string Part, int Min, int Max)
 {
