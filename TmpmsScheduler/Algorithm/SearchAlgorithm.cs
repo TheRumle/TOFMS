@@ -3,24 +3,29 @@ using Tmpms;
 
 namespace TmpmsChecker.Algorithm;
 
-internal abstract class SearchAlgorithm
+internal class SearchAlgorithm
 { 
-    public abstract string AlgorithmName { get; }
-    protected readonly CostBasedQueue<Configuration> Open;
-    protected readonly Dictionary<Configuration, Configuration> CameFrom;
+    protected readonly CostBasedQueue<ReachedState> Open;
+    protected readonly Dictionary<ReachedState, ReachedState> PreviousFor;
     protected readonly Dictionary<Configuration, float> CostSoFar = new();
     protected readonly ISearchHeuristic Heuristic;
-    private readonly IActionExecutor _configurationGenerator;
-    public TimedManufacturingProblem Problem { get; set; }
+    protected readonly IActionExecutor _configurationGenerator;
+    private readonly ReachedState _startAction;
+    private TimedManufacturingProblem Problem { get; set; }
 
     public SearchAlgorithm(TimedManufacturingProblem problem, ISearchHeuristic heuristic, IActionExecutor actionExecutor)
     {
-        Open = new CostBasedQueue<Configuration>();
-        Open.Enqueue(problem.StartConfiguration,1f);
+        _startAction = ReachedState.ZeroDelay(problem.StartConfiguration);
+        Open = new CostBasedQueue<ReachedState>();
+        Open.Enqueue(_startAction,1f);
+        
         Problem = problem;
         Heuristic = heuristic;
-        CameFrom = new Dictionary<Configuration, Configuration>();
-        CameFrom[problem.StartConfiguration] = problem.StartConfiguration;
+        
+        PreviousFor = new()
+        {
+            [_startAction] = _startAction
+        };
         CostSoFar[Problem.StartConfiguration] = 0;
         _configurationGenerator = actionExecutor;
     }
@@ -30,71 +35,62 @@ internal abstract class SearchAlgorithm
     {
         var goal = Search();
         if (goal is null)
-            return Result.Failure<Schedule>(Errors.CouldNotFindSolution(AlgorithmName));
+            return Result.Failure<Schedule>(Errors.CouldNotFindSolution($"{nameof(SearchAlgorithm)}"));
         return Result.Success(ConstructSchedule(goal));
     }
 
-    private Configuration? Search()
+    private ReachedState? Search()
     {
         while (Open.Count > 0)
         {
             var current = Open.Dequeue();
-            if (current.IsGoalConfigurationFor(Problem.GoalLocation))
-                break;
+            if (current.ReachedConfiguration.IsGoalConfigurationFor(Problem.GoalLocation))
+                return current;
             
-            var reachableStates = _configurationGenerator.ExecuteAction(current);
+            var reachableStates = _configurationGenerator.ExecuteAction(current.ReachedConfiguration);
             EstimateCostsFor(reachableStates, current);
         }
 
         return null;
     }
-
-    private Schedule ConstructSchedule(Configuration goal)
-    {
-        var result = new List<Configuration>();
-        Configuration prev;
-
-        prev = goal;
-        result.Add(prev);
-        do
-        {
-            prev = CameFrom[prev];
-            result.Add(prev);
-        } while (!prev.Equals(Problem.StartConfiguration));
-        result.Reverse();
-
-        
-        
-        
-        
-        //TODO reconstruct the schedule
-        throw new NotImplementedException();
-    }
-
-
-
+    
+    
     /// <summary>
     ///  Iterates over the reachable states and uses the <see cref="Heuristic"/> to calculate the estimated cost of exploring each state. 
     /// </summary>
     /// <param name="reachableStates"> The states to examine</param>
-    /// <param name="current"> The current configuration, used to get the actual cost.</param>
-    private void EstimateCostsFor(IEnumerable<ReachedState> reachableStates, Configuration current)
+    /// <param name="previous"> The current configuration, used to get the actual cost.</param>
+    private void EstimateCostsFor(IEnumerable<ReachedState> reachableStates, ReachedState previous)
     {
         foreach (var next in reachableStates)
         {
             var nextConfiguration = next.ReachedConfiguration;
             var nextHasBeenVisitedBefore = CostSoFar.TryGetValue(nextConfiguration, out var previousNextCost); 
-            var costToReachNext = CostSoFar[current] + next.ActionCost();
+            var costToReachNext = CostSoFar[previous.ReachedConfiguration] + next.ActionCost();
                 
             //If next has not been visited before or cheaper path has been found, update the cost to reach next
             //If next has already been visited and this path is not cheaper do not explore by taking current path
             if (!nextHasBeenVisitedBefore || costToReachNext < previousNextCost)
             {
-                var estimatedCost = costToReachNext + Heuristic.CalculateCost(nextConfiguration);
                 CostSoFar[nextConfiguration] = costToReachNext;
-                Open.Enqueue(nextConfiguration, estimatedCost);
-                CameFrom[nextConfiguration] = current;
+                Open.Enqueue(next, costToReachNext + Heuristic.CalculateCost(nextConfiguration));
+                PreviousFor[next] = previous;
             }
         }
     }
+
+    private Schedule ConstructSchedule(ReachedState goal)
+    {
+        //Reconstruct path
+        Stack<ReachedState> result = new Stack<ReachedState>();
+        result.Push(goal);
+        ReachedState prev = goal;
+        do
+        {
+            prev = PreviousFor[prev];
+            result.Push(prev);
+        } while (!prev.Equals(_startAction));
+        return new Schedule(result);
+    }
+    
 }
