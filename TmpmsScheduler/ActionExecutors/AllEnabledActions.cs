@@ -79,7 +79,11 @@ public class AllEnabledActions : IConfigurationGenerator
 
     private IEnumerable<PossibleMove> CreateWithOriginalJourneys( Dictionary<string, IEnumerable<IEnumerable<Part>>> possibleConsumptions)
     {
-
+        
+        
+        
+        
+        
     }
 
     private IEnumerable<PossibleMove> CreateWithUpdatedJourneys( Dictionary<string, IEnumerable<IEnumerable<Part>>> possibleConsumptions)
