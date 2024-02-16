@@ -46,7 +46,7 @@ public class ArcWriter
       return amount;
     }
 
-    private void WriteHlWithJourneyInscription(HashSet<KeyValuePair<string, int>> partsToMove)
+    private void WriteHlWithJourneyInscription(Dictionary<string, int> partsToMove)
     {
       var minusText = _moveAction.From.IsProcessing ? "--" : ""; 
       var closeTag = _moveAction.From.IsProcessing ? "  </predecessor> </subterm>" : ""; 
@@ -116,7 +116,7 @@ public class ArcWriter
       StringBuilder.Append("</arc>");
     }
 
-    private void WriteHlWithJourneyIncInscription(HashSet<KeyValuePair<string, int>> partsToMove, Location location)
+    private void WriteHlWithJourneyIncInscription(Dictionary<string, int> partsToMove, Location location)
     {
       StringBuilder.Append($@"<hlinscription> <text>(");
       var first = partsToMove.First();

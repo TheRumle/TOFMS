@@ -61,7 +61,7 @@ public abstract class TransitionAttacherTest : IClassFixture<MoveActionFixture>
             EmptyBefore = emptyBefore,
             From = from,
             To = to,
-            PartsToMove = PartsToMove
+            PartsToMove = PartsToMove.ToDictionary()
         };
     }
     
@@ -74,9 +74,9 @@ public abstract class TransitionAttacherTest : IClassFixture<MoveActionFixture>
             EmptyBefore = emptyBefore,
             From = from,
             To = to,
-            PartsToMove = new HashSet<KeyValuePair<string, int>>
+            PartsToMove = new()
             {
-                new(PartType, amount)
+                [PartType] = amount
             }
         };
     }
@@ -88,7 +88,7 @@ public abstract class TransitionAttacherTest : IClassFixture<MoveActionFixture>
             Name = "Test",
             From = from,
             To = to,
-            PartsToMove = PartsToMove
+            PartsToMove = PartsToMove.ToDictionary()
         };
     }
 

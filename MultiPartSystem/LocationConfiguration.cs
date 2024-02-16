@@ -7,7 +7,10 @@ public class LocationConfiguration
     public int Size { get; private set; }
     
     private Dictionary<string, List<Part>> _parts = new(new List<KeyValuePair<string, List<Part>>>());
-    public IEnumerable<Part> Parts => _parts.Values.SelectMany(e=>e);
+
+    public IReadOnlyDictionary<string, List<Part>> PartsByType => _parts.AsReadOnly();
+    
+    public IEnumerable<Part> AllParts => _parts.Values.SelectMany(e=>e);
     
     public LocationConfiguration(IEnumerable<string> partTypes)
     {

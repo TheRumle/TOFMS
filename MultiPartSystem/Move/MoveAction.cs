@@ -10,7 +10,7 @@ public record MoveAction
 
     public Location To { get; init; }
     public Location From { get; init; }
-    public  HashSet<KeyValuePair<string, int>> PartsToMove { get; init; }
+    public  Dictionary<string,int> PartsToMove { get; init; }
 
     public IEnumerable<Location> InvolvedLocations => GetAllLocations();
 

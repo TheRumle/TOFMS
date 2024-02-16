@@ -18,24 +18,43 @@ public class AllEnabledActions : IConfigurationGenerator
     public IEnumerable<ReachedState> GenerateConfigurations(Configuration configuration)
     {
         var actions = _availableActions.Where(a => IsEnabledUnder(a, configuration));
-        return actions.Select(action => ExecuteAction(action, configuration));
+        foreach (var ac in actions)
+        {
+            var result = ExecuteAction(ac, configuration);
+            if (result == null) continue;
+            yield return result;
+        }
     }
 
     private ReachedState ExecuteAction(MoveAction action, Configuration configuration)
     {
         var copy = configuration.Copy();
-        
         var total = action.TotalAmountToMove();
         List<Part> partsToRemove = new List<Part>(total);
-        foreach (var (part, amount) in action.PartsToMove)
+        foreach (var (partType, amount) in action.PartsToMove)
         {
-            var toMoveFrom = configuration.LocationConfigurations[action.From];
+            var inv = action.From.InvariantsByType[partType];
             
+            //Is sufficient age
+            Predicate<Part> ageOkay = part => part.Age <= inv.Max || part.Age >= inv.Min;
+            if (action.From.IsProcessing)
+            {
+                ageOkay = part => part.Age == action.From.InvariantsByType[partType].Max;
+            }
+
+            Predicate<Part> predicate = ageOkay;
+            if (action.To.IsProcessing)
+            {
+                predicate = (Part part) => ageOkay(part) && part.Journey.Peek() == action.To;
+            }
+
+
+            var availableToMove = configuration.LocationConfigurations[action.From]
+                .PartsByType[partType]
+                .Where(part => predicate.Invoke(part));
             
-            
+            if (availableToMove.Count() < action.PartsToMove)
         }
-        
-        
         
         
         

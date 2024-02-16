@@ -25,12 +25,12 @@ public abstract class MoveActionDependentTest : IClassFixture<MoveActionFixture>
     
 
     
-    public HashSet<KeyValuePair<string, int>> Move(params (int amount, string partType)[] parts)
+    public Dictionary<string, int> Move(params (int amount, string partType)[] parts)
     {
-        return parts.Select(e => KeyValuePair.Create(e.partType, e.amount)).ToHashSet();
+        return parts.Select(e => KeyValuePair.Create(e.partType, e.amount)).ToDictionary();
     }
 
-    protected MoveAction CreateMoveAction(Location from, Location to, HashSet<KeyValuePair<string, int>> partsToMove)
+    protected MoveAction CreateMoveAction(Location from, Location to, Dictionary<string, int> partsToMove)
     {
         return new MoveAction()
         {

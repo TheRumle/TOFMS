@@ -33,4 +33,8 @@ public record Location : ILocation
     {
         return $"{nameof(Name)}: {Name}, {nameof(Capacity)}: {Capacity}, {nameof(Invariants)}: {Invariants}";
     }
+
+    public IReadOnlyDictionary<string, Invariant> InvariantsByType => Invariants
+        .Select(invariant => KeyValuePair.Create(invariant.PartType, invariant)).ToDictionary();
+
 }
