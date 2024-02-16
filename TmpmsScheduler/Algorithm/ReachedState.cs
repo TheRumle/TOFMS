@@ -26,9 +26,17 @@ public class ReachedState
     }
 
 
-    public int ToInt()
+    /// <summary>
+    ///  Cost of executing an action is 0 cost of delay is equal to delay
+    /// </summary>
+    /// <returns></returns>
+    public int ActionCost()
     {
         return _hasDelay ? _delay : 0;
     }
-    
+
+    public static ReachedState ZeroDelay(Configuration configuration)
+    {
+        return new ReachedState(0, configuration);
+    }
 }

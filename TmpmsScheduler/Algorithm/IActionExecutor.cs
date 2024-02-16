@@ -4,5 +4,5 @@ namespace TmpmsChecker.Algorithm;
 
 public interface IActionExecutor
 {
-    public IEnumerable<Configuration> ExecuteActions(Configuration configuration);
+    public IEnumerable<ReachedState> ExecuteAction(Configuration configuration);
 }

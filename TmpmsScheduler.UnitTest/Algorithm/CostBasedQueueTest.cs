@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FluentAssertions;
+using TmpmsChecker.Algorithm;
 using Xunit;
 
 namespace TmpmsScheduler.UnitTest.Algorithm;
