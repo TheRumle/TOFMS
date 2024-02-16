@@ -41,7 +41,7 @@ public class PlaceFactoryTest {
     [InlineData(0, 0)]
     public void InitializesCapacityLocationsWith_AmountOfTokens_AsTheCapacityMinusConfiguration(int capacity, int numParts)
     {
-        List<Part> parts = [..Enumerable.Repeat(new Part(Parts.First(), new Random().Next()), numParts)];
+        List<Part> parts = [..Enumerable.Repeat(new Part(Parts.First(), new Random().Next(), []), numParts)];
         var configuration = new LocationConfiguration(Parts);
         configuration.Add(parts);
 

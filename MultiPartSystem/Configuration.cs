@@ -17,4 +17,15 @@ public record Configuration
     private readonly Dictionary<Location, LocationConfiguration> _locationConfigurations = new();
     public readonly IEnumerable<string> PartTypes;
     public IReadOnlyDictionary<Location, LocationConfiguration> LocationConfigurations => _locationConfigurations.AsReadOnly();
+
+    private Configuration(IEnumerable<KeyValuePair<Location, LocationConfiguration>> copies)
+    {
+        _locationConfigurations = copies.ToDictionary();
+    }
+    
+    public Configuration Copy()
+    {
+        return new Configuration(this._locationConfigurations.Select(kvp =>
+            KeyValuePair.Create(kvp.Key, kvp.Value.Copy())));
+    }
 }

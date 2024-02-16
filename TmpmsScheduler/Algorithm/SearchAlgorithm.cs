@@ -9,11 +9,11 @@ internal class SearchAlgorithm
     protected readonly Dictionary<ReachedState, ReachedState> PreviousFor;
     protected readonly Dictionary<Configuration, float> CostSoFar = new();
     protected readonly ISearchHeuristic Heuristic;
-    protected readonly IActionExecutor _configurationGenerator;
+    protected readonly IConfigurationGenerator _configurationGenerator;
     private readonly ReachedState _startAction;
     private TimedManufacturingProblem Problem { get; set; }
 
-    public SearchAlgorithm(TimedManufacturingProblem problem, ISearchHeuristic heuristic, IActionExecutor actionExecutor)
+    public SearchAlgorithm(TimedManufacturingProblem problem, ISearchHeuristic heuristic, IConfigurationGenerator configurationGenerator)
     {
         _startAction = ReachedState.ZeroDelay(problem.StartConfiguration);
         Open = new CostBasedQueue<ReachedState>();
@@ -27,7 +27,7 @@ internal class SearchAlgorithm
             [_startAction] = _startAction
         };
         CostSoFar[Problem.StartConfiguration] = 0;
-        _configurationGenerator = actionExecutor;
+        _configurationGenerator = configurationGenerator;
     }
 
 
@@ -47,7 +47,7 @@ internal class SearchAlgorithm
             if (current.ReachedConfiguration.IsGoalConfigurationFor(Problem.GoalLocation))
                 return current;
             
-            var reachableStates = _configurationGenerator.ExecuteAction(current.ReachedConfiguration);
+            var reachableStates = _configurationGenerator.GenerateConfigurations(current.ReachedConfiguration);
             EstimateCostsFor(reachableStates, current);
         }
 

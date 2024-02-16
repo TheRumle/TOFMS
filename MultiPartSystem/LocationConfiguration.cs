@@ -5,8 +5,20 @@ namespace Tmpms;
 public class LocationConfiguration
 {
     public int Size { get; private set; }
+    
     private Dictionary<string, List<Part>> _parts = new(new List<KeyValuePair<string, List<Part>>>());
     public IEnumerable<Part> Parts => _parts.Values.SelectMany(e=>e);
+    
+    public LocationConfiguration(IEnumerable<string> partTypes)
+    {
+        foreach (var part in partTypes) _parts[part] = [];
+    }
+
+    private LocationConfiguration( IEnumerable<KeyValuePair<string, List<Part>>> parts, int size)
+    {
+        _parts = parts.ToDictionary();
+        Size = size;
+    }
     
     public void Add(Part part)
     {
@@ -27,10 +39,6 @@ public class LocationConfiguration
        Add(parts.ToArray());
     }
     
-    public LocationConfiguration(IEnumerable<string> partTypes)
-    {
-        foreach (var part in partTypes) _parts[part] = [];
-    }
     
     
     public override string ToString()
@@ -44,5 +52,12 @@ public class LocationConfiguration
         }
 
         return b.ToString();
+    }
+    
+    public LocationConfiguration Copy()
+    {
+        return new LocationConfiguration(_parts
+            .Select(oldKvp => KeyValuePair.Create(oldKvp.Key,
+            oldKvp.Value.Select(part=>new Part(part.PartType, part.Age, part.Journey)).ToList())), Size);
     }
 }
