@@ -4,127 +4,68 @@ using TmpmsChecker.Algorithm;
 
 namespace TmpmsChecker.ActionExecutors;
 
-public record PossibleMove(IEnumerable<Part> Consume, IEnumerable<Part> Produce)
+internal interface IActionExecutor
 {
-    public static PossibleMove WithJourneyUpdate(IEnumerable<Part> consume)
-    {
-        Part[] enumerable = consume as Part[] ?? consume.ToArray();
-        return new PossibleMove(enumerable,enumerable.Select(e => new Part(e.PartType, 0, e.Journey.Skip(1))));
-    }
-    
-    public static PossibleMove FromConsumed(IEnumerable<Part> consume)
-    {
-        Part[] enumerable = consume as Part[] ?? consume.ToArray();
-        return new PossibleMove(enumerable,enumerable.Select(e => e with { Age = 0 }));
-    }
-    
+    Configuration Execute(ActionExecution execution, Configuration configuration);
 }
 
+internal interface IActionEnablednessDecider
+{
+    bool IsEnabledUnder(MoveAction action, Configuration configurtion);
+}
 
-public class AllEnabledActions : IConfigurationGenerator
+internal class AllEnabledActions : IConfigurationGenerator
 {
     private readonly IEnumerable<MoveAction> _availableActions;
-    private readonly Func<MoveAction, Configuration, Boolean> IsEnabledUnder;
-    private readonly string[] _allPartTypes;
+    private readonly IActionEnablednessDecider _enablednessDecider;
+    private readonly IActionExecutor _actionExecutor;
 
-    public AllEnabledActions(IEnumerable<MoveAction> availableActions, string[] partTypes, Func<MoveAction, Configuration, Boolean> isEnabledUnder)
+    public AllEnabledActions(IEnumerable<MoveAction> availableActions, IActionEnablednessDecider enablednessDecider, IActionExecutor actionExecutor)
     {
         _availableActions = availableActions;
-        IsEnabledUnder = isEnabledUnder;
-        _allPartTypes = partTypes;
+        _enablednessDecider = enablednessDecider;
+        _actionExecutor = actionExecutor;
     }
     
     public IEnumerable<ReachedState> GenerateConfigurations(Configuration configuration)
     {
-        var actions = _availableActions.Where(a => IsEnabledUnder(a, configuration));
-        foreach (var ac in actions)
-        {
-            var result = ExecuteAction(ac, configuration);
-            if (result == null) continue;
-            yield return result;
-        }
+        var maxPossibleDelay = FindMaxDelay(configuration);
+        
+
+        return _availableActions
+            .AsParallel().WithDegreeOfParallelism(4)
+            .Select(action => (
+                Action: action,
+                IsEnabled: _enablednessDecider.IsEnabledUnder(action: action, configuration))
+            )
+            .Where(action => action.IsEnabled)
+            .SelectMany(action => ExecuteAction(action.Action, configuration));
     }
 
-    private ReachedState? ExecuteAction(MoveAction action, Configuration configuration)
+    private int FindMaxDelay(Configuration configuration)
     {
-        var copy = configuration.Copy();
-        var total = action.TotalAmountToMove();
-        
-        var locConfTo = configuration.LocationConfigurations[action.To];
-        var locConfFrom = configuration.LocationConfigurations[action.From];
-        if (locConfTo.Size + action.TotalAmountToMove() > action.To.Capacity)
-            return null;
-        
-        var consumptionPossibilities = CreatePossibleConsumptions(action, locConfFrom);
-        if (consumptionPossibilities == null) return null;
-        var productionpossibilities = CreatePossibleProductions(action, locConfTo, consumptionPossibilities);
-        
-        
-        
-        
-
-        
-    
-        
-        
-        
-        throw new NotImplementedException();
+        var maxDelay = 0;
+        foreach (var (location, locationConfig) in configuration.LocationConfigurations)
+            foreach (var (partType, invariant) in location.InvariantsByType)
+                foreach (var part in locationConfig.PartsByType[partType])
+                {
+                    //If any part is at the max we cannot perform any delay
+                    if (invariant.Max == part.Age) return 0;
+                    maxDelay = Math.Min(maxDelay, invariant.Max - part.Age);
+                }
+        return maxDelay;
     }
 
-    private IEnumerable<PossibleMove> CreatePossibleProductions(MoveAction action, LocationConfiguration locConfTo,
-        Dictionary<string, IEnumerable<IEnumerable<Part>>> possibleConsumptions)
+    private IEnumerable<ReachedState> ExecuteAction(MoveAction action, Configuration configuration)
     {
-        return action.To.IsProcessing ? CreateWithUpdatedJourneys(possibleConsumptions) : CreateWithOriginalJourneys(possibleConsumptions);
-    }
+        var locationConfiguration = configuration.LocationConfigurations[action.From];
+        var waysToExecuteAction = ConfigurationExplorer
+            .WaysToSatisfyAction(action)
+            .Under(locationConfiguration);
 
-    private IEnumerable<PossibleMove> CreateWithOriginalJourneys( Dictionary<string, IEnumerable<IEnumerable<Part>>> possibleConsumptions)
-    {
-        
-        
-        
-        
-        
-    }
-
-    private IEnumerable<PossibleMove> CreateWithUpdatedJourneys( Dictionary<string, IEnumerable<IEnumerable<Part>>> possibleConsumptions)
-    {
-        return possibleConsumptions.Select(kvp => KeyValuePair.Create(kvp.Key, kvp.Value
-            .Select(parts => parts.Select(e => new Part(e.PartType, 0, e.Journey.Skip(1))))));
-    }
-
-    private static Dictionary<string, IEnumerable<IEnumerable<Part>>>? CreatePossibleConsumptions(MoveAction action, LocationConfiguration locConfFrom)
-    {
-        Dictionary<string, IEnumerable<IEnumerable<Part>>> combinationPerType = new();
-        foreach (var (partType, parts) in locConfFrom.PartsByType)
-        {
-            var amountToMove = action.PartsToMove[partType];
-            var partsAvailableForMove = FindSatisfyingParts(action, partType, parts);
-            if (partsAvailableForMove.Length < amountToMove) return null;
-            var partCombinations = Combiner.CombinationsOfSize(partsAvailableForMove, amountToMove);
-            combinationPerType[partType] = partCombinations;
-        }
-
-        return combinationPerType;
-    }
-
-    private static Part[] FindSatisfyingParts(MoveAction action, string partType, List<Part> parts)
-    {
-        var inv = action.From.InvariantsByType[partType];
-        //Is sufficient age
-        Predicate<Part> ageOkay = part => part.Age <= inv.Max || part.Age >= inv.Min;
-        if (action.From.IsProcessing)
-        {
-            ageOkay = part => part.Age == action.From.InvariantsByType[partType].Max;
-        }
-
-        Predicate<Part> predicate = ageOkay;
-        if (action.To.IsProcessing)
-        {
-            predicate = part => ageOkay(part) && part.Journey.First() == action.To;
-        }
-        var partsAvailableForMove = parts 
-            .Where(part => predicate.Invoke(part))
-            .ToArray();
-        return partsAvailableForMove;
+        //For all possible ways to execute the action, execute it and document how to reach the new state
+        return waysToExecuteAction
+            .Select(wayToExecute => _actionExecutor.Execute(wayToExecute, configuration))
+            .Select(reachedConfiguration => new ReachedState(action, reachedConfiguration));
     }
 }

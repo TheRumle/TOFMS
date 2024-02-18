@@ -11,7 +11,7 @@ public static class Combiner
     /// <param name="size"></param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public static ISet<List<T>> CombinationsOfSize<T>(IEnumerable<T> elements, int size)
+    public static ISet<List<T>> AllCombinationsOfSize<T>(IEnumerable<T> elements, int size)
     {
         var result = new HashSet<List<T>>();
         CombineUtil(elements.Distinct().ToList(), size, 0, new List<T>(), result);
@@ -33,6 +33,17 @@ public static class Combiner
             CombineUtil(elements, size, i + 1, subset, result);
             subset.RemoveAt(subset.Count - 1);
         }
+    }
+
+    public static IEnumerable<IEnumerable<T>> CartesianProduct<T>
+        (this IEnumerable<IEnumerable<T>> sequences) 
+    { 
+        IEnumerable<IEnumerable<T>> emptyProduct = new[] { Enumerable.Empty<T>() };
+        return sequences.Aggregate(emptyProduct, 
+            (accumulator, sequence) => 
+                from previousSequences in accumulator 
+                from item in sequence 
+                select previousSequences.Concat(new[] {item}));
     }
 }
 
