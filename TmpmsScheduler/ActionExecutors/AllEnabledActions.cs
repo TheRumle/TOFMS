@@ -29,7 +29,9 @@ internal class AllEnabledActions : IConfigurationGenerator
     
     public IEnumerable<ReachedState> GenerateConfigurations(Configuration configuration)
     {
-        var maxPossibleDelay = FindMaxDelay(configuration);
+        var maxPossibleDelay = TimeToNextInvariantLimit(configuration);
+        if (maxPossibleDelay <= 0)
+        //TODO Figure out how much to delay we can perform 
         
 
         return _availableActions
@@ -39,10 +41,11 @@ internal class AllEnabledActions : IConfigurationGenerator
                 IsEnabled: _enablednessDecider.IsEnabledUnder(action: action, configuration))
             )
             .Where(action => action.IsEnabled)
-            .SelectMany(action => ExecuteAction(action.Action, configuration));
+            .SelectMany(action => ExecuteAction(action.Action, configuration))
+            .Concat(new []{});
     }
 
-    private int FindMaxDelay(Configuration configuration)
+    private int TimeToNextInvariantLimit(Configuration configuration)
     {
         var maxDelay = 0;
         foreach (var (location, locationConfig) in configuration.LocationConfigurations)
@@ -59,11 +62,13 @@ internal class AllEnabledActions : IConfigurationGenerator
     private IEnumerable<ReachedState> ExecuteAction(MoveAction action, Configuration configuration)
     {
         var locationConfiguration = configuration.LocationConfigurations[action.From];
+        
+        //Generate all possible ways to execute the action (examine all part combinations that enable the action)
         var waysToExecuteAction = ConfigurationExplorer
             .WaysToSatisfyAction(action)
             .Under(locationConfiguration);
-
-        //For all possible ways to execute the action, execute it and document how to reach the new state
+        
+        //Execute all action in all possible ways
         return waysToExecuteAction
             .Select(wayToExecute => _actionExecutor.Execute(wayToExecute, configuration))
             .Select(reachedConfiguration => new ReachedState(action, reachedConfiguration));
