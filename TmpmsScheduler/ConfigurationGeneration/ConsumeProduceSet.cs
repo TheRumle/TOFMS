@@ -9,6 +9,18 @@ namespace TmpmsChecker.ConfigurationGeneration;
 /// <param name="Produce"></param>
 internal record ConsumeProduceSet(IEnumerable<Part> Consume, IEnumerable<Part> Produce)
 {
+    public virtual bool Equals(ConsumeProduceSet? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return Consume.SequenceEqual(other.Consume) && Produce.SequenceEqual(other.Produce);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Consume, Produce);
+    }
+
     public static ConsumeProduceSet ConstructWithJourneyUpdate(IEnumerable<Part> consume)
     {
         Part[] enumerable = consume as Part[] ?? consume.ToArray();

@@ -13,7 +13,7 @@ internal interface IActionExecutionGenerator
     /// Finds all ways the action can be executed under the configuration
     /// </summary>
     /// <param name="action"></param>
-    /// <param name="configuration"></param>
+    /// <param name="under"></param>
     /// <returns>All ways the action can be executed. If it cannot be executed returns []</returns>
-    internal IEnumerable<ActionExecution> PossibleWaysToExecute(MoveAction action, Configuration configuration);
+    internal IEnumerable<ActionExecution> PossibleWaysToExecute(MoveAction action, Configuration under);
 }

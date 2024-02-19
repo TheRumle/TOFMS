@@ -14,7 +14,7 @@ public class LocationConfigurationFactory
         return new LocationConfiguration(_partTypes);
     }
 
-    public LocationConfiguration ZeroAgedOfPart(string partType, Location[] journey, int amount = 1)
+    public LocationConfiguration ZeroAgedOfPartType(string partType, Location[] journey, int amount = 1)
     {
         var a = new LocationConfiguration(_partTypes);
         for (var i = 0; i < amount; i++)

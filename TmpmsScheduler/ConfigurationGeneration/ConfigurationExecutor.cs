@@ -4,13 +4,13 @@ using TmpmsChecker.Algorithm;
 
 namespace TmpmsChecker.ConfigurationGeneration;
 
-internal class AllEnabledActions : IConfigurationGenerator
+internal class ConfigurationExecutor : IConfigurationGenerator
 {
     private readonly IEnumerable<MoveAction> _availableActions;
     private readonly IActionExecutionGenerator _executionGenerator;
     private readonly IActionExecutor _actionExecutor;
 
-    public AllEnabledActions(
+    public ConfigurationExecutor(
         IEnumerable<MoveAction> availableActions,
         IActionExecutionGenerator executionGenerator,
         IActionExecutor actionExecutor)
@@ -26,7 +26,7 @@ internal class AllEnabledActions : IConfigurationGenerator
             .AsParallel().WithDegreeOfParallelism(4)
             .Select(action => (
                 Action: action,
-                PossibleWaysToExecute: _executionGenerator.PossibleWaysToExecute(action: action, configuration))
+                PossibleWaysToExecute: _executionGenerator.PossibleWaysToExecute(action,  under: configuration))
             )
             .SelectMany(actionPossibilities =>
             {
@@ -34,18 +34,18 @@ internal class AllEnabledActions : IConfigurationGenerator
                     .Select(wayToExecute => _actionExecutor.Execute(wayToExecute, configuration))
                     .Select(reachedConfiguration => new ReachedState(actionPossibilities.Action, reachedConfiguration));
             })
-            .Concat(ComputePossibleDelays(configuration));
+            .Concat(ComputePossibleDelays(configuration).AsParallel());
     }
 
-    private ParallelQuery<ReachedState> ComputePossibleDelays(Configuration configuration)
+    private IEnumerable<ReachedState> ComputePossibleDelays(Configuration configuration)
     {
         return PossibleDelaySpan(configuration) switch
         {
-            (_, <= 0) => Enumerable.Empty<ReachedState>().AsParallel(),
+            (_, <= 0) => [],
             var (minimumTime, maxPossibleDelay) =>
                 Enumerable
                     .Range(minimumTime, minimumTime - maxPossibleDelay)
-                    .Select(delay => new ReachedState(delay, _actionExecutor.Delay(delay, configuration))).AsParallel(),
+                    .Select(delay => new ReachedState(delay, _actionExecutor.Delay(delay, configuration)))
         };
     }
 

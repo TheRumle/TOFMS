@@ -1,5 +1,4 @@
-﻿using System.Text;
-using FluentAssertions;
+﻿using FluentAssertions;
 
 namespace Common.UnitTest.Sets;
 
@@ -35,22 +34,8 @@ public class CombinerTests
 
         res.Should().HaveCount(1);
     }
-    static string PrettyPrint(List<List<int>> listOfLists)
-    {
-        StringBuilder sb = new StringBuilder();
 
-        foreach (var list in listOfLists)
-        {
-            sb.Append('[');
-            sb.Append(string.Join(",", list.Select(e => e.ToString())));
-            sb.Append(']');
-        }
 
-        return sb.ToString();
-    }
-
-    
-    
     [Fact]
     public void AllKeyCombinations_WhenGiven_ThreeKeys_EachWithTwo_ShouldGive8Combinations()
     {
@@ -62,5 +47,15 @@ public class CombinerTests
         result.Should().HaveCount(8);
     } 
     
+    
+    [Fact]
+    public void WhenChunkingIntoSameSizeAsElementsShouldWork()
+    {
+        int[] a = [1,2,3,4,5,6,7];
+
+        var result = Combiner.AllCombinationsOfSize(a, 7);
+        result.Should().HaveCount(1);
+    } 
+
    
 }

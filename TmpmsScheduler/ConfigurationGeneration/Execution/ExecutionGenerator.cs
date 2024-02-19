@@ -10,11 +10,11 @@ internal class ExecutionGenerator : IActionExecutionGenerator
         => action.To.Capacity < configuration.LocationConfigurations[action.To].Size + action.PartsToMove.Sum(e => e.Value);
     
     [Pure]
-    public IEnumerable<ActionExecution> PossibleWaysToExecute(MoveAction action, Configuration configuration)
+    public IEnumerable<ActionExecution> PossibleWaysToExecute(MoveAction action, Configuration under)
     {
-        if (WillExceedCapacity(action, configuration)) return [];
+        if (WillExceedCapacity(action, under)) return [];
         
-        return PossibleMoves(action, configuration.LocationConfigurations[action.From])
+        return PossibleMoves(action, under.LocationConfigurations[action.From])
             .Values
             .CartesianProduct()
             .Select(e=>new ActionExecution(e));

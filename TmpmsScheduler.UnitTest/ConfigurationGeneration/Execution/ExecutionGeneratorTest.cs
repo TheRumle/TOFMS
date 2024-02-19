@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using JetBrains.Annotations;
 using TestDataGenerator;
@@ -10,24 +11,20 @@ using Xunit;
 
 namespace TmpmsScheduler.UnitTest.ConfigurationGeneration.Execution;
 
-[TestSubject(typeof(EnablednessDecider))]
-public class EnablednessDeciderTest
+[TestSubject(typeof(ExecutionGenerator))]
+public class ExecutionGeneratorTest
 {
-    public EnablednessDeciderTest()
-    {
-        
-    }
     [Theory]
     [InlineData(6,5)]
     [InlineData(2,1)]
     [InlineData(10,1)]
-    public void WhenExecutingAction_WillExceedCapacity_ReturnsFalse(int parts, int capacity)
+    public void WhenExecutingAction_WillExceedCapacity_ReturnsEmptyEnumerable(int parts, int capacity)
     {
         string part = "P1";
         var (from, to, configuration) = PrepareConfiguration(part, parts, capacity);
         MoveAction action = CreateMoveAction(part, parts, from, to);
-        EnablednessDecider decider = CreateDecider();
-        decider.IsEnabledUnder(action, configuration).Should().Be(false);
+        ExecutionGenerator decider = CreateDecider();
+        decider.PossibleWaysToExecute(action, configuration).Should().HaveCount(0);
     }
 
     
@@ -35,13 +32,15 @@ public class EnablednessDeciderTest
     [InlineData(1,1)]
     [InlineData(2,2)]
     [InlineData(10,14)]
-    public void WhenExecutingAction_WillNotExceedCapacity_ReturnsTrue(int parts, int capacity)
+    public void WhenExecutingAction_WillNotExceedCapacity_ReturnsNonEmptyEnumerable(int parts, int capacity)
     {
         string part = "P1";
         var (from, to, configuration) = PrepareConfiguration(part, parts, capacity);
         MoveAction action = CreateMoveAction(part, parts, from, to);
-        EnablednessDecider decider = CreateDecider();
-        decider.IsEnabledUnder(action, configuration).Should().Be(true);
+        ExecutionGenerator decider = CreateDecider();
+        var possibleWaysToExecute = decider.PossibleWaysToExecute(action, configuration);
+        
+        possibleWaysToExecute.Should().HaveCountGreaterThan(0);
     }
 
     private (Location from, Location to, Configuration configuration) PrepareConfiguration(string part, int parts, int capacity)
@@ -49,12 +48,13 @@ public class EnablednessDeciderTest
         LocationGenerator generator = new LocationGenerator(new List<string> { part });
         Location from = generator.GenerateSingle(ProcessingLocationStrategy.OnlyRegularLocations);
         Location to = generator.GenerateSingle(ProcessingLocationStrategy.OnlyRegularLocations) with { Capacity = capacity };
+        
         ConfigurationFactory configurationFactory = new ConfigurationFactory();
-        LocationConfigurationFactory locConfFactory = new LocationConfigurationFactory(new List<string> { part });
-
+        LocationConfigurationFactory locConfFactory = new LocationConfigurationFactory([part]);
+        
         var configuration = configurationFactory.From(new List<(Location, LocationConfiguration)>
         {
-            (from, locConfFactory.ZeroAgedOfPart(part, [], parts)),
+            (from, CreateLocationConfigurationWithUniqueLengthJourney(part, parts, generator)),
             (to, locConfFactory.Empty())
         });
 
@@ -74,8 +74,21 @@ public class EnablednessDeciderTest
         };
     }
 
-    private EnablednessDecider CreateDecider()
+    private ExecutionGenerator CreateDecider()
     {
-        return new EnablednessDecider(); // Assuming this is how you create an EnablednessDecider
+        return new ExecutionGenerator(); // Assuming this is how you create an EnablednessDecider
+    }
+
+    private LocationConfiguration CreateLocationConfigurationWithUniqueLengthJourney(string partType, int amount, LocationGenerator generator)
+    {
+        var jour = Enumerable.Repeat(generator.GetProcessing, amount).ToArray();
+        
+        var a = new LocationConfiguration([partType]);
+        for (var i = 0; i < amount; i++)
+        {
+            a.Add(new Part(partType,0,jour.Skip(i)));
+        }
+
+        return a;
     }
 }

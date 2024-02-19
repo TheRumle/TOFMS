@@ -6,7 +6,7 @@ public record Part(string PartType, int Age, IEnumerable<Location> Journey)
     {
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
-        return PartType == other.PartType && Age == other.Age && Journey.Count() == other.Journey.Count();
+        return PartType == other.PartType && Age == other.Age && Journey.Equals(other.Journey);
     }
 
     public override int GetHashCode()
