@@ -34,4 +34,9 @@ public static class EnablednessChecker
                && SatisfiesEmptyBefore(action, under)
                && SatisfiesEmptyAfter(action, under);
     }
+    
+    public static bool SatisfiesBaseEnabledness(this MoveAction action, Configuration under)
+    {
+        return IsEnabled(action, under);
+    }
 }
