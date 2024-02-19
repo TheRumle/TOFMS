@@ -22,13 +22,17 @@ public static class PartFilterer
     private static Part[] FindPartsOfType(MoveAction action, Part[] partsToLookThrough, string partType)
     {
         var inv = action.From.InvariantsByType[partType];
-        Predicate<Part> predicate = action.From.IsProcessing
-            ? part => part.Age == action.From.InvariantsByType[partType].Max  && part.Journey.First() == action.To
+
+        Predicate<Part> ageCheck = action.From.IsProcessing
+            ? part => part.Age == action.From.InvariantsByType[partType].Max
             : part => part.Age <= inv.Max || part.Age >= inv.Min;
-            
-                
+        
+        Predicate<Part> check = ageCheck;
+        if (action.To.IsProcessing)
+            check = part => ageCheck(part) && part.Journey.First() == action.To;
+        
         var partsAvailableForMove = partsToLookThrough 
-            .Where(part => predicate.Invoke(part))
+            .Where(part => check.Invoke(part))
             .ToArray();
         
         return partsAvailableForMove;

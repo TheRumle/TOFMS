@@ -13,17 +13,24 @@ public class PartGenerator : IGenerator<Part>
     public PartGenerator(IEnumerable<string> partTypes, int minAge, int maxAge)
     {
         _minAge = minAge;
-        _maxAge = maxAge;
+        _maxAge = maxAge+1;
         _partTypes = partTypes.ToList();
     }
 
     public IEnumerable<Part> GeneratedEntities => _generated;
     public Part GenerateSingle() => Create([]);
+    public Part GenerateSingle(int age) => Create([], age);
+    public Part GenerateSingle(int age, IEnumerable<Location> locations) => Create(locations, age);
+
+    private Part Create(IEnumerable<Location> journey, int age)
+    {
+        _generated.Add(new Part(_partTypes[Random.Next(_partTypes.Count)], age, journey));
+        return _generated.Last();
+    }
 
     private Part Create(IEnumerable<Location> journey)
     {
-        _generated.Add(new Part(_partTypes[Random.Next(_partTypes.Count)], Random.Next(_minAge, _maxAge), journey));
-        return _generated.Last();
+        return Create(journey, Random.Next(_minAge, _maxAge));
     }
 
     public Part GenerateSingle(IEnumerable<Location> journey) => Create(journey);

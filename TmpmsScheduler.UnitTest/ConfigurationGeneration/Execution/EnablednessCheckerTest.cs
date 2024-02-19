@@ -13,8 +13,59 @@ using Xunit;
 
 namespace TmpmsScheduler.UnitTest.ConfigurationGeneration.Execution;
 
+public class SinglePartMoveTest
+{
+      
+    public (Location from, Location to, Configuration configuration) PrepareConfiguration(string part, int parts, int capacity)
+    {
+        LocationGenerator generator = new LocationGenerator(new List<string> { part });
+        Location from = generator.GenerateSingle(ProcessingLocationStrategy.OnlyRegularLocations);
+        Location to = generator.GenerateSingle(ProcessingLocationStrategy.OnlyRegularLocations) with { Capacity = capacity };
+        
+        ConfigurationFactory configurationFactory = new ConfigurationFactory();
+        LocationConfigurationFactory locConfFactory = new LocationConfigurationFactory([part]);
+        
+        var configuration = configurationFactory.From(new List<(Location, LocationConfiguration)>
+        {
+            (from, CreateLocationConfigurationWithUniqueLengthJourney(part, parts, generator)),
+            (to, locConfFactory.Empty())
+        });
+
+        return (from, to, configuration);
+    }
+
+    public MoveAction CreateMoveAction(string part, int parts, Location from, Location to)
+    {
+        return CreateMoveAction(part, parts, from, to, [], []);
+    }
+    
+    public MoveAction CreateMoveAction(string part, int parts, Location from, Location to, HashSet<Location> emptyAfter, HashSet<Location> emptyBefore)
+    {
+        return new MoveAction()
+        {
+            Name = "Test",
+            From = from,
+            To = to,
+            PartsToMove = new Dictionary<string, int> { { part, parts } },
+            EmptyBefore = emptyBefore,
+            EmptyAfter = emptyAfter
+        };
+    }
+
+
+    public LocationConfiguration CreateLocationConfigurationWithUniqueLengthJourney(string partType, int amount, LocationGenerator generator)
+    {
+        var jour = Enumerable.Repeat(generator.GetProcessing(), amount).ToArray();
+        var a = new LocationConfiguration([partType]);
+        for (var i = 0; i < amount; i++)
+            a.Add(new Part(partType,0,jour.Skip(1)));
+
+        return a;
+    }
+}
+
 [TestSubject(typeof(EnablednessChecker))]
-public class EnablednessCheckerTest
+public class EnablednessCheckerTest : SinglePartMoveTest
 {
     private const string Part = "P1";
     private static readonly List<string> Parts = [Part];
@@ -66,7 +117,6 @@ public class EnablednessCheckerTest
         int capacity = 10;
         int numberOfParts = 2;
 
-        LocationConfigurationFactory factory = new LocationConfigurationFactory(Parts);
         (Location from, Location to, Configuration configuration) = PrepareConfiguration(Part, numberOfParts, capacity);
         
         var action = CreateMoveAction(Part, numberOfParts, from, to with{ Capacity = capacity}, [], []);
@@ -79,58 +129,11 @@ public class EnablednessCheckerTest
         int capacity = 10;
         int numberOfParts = 2;
 
-        LocationConfigurationFactory factory = new LocationConfigurationFactory(Parts);
         (Location from, Location to, Configuration configuration) = PrepareConfiguration(Part, numberOfParts+1, capacity);
         
         var action = CreateMoveAction(Part, numberOfParts, from, to with{ Capacity = capacity}, [], []);
         action.SatisfiesBaseEnabledness(configuration).Should().Be(true);
     }
     
-    
-    private (Location from, Location to, Configuration configuration) PrepareConfiguration(string part, int parts, int capacity)
-    {
-        LocationGenerator generator = new LocationGenerator(new List<string> { part });
-        Location from = generator.GenerateSingle(ProcessingLocationStrategy.OnlyRegularLocations);
-        Location to = generator.GenerateSingle(ProcessingLocationStrategy.OnlyRegularLocations) with { Capacity = capacity };
-        
-        ConfigurationFactory configurationFactory = new ConfigurationFactory();
-        LocationConfigurationFactory locConfFactory = new LocationConfigurationFactory([part]);
-        
-        var configuration = configurationFactory.From(new List<(Location, LocationConfiguration)>
-        {
-            (from, CreateLocationConfigurationWithUniqueLengthJourney(part, parts, generator)),
-            (to, locConfFactory.Empty())
-        });
-
-        return (from, to, configuration);
-    }
-
-    private MoveAction CreateMoveAction(string part, int parts, Location from, Location to)
-    {
-        return CreateMoveAction(part, parts, from, to, [], []);
-    }
-    
-    private MoveAction CreateMoveAction(string part, int parts, Location from, Location to, HashSet<Location> emptyAfter, HashSet<Location> emptyBefore)
-    {
-        return new MoveAction()
-        {
-            Name = "Test",
-            From = from,
-            To = to,
-            PartsToMove = new Dictionary<string, int> { { part, parts } },
-            EmptyBefore = emptyBefore,
-            EmptyAfter = emptyAfter
-        };
-    }
-
-
-    private LocationConfiguration CreateLocationConfigurationWithUniqueLengthJourney(string partType, int amount, LocationGenerator generator)
-    {
-        var jour = Enumerable.Repeat(generator.GetProcessing(), amount).ToArray();
-        var a = new LocationConfiguration([partType]);
-        for (var i = 0; i < amount; i++)
-            a.Add(new Part(partType,0,jour.Skip(1)));
-
-        return a;
-    }
+  
 }
