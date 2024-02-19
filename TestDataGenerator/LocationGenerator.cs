@@ -87,4 +87,7 @@ public class LocationGenerator :  IGenerator<Location>
 
         return l;
     }
+
+    public Location GetProcessing => GenerateSingle(ProcessingLocationStrategy.OnlyProcessingLocations);
+    public Location GetRegular => GenerateSingle(ProcessingLocationStrategy.OnlyRegularLocations);
 }
