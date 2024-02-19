@@ -19,8 +19,8 @@ public class SinglePartMoveTest
     public (Location from, Location to, Configuration configuration) PrepareConfiguration(string part, int parts, int capacity)
     {
         LocationGenerator generator = new LocationGenerator(new List<string> { part });
-        Location from = generator.GenerateSingle(ProcessingLocationStrategy.OnlyRegularLocations);
-        Location to = generator.GenerateSingle(ProcessingLocationStrategy.OnlyRegularLocations) with { Capacity = capacity };
+        Location from = generator.GetRegular();
+        Location to = generator.GetRegular() with { Capacity = capacity };
         
         ConfigurationFactory configurationFactory = new ConfigurationFactory();
         LocationConfigurationFactory locConfFactory = new LocationConfigurationFactory([part]);

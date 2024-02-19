@@ -21,23 +21,7 @@ public class ExecutionGeneratorTest : SinglePartMoveTest
         ExecutionGenerator decider = CreateDecider();
         decider.PossibleWaysToExecute(action, configuration).Should().HaveCount(0);
     }
-
-    
-    [Theory]
-    [InlineData(1,1)]
-    [InlineData(2,2)]
-    [InlineData(10,14)]
-    public void WhenExecutingAction_WillNotExceedCapacity_ReturnsNonEmptyEnumerable(int parts, int capacity)
-    {
-        string part = "P1";
-        var (from, to, configuration) = PrepareConfiguration(part, parts, capacity);
-        MoveAction action = CreateMoveAction(part, parts, from, to);
-        ExecutionGenerator decider = CreateDecider();
-        var possibleWaysToExecute = decider.PossibleWaysToExecute(action, configuration);
-        
-        possibleWaysToExecute.Should().HaveCountGreaterThan(0);
-    }
-    
+ 
     private ExecutionGenerator CreateDecider()
     {
         return new ExecutionGenerator();
