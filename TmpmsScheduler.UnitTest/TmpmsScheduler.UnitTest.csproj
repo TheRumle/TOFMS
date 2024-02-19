@@ -24,9 +24,5 @@
     <ProjectReference Include="..\TestDataGenerator\TestDataGenerator.csproj" />
     <ProjectReference Include="..\TmpmsScheduler\TmpmsScheduler.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ConfigurationGeneration\Execution\" />
-  </ItemGroup>
   
 </Project>

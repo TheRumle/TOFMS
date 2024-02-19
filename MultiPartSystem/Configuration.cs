@@ -45,4 +45,9 @@ public record Configuration
     {
         _locationConfigurations[location] = configuration;
     }
+
+    public int RemainingCapacityFor(Location location)
+    {
+        return location.Capacity - _locationConfigurations[location].Size;
+    }
 }

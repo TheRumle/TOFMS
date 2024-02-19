@@ -30,8 +30,10 @@ internal class ConfigurationExecutor : IConfigurationGenerator
             )
             .SelectMany(actionPossibilities =>
             {
-                return actionPossibilities.PossibleWaysToExecute
-                    .Select(wayToExecute => _actionExecutor.Execute(wayToExecute, configuration))
+                var action = actionPossibilities.Action;
+                var possibleWaysToExecute = actionPossibilities.PossibleWaysToExecute;
+                return possibleWaysToExecute
+                    .Select(wayToExecute => _actionExecutor.Execute(action.From, action.To, wayToExecute, configuration))
                     .Select(reachedConfiguration => new ReachedState(actionPossibilities.Action, reachedConfiguration));
             })
             .Concat(ComputePossibleDelays(configuration).AsParallel());

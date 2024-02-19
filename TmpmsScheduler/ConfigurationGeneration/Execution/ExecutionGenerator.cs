@@ -6,18 +6,41 @@ namespace TmpmsChecker.ConfigurationGeneration.Execution;
 
 internal class ExecutionGenerator : IActionExecutionGenerator
 {
-    private bool WillExceedCapacity(MoveAction action, Configuration configuration) 
-        => action.To.Capacity < configuration.LocationConfigurations[action.To].Size + action.PartsToMove.Sum(e => e.Value);
     
     [Pure]
     public IEnumerable<ActionExecution> PossibleWaysToExecute(MoveAction action, Configuration under)
     {
-        if (WillExceedCapacity(action, under)) return [];
+        if (   !WillSatisfyCapacity(action, under) 
+            || !WillSatisfyEmptyBefore(action, under) 
+            || !WillNotSatisfyEmptyAfter(action, under)) return [];
         
         return PossibleMoves(action, under.LocationConfigurations[action.From])
             .Values
             .CartesianProduct()
             .Select(e=>new ActionExecution(e));
+    }
+    
+    private static bool WillSatisfyCapacity(MoveAction action, Configuration configuration) 
+        => action.To.Capacity >= configuration.LocationConfigurations[action.To].Size + action.PartsToMove.Sum(e => e.Value);
+
+    private static bool WillSatisfyEmptyBefore(MoveAction action, Configuration configuration)
+    {
+        return configuration.LocationConfigurations
+            .Where(e => action.EmptyBefore.Contains(e.Key))
+            .All(configs => configs.Value.Size == 0);
+    }
+    
+    private static bool WillNotSatisfyEmptyAfter(MoveAction action, Configuration configuration)
+    {
+        var allEmptyAfterEmpty = configuration.LocationConfigurations
+            .Where(e => action.EmptyAfter.Contains(e.Key) && action.To != e.Key)
+            .Select(e => e.Value)
+            .All(e => e.Size == 0);
+
+        if (action.EmptyAfter.Contains(action.To))
+            return allEmptyAfterEmpty && configuration.RemainingCapacityFor(action.To) >= action.TotalAmountToMove();
+
+        return allEmptyAfterEmpty;
     }
         
     private static Dictionary<string, IEnumerable<ConsumeProduceSet>> PossibleMoves(MoveAction action, LocationConfiguration locConfFrom)

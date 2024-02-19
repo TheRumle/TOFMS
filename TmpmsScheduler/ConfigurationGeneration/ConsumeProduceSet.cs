@@ -30,7 +30,6 @@ internal record ConsumeProduceSet(IEnumerable<Part> Consume, IEnumerable<Part> P
     public static ConsumeProduceSet Construct(IEnumerable<Part> consume)
     {
         Part[] enumerable = consume as Part[] ?? consume.ToArray();
-        return new ConsumeProduceSet(enumerable,enumerable.Select(e => e with { Age = 0 }));
+        return new ConsumeProduceSet(enumerable,enumerable.Select(e => new Part(e.PartType, 0, e.Journey)));
     }
-    
 }

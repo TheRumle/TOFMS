@@ -1,6 +1,8 @@
-﻿namespace Tmpms;
+﻿
 
-public record Part(string PartType, int Age, IEnumerable<Location> Journey)
+namespace Tmpms;
+
+public class Part(string PartType, int Age, IEnumerable<Location> Journey)
 {
     public virtual bool Equals(Part? other)
     {
@@ -12,5 +14,16 @@ public record Part(string PartType, int Age, IEnumerable<Location> Journey)
     public override int GetHashCode()
     {
         return HashCode.Combine(PartType, Age, Journey);
+    }
+
+    public string PartType { get; init; } = PartType;
+    public int Age { get; set; } = Age;
+    public IEnumerable<Location> Journey { get; init; } = Journey;
+
+    public void Deconstruct(out string PartType, out int Age, out IEnumerable<Location> Journey)
+    {
+        PartType = this.PartType;
+        Age = this.Age;
+        Journey = this.Journey;
     }
 }

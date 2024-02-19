@@ -4,6 +4,6 @@ namespace TmpmsChecker.ConfigurationGeneration;
 
 internal interface IActionExecutor
 {
-    Configuration Execute(ActionExecution execution, Configuration configuration);
+    Configuration Execute(Location from, Location to, ActionExecution execution, Configuration configuration);
     Configuration Delay(int delay, Configuration configuration);
 }

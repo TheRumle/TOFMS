@@ -1,4 +1,6 @@
-﻿namespace TmpmsChecker.ConfigurationGeneration;
+﻿using Tmpms;
+
+namespace TmpmsChecker.ConfigurationGeneration;
 
 internal record ActionExecution(IEnumerable<ConsumeProduceSet> Moves)
 {
@@ -12,5 +14,11 @@ internal record ActionExecution(IEnumerable<ConsumeProduceSet> Moves)
     public override int GetHashCode()
     {
         return Moves.GetHashCode();
+    }
+    
+    public (Dictionary<string, IEnumerable<Part>> Consume, Dictionary<string, IEnumerable<Part>> Produce ) ToPartDictionary()
+    {
+        return (Moves.Select(e => e.Consume).ToDictionary(e => e.First().PartType),
+                Moves.Select(e => e.Produce).ToDictionary(e => e.First().PartType));
     }
 };
