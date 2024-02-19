@@ -70,8 +70,8 @@ public class ExecutionGeneratorTest
             From = from,
             To = to,
             PartsToMove = new Dictionary<string, int> { { part, parts } },
-            EmptyBefore = {},
-            EmptyAfter = {}
+            EmptyBefore = new HashSet<Location>(),
+            EmptyAfter = new HashSet<Location>()
         };
     }
 
