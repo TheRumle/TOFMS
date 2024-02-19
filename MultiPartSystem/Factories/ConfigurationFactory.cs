@@ -1,6 +1,4 @@
-﻿using Tmpms;
-
-namespace TmpmsChecker.Domain;
+﻿namespace Tmpms.Factories;
 
 public class ConfigurationFactory
 {

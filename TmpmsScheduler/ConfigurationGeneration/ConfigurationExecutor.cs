@@ -1,8 +1,6 @@
 ﻿using Tmpms;
 using Tmpms.Move;
 using TmpmsChecker.Algorithm;
-using TmpmsChecker.Domain;
-using MoveAction = TmpmsChecker.Domain.MoveAction;
 
 namespace TmpmsChecker.ConfigurationGeneration;
 

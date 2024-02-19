@@ -1,8 +1,6 @@
-﻿using Tmpms;
+﻿namespace Tmpms;
 
-namespace TmpmsChecker.Domain;
-
-public class Configuration
+public record Configuration
 {
     private readonly Dictionary<Location, LocationConfiguration> _locationConfigurations = new();
     public readonly IEnumerable<string> PartTypes;

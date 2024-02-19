@@ -55,4 +55,11 @@ public class LocationConfiguration
 
         return b.ToString();
     }
+
+    public LocationConfiguration Copy()
+    {
+        return new LocationConfiguration(_parts
+            .Select(oldKvp => KeyValuePair.Create(oldKvp.Key,
+                oldKvp.Value.Select(part => new Part(part.PartType, part.Age, part.Journey)).ToList())), Size);
+    }
 }
