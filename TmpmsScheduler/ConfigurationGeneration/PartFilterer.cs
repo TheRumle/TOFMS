@@ -25,7 +25,7 @@ public static class PartFilterer
 
         Predicate<Part> ageCheck = action.From.IsProcessing
             ? part => part.Age == action.From.InvariantsByType[partType].Max
-            : part => part.Age <= inv.Max || part.Age >= inv.Min;
+            : part => part.Age <= inv.Max && part.Age >= inv.Min;
         
         Predicate<Part> check = ageCheck;
         if (action.To.IsProcessing)

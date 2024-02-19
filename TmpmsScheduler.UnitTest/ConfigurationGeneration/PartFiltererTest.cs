@@ -36,6 +36,24 @@ public class PartFiltererTest : SinglePartMoveTest
     }
     
     [Theory]
+    [InlineData(2,0,4)]
+    [InlineData(2,1,4)]
+    public void WhenAgeIsBelowMin_ShouldNotIncluded(int min, int age, int max)
+    {
+        HashSet<Invariant> invariant = [new Invariant(PARTTYPE, min, max)];
+        
+        var from = _locationGenerator.GetRegular() with { Invariants = invariant };
+        var to = _locationGenerator.GetRegular();
+
+        PartGenerator partGenerator = new PartGenerator([PARTTYPE], min, max);
+        var target = partGenerator.GenerateSingle(age);
+        IEnumerable<Part> parts = [target];
+
+        var move = CreateMoveAction(PARTTYPE, 1, from, to, [], []);
+        parts.RelevantFor(move).Should().NotContain(target);
+    }
+    
+    [Theory]
     [InlineData(0,0,2)]
     [InlineData(0,1,2)]
     public void When_MovingOutOfProcessingLocation_AndAgeIsNotMax_ShouldNotBeIncluded(int min, int age, int max)
