@@ -2,17 +2,7 @@
 using Tmpms.Move;
 using TmpmsChecker.Algorithm;
 
-namespace TmpmsChecker.ActionExecutors;
-
-internal interface IActionExecutor
-{
-    Configuration Execute(ActionExecution execution, Configuration configuration);
-}
-
-internal interface IActionEnablednessDecider
-{
-    bool IsEnabledUnder(MoveAction action, Configuration configurtion);
-}
+namespace TmpmsChecker.ConfigurationGeneration;
 
 internal class AllEnabledActions : IConfigurationGenerator
 {
@@ -20,7 +10,10 @@ internal class AllEnabledActions : IConfigurationGenerator
     private readonly IActionEnablednessDecider _enablednessDecider;
     private readonly IActionExecutor _actionExecutor;
 
-    public AllEnabledActions(IEnumerable<MoveAction> availableActions, IActionEnablednessDecider enablednessDecider, IActionExecutor actionExecutor)
+    public AllEnabledActions(
+        IEnumerable<MoveAction> availableActions,
+        IActionEnablednessDecider enablednessDecider,
+        IActionExecutor actionExecutor)
     {
         _availableActions = availableActions;
         _enablednessDecider = enablednessDecider;
@@ -29,11 +22,6 @@ internal class AllEnabledActions : IConfigurationGenerator
     
     public IEnumerable<ReachedState> GenerateConfigurations(Configuration configuration)
     {
-        var maxPossibleDelay = TimeToNextInvariantLimit(configuration);
-        if (maxPossibleDelay <= 0)
-        //TODO Figure out how much to delay we can perform 
-        
-
         return _availableActions
             .AsParallel().WithDegreeOfParallelism(4)
             .Select(action => (
@@ -42,21 +30,35 @@ internal class AllEnabledActions : IConfigurationGenerator
             )
             .Where(action => action.IsEnabled)
             .SelectMany(action => ExecuteAction(action.Action, configuration))
-            .Concat(new []{});
+            .Concat(ComputePossibleDelays(configuration));
     }
 
-    private int TimeToNextInvariantLimit(Configuration configuration)
+    private ParallelQuery<ReachedState> ComputePossibleDelays(Configuration configuration)
+    {
+        return PossibleDelaySpan(configuration) switch
+        {
+            (_, <= 0) => Enumerable.Empty<ReachedState>().AsParallel(),
+            var (minimumTime, maxPossibleDelay) =>
+                Enumerable
+                    .Range(minimumTime, minimumTime - maxPossibleDelay)
+                    .Select(delay => new ReachedState(delay, _actionExecutor.Delay(delay, configuration))).AsParallel(),
+        };
+    }
+
+    private (int TimeUntilMinReached, int MaxDelay) PossibleDelaySpan(Configuration configuration)
     {
         var maxDelay = 0;
+        var timeUntilMinReached = 0;
         foreach (var (location, locationConfig) in configuration.LocationConfigurations)
             foreach (var (partType, invariant) in location.InvariantsByType)
                 foreach (var part in locationConfig.PartsByType[partType])
                 {
                     //If any part is at the max we cannot perform any delay
-                    if (invariant.Max == part.Age) return 0;
+                    if (invariant.Max == part.Age) return (0, 0);
                     maxDelay = Math.Min(maxDelay, invariant.Max - part.Age);
+                    timeUntilMinReached = Math.Min(timeUntilMinReached, invariant.Min - part.Age);
                 }
-        return maxDelay;
+        return (timeUntilMinReached, maxDelay);
     }
 
     private IEnumerable<ReachedState> ExecuteAction(MoveAction action, Configuration configuration)
@@ -64,8 +66,8 @@ internal class AllEnabledActions : IConfigurationGenerator
         var locationConfiguration = configuration.LocationConfigurations[action.From];
         
         //Generate all possible ways to execute the action (examine all part combinations that enable the action)
-        var waysToExecuteAction = ConfigurationExplorer
-            .WaysToSatisfyAction(action)
+        var waysToExecuteAction = ActionSatisfier
+            .WaysToSatisfy(action)
             .Under(locationConfiguration);
         
         //Execute all action in all possible ways

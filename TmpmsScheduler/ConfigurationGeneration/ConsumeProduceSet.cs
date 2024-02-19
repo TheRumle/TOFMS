@@ -1,6 +1,6 @@
 ﻿using Tmpms;
 
-namespace TmpmsChecker.ActionExecutors;
+namespace TmpmsChecker.ConfigurationGeneration;
 
 /// <summary>
 /// Represents the consumption and production of a part type. 

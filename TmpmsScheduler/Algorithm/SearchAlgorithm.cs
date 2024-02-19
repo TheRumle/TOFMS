@@ -92,5 +92,4 @@ internal class SearchAlgorithm
         } while (!prev.Equals(_startAction));
         return new Schedule(result);
     }
-    
 }
