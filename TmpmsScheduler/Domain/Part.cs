@@ -1,9 +1,11 @@
-﻿
+﻿using Newtonsoft.Json;
 
 namespace Tmpms;
 
-public record Part(string PartType, int Age, IEnumerable<Location> Journey)
+public record Part(int Id, string PartType, int Age, IEnumerable<Location> Journey)
 {
+    [JsonIgnore]
+    public int Id { get; set; }
     public virtual bool Equals(Part? other)
     {
         if (ReferenceEquals(null, other)) return false;

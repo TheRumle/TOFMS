@@ -4,10 +4,11 @@ using FluentAssertions;
 using JetBrains.Annotations;
 using TestDataGenerator;
 using Tmpms;
-using Tmpms.Factories;
 using Tmpms.Move;
 using TmpmsChecker.ConfigurationGeneration.Execution;
+using TmpmsChecker.Domain;
 using Xunit;
+using MoveAction = TmpmsChecker.Domain.MoveAction;
 
 namespace TmpmsScheduler.UnitTest.ConfigurationGeneration.Execution;
 
@@ -41,6 +42,13 @@ public class ExecutionGeneratorTest
         var possibleWaysToExecute = decider.PossibleWaysToExecute(action, configuration);
         
         possibleWaysToExecute.Should().HaveCountGreaterThan(0);
+    }
+
+    
+    public void WhenExecutingAction_ButNoPartsAreSufficientAge_ReturnsEmptyEnumerable(int parts, int minimumAge)
+    {
+        
+        
     }
 
     private (Location from, Location to, Configuration configuration) PrepareConfiguration(string part, int parts, int capacity)

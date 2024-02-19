@@ -24,7 +24,7 @@ internal record ConsumeProduceSet(IEnumerable<Part> Consume, IEnumerable<Part> P
     public static ConsumeProduceSet ConstructWithJourneyUpdate(IEnumerable<Part> consume)
     {
         Part[] enumerable = consume as Part[] ?? consume.ToArray();
-        return new ConsumeProduceSet(enumerable,enumerable.Select(e => new Part(e.PartType, 0, e.Journey.Skip(1))));
+        return new ConsumeProduceSet(enumerable,enumerable.Select(e => new Part(e.Id, e.PartType, 0, e.Journey.Skip(1))));
     }
     
     public static ConsumeProduceSet Construct(IEnumerable<Part> consume)

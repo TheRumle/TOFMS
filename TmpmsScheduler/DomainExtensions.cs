@@ -1,5 +1,6 @@
 ﻿using Tmpms;
 using Tmpms.Move;
+using MoveAction = TmpmsChecker.Domain.MoveAction;
 
 namespace TmpmsChecker;
 
