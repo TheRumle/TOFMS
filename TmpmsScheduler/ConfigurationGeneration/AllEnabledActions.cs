@@ -7,16 +7,16 @@ namespace TmpmsChecker.ConfigurationGeneration;
 internal class AllEnabledActions : IConfigurationGenerator
 {
     private readonly IEnumerable<MoveAction> _availableActions;
-    private readonly IActionEnablednessDecider _enablednessDecider;
+    private readonly IActionExecutionGenerator _executionGenerator;
     private readonly IActionExecutor _actionExecutor;
 
     public AllEnabledActions(
         IEnumerable<MoveAction> availableActions,
-        IActionEnablednessDecider enablednessDecider,
+        IActionExecutionGenerator executionGenerator,
         IActionExecutor actionExecutor)
     {
         _availableActions = availableActions;
-        _enablednessDecider = enablednessDecider;
+        _executionGenerator = executionGenerator;
         _actionExecutor = actionExecutor;
     }
     
@@ -26,10 +26,14 @@ internal class AllEnabledActions : IConfigurationGenerator
             .AsParallel().WithDegreeOfParallelism(4)
             .Select(action => (
                 Action: action,
-                IsEnabled: _enablednessDecider.IsEnabledUnder(action: action, configuration))
+                PossibleWaysToExecute: _executionGenerator.PossibleWaysToExecute(action: action, configuration))
             )
-            .Where(action => action.IsEnabled)
-            .SelectMany(action => ExecuteAction(action.Action, configuration))
+            .SelectMany(actionPossibilities =>
+            {
+                return actionPossibilities.PossibleWaysToExecute
+                    .Select(wayToExecute => _actionExecutor.Execute(wayToExecute, configuration))
+                    .Select(reachedConfiguration => new ReachedState(actionPossibilities.Action, reachedConfiguration));
+            })
             .Concat(ComputePossibleDelays(configuration));
     }
 
@@ -59,20 +63,5 @@ internal class AllEnabledActions : IConfigurationGenerator
                     timeUntilMinReached = Math.Min(timeUntilMinReached, invariant.Min - part.Age);
                 }
         return (timeUntilMinReached, maxDelay);
-    }
-
-    private IEnumerable<ReachedState> ExecuteAction(MoveAction action, Configuration configuration)
-    {
-        var locationConfiguration = configuration.LocationConfigurations[action.From];
-        
-        //Generate all possible ways to execute the action (examine all part combinations that enable the action)
-        var waysToExecuteAction = ActionSatisfier
-            .WaysToSatisfy(action)
-            .Under(locationConfiguration);
-        
-        //Execute all action in all possible ways
-        return waysToExecuteAction
-            .Select(wayToExecute => _actionExecutor.Execute(wayToExecute, configuration))
-            .Select(reachedConfiguration => new ReachedState(action, reachedConfiguration));
     }
 }
