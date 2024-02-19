@@ -4,40 +4,6 @@ using Tmpms.Move;
 
 namespace TmpmsChecker.ConfigurationGeneration.Execution;
 
-public static class PartFilterer
-{
-    
-
-    /// <summary>
-    /// Finds the part that can be used to execute the given move action.
-    /// </summary>
-    /// <param name="action"></param>
-    /// <param name="parts"></param>
-    /// <returns></returns>
-    public static Part[] FindPartsRelevantFor(MoveAction action, IEnumerable<Part> parts)
-    {
-        var toLookThrough = parts.ToArray();
-        return action.PartsToMove.Keys
-            .Select(partType => FindPartsOfType(action, toLookThrough, partType))
-            .SelectMany(e => e).ToArray();
-    }
-
-    private static Part[] FindPartsOfType(MoveAction action, Part[] partsToLookThrough, string partType)
-    {
-        var inv = action.From.InvariantsByType[partType];
-        Predicate<Part> predicate = action.From.IsProcessing
-            ? part => part.Age == action.From.InvariantsByType[partType].Max  && part.Journey.First() == action.To
-            : part => part.Age <= inv.Max || part.Age >= inv.Min;
-            
-                
-        var partsAvailableForMove = partsToLookThrough 
-            .Where(part => predicate.Invoke(part))
-            .ToArray();
-        
-        return partsAvailableForMove;
-    }
-}
-
 internal class ExecutionGenerator : IActionExecutionGenerator
 {
     [Pure]
@@ -53,12 +19,14 @@ internal class ExecutionGenerator : IActionExecutionGenerator
         
     private static List<IEnumerable<ConsumeProduceSet>> PossibleMoves(MoveAction action, LocationConfiguration locConfFrom)
     {
-       List<IEnumerable<ConsumeProduceSet>> possibleThingsToConsumeProduce = new();
 
-        Dictionary<string, Part[]> relevantParts = PartFilterer.FindPartsRelevantFor(action, locConfFrom.AllParts)
+        var relevantParts = locConfFrom
+            .AllParts
+            .RelevantFor(action)
             .GroupBy(part => part.PartType, x => x)
             .ToDictionary(g => g.Key, g => g.ToArray());
         
+        List<IEnumerable<ConsumeProduceSet>> possibleThingsToConsumeProduce = new();
         foreach (var (partType, amount) in action.PartsToMove)
         {
             IEnumerable<ConsumeProduceSet> enumerable = Combiner
