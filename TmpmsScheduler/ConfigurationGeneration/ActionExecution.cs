@@ -18,7 +18,16 @@ internal record ActionExecution(IEnumerable<ConsumeProduceSet> Moves)
     
     public (Dictionary<string, IEnumerable<Part>> Consume, Dictionary<string, IEnumerable<Part>> Produce ) ToPartDictionary()
     {
-        return (Moves.Select(e => e.Consume).ToDictionary(e => e.First().PartType),
-                Moves.Select(e => e.Produce).ToDictionary(e => e.First().PartType));
+        var allProdEmpty = Moves
+            .Select(e => e.Produce).All(e => e.Any());
+        
+        var allConsEmpty = Moves
+            .Select(e => e.Consume).All(e => e.Any());
+        
+        var prod = Moves.Select(e => e.Produce).ToArray();
+        var cons = Moves.Select(e => e.Consume).ToArray();
+        
+        return  (allProdEmpty ? [] : cons.ToDictionary(e => e.First().PartType),
+            allConsEmpty ? [] : prod.ToDictionary(e => e.First().PartType));
     }
 };

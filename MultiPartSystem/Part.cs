@@ -4,11 +4,17 @@ namespace Tmpms;
 
 public class Part(string PartType, int Age, IEnumerable<Location> Journey)
 {
-    public virtual bool Equals(Part? other)
+    protected bool Equals(Part other)
     {
-        if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
-        return PartType == other.PartType && Age == other.Age && Journey.Equals(other.Journey);
+        return PartType == other.PartType && Age == other.Age && Journey.Count() == other.Journey.Count();
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+        return Equals((Part)obj);
     }
 
     public override int GetHashCode()

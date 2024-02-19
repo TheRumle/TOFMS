@@ -41,6 +41,22 @@ public class LocationConfiguration
     {
         Add(parts.ToArray());
     }
+    
+    public void Remove(Part part)
+    {
+        Size -= 1;
+        _parts[part.PartType].Remove(part);
+    }
+
+    public void Remove(Part[] parts)
+    {
+        foreach (var partsPerType in parts.GroupBy(e => e.PartType))
+            _parts[partsPerType.Key].AddRange(partsPerType);
+
+        Size -= parts.Length;
+    }
+
+    public void Remove(IEnumerable<Part> parts) => Remove(parts.ToArray());
 
 
     public override string ToString()
@@ -61,20 +77,5 @@ public class LocationConfiguration
         return new LocationConfiguration(_parts
             .Select(oldKvp => KeyValuePair.Create(oldKvp.Key,
                 oldKvp.Value.Select(part => new Part(part.PartType, part.Age, part.Journey)).ToList())), Size);
-    }
-
-    public void Remove(Dictionary<string, IEnumerable<Part>> remove)
-    {
-        foreach (var (type, toRemove) in remove)
-        foreach (var partToRemove in toRemove)
-            _parts[type].Remove(partToRemove);
-    }
-
-    public void Add(Dictionary<string, IEnumerable<Part>> produce)
-    {
-        foreach (var (type, toRemove) in produce)
-        foreach (var partToRemove in toRemove)
-            _parts[type].Add(partToRemove);
-        
     }
 }

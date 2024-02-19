@@ -1,9 +1,10 @@
-﻿namespace Tmpms;
+﻿using Tmpms;
 
-public record Configuration
+namespace TmpmsChecker;
+
+public class Configuration
 {
     private readonly Dictionary<Location, LocationConfiguration> _locationConfigurations = new();
-    public readonly IEnumerable<string> PartTypes;
 
     internal Configuration(IEnumerable<KeyValuePair<Location, LocationConfiguration>> locationConfigurations)
     {
@@ -17,13 +18,12 @@ public record Configuration
     {
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
-        return _locationConfigurations.SequenceEqual(other._locationConfigurations) &&
-               PartTypes.SequenceEqual(other.PartTypes);
+        return _locationConfigurations.SequenceEqual(other._locationConfigurations);
     }
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(_locationConfigurations, PartTypes);
+        return _locationConfigurations.GetHashCode();
     }
 
     public Configuration Copy()

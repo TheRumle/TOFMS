@@ -6,6 +6,7 @@ using TestDataGenerator;
 using Tmpms;
 using Tmpms.Factories;
 using Tmpms.Move;
+using TmpmsChecker;
 using TmpmsChecker.ConfigurationGeneration.Execution;
 using Xunit;
 
@@ -81,12 +82,11 @@ public class ExecutionGeneratorTest
 
     private LocationConfiguration CreateLocationConfigurationWithUniqueLengthJourney(string partType, int amount, LocationGenerator generator)
     {
-        var jour = Enumerable.Repeat(generator.GetProcessing, amount).ToArray();
-        
+        var jour = Enumerable.Repeat(generator.GetProcessing(), amount).ToArray();
         var a = new LocationConfiguration([partType]);
         for (var i = 0; i < amount; i++)
         {
-            a.Add(new Part(partType,0,jour.Skip(i)));
+            a.Add(new Part(partType,0,jour.Skip(1)));
         }
 
         return a;
