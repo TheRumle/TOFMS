@@ -77,7 +77,7 @@ public class ExecutionGeneratorTest
 
     private ExecutionGenerator CreateDecider()
     {
-        return new ExecutionGenerator(); // Assuming this is how you create an EnablednessDecider
+        return new ExecutionGenerator();
     }
 
     private LocationConfiguration CreateLocationConfigurationWithUniqueLengthJourney(string partType, int amount, LocationGenerator generator)
@@ -85,9 +85,7 @@ public class ExecutionGeneratorTest
         var jour = Enumerable.Repeat(generator.GetProcessing(), amount).ToArray();
         var a = new LocationConfiguration([partType]);
         for (var i = 0; i < amount; i++)
-        {
             a.Add(new Part(partType,0,jour.Skip(1)));
-        }
 
         return a;
     }
