@@ -22,7 +22,7 @@ public class ActionExecutorTest
 
 
     [Fact]
-    public void WhenMovingFrom_AToB_RemovesTheConfiguration()
+    public void WhenMovingFrom_AToB_AddsAndRemovesTheParts()
     {
         var parts = _partGenerator.Generate(2).ToArray();
         var consProd = new ConsumeProduceSet(parts, parts);
@@ -36,6 +36,7 @@ public class ActionExecutorTest
         newConfig.LocationConfigurations[_to].AllParts.SequenceEqual(parts).Should().Be(true);
         newConfig.LocationConfigurations[_from].Size.Should().Be(0);
     }
+    
     private Configuration CreateConfigurationAllEmpty(ConsumeProduceSet consumeProduceSet)
     {
         LocationConfiguration fromConf = new LocationConfiguration(partTypes);
