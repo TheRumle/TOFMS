@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using FluentAssertions;
+using JetBrains.Annotations;
 using TmpmsChecker.Algorithm;
 using Xunit;
 
 namespace TmpmsScheduler.UnitTest.Algorithm;
 
+[TestSubject(typeof(CostBasedQueue<>))]
 public class CostBasedQueueTest
 {
     public static IEnumerable<Object[]> TestDataList = [

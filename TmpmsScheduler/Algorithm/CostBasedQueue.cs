@@ -6,12 +6,6 @@
 /// <typeparam name="T"></typeparam>
 internal class CostBasedQueue<T>
 {
-    public CostBasedQueue()
-    {
-        
-    }
-
-    
     private readonly PriorityQueue<T, float> _queue = new();
     
     /// <summary>

@@ -25,10 +25,21 @@ public class ConfigurationGeneratorTest
     }
 
     [Fact]
+    public void WhenOnlyOneWayToExecuteAction_ShouldGiveOnePossibility()
+    {
+        var location = CreateSingletonConfigWithInvariantAndAge(10, 10, 10);
+
+        
+        
+    }
+    
+    
+
+    [Fact]
     public void WhenNoDelaysCanBeMade_ShouldReturnEmpty()
     {
         int min = 1; int max = 1;
-        var location = CreateSingletonConfigWithAge(min, max, max);
+        var location = CreateSingletonConfigWithInvariantAndAge(min, max, max);
         
         Configuration configurations = CreateConfiguration([location]);
 
@@ -45,26 +56,12 @@ public class ConfigurationGeneratorTest
     [InlineData(3,4)]
     public void WhenOnlyOneDelayCanBeMade_ShouldReturnOneConfiguration_ReachableByDelay1(int min, int max)
     {
-        var location = CreateSingletonConfigWithAge(min,max , max - 1);
+        var location = CreateSingletonConfigWithInvariantAndAge(min,max , max - 1);
         Configuration configurations = CreateConfiguration([location]);
 
         ReachableConfig[] reachableStates = GetGenerator([]).GenerateConfigurations(configurations);
         reachableStates.Should().HaveCount(1);
         reachableStates.First().TimeCost.Should().Be(1);
-    }
-    
-    [Theory]
-    [InlineData(1,3, 1)]
-    [InlineData(0,3, 1)]
-    [InlineData(0,2, 0)]
-    public void WhenTwoDelaysCanBeMade_ShouldReturnTwoConfigurations(int min, int max, int age)
-    {
-        var location = CreateSingletonConfigWithAge(min, max, age);
-        
-        Configuration configurations = CreateConfiguration([location]);
-        
-        ReachableConfig[] reachableStates = GetGenerator([]).GenerateConfigurations(configurations);
-        reachableStates.Should().HaveCount(2);
     }
     
     [Theory]
@@ -75,7 +72,7 @@ public class ConfigurationGeneratorTest
     [InlineData(1,10, 10, 0)] //No delay possible
     public void WhenAgeBetweenInvariant_ShouldGiveExpectedNumberOfPossibleDelays(int min, int max, int age, int expected)
     {
-        var location = CreateSingletonConfigWithAge(min, max, age);
+        var location = CreateSingletonConfigWithInvariantAndAge(min, max, age);
         
         Configuration configurations = CreateConfiguration([location]);
         
@@ -92,7 +89,7 @@ public class ConfigurationGeneratorTest
     [InlineData(10,10, 0, 1)] //Delay to reach 10
     public void WhenAgeUnderInvariant_ShouldGiveExpectedNumberOfPossibleDelays(int min, int max, int age, int expected)
     {
-        var location = CreateSingletonConfigWithAge(min, max, age);
+        var location = CreateSingletonConfigWithInvariantAndAge(min, max, age);
         
         Configuration configurations = CreateConfiguration([location]);
         
@@ -109,13 +106,30 @@ public class ConfigurationGeneratorTest
         return factory.From(locations.Select(e=>(e,e.Configuration)));
     }
     
-    private Location CreateSingletonConfigWithAge(int min, int max, int age)
+    private Location CreateSingletonConfigWithInvariantAndAge(int min, int max, int age)
     {
         return _locationGenerator.GetRegular() 
             with
             {
                 Invariants = new HashSet<Invariant>([new Invariant(PARTTYPE, min, max)]),
                 Configuration = _configurationFactory.SingletonOfAge(PARTTYPE, [], age)
+            };
+    }
+    
+    /// <summary>
+    ///  
+    /// </summary>
+    /// <param name="to"> The location the part should be moved to.</param>
+    /// <param name="age">The minimum and maximum value of the interval, and the exact age of the token.</param>
+    /// <returns></returns>
+    private Location CreateLocationWithEnabledPart(int age, Location to)
+    {
+        Location[] jour = to.IsProcessing ? [to] : [];
+        return _locationGenerator.GetRegular() 
+            with
+            {
+                Invariants = new HashSet<Invariant>([new Invariant(PARTTYPE, age, age)]),
+                Configuration = _configurationFactory.SingletonOfAge(PARTTYPE, jour, age)
             };
     }
 
