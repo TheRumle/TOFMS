@@ -1,6 +1,4 @@
-﻿using Tmpms;
-
-namespace TmpmsChecker.Algorithm;
+﻿namespace TmpmsChecker.Algorithm;
 
 public interface ISearchHeuristic
 {

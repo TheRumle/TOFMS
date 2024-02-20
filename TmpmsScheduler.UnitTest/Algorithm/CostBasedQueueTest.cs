@@ -36,4 +36,12 @@ public class CostBasedQueueTest
         list.Enqueue(comesFirst,comesFirst);
         list.Dequeue().Should().Be(comesFirst);
     }
+
+    [Fact]
+    public void WhenSameValueIsAdded_DoesNotThrow()
+    {
+        CostBasedQueue<int> sut = new CostBasedQueue<int>();
+        sut.Enqueue(1,1);
+        sut.Enqueue(1,1);
+    }
 }
