@@ -67,10 +67,8 @@ public sealed class ExperimentRunner
         
         return result switch
         {
-            {IsSuccess: true} => ExperimentResult.Successful(_problem, result.Value, elapsed,
-                algorithm.NumberOfConfigurationsExplored, searchHeuristic,kb), 
-            {IsSuccess: false} => ExperimentResult.Failed(_problem, elapsed,
-                algorithm.NumberOfConfigurationsExplored, searchHeuristic,kb)
+            {IsSuccess: true} => ExperimentResult.Successful(_problem, algorithm, searchHeuristic, elapsed,kb, result.Value), 
+            {IsSuccess: false} => ExperimentResult.Failed(_problem, algorithm, searchHeuristic, elapsed, kb)
         };
     }
 }
