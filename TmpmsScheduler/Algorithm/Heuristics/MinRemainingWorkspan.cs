@@ -1,6 +1,6 @@
 ﻿namespace TmpmsChecker.Algorithm.Heuristics;
 
-public class MinRemainingWorkspanFirst : ISearchHeuristic
+public class MinRemainingWorkspan : ISearchHeuristic
 {
     public float CalculateCost(Configuration configuration)
     {
