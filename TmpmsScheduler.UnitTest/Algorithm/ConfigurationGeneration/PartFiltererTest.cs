@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using FluentAssertions;
 using JetBrains.Annotations;
 using TestDataGenerator;
 using Tmpms;
-using TmpmsChecker.ConfigurationGeneration;
-using TmpmsScheduler.UnitTest.ConfigurationGeneration.Execution;
+using TmpmsChecker.Algorithm.ConfigurationGeneration;
+using TmpmsScheduler.UnitTest.Algorithm.ConfigurationGeneration.Execution;
 using Xunit;
 
-namespace TmpmsScheduler.UnitTest.ConfigurationGeneration;
+namespace TmpmsScheduler.UnitTest.Algorithm.ConfigurationGeneration;
 
 [TestSubject(typeof(PartFilterer))]
 public class PartFiltererTest : SinglePartMoveTest

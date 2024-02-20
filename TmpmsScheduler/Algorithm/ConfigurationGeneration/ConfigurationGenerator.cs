@@ -1,8 +1,7 @@
 ﻿using Tmpms.Move;
-using TmpmsChecker.Algorithm;
-using TmpmsChecker.ConfigurationGeneration.Execution;
+using TmpmsChecker.Algorithm.ConfigurationGeneration.Execution;
 
-namespace TmpmsChecker.ConfigurationGeneration;
+namespace TmpmsChecker.Algorithm.ConfigurationGeneration;
 
 internal class ConfigurationGenerator : IConfigurationGenerator
 {

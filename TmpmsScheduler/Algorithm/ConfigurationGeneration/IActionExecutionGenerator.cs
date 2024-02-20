@@ -1,7 +1,6 @@
-﻿using Tmpms;
-using Tmpms.Move;
+﻿using Tmpms.Move;
 
-namespace TmpmsChecker.ConfigurationGeneration;
+namespace TmpmsChecker.Algorithm.ConfigurationGeneration;
 
 /// <summary>
 /// Used to find all possible ways an action can be executed.

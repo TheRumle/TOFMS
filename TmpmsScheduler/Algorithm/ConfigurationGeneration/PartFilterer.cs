@@ -1,7 +1,7 @@
 ﻿using Tmpms;
 using Tmpms.Move;
 
-namespace TmpmsChecker.ConfigurationGeneration;
+namespace TmpmsChecker.Algorithm.ConfigurationGeneration;
 
 public static class PartFilterer
 {

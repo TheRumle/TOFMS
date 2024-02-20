@@ -1,6 +1,6 @@
 ﻿using Tmpms.Move;
 
-namespace TmpmsChecker.ConfigurationGeneration.Execution;
+namespace TmpmsChecker.Algorithm.ConfigurationGeneration.Execution;
 
 public static class EnablednessChecker
 {

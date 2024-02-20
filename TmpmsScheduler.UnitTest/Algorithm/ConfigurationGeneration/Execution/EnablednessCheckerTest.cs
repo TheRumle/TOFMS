@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using JetBrains.Annotations;
@@ -8,10 +7,10 @@ using Tmpms;
 using Tmpms.Factories;
 using Tmpms.Move;
 using TmpmsChecker;
-using TmpmsChecker.ConfigurationGeneration.Execution;
+using TmpmsChecker.Algorithm.ConfigurationGeneration.Execution;
 using Xunit;
 
-namespace TmpmsScheduler.UnitTest.ConfigurationGeneration.Execution;
+namespace TmpmsScheduler.UnitTest.Algorithm.ConfigurationGeneration.Execution;
 
 public class SinglePartMoveTest
 {

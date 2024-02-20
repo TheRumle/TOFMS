@@ -1,10 +1,10 @@
 ﻿using FluentAssertions;
 using JetBrains.Annotations;
 using Tmpms.Move;
-using TmpmsChecker.ConfigurationGeneration.Execution;
+using TmpmsChecker.Algorithm.ConfigurationGeneration.Execution;
 using Xunit;
 
-namespace TmpmsScheduler.UnitTest.ConfigurationGeneration.Execution;
+namespace TmpmsScheduler.UnitTest.Algorithm.ConfigurationGeneration.Execution;
 
 [TestSubject(typeof(ExecutionGenerator))]
 public class ExecutionGeneratorTest : SinglePartMoveTest

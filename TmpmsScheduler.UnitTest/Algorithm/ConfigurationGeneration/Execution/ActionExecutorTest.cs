@@ -5,11 +5,11 @@ using JetBrains.Annotations;
 using TestDataGenerator;
 using Tmpms;
 using TmpmsChecker;
-using TmpmsChecker.ConfigurationGeneration;
-using TmpmsChecker.ConfigurationGeneration.Execution;
+using TmpmsChecker.Algorithm.ConfigurationGeneration;
+using TmpmsChecker.Algorithm.ConfigurationGeneration.Execution;
 using Xunit;
 
-namespace TmpmsScheduler.UnitTest.ConfigurationGeneration.Execution;
+namespace TmpmsScheduler.UnitTest.Algorithm.ConfigurationGeneration.Execution;
 
 [TestSubject(typeof(ActionExecutor))]
 public class ActionExecutorTest

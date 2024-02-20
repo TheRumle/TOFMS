@@ -1,6 +1,6 @@
 ﻿using Tmpms;
 
-namespace TmpmsChecker.ConfigurationGeneration.Execution;
+namespace TmpmsChecker.Algorithm.ConfigurationGeneration.Execution;
 
 internal class ActionExecutor : IActionExecutor
 {

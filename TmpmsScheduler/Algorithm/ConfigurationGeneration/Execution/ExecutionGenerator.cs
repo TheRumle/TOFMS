@@ -2,7 +2,7 @@
 using Tmpms;
 using Tmpms.Move;
 
-namespace TmpmsChecker.ConfigurationGeneration.Execution;
+namespace TmpmsChecker.Algorithm.ConfigurationGeneration.Execution;
 
 internal class ExecutionGenerator : IActionExecutionGenerator
 {

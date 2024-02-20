@@ -1,6 +1,6 @@
 ﻿using Tmpms;
 
-namespace TmpmsChecker.ConfigurationGeneration;
+namespace TmpmsChecker.Algorithm.ConfigurationGeneration;
 
 internal record ActionExecution(IEnumerable<ConsumeProduceSet> Moves)
 {
