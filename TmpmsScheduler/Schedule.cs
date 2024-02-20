@@ -1,7 +1,6 @@
 ﻿using TmpmsChecker.Algorithm;
 
 namespace TmpmsChecker;
-
 public class Schedule
 {
     public readonly int TotalMakespan;

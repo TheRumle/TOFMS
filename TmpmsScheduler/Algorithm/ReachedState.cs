@@ -1,5 +1,4 @@
-﻿using Tmpms;
-using Tmpms.Move;
+﻿using Tmpms.Move;
 
 namespace TmpmsChecker.Algorithm;
 
@@ -9,7 +8,8 @@ public class ReachedState
     private readonly int _delay;
     private readonly bool _hasDelay;
     public readonly Configuration ReachedConfiguration;
-
+    public int AtTime { get; internal set; }
+    
     public ReachedState(MoveAction move, Configuration configuration)
     {
         this._move = move;
