@@ -7,6 +7,7 @@ using Tmpms;
 using Tmpms.Factories;
 using Tmpms.Move;
 using TmpmsChecker;
+using TmpmsChecker.Algorithm;
 using TmpmsChecker.Algorithm.ConfigurationGeneration.Execution;
 using Xunit;
 

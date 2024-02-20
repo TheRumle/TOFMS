@@ -19,7 +19,6 @@
 
     <ItemGroup>
       <Folder Include="Algorithm\Heuristics\" />
-      <Folder Include="ConfigurationGeneration\Execution\" />
     </ItemGroup>
 
 </Project>

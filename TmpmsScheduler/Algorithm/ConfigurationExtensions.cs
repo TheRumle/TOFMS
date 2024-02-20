@@ -1,6 +1,6 @@
 ﻿using Tmpms;
 
-namespace TmpmsChecker;
+namespace TmpmsChecker.Algorithm;
 
 public static class ConfigurationExtensions
 {

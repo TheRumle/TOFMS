@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using TestDataGenerator;
 using Tmpms;
 using TmpmsChecker;
+using TmpmsChecker.Algorithm;
 using TmpmsChecker.Algorithm.ConfigurationGeneration;
 using TmpmsChecker.Algorithm.ConfigurationGeneration.Execution;
 using Xunit;

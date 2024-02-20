@@ -1,11 +1,13 @@
 ﻿using Common.Results;
 using Tmpms;
+using TmpmsChecker.Algorithm.ConfigurationGeneration;
 
 namespace TmpmsChecker.Algorithm;
 
-internal class SearchAlgorithm
-{ 
-    protected readonly CostBasedQueue<ReachedState> Open;
+public class SearchAlgorithm
+{
+    public int NumberOfConfigurationsExplored => CostSoFar.Keys.Count;
+    private readonly CostBasedQueue<ReachedState> Open;
     protected readonly Dictionary<ReachedState, ReachedState> PreviousFor;
     protected readonly Dictionary<Configuration, float> CostSoFar = new();
     protected readonly ISearchHeuristic Heuristic;
@@ -30,6 +32,13 @@ internal class SearchAlgorithm
         _configurationGenerator = configurationGenerator;
     }
 
+    public static SearchAlgorithm WithDefaultConfigurationGenerator(TimedManufacturingProblem problem, ISearchHeuristic heuristic)
+    {
+        return new SearchAlgorithm(problem, heuristic,
+            ConfigurationGenerator.WithDefaultImplementations(problem.Actions));
+    }
+    
+
 
     public Result<Schedule> Execute()
     {
@@ -37,6 +46,14 @@ internal class SearchAlgorithm
         if (goal is null)
             return Result.Failure<Schedule>(Errors.CouldNotFindSolution($"{nameof(SearchAlgorithm)}"));
         return Result.Success(ConstructSchedule(goal));
+    }
+    
+    public async Task<Result<Schedule>> ExecuteAsync()
+    {
+        var goal =await Task.Run(Search);
+        return goal is null 
+            ? Result.Failure<Schedule>(Errors.CouldNotFindSolution($"Could not find a solution to {nameof(Problem.ProblemName)}")) 
+            : Result.Success(ConstructSchedule(goal));
     }
 
     private ReachedState? Search()
