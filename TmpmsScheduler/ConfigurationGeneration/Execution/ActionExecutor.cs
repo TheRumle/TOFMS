@@ -13,7 +13,7 @@ internal class ActionExecutor : IActionExecutor
     }
 
     public Configuration Delay(int delay, Configuration configuration)
-    {
+    {   
         var copy = configuration.Copy();
         var allParts = copy.LocationConfigurations.Values.SelectMany(e => e.AllParts);
         foreach (var part in allParts)

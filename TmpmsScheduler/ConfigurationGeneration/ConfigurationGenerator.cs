@@ -1,16 +1,21 @@
-﻿using Tmpms;
-using Tmpms.Move;
+﻿using Tmpms.Move;
 using TmpmsChecker.Algorithm;
+using TmpmsChecker.ConfigurationGeneration.Execution;
 
 namespace TmpmsChecker.ConfigurationGeneration;
 
-internal class ConfigurationExecutor : IConfigurationGenerator
+internal class ConfigurationGenerator : IConfigurationGenerator
 {
     private readonly IEnumerable<MoveAction> _availableActions;
     private readonly IActionExecutionGenerator _executionGenerator;
     private readonly IActionExecutor _actionExecutor;
 
-    public ConfigurationExecutor(
+    public static ConfigurationGenerator WithDefaultImplementations(IEnumerable<MoveAction> availableActions)
+    {
+        return new ConfigurationGenerator(availableActions,new ExecutionGenerator() ,new ActionExecutor());
+    }
+
+    public ConfigurationGenerator(
         IEnumerable<MoveAction> availableActions,
         IActionExecutionGenerator executionGenerator,
         IActionExecutor actionExecutor)
