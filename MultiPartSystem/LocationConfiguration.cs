@@ -58,7 +58,11 @@ public class LocationConfiguration
 
     public void Remove(IEnumerable<Part> parts)
     {
-        Remove(parts.ToArray());
+        var enumerable = parts as Part[] ?? parts.ToArray();
+        foreach (var partsPerType in enumerable.GroupBy(e => e.PartType))
+            _parts[partsPerType.Key].AddRange(partsPerType);
+
+        Size -= enumerable.Length;
     }
 
 

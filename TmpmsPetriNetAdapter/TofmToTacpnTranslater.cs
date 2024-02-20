@@ -22,20 +22,6 @@ public class TofmToTacpnTranslater(ITransitionAttachableFactory transitionAttach
         transitionAttachableFactory.AdaptTo(moveAction).AttachToTransition(transition);
         transitionAttachableFactory.AdaptEmptyBefore(moveAction).AttachToTransition(transition);
 
-        var processingLocationsForAction = moveAction.InvolvedLocations.Where(e => e.IsProcessing).Select(e=>e.Name);
-        IEnumerable<string> involvedParts = moveAction.PartsToMove.Select(e => e.Key);
-        
-        
-        foreach (var kv in indexedJourneysCollection)
-        {
-            var part = kv.Key;
-            var locations = kv.Value;
-            if (!involvedParts.Contains(part)) continue;
-            
-        }
-
-        
-
         var colourTypes = transition.InvolvedPlaces.Select(e => e.ColourType).DistinctBy(e=>e.Name);
         return new PetriNetComponent
         {

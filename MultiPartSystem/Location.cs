@@ -31,7 +31,7 @@ public record Location : ILocation
 
     public override string ToString()
     {
-        return $"{nameof(Name)}: {Name}, {nameof(Capacity)}: {Capacity}, {nameof(Invariants)}: {Invariants}";
+        return $"{Name}, {nameof(Capacity)}: {Capacity}, {nameof(Invariants)}: {Invariants}";
     }
 
     public IReadOnlyDictionary<string, Invariant> InvariantsByType => Invariants
