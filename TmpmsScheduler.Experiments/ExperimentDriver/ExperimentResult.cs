@@ -5,7 +5,7 @@ namespace TmpmsScheduler.Experiments.ExperimentDriver;
 
 
 [Serializable]
-public record ExperimentResult(string ProblemName, string HeuristicName, int Makespan, double SecondsToExecute, int NumberConfigurations, double kbUsed, bool Success)
+public record ExperimentResult(string ProblemName, string HeuristicName, int Makespan, double SecondsToExecute, int NumberConfigurations, double KbUsed, bool FoundSolution)
 {
 
     public static ExperimentResult Successful(TimedManufacturingProblem problem, Schedule schedule, TimeSpan time, int numExploredConfigurations, ISearchHeuristic heuristic, double memoryUsed)

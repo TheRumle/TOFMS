@@ -37,29 +37,36 @@ public class SearchAlgorithm
         return new SearchAlgorithm(problem, heuristic,
             ConfigurationGenerator.WithDefaultImplementations(problem.Actions));
     }
-    
 
-
-    public Result<Schedule> Execute()
-    {
-        var goal = Search();
-        if (goal is null)
-            return Result.Failure<Schedule>(Errors.CouldNotFindSolution($"{nameof(SearchAlgorithm)}"));
-        return Result.Success(ConstructSchedule(goal));
-    }
     
-    public async Task<Result<Schedule>> ExecuteAsync()
+    /// <summary>
+    /// Runs the model checker until a either a solution is found or the timeout is reached.
+    /// </summary>
+    /// <param name="timeOut">The time before the checker will stop exploring more configurations, resulting in a Failed result.</param>
+    /// <returns>A result containing the schedule if found, failure otherwise</returns>
+    public Result<Schedule> Execute(TimeSpan timeOut)
     {
-        var goal =await Task.Run(Search);
-        return goal is null 
-            ? Result.Failure<Schedule>(Errors.CouldNotFindSolution($"Could not find a solution to {nameof(Problem.ProblemName)}")) 
-            : Result.Success(ConstructSchedule(goal));
+        var goal = Search(new CancellationTokenSource(timeOut).Token);
+        return ExtractResult(goal);
     }
 
-    private ReachedState? Search()
+    /// <summary>
+    /// Runs the model checker until a either a solution is found or the timeout is reached.
+    /// </summary>
+    /// <param name="timeOut">The time before the checker will stop exploring more configurations, resulting in a Failed result.</param>
+    /// <returns>A result containing the schedule if found, failure otherwise</returns>
+    public async Task<Result<Schedule>> ExecuteAsync(TimeSpan timeOut)
+    {
+        var goal =await Task.Run(()=>Execute(timeOut));
+        return goal;
+    }
+
+    private ReachedState? Search(CancellationToken token)
     {
         while (Open.Count > 0)
         {
+            if (token.IsCancellationRequested) return null;
+            
             var current = Open.Dequeue();
             if (current.ReachedConfiguration.IsGoalConfigurationFor(Problem.GoalLocation))
                 return current;
@@ -70,7 +77,6 @@ public class SearchAlgorithm
 
         return null;
     }
-    
     
     /// <summary>
     ///  Iterates over the reachable states and uses the <see cref="Heuristic"/> to calculate the estimated cost of exploring each state. 
@@ -108,5 +114,12 @@ public class SearchAlgorithm
             result.Push(prev);
         } while (!prev.Equals(_startAction));
         return new Schedule(result);
+    }
+    
+    private Result<Schedule> ExtractResult(ReachedState? goal)
+    {
+        return goal is null 
+            ? Result.Failure<Schedule>(Errors.CouldNotFindSolution($"Could not find a solution to {nameof(Problem.ProblemName)}")) 
+            : Result.Success(ConstructSchedule(goal));
     }
 }

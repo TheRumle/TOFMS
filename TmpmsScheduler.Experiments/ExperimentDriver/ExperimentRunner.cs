@@ -8,34 +8,46 @@ namespace TmpmsScheduler.Experiments.ExperimentDriver;
 
 public sealed class ExperimentRunner
 {
+    private readonly ExperimentResultWriter _resultWriter;
     private readonly TimedManufacturingProblem _problem;
     private readonly IEnumerable<ISearchHeuristic> _heuristics;
-    private readonly ExperimentResultWriter _writer;
-    private static PerformanceCounter avgCounter64SampleBase;
+    private readonly TimeSpan _timeOut;
 
-    public ExperimentRunner(TimedManufacturingProblem problem, IEnumerable<ISearchHeuristic> heuristics, ResultWriterFactory factory)
+    public ExperimentRunner(TimedManufacturingProblem problem,
+        IEnumerable<ISearchHeuristic> heuristics,
+        ResultWriterFactory factory, TimeSpan timeOut)
     {
         _problem = problem;
         _heuristics = heuristics;
-        _writer = factory.GetWriter(problem.ProblemName);
+        _resultWriter = factory.GetWriter(problem.ProblemName);
+        _timeOut = timeOut;
     }
 
     public void RunExperiments()
     {
+        Stopwatch stopwatch = new Stopwatch();
         foreach (var searchHeuristic in _heuristics)
         {
             CollectGarbage();
-            var before = Process.GetCurrentProcess().VirtualMemorySize64;
-            SearchAlgorithm algorithm = SearchAlgorithm.WithDefaultConfigurationGenerator(_problem, searchHeuristic);
-            Stopwatch stopwatch = Stopwatch.StartNew();
-            var result = algorithm.Execute();
-            stopwatch.Stop();
-            var after = Process.GetCurrentProcess().VirtualMemorySize64;
-            _writer.Write(ConstructCsvRow(stopwatch, result, algorithm, searchHeuristic, before - after));
+            RunExperiment(searchHeuristic, stopwatch);
         }
     }
 
-    private void CollectGarbage()
+    private void RunExperiment(ISearchHeuristic searchHeuristic, Stopwatch stopwatch)
+    {
+        SearchAlgorithm algorithm = SearchAlgorithm.WithDefaultConfigurationGenerator(_problem, searchHeuristic);
+        
+        var memoryBefore = Process.GetCurrentProcess().VirtualMemorySize64;
+        stopwatch.Restart();
+        var result = algorithm.Execute(_timeOut);
+        stopwatch.Stop();
+        var memoryAfter = Process.GetCurrentProcess().VirtualMemorySize64;
+        
+        _resultWriter.Write(ConstructCsvRow(stopwatch, result, algorithm, searchHeuristic,
+            memoryBefore - memoryAfter));
+    }
+
+    private static void CollectGarbage()
     {
         GC.Collect();
         GC.WaitForPendingFinalizers();
@@ -50,8 +62,10 @@ public sealed class ExperimentRunner
         
         return result switch
         {
-            {IsSuccess: true} => ExperimentResult.Successful(_problem, result.Value, elapsed, algorithm.NumberOfConfigurationsExplored, searchHeuristic,kb), 
-            {IsSuccess: false} => ExperimentResult.Failed(_problem, elapsed, algorithm.NumberOfConfigurationsExplored, searchHeuristic,kb)
+            {IsSuccess: true} => ExperimentResult.Successful(_problem, result.Value, elapsed,
+                algorithm.NumberOfConfigurationsExplored, searchHeuristic,kb), 
+            {IsSuccess: false} => ExperimentResult.Failed(_problem, elapsed,
+                algorithm.NumberOfConfigurationsExplored, searchHeuristic,kb)
         };
     }
 }
