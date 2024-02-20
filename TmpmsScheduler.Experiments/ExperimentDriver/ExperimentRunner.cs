@@ -23,28 +23,33 @@ public sealed class ExperimentRunner
         _timeOut = timeOut;
     }
 
-    public void RunExperiments()
+    public List<ExperimentResult> RunExperiments()
     {
         Stopwatch stopwatch = new Stopwatch();
+        List<ExperimentResult> results = new List<ExperimentResult>();
         foreach (var searchHeuristic in _heuristics)
         {
             CollectGarbage();
-            RunExperiment(searchHeuristic, stopwatch);
+            results.Add(RunExperiment(searchHeuristic, stopwatch));
         }
+
+        return results;
     }
 
-    private void RunExperiment(ISearchHeuristic searchHeuristic, Stopwatch stopwatch)
+    private ExperimentResult RunExperiment(ISearchHeuristic searchHeuristic, Stopwatch stopwatch)
     {
         SearchAlgorithm algorithm = SearchAlgorithm.WithDefaultConfigurationGenerator(_problem, searchHeuristic);
         
         var memoryBefore = Process.GetCurrentProcess().VirtualMemorySize64;
         stopwatch.Restart();
-        var result = algorithm.Execute(_timeOut);
+        var scheduleResult = algorithm.Execute(_timeOut);
         stopwatch.Stop();
         var memoryAfter = Process.GetCurrentProcess().VirtualMemorySize64;
-        
-        _resultWriter.Write(ConstructCsvRow(stopwatch, result, algorithm, searchHeuristic,
-            memoryBefore - memoryAfter));
+
+        var experimentResult = ConstructCsvRow(stopwatch, scheduleResult, algorithm, searchHeuristic,
+            memoryBefore - memoryAfter);
+        _resultWriter.Write(experimentResult);
+        return experimentResult;
     }
 
     private static void CollectGarbage()
