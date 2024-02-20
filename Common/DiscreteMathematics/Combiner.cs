@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿namespace Common.DiscreteMathematics;
 
 public static class Combiner
 {
@@ -46,4 +46,3 @@ public static class Combiner
                 select previousSequences.Concat(new[] {item}));
     }
 }
-

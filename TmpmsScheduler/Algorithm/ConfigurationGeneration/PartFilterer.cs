@@ -29,7 +29,8 @@ public static class PartFilterer
         
         Predicate<Part> check = ageCheck;
         if (action.To.IsProcessing)
-            check = part => ageCheck(part) && part.Journey.First() == action.To;
+            check = part => ageCheck(part) 
+                            && part.Journey.First() == action.To;
         
         var partsAvailableForMove = partsToLookThrough 
             .Where(part => check.Invoke(part))

@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using Common.DiscreteMathematics;
+using FluentAssertions;
 
 namespace Common.UnitTest.Sets;
 

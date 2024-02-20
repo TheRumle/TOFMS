@@ -3,18 +3,18 @@ using TmpmsChecker.Algorithm.ConfigurationGeneration.Execution;
 
 namespace TmpmsChecker.Algorithm.ConfigurationGeneration;
 
-internal class ConfigurationGenerator : IConfigurationGenerator
+internal class ConfigurationExplorer : IConfigurationExplorer
 {
     private readonly IEnumerable<MoveAction> _availableActions;
     private readonly IActionExecutionGenerator _executionGenerator;
     private readonly IActionExecutor _actionExecutor;
 
-    public static ConfigurationGenerator WithDefaultImplementations(IEnumerable<MoveAction> availableActions)
+    public static ConfigurationExplorer WithDefaultImplementations(IEnumerable<MoveAction> availableActions)
     {
-        return new ConfigurationGenerator(availableActions,new ExecutionGenerator() ,new ActionExecutor());
+        return new ConfigurationExplorer(availableActions,new ExecutionGenerator() ,new ActionExecutor());
     }
 
-    public ConfigurationGenerator(
+    public ConfigurationExplorer(
         IEnumerable<MoveAction> availableActions,
         IActionExecutionGenerator executionGenerator,
         IActionExecutor actionExecutor)

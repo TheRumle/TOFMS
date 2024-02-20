@@ -1,5 +1,4 @@
 ﻿using Common.Results;
-using Tmpms;
 using TmpmsChecker.Algorithm.ConfigurationGeneration;
 
 namespace TmpmsChecker.Algorithm;
@@ -11,11 +10,11 @@ public class SearchAlgorithm
     protected readonly Dictionary<ReachableConfig, ReachableConfig> PreviousFor;
     protected readonly Dictionary<Configuration, float> CostSoFar = new();
     protected readonly ISearchHeuristic Heuristic;
-    protected readonly IConfigurationGenerator _configurationGenerator;
+    private readonly IConfigurationExplorer _configurationExplorer;
     private readonly ReachableConfig _startAction;
     private TimedManufacturingProblem Problem { get; set; }
 
-    public SearchAlgorithm(TimedManufacturingProblem problem, ISearchHeuristic heuristic, IConfigurationGenerator configurationGenerator)
+    public SearchAlgorithm(TimedManufacturingProblem problem, ISearchHeuristic heuristic, IConfigurationExplorer configurationConfigurationExplorer)
     {
         _startAction = ReachableConfig.ZeroDelay(problem.StartConfiguration);
         Open = new CostBasedQueue<ReachableConfig>();
@@ -29,13 +28,13 @@ public class SearchAlgorithm
             [_startAction] = _startAction
         };
         CostSoFar[Problem.StartConfiguration] = 0;
-        _configurationGenerator = configurationGenerator;
+        _configurationExplorer = configurationConfigurationExplorer;
     }
 
     public static SearchAlgorithm WithDefaultConfigurationGenerator(TimedManufacturingProblem problem, ISearchHeuristic heuristic)
     {
         return new SearchAlgorithm(problem, heuristic,
-            ConfigurationGenerator.WithDefaultImplementations(problem.Actions));
+            ConfigurationExplorer.WithDefaultImplementations(problem.Actions));
     }
 
     
@@ -71,7 +70,7 @@ public class SearchAlgorithm
             if (current.ReachedConfiguration.IsGoalConfigurationFor(Problem.GoalLocation))
                 return current;
             
-            var reachableStates = _configurationGenerator.GenerateConfigurations(current.ReachedConfiguration);
+            var reachableStates = _configurationExplorer.GenerateConfigurations(current.ReachedConfiguration);
             EstimateCostsFor(reachableStates, current);
         }
 

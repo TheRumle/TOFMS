@@ -32,4 +32,9 @@ public class Part(string PartType, int Age, IEnumerable<Location> Journey)
         Age = this.Age;
         Journey = this.Journey;
     }
+
+    public override string ToString()
+    {
+        return $"({PartType}, {Age}, {Journey.Count()})";
+    }
 }

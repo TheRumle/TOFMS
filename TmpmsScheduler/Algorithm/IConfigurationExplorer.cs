@@ -1,6 +1,6 @@
 ﻿namespace TmpmsChecker.Algorithm;
 
-public interface IConfigurationGenerator
+public interface IConfigurationExplorer
 {
     public ReachableConfig[] GenerateConfigurations(Configuration configuration);
 }

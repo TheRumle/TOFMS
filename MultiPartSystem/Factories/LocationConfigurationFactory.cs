@@ -31,4 +31,13 @@ public class LocationConfigurationFactory
         configuration.Add(new Part(partType,age,journey));
         return configuration;
     }
+    
+    public LocationConfiguration OfValues(IEnumerable<(string partType, Location[] journey, int age)> values)
+    {
+        var configuration = new LocationConfiguration(_partTypes);
+        foreach (var (partType, journey, age) in values)
+            configuration.Add(new Part(partType,age,journey));
+        
+        return configuration;
+    }
 }
