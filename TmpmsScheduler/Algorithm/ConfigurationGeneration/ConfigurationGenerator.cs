@@ -24,7 +24,7 @@ internal class ConfigurationGenerator : IConfigurationGenerator
         _actionExecutor = actionExecutor;
     }
     
-    public IEnumerable<ReachedState> GenerateConfigurations(Configuration configuration)
+    public ReachableConfig[] GenerateConfigurations(Configuration configuration)
     {
         return _availableActions
             .AsParallel().WithDegreeOfParallelism(4)
@@ -38,12 +38,13 @@ internal class ConfigurationGenerator : IConfigurationGenerator
                 var possibleWaysToExecute = actionPossibilities.PossibleWaysToExecute;
                 return possibleWaysToExecute
                     .Select(wayToExecute => _actionExecutor.Execute(action.From, action.To, wayToExecute, configuration))
-                    .Select(reachedConfiguration => new ReachedState(actionPossibilities.Action, reachedConfiguration));
+                    .Select(reachedConfiguration => new ReachableConfig(actionPossibilities.Action, reachedConfiguration));
             })
-            .Concat(ComputePossibleDelays(configuration).AsParallel());
+            .Concat(ComputePossibleDelays(configuration).AsParallel())
+            .ToArray();
     }
 
-    private IEnumerable<ReachedState> ComputePossibleDelays(Configuration configuration)
+    private IEnumerable<ReachableConfig> ComputePossibleDelays(Configuration configuration)
     {
         return PossibleDelaySpan(configuration) switch
         {
@@ -51,7 +52,7 @@ internal class ConfigurationGenerator : IConfigurationGenerator
             var (minimumTime, maxPossibleDelay) =>
                 Enumerable
                     .Range(minimumTime, minimumTime - maxPossibleDelay)
-                    .Select(delay => new ReachedState(delay, _actionExecutor.Delay(delay, configuration)))
+                    .Select(delay => new ReachableConfig(delay, _actionExecutor.Delay(delay, configuration)))
         };
     }
 

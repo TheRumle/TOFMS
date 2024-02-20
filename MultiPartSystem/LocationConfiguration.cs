@@ -41,7 +41,7 @@ public class LocationConfiguration
     {
         Add(parts.ToArray());
     }
-    
+
     public void Remove(Part part)
     {
         Size -= 1;
@@ -56,7 +56,10 @@ public class LocationConfiguration
         Size -= parts.Length;
     }
 
-    public void Remove(IEnumerable<Part> parts) => Remove(parts.ToArray());
+    public void Remove(IEnumerable<Part> parts)
+    {
+        Remove(parts.ToArray());
+    }
 
 
     public override string ToString()

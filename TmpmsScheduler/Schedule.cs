@@ -5,8 +5,8 @@ public class Schedule
 {
     public readonly int TotalMakespan;
     
-    public Schedule(IEnumerable<ReachedState> reachedStates)
+    public Schedule(IEnumerable<ReachableConfig> reachedStates)
     {
-        TotalMakespan = reachedStates.Aggregate(0, (length, e) => length + e.ActionCost());
+        TotalMakespan = reachedStates.Aggregate(0, (length, e) => length + e.TimeCost);
     }
 }

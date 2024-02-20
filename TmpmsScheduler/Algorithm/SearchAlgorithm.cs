@@ -7,18 +7,18 @@ namespace TmpmsChecker.Algorithm;
 public class SearchAlgorithm
 {
     public int NumberOfConfigurationsExplored => CostSoFar.Keys.Count;
-    private readonly CostBasedQueue<ReachedState> Open;
-    protected readonly Dictionary<ReachedState, ReachedState> PreviousFor;
+    private readonly CostBasedQueue<ReachableConfig> Open;
+    protected readonly Dictionary<ReachableConfig, ReachableConfig> PreviousFor;
     protected readonly Dictionary<Configuration, float> CostSoFar = new();
     protected readonly ISearchHeuristic Heuristic;
     protected readonly IConfigurationGenerator _configurationGenerator;
-    private readonly ReachedState _startAction;
+    private readonly ReachableConfig _startAction;
     private TimedManufacturingProblem Problem { get; set; }
 
     public SearchAlgorithm(TimedManufacturingProblem problem, ISearchHeuristic heuristic, IConfigurationGenerator configurationGenerator)
     {
-        _startAction = ReachedState.ZeroDelay(problem.StartConfiguration);
-        Open = new CostBasedQueue<ReachedState>();
+        _startAction = ReachableConfig.ZeroDelay(problem.StartConfiguration);
+        Open = new CostBasedQueue<ReachableConfig>();
         Open.Enqueue(_startAction,1f);
         
         Problem = problem;
@@ -61,7 +61,7 @@ public class SearchAlgorithm
         return goal;
     }
 
-    private ReachedState? Search(CancellationToken token)
+    private ReachableConfig? Search(CancellationToken token)
     {
         while (Open.Count > 0)
         {
@@ -83,13 +83,13 @@ public class SearchAlgorithm
     /// </summary>
     /// <param name="reachableStates"> The states to examine</param>
     /// <param name="previous"> The current configuration, used to get the actual cost.</param>
-    private void EstimateCostsFor(IEnumerable<ReachedState> reachableStates, ReachedState previous)
+    private void EstimateCostsFor(ReachableConfig[] reachableStates, ReachableConfig previous)
     {
         foreach (var next in reachableStates)
         {
             var nextConfiguration = next.ReachedConfiguration;
             var nextHasBeenVisitedBefore = CostSoFar.TryGetValue(nextConfiguration, out var previousNextCost); 
-            var costToReachNext = CostSoFar[previous.ReachedConfiguration] + next.ActionCost();
+            var costToReachNext = CostSoFar[previous.ReachedConfiguration] + next.TimeCost;
                 
             //If next has not been visited before or cheaper path has been found, update the cost to reach next
             //If next has already been visited and this path is not cheaper do not explore by taking current path
@@ -102,12 +102,12 @@ public class SearchAlgorithm
         }
     }
 
-    private Schedule ConstructSchedule(ReachedState goal)
+    private Schedule ConstructSchedule(ReachableConfig goal)
     {
         //Reconstruct path
-        Stack<ReachedState> result = new Stack<ReachedState>();
+        Stack<ReachableConfig> result = new Stack<ReachableConfig>();
         result.Push(goal);
-        ReachedState prev = goal;
+        ReachableConfig prev = goal;
         do
         {
             prev = PreviousFor[prev];
@@ -116,7 +116,7 @@ public class SearchAlgorithm
         return new Schedule(result);
     }
     
-    private Result<Schedule> ExtractResult(ReachedState? goal)
+    private Result<Schedule> ExtractResult(ReachableConfig? goal)
     {
         return goal is null 
             ? Result.Failure<Schedule>(Errors.CouldNotFindSolution($"Could not find a solution to {nameof(Problem.ProblemName)}")) 

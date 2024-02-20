@@ -24,4 +24,11 @@ public class LocationConfigurationFactory
 
         return a;
     }
+    
+    public LocationConfiguration SingletonOfAge(string partType, Location[] journey, int age)
+    {
+        var configuration = new LocationConfiguration(_partTypes);
+        configuration.Add(new Part(partType,age,journey));
+        return configuration;
+    }
 }

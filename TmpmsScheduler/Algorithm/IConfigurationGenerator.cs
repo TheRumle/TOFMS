@@ -2,5 +2,5 @@
 
 public interface IConfigurationGenerator
 {
-    public IEnumerable<ReachedState> GenerateConfigurations(Configuration configuration);
+    public ReachableConfig[] GenerateConfigurations(Configuration configuration);
 }
